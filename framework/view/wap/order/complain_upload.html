@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+	<meta content="" name="pgv">
+	<meta charset="UTF-8">
+
+  <link rel="stylesheet" type="text/css" href="{php echo assets_link('/framework/style/css/complaint.css')}" media="all">
+	<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+    <script type="text/javascript" src="{php echo assets_link('/framework/style/js/localresizeimg/lrz.bundle.js')}"></script>
+	<title>投诉</title>
+  <script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body class="gray-bg">
+<h3 class="upload-block">投诉问题：{$complain_content}</h3>
+<form id="form-upload">
+  <div class="m10"></div>
+    <div class="white-block upload-info">
+      <h3>需上传照片<em>（最多上传10张图片）</em></h3>      
+    <div id="imgFile">
+      <!-- 图片放大 -->
+    </div>
+    <a href="javascript:void(0)" class="upload-file">
+      <input type="file" id="fileupload1" name="FileContent" accept="image/*" capture="camera" />
+    </a>
+    <div class="clear"></div>
+  </div>
+  <div class="m10"></div>
+  <textarea class="textarea" id="complain-textarea" placeholder = "您是否还需要详细描述问题（选填）" name="content"></textarea>
+  <input type="submit" value="提交" class="sure-btn">
+
+</form>
+
+<div id="confirm_tip" style="display:none" class="cod" rel=''>
+  <div class="wx_confirm2">
+    <div class="wx_confirm_inner">
+      <div class="warm-tip">
+        <p>确定要删除照片吗？</p>
+      </div>
+      <div class="borderD"></div>
+      
+      <div class="logout-btn">
+          <div class="borderL"></div>
+          <button type="button" id="confirm-false" class="btn-cancel">取消</button>
+          <button type="button" id="confirm-true" class="btn-ok" rel=''>确定</button>
+      </div>
+        
+    </div>
+  </div>
+</div>
+<!-- 操作提示 start -->
+
+<div id="tip-box" class="order_success" style="display:none;width:80%;">
+  <span id="show_mes" style="padding-left:10px"></span>
+</div>
+<!-- 操作提示 end -->
+
+<script type="text/javascript">
+var i = 1;
+var flag = 0;
+var imgLen = 0;
+var uri = '<?php echo $upload_url; ?>';
+document.querySelector('#fileupload1').addEventListener('change',function(){
+
+        lrz(this.files[0],
+        {width:600}
+        ).then(function(rst){
+          rst.formData.append('FileContent',rst.base64);
+
+          $("#imgFile").append('<div class="uploading" id="imgDD_'+i+'"><div class="space-img" >上传中..</div></div>');
+          
+          $.ajax({
+            url:uri,
+            data:rst.formData,
+            processData:false,
+            contentType:false,
+            type:'post',
+            dataType:'json',
+            success:function(ret){
+              	if(ret.code == 0){
+                  
+                  $("#imgDD_" +i).html('<div class="imgDiv" id="imgID_' +i+'" ><div class="codBigImg " style="display:none;"><img src = "' + rst.base64 + '" class="bigClose"><span class="deleteImg"></span></div><div class="smallImg" rel="'+i+'"><img src = "' + rst.base64 + '" class="small-img"><input type="hidden" name="images[]" id="imgInput_' +i+'"/></div></div>');
+
+
+                  $("#imgInput_" + i).val(ret.data.download_url);
+                  imgLen = $("#imgFile img.small-img").length;                  
+                  i++;
+
+                  if(imgLen >= 10) {
+                    $(".upload-file,.space-img").hide();
+                  }
+
+                  // 弹出大图
+                  $(".smallImg").on('click',function() {
+                    flag = $(this).attr('rel');
+                    $(this).parent().find('div').show();
+                  });
+
+                  // 小图标删除事件
+                  $(".deleteImg").on('click', function() {
+                    $(".cod").show();    
+                  });
+    
+                  // 二次弹窗确认删除
+                  $(".btn-ok").on('click', function() {
+                      $("#confirm_tip").hide();
+                      $("#imgID_"+flag).remove();
+                      
+                      imgLen = $("#imgFile img.small-img").length;
+                      if(imgLen == 0){
+                        $(".sure-btn").prop('disabled', true).css({'opacity':'0.6'});
+
+                      }
+                      if(imgLen < 10 ){
+                        $(".upload-file").show();
+                      }
+                  });
+
+                  // 取消删除
+                  $("#confirm-false,.bigClose").on('click',function(){
+                      $("#confirm_tip,.codBigImg").hide();
+                  });
+
+                  if(imgLen == 1){
+                  	$(".sure-btn").prop('disabled', false).css({'opacity':'1'});
+
+                  }
+
+                  
+              	}else{
+              		alert('操作失败，请刷新页面重试~');
+              	}
+            },
+            error:function(data){
+            	alert('操作失败，请刷新页面重试~');
+            }
+          });
+        }).catch(function(error){
+          alert('upload-error:'+error);
+        });
+    });
+
+//输入框提交按钮变化
+$(".sure-btn").prop('disabled', true).css({'opacity':'0.6'});
+
+
+//提交表单
+$("#form-upload").submit(function(){
+	var url = "<?php echo create_url('order/submit_complain',array('order_id' => $order_id));?>"+"&cat_id="+"<?php echo isset($cat_id)?$cat_id:0; ?>";
+  var robot = <?php echo $is_robot; ?>;
+	$.ajax({
+		type:'post',
+		url:url,
+		data:$("#form-upload").serialize(),
+		dataType:'json',
+		success:function(res){
+			if(res.message.state == 1){
+        if(robot){
+            showTip('您的投诉我们已经收到，会尽快处理');
+            wx.closeWindow();
+        }else{
+          var uri = "<?php echo create_url('order/order_details',array('order_id' => $order_id));?>";
+          showTip('您的投诉我们已经收到，会尽快处理',uri);
+        }
+			}else{
+        showTip(res.message.msg,res.message.url);
+			}
+		}
+	});
+  return false;
+});
+
+// 显示提示信息
+  function showTip(msg, url){
+    $('#show_mes').html(msg);
+    if(url){
+      $('#tip-box').show().delay(2000).hide(function(){
+        window.location.href = url;
+      });
+    }else{
+      $('#tip-box').show().delay(2000).hide(0);
+    }
+  }
+
+</script>
+
+<?php include template('foot') ?>
+</body>
+</html>

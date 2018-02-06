@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta content="email=no" name="format-detection">
+  <meta content="" name="pgv">
+    <title>e袋洗</title>
+    
+    <script src="/new_weixin/js/jquery-1.8.2.min.js" type="text/javascript"></script>
+    
+    <script src="/new_weixin/js/slider.js" type="text/javascript"></script>   
+    <script src="/new_weixin/js/template.js"></script>
+    <link rel="stylesheet" type="text/css" href="/new_weixin/css/newbase.css">
+    <link rel="stylesheet" type="text/css" href="/new_weixin/css/newhome.css">
+    <link rel="stylesheet" type="text/css" href="/new_weixin/css/specialfee.css?v=20170322">
+    <script src="https://jic.talkingdata.com/app/h5/v1?appid=0A340587FCFD4C0AA52DED6B61C25117&vn=1.0&vc=4.0.1"></script>
+</head>
+<body>
+    <div class="main">
+        <!-- 平安提示信息 -->
+        <div id="spec-fee-info"></div>
+
+        <!-- 轮播banner -->
+        <section id="slider" class="banner-list swipe">
+                
+        </section>
+        <!-- 轮播banner end-->
+
+        <!-- 普洗品类 -->
+        <div class="borderD"></div>
+        <section id="washing-category" class="cateroty-block"></section>
+        <!-- 普洗品类 end-->
+
+        <!-- 充值banner -->
+        <!-- <div class="borderD"></div> -->
+        <section id="recharge-banner">
+            
+        </section>
+        <div class="borderD"></div>
+        <div class="mb10"></div>
+        <!-- 充值banner end-->
+
+        <!-- 高端洗护 -->
+        
+        <section id="luxury-category"></section>
+        
+        <!-- 高端洗护 end-->
+
+        <!-- 其他服务 -->
+        
+        <section id="air-category"></section>
+        
+        <!-- 其他服务 end-->
+
+        <!-- 写字楼快些 -->
+        <section id="fast-category"></section>
+        <!-- 写字楼快些 -->
+
+        <!-- 爆品 -->
+        <div class="borderD"></div>
+        <section id="hot-category">
+            
+        </section>
+        
+        <!-- 爆品 end-->
+
+        <!-- 服务中心 -->
+        <div class="borderD"></div>
+        <section id="service-list">
+            
+        </section>
+        
+        <!-- 服务中心 end-->
+
+        <!-- 评价 -->
+        <div class="borderD"></div>
+        <section id="comments-list" class="comments-list swipe" style="display: none;"></section>
+        
+        <div class="mb10"></div>
+        <!-- 评价 end-->
+
+        <!-- 保险 -->
+        <div id="insurance-info"></div>
+        <!-- footer -->
+        <div id="footer-info"></div>
+
+        <div id="city-info"></div>
+        <!-- 积分弹球 -->
+        <div id="point-info"></div>
+
+    </div>
+
+<!-- banner 模板 -->
+<script id="content-text" type="text/html">
+    
+    <div class="swipe-wrap">
+        {{each banner as b}}
+            <div class="wrap goods_img">
+            <a href="javascript:void(0)" title="">
+                <img src='{{b.image_url}}' alt=""  class="banner-img" width="100%" data-banner-id = "{{b.banner_id}}" data-banner-title = "{{b.title}}" data-banner-link = "{{b.url}}" />
+            </a>
+            </div>
+        {{/each}}
+    </div>
+    <div class="bgboxgo">
+        <div class="botton-box mBxCm" id="sbsd"></div>
+      </div>
+    <div class="address_tab">
+      <a class="cityName" href="{{city_list_url}}" >
+        <span>{{city_name}}<em class="arrow-left"></em></span>
+        
+      </a>
+      
+    </div>
+</script>
+<!-- 普洗模板跟按袋洗 -->
+<script type="text/html" id="category_list">
+
+   {{if washing.list.length > 0}}
+   
+        <p class="p10 text-center title-sty"> — {{washing.title}} — </p>
+        <div class="borderS"></div> 
+        
+        <div class="div-block">
+        
+            {{each washing.list as c}}
+                {{if !c.transverse}}
+                    <div class="click-block" data-link="{{c.url}}">
+                        {{if c.tips_name}}
+                            <em class="trigger-icon"><b>{{c.tips_name}}</b></em>
+                        {{/if}}
+                        <p>{{c.title}}</p>
+                        <a href="javascript:void(0)">
+                            <img src="{{c.image_url}}" alt="">
+                            
+                        </a>
+                    </div>
+                    
+                {{/if}}
+            {{/each}}
+        
+        </div>    
+
+        {{each washing.list as c}}
+            {{if c.transverse}}
+                <div class="borderD"></div>
+                <div class="height-space"></div>
+                <div class="bag-info click-block" data-link="{{c.url}}">
+                    
+                    <a href="javascript:void(0)" title="">
+                        <img src="{{c.image_url}}" alt="">
+                        
+                        <p>
+                            {{c.description}}
+                            {{if c.tips_name}}
+                                <span class="hot-icon">HOT</span>
+                            {{/if}}
+                        </p>
+
+                    </a>
+                </div>
+                
+            {{/if}}
+        {{/each}}
+    {{/if}}
+</script>
+
+<!-- 充值banner -->
+<script type="text/html" id="recharge_banner">   
+    {{if recharge}}
+    <div class="recharge-block">
+        <a href="{{recharge.url}}" title="">
+            <img src="{{recharge.image_url}}" alt="">
+            
+        </a>
+        
+    </div>    
+    {{/if}}
+    
+</script>
+<!-- 高端洗护 -->
+<script type="text/html" id="luxury_list">
+    {{if luxury.list.length > 0}}
+        <div class="borderD"></div>
+        <p class="p10 text-center title-sty"> — {{luxury.title}} — </p>
+        <div class="clear"></div>
+        <div class="borderS"></div> 
+
+        <div class="luxury-block">       
+            <table cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                    
+                    {{each luxury.list as c}}
+                        {{if luxury.list.length > 1 }}
+                            <td class="two-cloume click-block" data-link="{{c.url}}">
+                                {{if c.tips_id}}
+                                    <em class="trigger-icon"><b>{{c.tips_name}}</b></em>
+                                {{/if}}
+                                <span class="{{if c.title.length == 6}}more-len{{/if}}">
+                                    {{c.title}}
+                                </span>
+                                <a href="javascript:void(0);" title="">
+                                    <img src="{{c.image_url}}" alt="">
+                                    
+                                </a>
+                                
+                                <div class="borderR"></div>
+                                
+                            </td>                           
+                        
+                        {{else}}
+                            <td data-link="{{c.url}}" class="click-block">
+                                <div class="gaoduan-block">
+                                    
+                                    {{if c.tips_id}}
+                                        <em class="trigger-icon"><b>{{c.tips_name}}</b></em>
+                                    {{/if}}
+                                    <div class="center-text">
+                                        <p>{{c.title}}</p>
+                                        
+                                        <p><small>{{c.description}}</small></p>    
+                                    </div>
+                                    
+                                    <a href="javascript:void(0)" title="" class="one-col">
+                                        <img src="{{c.image_url}}" alt="" >
+                                        
+                                    </a>
+                                </div>
+                            </td>
+                        {{/if}}
+                    {{/each}}
+                    
+                </tr>
+                </table>
+            </div>
+
+        <div class="borderD"></div>
+        <div class="mb10"></div>  
+    {{/if}}
+</script>
+
+<!-- 其他服务（空调清洗） -->
+<script type="text/html" id="air_list">
+    <!--
+    {{if homeCityId == 1}}
+        <div class="borderD"></div>
+        <p class="p10 text-center title-sty"> — 其他服务 — </p>
+        <div class="clear"></div>
+        <div class="borderS"></div> 
+        <div class="luxury-block">       
+        <table cellspacing="0" cellpadding="0" border="0">
+            <tr>
+                <td class="two-cloume click-block" data-link="/mobile.php?m=wap&act=homepage&do=yj_bridge&loginback_url=%2Fmobile.php%3Fm%3Dwap%26act%3Dhomepage%26do%3Dyj_bridge">
+                    
+                    <span class="more-len2">
+                        空调清洗
+                        <p style="font-size:10px">放心呼吸，享受凉爽夏日</p>
+                    </span>
+                    <a href="javascript:void(0);" title="" style="width:13rem">
+                        
+                      <img id="airIcon" src="/new_weixin/images/aircontainer.png" alt="" />
+                        
+                    </a>
+                    
+                    <div class="borderR"></div>
+                    
+                </td>                                          
+            </tr>
+            </table>
+        </div>
+        <div class="borderD"></div>
+        <div class="mb10"></div>  
+    {{/if}}
+    -->
+</script>
+
+<!-- 写字楼快洗 -->
+<script type="text/html" id="offices_fast_list">
+    {{if fast.list.length > 0}}
+        <div class="borderD"></div>
+        <p class="p10 text-center title-sty"> — {{fast.title}} — </p>
+        <div class="clear"></div>
+        <div class="borderS"></div> 
+
+        <div class="luxury-block">       
+            <table cellspacing="0" cellpadding="0" border="0">
+                <tr>
+                    
+                    {{each fast.list as c}}
+                        
+                            <td class="two-cloume click-block" data-link="{{c.url}}">
+                                
+                                <span class="more-len2">
+                                    {{c.title}}
+                                    <p style="font-size:10px">{{c.description}}</p>
+                                </span>
+                                <a href="javascript:void(0);" title="" style="width:13rem">
+                                    
+                                  <img src="{{c.image_url}}" alt="">
+                                    
+                                </a>
+                                
+                                <div class="borderR"></div>
+                                
+                            </td>                           
+                        
+                        
+                    {{/each}}
+                    
+                </tr>
+                </table>
+            </div>
+ 
+        <div class="borderD"></div>
+        <div class="mb10"></div>  
+    {{/if}}
+</script>
+
+<!-- 爆品 -->
+<script type="text/html" id="hot_list">
+        {{if hot_img.details}}
+            <p class="p10 text-center title-sty"> — {{hot_img.title}} — </p>
+            <div class="clear"></div>
+            <div class="borderS"></div> 
+            
+            <div class="hot-block">
+                {{each hot_img.details as p}}
+                    {{if hot_img.details.length > 1}}
+                        
+                        <div class="two-col-hot">
+                            
+                            <span class="icon-tri">
+                                
+                                <img src="{{p.tip}}"/>
+                            </span>
+                            
+                            <a href="{{p.url}}" title="">
+                                <img src="{{p.image_url}}"/>
+                                
+                            </a>
+                            
+                            <p><span>￥{{p.discount_price}}</span> <em class="gray-color">￥{{p.original_price}}</em></p>
+                            <p class="gray-color">{{p.name}}</p>
+                            <div>
+                                <a href="{{p.url}}" title="" class="go-buy">立即抢</a>
+                            </div>
+                            {{if hot_img.details.length == 2}}
+                                <div class="borderR2"></div>
+                            {{/if}}
+                        </div>
+                    {{else}}
+
+                            <div class="hot-one">
+                                <img src="{{p.image_url}}"/>
+                            </div>
+                            <div class="p10 hot-info">
+
+                                <span class="icon-tri">
+                                    <div class="mb10"></div>
+                                    <img src="{{p.tip}}"/>
+                                </span>
+                                <p><span>￥{{p.discount_price}}</span> <em class="gray-color">￥{{p.original_price}}</em></p>
+                                <p class="gray-color">{{p.name}}</p>
+                                <div>
+                                    <a href="{{p.url}}" title="" class="go-buy">立即抢</a>
+                                        <div class="mb10"></div>
+                                </div>
+                            </div>                  
+                            
+                            
+                    {{/if}}
+                
+                {{/each}}        
+
+            </div>
+            <div class="borderD"></div>
+            <div class="mb10"></div>
+        {{/if}} 
+    
+
+</script>
+
+<!-- 服务范围 -->
+<script type="text/html" id="service_list">
+    
+    <div class="p10">
+        
+    </div>
+    <div class="service-block">
+        
+        {{each bottom_button as s}}
+
+            <div>
+                <a href="{{s.url}}" title="">
+                
+                <img src="{{s.image_url}}" alt="">
+                </a>
+                <p class="title-ff7c3c">{{s.title}}</p>
+            </div>      
+        {{/each}}
+        
+    </div>
+        
+    </div>    
+    <div class="borderD"></div>
+        <div class="mb10"></div>
+</script>
+
+<!-- 评价 -->
+<script type="text/html" id="comment_list">
+    {{if favourable_comments}}
+        <div class="comment-block" id="comment-block">
+            {{each favourable_comments as co}}
+                <div class="box">    
+                
+                    <div class="border-out">
+                        <div class="bg-con">
+                            
+                            <p class="text-center p10-top">{{co.user}}   {{co.tel}}</p>
+                            <span class="quote quote-left">
+                                <img src="/new_weixin/images/front_quote.png"/>
+                            </span>
+                            <p class="comment-text p10">
+
+                                {{co.comment}}
+                            </p>
+                            <span class="quote  quote-right">
+                                <img src="/new_weixin/images/back_quote.png"/>
+                            </span>
+                            <p class="text-right p10-r">{{co.category}} {{co.date}}</p>
+                        
+                        </div>     
+                    </div> 
+                </div>
+            {{/each}}
+            
+        </div>
+        <div class="mb10"></div>
+        
+        <p class="text-center"><a href="{{favourable_comments_url}}" title="" class="white-color">
+        [ 更多评价 ]</a>
+        
+        </p>
+    {{/if}}
+</script>
+
+<!-- (提示下单投保)跳转下单页 -->
+
+<script type="text/html" id="insurance_list">
+
+    {{if show_insurance}}
+      <div id="guarantee" style="display:none;">
+      
+       <div class="wx_mask "></div>
+       <div class="wx_confirm guarantee">
+         <div>
+           <img class="guarantee_top" src="/new_weixin/images/guarantee_top.png" alt="">
+         </div>
+         <div class="guarantee_tip">
+           <p id="insured-desc" class="anxin_detail">{{insurance_data.description}}</p>
+           <section id="insured-amount">
+            {{each insurance_data.insurance_account as value}}
+               <p class="guarantee_money">{{value}}</p>
+            {{/each}}
+           </section>
+            <div class="text-center">
+                <div class="p10"></div>
+                <img class="anxin_xi" src="/new_weixin/images/guarantee_slogan.png" alt="">
+                <div class="p10"></div>
+            </div>
+           <p id="i-know-btn" class="I_know">我知道了</p>
+         </div>
+       </div>
+      </div>
+    {{/if}}
+
+</script>
+<!-- 积分弹球 -->
+<script type="text/html" id="point_list">
+    
+    {{if show_points}}
+
+        <div id="points-ball" style="display:block;  position: fixed; top: 0;width: 100%;height: 100%;z-index: 1111;pointer-events: none;">
+          <div class="jifen_box flipOutY">
+            <div class="jifen bounceInUp">
+              <span class="jifen_text bounceIn">
+                <div style="text-indent:20px;padding-top:16px"><em>+</em>1</div>
+                <p><img src="/new_weixin/images/jifen_icon.png" /> 登录积分</p>
+              </span>
+            </div>
+          </div>
+        </div>
+    {{/if}}
+
+</script>
+<!-- 特殊时段运费弹窗 -->
+<script type="text/html" id="specfee_list">
+
+    {{if show_pingan_flag}}
+    <div id="special_time_fee" class="special_delivery_fee_index">
+    <p class="textStyle">本业务中的商品和服务由e袋洗提供，平安银行仅提供代付款服务，不提供相关的任何担保。</p> 
+   <!--      <div class="wx_mask_index">
+            <div class="wx_confirm_index">
+                <div class="wx_confirm_inner_index">
+                <p>本业务中的商品和服务由【e袋洗】提供，平安银行仅提供代付款服务，不提供相关的任何担保。</p>       
+                </div>
+            </div>
+
+        </div> -->
+
+    </div>
+    {{/if}}
+
+</script>
+
+<!-- 安心保障 end -->
+<!-- footer -->
+<script type="text/html" id="footer">
+    {{if user_type != 18}}
+        <footer>
+            <div class="borderD3">
+                
+            </div>
+            <div class="bottomBox">
+                <div class="indexMsg">
+                    <div class="indexMenu">
+                        <a href="/mobile.php?m=wap&act=homepage&do=index"><span class="home-index active">首页</span></a>
+                        <a href="/mobile.php?m=wap&act=order&do=order_list"><span class="Order-index">订单</span></a>
+                        <a href="/mobile.php?m=wap&act=icard&do=my_icard"><span class="card-index">我的</span></a>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    {{/if}}
+</script>
+<!-- 模板end -->
+<!-- 切换城市弹窗 start -->
+<script type="text/html" id="sw_city">
+
+  <div id="sw_city_win" style="display:none;" class="cod">
+    <div class="wx_mask"></div>
+    <div class="wx_confirm">
+      <div class="wx_confirm_inner">
+        <div class="wx_confirm_hd">
+          <div class="wx_confirm_tit" id="tip_div"></div>
+        </div>
+        <div class="wx_confirm_bd">
+          <div class="wx_confirm_btn manage-btn">
+              <input type="hidden" name="sw_city_id" />
+              <input type="hidden" name="sw_city_name" />
+              <button type="button" onclick="closeShow();" class="okbtn">取消</button>
+              <button type="button" onclick="switchCity();" class="okbtn blue-btn">确定</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</script>
+<!-- 切换城市弹窗 end -->
+<!-- 弹球积分 -->
+
+<script src="/new_weixin/js/Swipe.min.js"></script>
+<script type="text/javascript">
+    // 获取url中参数
+    function getSearchParams() {
+        var params = {};
+        var chunks = location.search.substr(1).split(/&/g);
+        for (var i = 0; i < chunks.length; i++) {
+            try {
+                var items = chunks[i].split('=', 2);
+                var key = items[0];
+                var value = decodeURIComponent(items[1]);
+                params[key] = value;
+            }
+            catch (ex) {
+            }
+        }
+        return params;
+    }
+
+</script>
+
+<script>
+
+    var param = getSearchParams();
+    var city_id = param.city_id;
+    var mark = param.mark;
+    var hongbao_tel = param.hongbao_tel;
+    
+    var url = '/api.php?m=wap&act=homepage&do=index_api';
+    
+   
+    if(mark != undefined && mark != ''){
+      url += '&mark='+mark;
+    }
+
+    if(hongbao_tel != undefined && hongbao_tel != ''){
+      url += '&hongbao_tel='+hongbao_tel;
+    }
+
+    if (city_id != undefined && city_id != '') {
+      url += '&city_id='+city_id;  
+    };
+
+
+    $.ajax({
+        url: url,
+          // url: 'test/banner_list.json',
+          type: 'GET',
+          dataType: 'json'
+        })
+
+    .done(function(data) {  
+        if (data.ret) {          
+            console.log(data.data);
+            $('#comments-list').css('display','block');
+            ajaxInfo (data);
+            ajaxCity (data);
+            slider(5000);
+            commentslist(5000);
+            
+            keepCityUrl = data.data.keepCityUrl;
+            homeCityId = data.data.city_id;
+            homeCity = data.data.city_name; 
+            var flagfee = data.data.show_pingan_flag;
+            if (flagfee) {
+                $ ('#special_time_fee').show().delay(6000).fadeOut();
+                
+                //  $(".close-btn").on('click', function() {
+                //     $ ('#special_time_fee').hide ();
+                // });
+                
+                }    
+
+            if (data.data.user_type == 16) {
+                $('#geoPage_api').append('<iframe id="geoPage" width=0 height=0 frameborder=0  style="display:none" scrolling="no" src="http://apis.map.qq.com/tools/geolocation?key=MCZBZ-ZDHWJ-KAZFR-FYYTQ-74NNV-HBB52&referer=myapp"></iframe>')
+            }
+
+
+            if (data.data.user_type == 13) {
+              $("#baidu_api").html('<script type="text/javascript" name="baidu-tc-cerfication" data-appid="5899836" src="http://apps.bdimg.com/cloudaapi/lightapp.js"><\/script>')
+            }
+
+            $(".comment-text").each(function(){
+            
+                var maxwidth=90;
+                if($(this).text().length>maxwidth){
+                    $(this).text($(this).text().substring(0,maxwidth));
+                    $(this).html($(this).html()+'.....');
+                }
+            });
+        }else{
+            location.href = data.error.url;
+        };
+    })
+
+    .fail(function() {
+        alert("网络错误，请稍后再试")
+    })
+
+    function ajaxInfo (data) {
+        var list = data.data;
+        var hot_img = data.data.promotional_list;
+
+        var recharge = data.data.recharge_banner;
+        var washing = data.data.category_list[0];
+        
+        var luxury = data.data.category_list[1];
+        var homeCityId = data.data.city_id;
+        var fast = data.data.category_list[2];
+        
+        // var insurance = data.data.insurance_data;
+        
+        var banner = template('content-text',list);
+        var washing_pu = template('category_list',{"washing":washing});
+        var luxury = template('luxury_list',{"luxury":luxury});
+        //var air = template('air_list',{"homeCityId":homeCityId});
+        var offices_fast = template('offices_fast_list',{"fast":fast});
+        var service = template('service_list',list);
+        var comments = template('comment_list',list);
+        var recharge = template('recharge_banner',{"recharge" :recharge});
+        var hot = template('hot_list',{"hot_img":hot_img});
+        var insurance = template('insurance_list',list);
+        var point = template('point_list',list);
+        var footer = template('footer',list);
+        var city_win = template('sw_city',list);
+        var special_fee = template('specfee_list',list);
+
+
+        document.getElementById('slider').innerHTML = banner;
+        document.getElementById('washing-category').innerHTML = washing_pu;
+        document.getElementById('luxury-category').innerHTML = luxury;
+        //document.getElementById('air-category').innerHTML = air;
+        document.getElementById('fast-category').innerHTML = offices_fast;
+        document.getElementById('service-list').innerHTML = service;
+        document.getElementById('comments-list').innerHTML = comments;
+                
+        document.getElementById('recharge-banner').innerHTML = recharge;
+        document.getElementById('hot-category').innerHTML = hot;
+        document.getElementById('insurance-info').innerHTML = insurance;
+        document.getElementById('point-info').innerHTML = point;
+        document.getElementById('footer-info').innerHTML = footer;
+        document.getElementById('city-info').innerHTML = city_win;
+        document.getElementById('spec-fee-info').innerHTML = special_fee;
+        
+    }
+      
+</script>
+<script type="text/javascript">
+    var keepCityUrl;
+    var homeCityId;
+    var homeCity;
+    // $guaranteeCpm = $('#guarantee');
+    
+
+    // 重定向首页城市
+    function switchCity(){
+
+       var sw_city_id = $(":hidden[name='sw_city_id']").val();
+       var sw_city_name =$(":hidden[name='sw_city_name']").val();
+       var homeUrl = "/mobile.php?m=wap&act=homepage&do=index";
+       window.location.href = (homeUrl + '&city_id=' + sw_city_id);
+    }
+    // 保持异地城市
+    function closeShow(){
+        //var keepCityUrl = data.data.keepCityUrl;
+        $.post(keepCityUrl, {"kcity_id":homeCityId, "kcity_name":homeCity}, function(data){
+            $('#sw_city_win').hide();
+        }, "json");
+    }
+
+</script>
+
+<script type="text/javascript">
+    function ajaxCity (data) {
+        var 
+            eservice = !data.data.is_from_eservice,
+            cityListUrl = data.data.city_list_url,
+            homeCityId = data.data.city_id,
+            homeCity = data.data.city_name,
+            userType = data.data.user_type,
+            pointsKey = data.data.show_points,
+            knowInsurance = + data.data.show_insurance,
+            locFlag = data.data.loc_flag,
+            flag = true,
+            timer = null,     // 计时器
+            jqueryXhr = null; //jquery-ajax 对象
+            guarantee = $("#guarantee");
+        var orderUrl;
+        locateHomeCity();
+
+        $(".click-block").on('click', function() {
+            orderUrl = $(this).data('link');
+            
+            if (data.data.show_insurance) {
+                $("#guarantee").show();
+                return;
+            }
+            window.location.href = orderUrl + "&v=20161108";
+        });
+        
+        // 关闭下单投保弹窗
+        $("#i-know-btn").on("click",function(){
+            // var orderUrl = $(this).data('link',orderUrl);
+            $("#guarantee").hide();
+            
+            window.location.href = orderUrl + "&v=20161108";
+            
+        });    
+        
+        
+
+        // 定位首页城市
+        function locateHomeCity(){
+            if(locFlag != 'do'){
+                sessionStorage.setItem('positioned', true);
+            }
+            if(locFlag == 'do' && ! sessionStorage.getItem('positioned')){
+                switch(+userType){  
+                    case 1: // 微信公众号
+                        html5Location();
+                        break;  
+                    case 13: // 百度直达号
+                        baiduBoxappLocation();
+                        break;  
+                    case 16: // 手机QQ
+                        qqLocation();
+                        break;
+                    default:
+                        html5Location();
+                        break;
+                } 
+            }
+        }
+
+        
+
+        // 定位成功回调
+        function getPositionSuccess(position){  
+          var 
+            lat = position.coords.latitude,  //纬度
+            lng = position.coords.longitude,  //经度
+            city = position.coords.city || "",
+            locateCityUrl = data.data.locateCityUrl;
+            if(city=='金华市'){
+                   city='永康';
+              }
+          $.post(locateCityUrl, {latitude: lat, longitude: lng, city: city}, function (data){
+              var 
+                state = data.message.state,
+                city_id = data.message.city_id,
+                city_name = data.message.city_name;
+              sessionStorage.setItem('positioned', true);
+              
+
+
+              if (state == 'unServ' && city_name) { // 定位城市不在服务范围，自动跳转城市列表页
+                  window.location.href = (cityListUrl + '&state=unServ&city_id=' + city_id);
+              } else if ((state == 'inServ') && city_id && city_name) { // 定位城市在服务范围，经用户确认跳转城市列表页
+
+                  if(city_id == homeCityId){
+                      return;
+                  }else{
+                      $('#tip_div').html('是否跳转当前定位城市：' +　city_name);
+                      $(":hidden[name='sw_city_id']").val(city_id);
+                      $(":hidden[name='sw_city_name']").val(city_name);
+                      $('#sw_city_win').show();
+                  }
+              } else { // 根据经纬度获取城市失败
+                  window.location.href = (cityListUrl + '&state=failed&city_id=' + homeCityId);
+              }
+          }, "json");
+        }
+
+        
+
+    // 原生html5获取地理坐标
+    function html5Location(){
+        navigator.geolocation.getCurrentPosition(
+            getPositionSuccess,
+            getPositionError, 
+            {enableHighAcuracy: false, timeout: 10000, maximumAge: 0}
+        );
+    }
+
+    // 百度直达号获取地理坐标
+    function baiduBoxappLocation(){
+        //输入轻应用的ak
+        clouda.lightInit({
+            ak:"Dcvl2zzvu1y12w3jqY28EH2u",
+            module:["geolocation"]
+        },function(){
+            //
+        });
+        clouda.device.geolocation.get({
+            onsuccess : function(data){
+                var baiduPosition = {
+                  "coords" : {
+                    "latitude" : data.latitude,
+                    "longitude": data.longitude,
+                    "city": ""
+                  }
+                };
+                getPositionSuccess(baiduPosition);
+            },
+            onfail : function(err){
+                getPositionError();
+                return;
+            }
+        });
+    }
+
+    // 手机QQ获取地理坐标
+    function qqLocation(){
+        // 监听定位组件的message事件
+        window.addEventListener('message', function(event) {
+            // 接收位置信息
+            var loc = event.data;
+            if(loc) { //定位成功
+                var qqPosition = {
+                         "coords" : {
+                           "latitude" : loc.lat,
+                           "longitude": loc.lng,
+                           "city": loc.city
+                         }
+                       };
+                getPositionSuccess(qqPosition);
+            } else { //定位失败
+                getPositionError();
+                return;
+            }
+        }, false);
+        setTimeout(function() {
+            if(!loc) {
+                getPositionError();
+                return;
+            }
+        }, 6000);
+    }
+
+
+    // 定位失败回调
+    function getPositionError(error){
+        /*
+        switch(error.code){  
+            case error.TIMEOUT :  
+                alert("连接超时，请重试");  
+                break;  
+            case error.PERMISSION_DENIED :  
+                alert("您拒绝了使用位置共享服务，查询已取消");  
+                break;  
+            case error.POSITION_UNAVAILABLE :  
+                alert("暂时无法提供位置服务");  
+                break;  
+        }
+       */
+       // 定位失败，自动跳转城市列表页面
+       window.location.href = (cityListUrl + '&state=failed&city_id=' + homeCityId);
+    }  
+
+    // 百度直达号菜单栏
+    function baiduBoxappSmartBar(){
+        if(userType == 13){
+            //输入轻应用的ak
+            clouda.lightInit({
+                ak:"Dcvl2zzvu1y12w3jqY28EH2u",
+                module:["smartBar"]
+            },function(){
+                clouda.lego.smartBar.show();
+                clouda.lego.smartBar.adjustPanel({"selector":"#footer"});
+                $('#wrap').css({'margin-bottom':'60px'});
+            });
+        }
+    }      
+        
+    //空调清洗埋点
+    /*
+    $("#airIcon").on('click', function() {
+        TDAPP.onEvent("空调清洗点击");
+    });
+    */    
+
+    // banner 跳转(埋点统计)
+    $('#slider').on('click', 'img', function() {
+        var _paq = _paq || [];
+        if(flag){
+            flag = false;
+            clearTimeout(timer);   // 关闭定时器
+            
+            $.ajax({
+                
+                  url: '/api.php?m=wap&act=homepage&do=ajax_get_foot',
+                  // url: 'test/tongji.json',
+                  type: 'GET',
+                  dataType: 'json'
+                })
+
+            .done(function(data) {  
+
+                piwik(data);
+            })
+
+            .fail(function() {
+                // alert('网络忙，请再次尝试哦!');
+            })
+            
+            var that = this;
+
+            function piwik(data){
+                // Piwik 埋点
+                if (data.data.statistics.piwik) {
+                    var bannerId = $(that).data('banner-id'), bannerTitle = $(that).data('banner-title');
+
+                    // category  event_action  event_action_name event_action_value
+                    _paq && _paq.push(['trackEvent', 'banner', 'click', bannerTitle, bannerId, {dimension1: bannerTitle}]);
+                };
+
+            }
+            
+            var bannerLink = $(this).data('banner-link');
+            if(bannerLink){
+                window.location.href = bannerLink;
+            }
+            timer = setTimeout(function(){
+                flag = true;
+            }, 1000);
+        }
+    });
+
+    }
+    
+</script>
+
+<script src="/new_weixin/js/foot.js" type="text/javascript"></script>   
+<noscript>
+    <p><img src="//analysis.edaixi.com/piwik.php?idsite=2" style="border:0;" alt="" /></p>
+</noscript>
+
+<script type="text/javascript">
+
+    $(".indexMenu>a>span").click(function(){
+        $(".indexMenu>a>span").removeClass('active')
+        $(this).addClass('active');
+    })
+
+</script>
+<div id="baidu_api"></div>
+<div id="geoPage_api"></div>
+</body>
+
+</html>

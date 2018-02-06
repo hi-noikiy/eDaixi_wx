@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>e袋洗</title>
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/success.css')}" rel="stylesheet" type="text/css">
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body>
+<div class="bg_white error_page">
+  <div class="p20">
+    <img src="{php echo assets_link('/framework/style/images/erro_face.png')}" class="erroe_img">
+    <div class="p10"></div>
+    <p class="p10" style="font-size:16px">{$message}</p>
+    <div class="wx_confirm_bd">
+        <div class="wx_confirm_btns">                        
+            <a href="{php echo $host.create_url('homepage/index') }" class="back_index back_pre">返回首页</a>
+            <a href="javascript:history.back();" class="back_pre">返回上一页</a>
+        </div>
+    </div>
+  </div>
+</div>
+<?php include template('foot') ?>
+</body>
+</html>

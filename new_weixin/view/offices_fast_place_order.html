@@ -1,0 +1,627 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>预约取件</title>
+    <link rel="stylesheet" type="text/css" href="../css/order_place.css">
+    <link rel="stylesheet" type="text/css" href="../css/offices_fast.css?v=2">
+    <!-- <script type="text/javascript" src="http://apps.bdimg.com/libs/zepto/1.1.4/zepto.min.js"></script> -->
+    <script type="text/javascript" src="https://webapi.amap.com/maps?v=1.3&key=1c22ed8fcc81436197faf632aaed0ddb"></script>
+    <script type="text/javascript" src="../js/zepto.js"></script>
+    <script type="text/javascript" src="../js/offices-locate.js?v=20160920"></script>
+    <script type="text/javascript" src="../js/template.js"></script>
+</head>
+<body>
+    <header></header>
+    <section id="delivery_description">
+        <span class="title">送件说明</span><span class="content"></span>
+    </section>
+    <section id="user-info-part">
+        <div id="address">
+            <div class="addborder"></div>
+            <div class="address-content-offices">
+                <input placeholder="请选择您所在写字楼" readonly>
+                <img class="map-locate-btn" src="../images/Location_default.png">
+            </div>
+            <div class="room-offices">
+                <input placeholder="请输入您的门牌号">
+            </div>
+            <div class="name-offices">
+                <input placeholder="姓名">
+            </div>
+            <div class="phone-offices">
+                <input placeholder="请输入手机号码">
+            </div>
+            <div class="addborder"></div>
+        </div>
+    </section>
+    <section id="time-part">
+        <div class="timeinput">请选择取件时间</div>
+        <div class="arrow-left"></div>
+    </section>
+    <section id="guest-part">
+        <textarea placeholder="如果有问题请备注留言"> 
+        </textarea>
+    </section>
+    <section id="delivery-part"></section>
+    <footer>
+        <div>立即预约</div>
+    </footer>
+    <section id="dialog"></section>
+    <!-- tips banner -->
+    <script id="tips" type="text/html">
+        {{if order_tips.details.length > 0}}
+        <div class="tips">
+            <img src="{{order_tips.background_image}}">
+            <div class="wrapline">
+                <div class="outter">
+                    <div class="tablecell">
+                        {{each order_tips.details as item}}
+                        <span>{{item}}</span>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+    </script>
+    
+    <!-- 用户信息 -->
+    <script id="address-wrap" type="text/html">
+        <div id="address">
+            <div class="addborder"></div>
+            <div class="address-content">
+                <input placeholder="请选择您所在写字楼">
+                <div class="map-locate-btn"></div>
+            </div>
+            <div class="room">
+                <input placeholder="详细地址">
+            </div>
+            <div class="name">
+                <input placeholder="姓名">
+            </div>
+            <div class="phone">
+                <input placeholder="请输入手机号码">
+            </div>
+            <div class="addborder"></div>
+        </div>
+    </script>
+
+    <!-- 运费 -->
+    <script id="total-delivery-wrap" type="text/html">
+        {{if total.length < 5}}
+                <div class="total-delivery clearfix">
+                    <div class="title"><p>关于</p><p>运费</p></div>
+                    {{each total as item index}}
+                        <div class="delivery">
+                            <p>{{item.sentinel_min}}</p>
+                            <p class="blue">{{item.fee}}</p>
+                        </div>
+                        {{if index < total.length - 1}}
+                        <div class="vertical-line"></div>
+                        {{/if}}
+                    {{/each}}
+                </div>
+        {{else}}
+            <div class="total-delivery five cleanfix">
+                <p>关于运费</p>
+                <ul>
+                    {{each total as item}}
+                    <li>
+                        <div>
+                            <p>{{item.sentinel_min}}</p>
+                            <p class="blue">{{item.fee}}</p>
+                        </div>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+        {{/if}}
+    </script>
+
+    <!-- 确认弹框 -->
+    <script id="alert-dialog-wrap" type="text/html">
+        <div id="alert-dialog" style="display: none;">
+            <div class="wx_mask"></div>
+            <div class="wx_confirm alert-dialog">
+                <div class="head">{{tips.title}}</div>
+                <div class="body">{{tips.content}}</div>
+                <div class="i-know-btn">我知道了</div>
+            </div>
+        </div>
+    </script>
+    <script type="text/javascript">
+        // 开发联调控制
+        window.debug = false;
+        var api = {};
+        var preLocation;
+        if (window.debug) {
+            api.pagejson = "/getOfficesFastOrderPlace";
+            api.getOffice = "/getOffice";
+            api.submit_url = "/offices_fast_submit";
+            preLocation = "";
+        }
+        else {
+            api.pagejson = "/api.php?m=wap&act=homepage&do=office_order_place";
+            api.getOffice = "/api.php?m=wap&act=address&do=ajax_search_office";
+            api.submit_url = "/mobile.php?m=wap&act=homepage&do=do_order";
+            preLocation = "/new_weixin";
+        }
+    </script>
+    <script>
+        // 存储整个页面的数据
+        var orderPlaceData_offices = {};
+        var params = getSearchParams();
+        // 定位插件参数
+        var locateOpt = {
+              btn : $(".map-locate-btn"),     // 定位按钮
+              overtime : 5000,      // 超时时间
+              callback : getOffice   // 定位成功回调
+        };
+        // 手动点击定位图标的标记
+        window.autoLocateClickFlag = false;
+        // 存储获取页面json时需要的参数（从价目页跳转时）
+        var searchParam = {};
+        searchParam.city_id = params.city_id;
+        searchParam.category_id = 17;
+        searchParam.price_read = params.price_read;
+        
+        // 从写字楼搜索页面进入时获取写字楼id和name
+        if (params.office_building_id) {
+            searchParam.office_building_id = (!params.office_building_id || params.office_building_id === "undefined") ? undefined : params.office_building_id;
+            searchParam.office_name = params.office_name;
+        }
+        
+        // 从时间控件页进入时
+        $(function() {
+            $.ajax({
+                type: "GET",
+                url: api.pagejson,
+                data: searchParam,
+                dataType: "json",
+                success: function(data) {
+                    if (data.ret) {
+                        // 渲染数据
+                        renderTemplate(data);
+                        // 绑定事件
+                        bindEvent(data, params);
+                    }
+                    else {
+                        if (data.error.url) {
+                            window.location.href = data.error.url;
+                        }
+                        else {
+                            myalert("错误提示", data.error.msg);
+                        }
+                    }
+                },
+                error: function(xhr, type) {
+                    myalert("操作提示", "网络错误，请稍后再试");
+                }
+            })
+        })
+
+        function renderTemplate(data) {
+
+            // 渲染tips
+            var tipsHtml = template("tips", data.data);
+            $("header").html(tipsHtml);
+
+            // 渲染送件说明
+            $("#delivery_description .content").text(data.data.delivery_description);
+            
+            // 填充写字楼,包括room
+            renderOffice();
+
+            // 填充姓名
+            if (params.user_name != "undefined" && params.user_name != "" && params.user_name) {
+                $(".name-offices input").val(params.user_name);
+                orderPlaceData_offices.user_name = params.user_name;
+            }
+            // 填充手机号
+            if (params.tel != "undefined" && params.tel != "" && params.tel) {
+                $(".phone-offices input").val(params.tel);
+                orderPlaceData_offices.tel = params.tel;
+            }
+            else if (data.data.tel) {
+                 $(".phone-offices input").val(data.data.tel);
+                 orderPlaceData_offices.tel = data.data.tel;
+            }
+ 
+            // 填充时间
+            if (params.washing_date_text && params.washing_time) {
+                var datetext = params.washing_date_text + " " + params.view_text;
+                $(".timeinput").text(datetext).addClass("has-time");
+                orderPlaceData_offices.time_range = params.time_range;
+                orderPlaceData_offices.washing_date = params.washing_date;
+                orderPlaceData_offices.washing_time = params.washing_time;
+            }
+
+            // 填充留言
+            if (params.comment !== "undefined" && params.comment != "" && params.comment) {
+                $("#guest-part textarea").val(params.comment);
+            }
+            else {
+                $("textarea").val("");
+            }
+
+            // 渲染运费
+            renderDelivery(data);
+
+            // 预约取件置灰 (取消提交事件在submit事件中return)
+            if (!orderPlaceData_offices.office_building_id || !orderPlaceData_offices.room || !orderPlaceData_offices.user_name
+                || !orderPlaceData_offices.tel || !orderPlaceData_offices.time_range) {
+                $("footer div").addClass("disabled");
+            }
+        }
+
+        /**
+         * [bindEvent description]
+         * @param  {obj} data [description]
+         */
+        function bindEvent(data) {
+
+            // 触发定位
+            $(".map-locate-btn").click(function() {
+                if(AMap){
+                    window.autoLocateClickFlag = true;
+                    AMap.autoLocate(locateOpt);
+                }
+                $(".room-offices input").val("");
+            })
+
+            // 跳转到写字楼搜索页
+            $(".address-content-offices input").click(function() {
+                var urlParam = "";
+                urlParam = "&category_id=17&city_id=" + searchParam.city_id;
+                if (searchParam.price_read) {
+                    urlParam += "&price_read=" + searchParam.price_read;
+                }
+                if ($(".name-offices input").val()) {
+                    urlParam += "&user_name=" + $.trim($(".name-offices input").val());
+                }
+                if ($(".phone-offices input").val()) {
+                    urlParam += "&tel=" + $.trim($(".phone-offices input").val());
+                }
+                if ($("#guest-part textarea").val()) {
+                    urlParam += "&comment=" + $.trim($("#guest-part textarea").val());
+                }
+                if (AMap.lat) {
+                    urlParam += "&lat=" + AMap.lat;
+                }
+                if (AMap.lng) {
+                    urlParam += "&lng=" + AMap.lng;
+                }
+                window.location.href = data.data.office_address_url + urlParam;
+            })
+
+            // 跳转到时间控件页面
+            $("#time-part").on("click", function() {
+
+                // 如果没有填写地址
+                if (!$(".address-content-offices input").val()) {
+                    myalert("操作提示", "请先选择您所在写字楼。");
+                    return;
+                }
+                else {
+                    // 跳转到时间控件页
+                    var urlParam = "";
+                    urlParam = "category_id=17&city_id=" + searchParam.city_id;
+                    if (searchParam.price_read) {
+                        urlParam += "&price_read=" + searchParam.price_read;
+                    }
+
+                    if ($(".address-content-offices input").val()) {
+                        urlParam += "&office_name=" + $.trim($(".address-content-offices input").val());
+                    }
+                    if ($(".room-offices input").val()) {
+                        urlParam += "&room=" + $.trim($(".room-offices input").val());
+                    }
+                    if ($(".name-offices input").val()) {
+                        urlParam += "&user_name=" + $.trim($(".name-offices input").val());
+                    }
+                    if ($(".phone-offices input").val()) {
+                        urlParam += "&tel=" + $.trim($(".phone-offices input").val());
+                    }
+                    if ($("#guest-part textarea").val()) {
+                        urlParam += "&comment=" + $.trim($("#guest-part textarea").val());
+                    }
+                    // 从写字楼搜索页跳转时
+                    if (params.area != "undefined" && params.area != "" && params.area && !window.autoLocateClickFlag) {
+                        urlParam += "&area=" + params.area;
+                    }
+                    else if (orderPlaceData_offices.area) {
+                        // 自动定位时
+                        urlParam += "&area=" + orderPlaceData_offices.area;
+                    }
+
+                    if (params.office_building_id != "undefined" && params.office_building_id !="" && params.office_building_id && !window.autoLocateClickFlag)  {
+                        urlParam += "&office_building_id=" + params.office_building_id;
+                    }
+                    else if (orderPlaceData_offices.office_building_id) {
+                        urlParam += "&office_building_id=" + orderPlaceData_offices.office_building_id;
+                    }
+                    if (params.area_id != "undefined" && params.area_id != "" && params.area_id && !window.autoLocateClickFlag) {
+                        urlParam += "&area_id=" + params.area_id;
+                    }
+                    else if (orderPlaceData_offices.area_id) {
+                        urlParam += "&area_id=" + orderPlaceData_offices.area_id;
+                    }
+
+                    urlParam += "&offices_fast=1";
+
+                    window.location.href = preLocation + "/time_control.html?" + urlParam;
+                }
+            })
+
+            // 立即预约事件
+            $("footer div").on("click", function() {
+                orderPlaceData_offices.category_id = 17;
+                orderPlaceData_offices.time_range = params.time_range;
+                orderPlaceData_offices.room = $(".room-offices input").val();
+                orderPlaceData_offices.user_name = $(".name-offices input").val();
+                orderPlaceData_offices.tel = $(".phone-offices input").val();
+                orderPlaceData_offices.comment = $("#guest-part textarea").val();
+
+                if (!orderPlaceData_offices.office_building_id || !orderPlaceData_offices.room || !orderPlaceData_offices.user_name
+                || !orderPlaceData_offices.tel || orderPlaceData_offices.time_range == "undefined" || $("footer div").hasClass("disabled")) {
+                    return;
+                }
+                
+                // 校验手机号码
+                var phonePattern = /^1[34578]\d{9}$/;
+                if (!phonePattern.test(+orderPlaceData_offices.tel)) {
+                    myalert("错误提示", "请输入正确的手机号码");
+                    return;
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: api.submit_url,
+                    data: orderPlaceData_offices,
+                    dataType: "json",
+                    success: function(data) {
+                        
+                        switch(data.message.state + "") {
+                            case "1":
+                                // 下单成功
+                                // if (data.message.user_type === 1) {
+                                //     sessionStorage.setItem("order_" + data.message.order_id, true);
+                                // }
+                                myalert("操作提示", data.message.msg);
+                                window.location.href = data.message.url;
+                                break;
+                            case "0":
+                                // 清空用户信息
+                                $(".address-content-offices input").val();
+                                $(".room-offices input").val();
+                                $(".name-offices input").val();
+                                $(".phone-offices input").val();
+
+                                //清空时间
+                                $(".timeinput").text("请选择取件时间");
+                                orderPlaceData_offices.time_range = "";
+                                myalert("错误提示", data.message.msg);
+
+                                // 立即预约按钮置灰
+                                $("footer div").addClass("disabled");
+                                break;
+                            default:
+                                // 清空用户信息
+                                $(".address-content-offices input").val("");
+                                $(".room-offices input").val("");
+                                $(".name-offices input").val("");
+                                $(".phone-offices input").val("");
+
+                                //清空时间
+                                $(".timeinput").text("请选择取件时间");
+                                myalert("错误提示", data.message.msg);
+
+                                // 立即预约按钮置灰
+                                $("footer div").addClass("disabled");
+                        }
+                    },
+                    error: function(xhr, type) {
+                        alert("出错了，请重新下单试试");
+                    }
+                })
+
+            })
+
+            // 提交按钮置灰与激活
+            $("#user-info-part input").on("input propertychange", function() {
+                var address = $(".address-content-offices input").val();
+                var detailAddress = $(".room-offices input").val();
+                var name = $(".name-offices input").val();
+                var tel = $(".phone-offices input").val();
+                var time = $(".timeinput").hasClass("has-time");
+
+                if (address && detailAddress && name && tel && time) {
+                    $("footer div").removeClass("disabled");
+                }
+                else {
+                    $("footer div").addClass("disabled");
+                }
+            })
+        }
+
+        /**
+         * 定位写字楼
+         */
+        function renderOffice() {
+            // 从写字楼搜索控件页跳转， office_name为写字楼搜索页面传到下单页，且是特有的。
+            if (params.office_name) {
+                $(".address-content-offices input").val(params.office_name);
+                orderPlaceData_offices.office_building_id = !params.office_building_id || params.office_building_id === "undefined" ? undefined : params.office_building_id;
+                orderPlaceData_offices.office_name = params.office_name;
+            }
+            // 从时间控件页跳转时
+            if (params.washing_date_text) {
+                if (params.room !== "undefined" && params.room != "") {
+                    $(".room-offices input").val(params.room);
+                    orderPlaceData_offices.room = params.room;
+                }
+                orderPlaceData_offices.office_building_id = !params.office_building_id || params.office_building_id === "undefined" ? undefined : params.office_building_id;
+                orderPlaceData_offices.office_name = params.office_name;
+            }
+            
+            // 执行自动定位
+            if(AMap){
+              AMap.autoLocate(locateOpt);
+            }
+        }
+
+        // 经纬度换取写字楼位置
+        var zeptoXhr;
+        function getOffice(lng, lat){
+          //alert("getOffice：\r\nlng：" + lng + "\r\nlat：" + lat);
+          if(!lng || !lat){
+             sessionStorage.setItem('office_lng', '');
+             sessionStorage.setItem('office_lat', '');
+             return;
+          }
+          sessionStorage.setItem('office_lng', lng);
+          sessionStorage.setItem('office_lat', lat);
+          // 终止之前的未结束的 ajax请求，重新开始新的请求
+          if(zeptoXhr){
+              zeptoXhr.abort(); 
+          }
+          zeptoXhr = $.ajax({
+              url: api.getOffice,
+              type: "POST",
+              async: true,        // 异步请求 
+              timeout: 3000,      // 超时时间
+              data: {
+                  city_id: searchParam.city_id,
+                  lng: lng,       // 经度
+                  lat: lat,       // 纬度
+                  search_type: 0  // 搜索类型
+              },
+              dataType: "json",
+              complete: function (xhr, ts){
+                  // 请求完成
+                  zeptoXhr = null;
+              },
+              success: function (res, ts, xhr) {
+                  // 请求成功
+                  if (res.ret) {
+                     var locate_building = res.data.locate_building;
+                     if (!locate_building) {
+                        // pc浏览器会为null
+                        return;
+                     }
+                     // 只在自动定位时
+                     if (!params.office_name && !params.washing_date_text || window.autoLocateClickFlag) {
+                        orderPlaceData_offices.office_building_id = locate_building.id;
+
+                        orderPlaceData_offices.area = locate_building.area;
+                        orderPlaceData_offices.area_id = locate_building.area_id;
+                     }
+                     
+                     // 显示大厦名称, 注：每次自动定位都会执行，只是从写字楼搜索页选择时通过url参数获取，所以此时不填
+                     if (!$(".address-content-offices input").val() || window.autoLocateClickFlag) {
+                        $(".address-content-offices input").val(locate_building.title);
+                     }
+                  }
+              },
+              error:function (xhr, ts, err){
+                  // ...
+              }
+          });
+        };
+        /**
+         * 渲染运费
+         * @param  {obj} data 后端返回的json
+         */
+        function renderTotalDelivery(data) {
+            // 将运费项没有“运费”的补全“运费”二字
+            var delivery_fee_info = data.data.delivery_fee_info;
+            var len = delivery_fee_info.length || 0;
+            for (var i = 0; i < len; i++) {
+                if (delivery_fee_info[i]["fee"].indexOf("运费") < 0) {
+                    delivery_fee_info[i]["fee"] += "运费";
+                }
+            }
+            if (len && delivery_fee_info[0]["fee"] === "免运费") {
+                if (delivery_fee_info.length < 5) {
+                    delivery_fee_info.reverse();
+                }
+            }
+            var totalDeliveryHtml = template("total-delivery-wrap", {"total": delivery_fee_info});
+            $("#delivery-part").html(totalDeliveryHtml);
+        }
+
+
+        /**
+         * 渲染运费部分
+         * @param  {object} data 整个页面用的json
+         */
+        function renderDelivery(data) {
+            renderTotalDelivery(data);
+        }
+
+        /**
+         * 限制50字数
+         */
+        var oldStr;
+        $("#guest-part textarea").on("input propertychange", function() {
+            var str = $("#guest-part textarea").val();
+            var str = str.replace(/^(\u3000|\s|\t|\u00A0)*|(\u3000|\s|\t|\u00A0)*$/g, "");
+            var aMatch = str.match(/[^\x00-\x80]/g); 
+            var len = Math.ceil((str.length + (!aMatch ? 0: aMatch.length)) / 2);
+            if (len <= 50) {
+                oldStr = str;
+            }
+            else {
+                $("#guest-part textarea").val(oldStr)
+            }
+        })
+        // 获取url中参数
+        function getSearchParams() {
+            var params = {};
+            var chunks = location.search.substr(1).split(/&/g);
+            for (var i = 0; i < chunks.length; i++) {
+                try {
+                    var items = chunks[i].split('=', 2);
+                    var key = items[0];
+                    var value = decodeURIComponent(items[1]);
+                    params[key] = value;
+                }
+                catch (ex) {
+                }
+            }
+            return params;
+        }
+
+        /**
+         * 后端php做了两次编码，所以解码两次
+         * @param  {string} encodeUrl  php UrlEncode编码后字符串
+         * @return {object}  
+         */
+        function myDecodeUrl(encodeUrl) {
+            var temp = decodeURIComponent(decodeURIComponent(encodeUrl));
+            return JSON.parse(temp);
+        }
+
+        /**
+         * 提示框
+         * @param  {string} title   标题
+         * @param  {string} content 内容
+         */
+        function myalert(title, content) {
+            var alertHtml = template("alert-dialog-wrap", {"tips": {"title": title, "content": content}});
+            $("#dialog").html(alertHtml);
+            $("#alert-dialog").show();
+
+            $("#dialog").on("click", ".i-know-btn", function(e) {
+                $("#alert-dialog").hide();
+            })
+        }
+    </script>
+</body>
+</html>

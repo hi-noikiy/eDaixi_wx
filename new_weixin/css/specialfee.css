@@ -1,0 +1,17 @@
+@charset "UTF-8";
+.special_delivery_fee_index{
+  position: relative;
+  top: 0;
+  width: 100%;
+  /*height: 80px;*/
+  /*line-height: 1.5;*/
+  background-color: #ff9224;
+  color: #fff;
+  /*padding-top: .8rem;*/
+}
+.textStyle {
+  font-size: .99rem;
+  padding: .4rem .66rem;
+  line-height: 1.6;
+  text-align: left;
+}

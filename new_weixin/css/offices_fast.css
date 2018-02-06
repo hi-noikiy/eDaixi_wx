@@ -1,0 +1,54 @@
+
+/* 写字楼快洗独有的css */
+
+/* 送件说明  beging */
+#delivery_description {
+	padding: 0.857rem 1.07rem;
+	font-size: 0.93rem;
+	color: #00c6DE;
+	line-height: 1.6;
+}
+#delivery_description .title {
+	font-size: 0.55rem;
+	border: 1px solid #00c6DE;
+	border-radius: 3px;
+	padding: 2px;
+	margin-right: 0.7857rem ;
+}
+/* 送件说明 end */
+
+/* 个人信息 beging */
+#user-info-part .address-content-offices, 
+#user-info-part .room-offices,
+#user-info-part .name-offices,
+#user-info-part .phone-offices {
+	height: 3.4rem;
+	line-height: 3.4rem;
+	padding: 0 1.07rem;
+	border-bottom: 1px solid #e5eeff;
+}
+#user-info-part .address-content-offices {
+	position: relative;
+}
+#user-info-part .phone-offices {
+	border-bottom: 0;
+}
+#user-info-part input {
+	border: 0;
+	width: 90%;
+	height: 3.2rem;
+	font-size: 1rem;
+}
+#user-info-part .map-locate-btn {
+	height: 1.5rem;
+	width: 1.5rem;
+	position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 1.07rem;
+    margin: auto;
+}
+#user-info-part {
+	margin-bottom: 0.714rem;
+}
+/* 个人信息 end */

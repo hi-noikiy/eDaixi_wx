@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+	<meta content="" name="pgv">
+	<meta charset="UTF-8">
+	<link href="{php echo assets_link('/framework/style/css/feedback.css')}" rel="stylesheet" type="text/css">
+	<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+	<title>意见反馈</title>
+	<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body>
+<header>
+	<p>e袋洗致力为您提供专业、高效、高品质的洗护服务</p>
+	<p>欢迎您提供宝贵的意见或建议</p>
+</header>
+<section>
+	<div class="type">反馈类型</div>
+	<div class="borderD"></div>
+	<div id="feedback-item">
+		<ul id="feedback-ul">
+		    {loop $feedback_item $item}
+			<li data-feed-id="{$item['id']}">
+				{$item['suggest_text']}<img class="sel-icon feed_check" src="<?php echo assets_link('/framework/style/images/feed_check.png')?>" style="display:none;"/>
+			</li>
+			{/loop}
+		</ul>
+	</div>
+	<div class="borderD"></div>
+	<div class="type">反馈内容</div>
+	<div class="content">
+		<div class="borderD"></div>
+		<textarea id="feedback-content" name="feedback_content" form="feedback-form" maxlength="500" placeholder="请输入您的意见或建议"></textarea>
+		<div class="borderD"></div>
+	</div>
+	<form id="feedback-form" action="{$feedback_submit}">
+		<button id="submit-btn" type="button" class="submit_btn nosub" disabled="disabled">提交</button>
+	</form>
+</section>
+
+<!-- 操作提示 start -->
+<section id="tip-box" style="display:none;" class="cod" style="height:60px">
+    <div class="pop_content" id = "show_mes">反馈成功11</div>
+</section>
+<!-- 操作提示 end -->
+
+<footer>
+	<p>客服热线: 400-818-7171</p>
+	<p>(周一到周日8:30-22:00)</p>
+	<p>您也可以关注我们官方公众号"e袋洗"与我们联系。</p>	
+</footer>
+
+<script type="text/javascript">
+var $feedUl = $("#feedback-ul");
+var $feedItem = $feedUl.find('li');
+var 
+  $feedForm = $('#feedback-form'),
+  $feedContent = $('#feedback-content'), 
+  $submitBtn = $('#submit-btn'),
+  timer = null;     // 计时器
+
+window.onload = function(){
+    $feedItem.on('click', setFeedType);
+    $feedContent.on('focus input', setFeedContent);
+    $submitBtn.on('click', sumitFeed);
+}
+
+// 设置反馈类型
+function setFeedType(){
+	if(checkLogin()){
+		$(this).toggleClass('select_li').siblings().removeClass('select_li');
+	    $(this).siblings().children('img').hide();
+	    $(this).children('img').toggle();
+	    setSubmitBtn();
+	}
+}
+
+// 设置反馈内容
+function setFeedContent(){
+	checkLogin();
+	setSubmitBtn();
+}
+
+// 提交订单预约
+function sumitFeed(){
+	clearTimeout(timer);
+	if(!setSubmitBtn()){
+		return false;
+	}
+	toggleBtn(false);
+    $submitBtn.text('正在提交');
+    var 
+      submit_url = $feedForm.attr('action'),
+      feedType = $feedItem.filter('.select_li').data('feed-id'),
+      feedContent = $.trim($feedContent.val());
+    var submit_data = {'feedback_type' : feedType, 'feedback_content' : feedContent};
+    $.post(submit_url, submit_data, function(data){
+	    if(data.message.state == 1){
+	    	$submitBtn.text('提交成功');
+	        //showTip('反馈成功', "{$http_referer}");
+	    	//showTip('反馈成功', 'back');
+	    	var feedbook_from = sessionStorage.getItem('feedbook_from') || "<?php echo create_url('homepage/index');?>";
+	    	sessionStorage.removeItem('feedbook_from');
+	    	showTip('您的反馈我们已经收到，您也可以致电e袋洗服务热线400-818-7171，感谢您的支持！', feedbook_from);
+	        timer = setTimeout(function(){
+	        	$('#tip-box').hide();
+	        	window.location.href = feedbook_from + '&t=' + "<?php echo time();?>";
+	        }, 2000);
+	    }else{
+	    	toggleBtn(true);
+	        $submitBtn.text('提交');
+	        showTip(data.message.msg);
+	    }
+    },"json"); 
+}
+
+// 显示提示信息
+function showTip(msg, url){
+    $('#show_mes').html(msg);
+    if(url){
+        $('#tip-box').show();
+        setTimeout(function(){
+            if('reload' == url){
+                window.location.reload();
+            }else if('back' == url){
+            	window.history.back();
+            }else{
+                window.location.href = url;
+            }
+        }, 800);
+    }else{
+        $('#tip-box').show().delay(2000).hide(0);
+    }
+}
+
+// 设置“提交”按钮显示状态
+function setSubmitBtn(){
+    var 
+      feedTypeFlag = $feedItem.hasClass('select_li'),
+      feedContentFlag = $.trim($feedContent.val());
+    if(feedTypeFlag && feedContentFlag){
+        toggleBtn(true);
+        return true;
+    }else{
+        toggleBtn(false);
+        return false;
+    }
+}
+
+// 设置提交按钮状态
+function toggleBtn(bool){
+    if(bool){
+    	$submitBtn.prop('disabled', false).removeClass("nosub").addClass("cansub");
+    }else{
+    	$submitBtn.prop('disabled', true).removeClass("cansub").addClass("nosub");
+    }
+}
+
+// 检测登录
+function checkLogin(){
+	if("{$is_login}" != 1){
+		window.location.href = "{$login_feedback}";
+		return false;
+	}
+	return true;
+}
+</script>
+<?php include template('foot') ?>
+</body>
+</html>

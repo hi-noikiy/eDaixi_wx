@@ -1,0 +1,816 @@
+<!-- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"> -->
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>订单列表</title>
+<link href="{php echo assets_link('/framework/style/css/footer.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/wap.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/myOrder.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/index.css')}" rel="stylesheet" type="text/css">
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+<link href="{php echo assets_link('/framework/style/css/lottery.css?v=20161231')}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="{php echo assets_link('/framework/style/js/slider.js')}"></script>
+<script type="text/javascript" src="{php echo assets_link('/framework/style/js/Swipe.min.js')}"></script>
+<script type="text/javascript">
+  window.onload = function(){
+
+
+    var flag = true;//true 是立即分享  false是分享惊喜
+
+    function share (desc,title,share_img,share_url) {
+     wx.ready(function(){
+        var coupon_total = "{$share_coupon_total}";
+       
+        wx.onMenuShareTimeline({
+          title: title,
+          link:  share_url,
+          imgUrl: share_img,
+          trigger: function (res) {
+          },
+          success: function (res) {          
+
+            // 分享成功显示弹窗 关闭蒙板
+            $('#rule, #close_btn').show();    
+            $('#guide_share').hide();           
+            if (flag) {
+              var share_order_id = "{$share_order_id}";
+              var submitData = {share_order_id: share_order_id};
+
+              $.post("{php echo create_url('order/share_order')}",submitData,function(){},"json");
+            }
+            
+          },
+          cancel: function(res){
+          }
+        });
+        wx.onMenuShareAppMessage({
+          title: title,
+          desc: desc,
+          link:  share_url,
+          imgUrl: share_img,
+          trigger: function (res) {
+          },
+          success: function () {  
+
+            // 分享成功显示弹窗 关闭蒙板 
+            $('#rule, #close_btn').show();    
+            $('#guide_share').hide();
+            if (flag) { 
+              var share_order_id = "{$share_order_id}";
+              var submitData = {share_order_id: share_order_id};      
+              
+              $.post("{php echo create_url('order/share_order')}",submitData,function(){},"json");
+            }
+           
+          },
+          cancel: function () { 
+          }
+        });
+
+      });
+    }
+   
+    $('#close_btn').on('click',function(){
+      $('#rule_float').toggle(100);
+    })
+
+    $('#share_btn').on('click',function(){
+      window.location.href = "{$lottery['show_more']}";
+    })
+
+    // 分享惊喜
+    $('#surprise_share').on('click',function(){
+
+      flag = false;
+      var desc =  "{$lottery['wx_share']['desc']}";
+      var title = "{$lottery['wx_share']['title']}"; 
+      var share_img = "{$lottery['wx_share']['share_img']}"; 
+      var share_url = "{$lottery['wx_share']['share_url']}";
+      console.log(share_url)
+      $('#rule, #close_btn').hide();  
+      $('#guide_share').show();
+
+      //talkingdata埋点
+      TDAPP.onEvent("零彩宝分享惊喜");
+      share (desc,title,share_img,share_url);
+    })
+
+    //立即分享
+     $('#quan_share').on('click',function(){
+
+      flag = true;
+      var share_url = "{$share_url}";
+      if(share_url){
+        var desc =  "{$share_desc}";
+        var title = "{$share_title}"; 
+        var share_img = "{$share_img}"; 
+      }else{
+        var title = '我在用e袋洗洗衣服，你也来吧';
+        var desc = '我在用e袋洗洗衣服，你也来吧';
+        share_url = 'http://mp.weixin.qq.com/s?__biz=MzA3NjA4OTkwNQ==&mid=202716551&idx=1&sn=d55833645fd4dc9810bb900b69fdabb4#rd';
+      }
+
+      console.log(share_url)
+      
+      $('#rule, #close_btn').hide();   
+      $('#guide_share').show();
+
+      share (desc,title,share_img,share_url);
+    })
+}
+</script>
+<style>
+	/* jiadian_kind */
+.jiadian_kind{
+	width: 100%;
+	border-top: #eee 1px solid;
+	padding: 15px 15px 0;
+	box-sizing: border-box;	
+}
+.jiadian_kind ul{
+	background: #fcfcfc;
+	padding: 0 10px;
+	position: relative;
+	overflow: hidden;
+}
+.jiadian_kind ul li{
+	border-bottom: #eee 1px solid;
+	font-size: 16px;
+	padding: 15px 0;
+	display: flex;
+	flex-direction: row;
+	display: none;
+}
+.jiadian_kind ul li .name{
+	width: 40%;
+}
+.jiadian_kind ul li .num{
+	width: 20%;
+	color: #666;
+	font-size: 15px;
+	text-align: center;
+}
+.jiadian_kind ul li .price{
+	width: 40%;
+	text-align: right;
+}
+.jiadian_kind ul li .bg{
+	width: 100%;
+	background: #fcfcfc;
+	height: 30px;
+	position: relative;
+}
+.jiadian_kind ul li b{
+	font-size: 12px;
+	margin-right: 5px;
+}
+.jiadian_kind .up{
+	width: 18px;
+	height: 18px;
+	background: url('../images/up.png') no-repeat;
+	background-size: cover;
+}
+.jiadian_kind .open{
+	width: 18px;
+	height: 18px;
+	background: url('../images/open_icon.png') no-repeat;
+	background-size: cover;
+	position: absolute;
+	bottom: 7px;
+	left: 50%;
+	margin-left: -9px;
+}
+</style>
+</head>
+<body style="padding-bottom:110px;">
+  <div class="channel-nav three-nav">
+    <ul>
+      <li class="{if $status=='1'}{/if}"><a href="{php echo create_url('order/order_list',array('status'=>'1'))}">未完成</a></li>
+      <li class="{if $status=='2'}{/if} finished"><a href="{php echo create_url('order/order_list',array('status'=>'2'))}">已完成</a></li>
+    </ul>
+    <div class="borderD2"></div>
+  </div>
+  
+{if $denglu == 'no'} <!-- 未登录 -->
+  <div class="wapContent">
+    <div class="subwrap">
+      <p>您还没有登录，请先登录！</p>
+      <p><a href="{php echo create_url('order/login_back',array('loginback_url' => create_url('order/order_list')))}">登录</a></p>
+    </div>
+  </div>
+{else} 
+<!-- 已登录 -->
+  <!-- 洗衣液订单 start -->
+	{if $detergent_list}
+	<div class="myOrder">
+		<ul id="order-list">
+		    <!-- 下面这部分是洗衣液售卖 start -->
+			<!-- Order title start -->
+			{loop $detergent_list $item}
+			<li>
+				<a href="{php echo create_url('order/detergent_order_details',array('order_id' => $item['id']))}">
+					<div class="category_block">
+						<div class="category_detergent">
+							<img src="{php echo assets_link('/framework/style/images/xiyiye_icon.png')}"/>
+							洗衣液
+						</div>
+						<div class="order_status_div_detergent">
+							<span class="text-info">{$item['status_text']}</span>
+						</div>
+					</div>
+				</a>
+			</li>
+			<div class="borderD" style="border-color: #eee"></div>
+			<!-- Order title end -->
+			<!-- Order item start -->
+			<li class="order_item mobile-font">
+				<a href="{php echo create_url('order/detergent_order_details',array('order_id' => $item['id'], 'type'	=> 'xiyiye'))}">
+					<div class="order_box_detergent">
+						<img src="{$item['goods_info'][0]['img']}" class="order_box_detergent_img")/>
+						<div class="order_box_content">
+							<div class="item_list_box">
+								<span>{$item['goods_info'][0]['name']}</span>
+								<span>￥{$item['goods_info'][0]['unit_price']}</span>
+							</div>
+							<div class="item_list_box">
+								<span>{$item['goods_info'][0]['good_specifications']}</span>
+								<span>x{$item['goods_info'][0]['count']}</span>		
+							</div>
+						</div>
+					</div>
+				</a>
+				<div class="clearBoth"></div>
+				<!-- Order button start -->
+				<div class="item_list_money navlist">
+					<div class="borderD"></div>
+					<div class="item_list_box min-height">
+						<div class="orderList">订单总额：{php echo number_format($item['total_price'],2);}元</div>
+						<div class="item_list_btn wx_confirm_btns float_btn">
+						{if $item['pay_status'] == 0}
+							<a href="{php echo create_url('payment/platform',array('order_id' => $item['id'], 'is_xiyiye'	=>	true))}" class="order_link order_blue" id="order-pay" warn warn-text>付款</a>
+						{/if}
+						{if $item['pay_status'] == 1 && $item['status'] == 2}
+						<a class="public_order order_blue" name="confirm_detergent_order" order_id="{$item['id']}">确认收货</a>
+						{/if}
+						</div>
+					</div>
+				</div>
+				<!-- Order button end -->
+				<div class="clearBoth"></div>
+			</li>
+			<!-- Order item end -->
+			{/loop}
+			<!-- 洗衣液售卖 end -->
+		</ul>
+	</div>
+	<!-- jiadian_kind -->
+	<div class="jiadian_kind">
+		<ul>
+			<li>
+				<div class="name">
+					洗衣机
+				</div>
+				<div class="num">
+					<b>X</b>2
+				</div>
+				<div class="price">
+					¥300.00
+				</div>
+			</li>
+			<li>
+				<div class="name">
+					冰箱
+				</div>
+				<div class="num">
+					<b>X</b>1
+				</div>
+				<div class="price">
+					¥90.00
+				</div>
+			</li>
+			<li>
+				<div class="name">
+					冰箱
+				</div>
+				<div class="num">
+					<b>X</b>1
+				</div>
+				<div class="price">
+					¥90.00
+				</div>
+			</li>
+			
+		</ul>	
+		<div class="bg">
+			<b class="open"></b>
+		</div>
+	</div>
+
+	{/if}
+
+  <!-- 洗衣液订单 end -->
+
+<script>
+//点击展开
+	$('.open').click(function(){
+		if($(this).hasClass('up')){
+			$(this).parent().find('ul').hide();
+			$(this).addClass('up');
+		}else{
+			$(this).parent().find('ul').show();
+			$(this).removeClass('up');
+		}
+				
+	})
+</script>
+
+  <!-- 我的订单 start -->
+  <div class="myOrder" style="padding-bottom:60px;">
+  {if !$list && !$detergent_list} <!-- 无订单 -->
+      <div class="no-order text-center">
+        <p>您没有未完成的订单</p>
+        {if $coupon_list}
+        	<div class="color_8a8a8a">主人，我是您的优惠券，快来把我用掉吧~</div>
+        {/if}
+      </div>
+      <!-- 显示抵扣金额最大的两张优惠券（如果有） start -->
+      {if $coupon_list}
+      	{php include template('_coupon_list', 'wap', 'order');}
+      {/if}
+      <!-- 显示抵扣金额最大的两张优惠券（如果有） end -->
+      <div class="go-home-order text-center">
+        <div class="p10"></div>
+        <a href="{php echo create_url('homepage/index',array())}">去下单</a>
+      </div>
+   {else}  <!-- 有订单 -->
+      <ul id="order-list">
+      {loop $list $items}
+          <!-- Order title start -->
+          <li>
+	          <a href="{php echo create_url('order/order_details',array('order_id' => $items['order_id']))}" >
+	            <div class="category_block">
+		            {if $items['category_id'] == '1'}    <!--洗衣-->
+		            <div class="category_shoes">
+		                <img class="icon-washing" src="{php echo assets_link('/framework/style/images/xi_cloth.png')}"  style="position:relative;">
+		                {$items['good']}
+		                {if $items['is_fanxidan']}
+		                	<img  class="re-washing" src="{php echo assets_link('/framework/style/images/re-washing.png')}" >
+		                {/if}
+		            </div>
+		            {elseif $items['category_id'] == 2}   <!--洗鞋-->
+                    <div class="category_cloth">
+                        <img src="{php echo assets_link('/framework/style/images/xi_shoes.png')}" >
+                        {$items['good']}
+                        {if $items['is_fanxidan']}
+                          <img  class="re-washing" src="{php echo assets_link('/framework/style/images/re-washing.png')}" >
+                        {/if}
+                    </div>
+		            {else if $items['category_id'] == '3'}    <!--窗帘-->
+		            <div class="category_chuanglian">
+		              <img src="{php echo assets_link('/framework/style/images/chuanglian.png')}" >
+		                {$items['good']}
+		                {if $items['is_fanxidan']}
+		                	<img  class="re-washing" src="{php echo assets_link('/framework/style/images/re-washing.png')}" >
+		                {/if}
+		            </div>
+		            {else if $items['category_id'] == '4'}    <!--奢侈品衣物-->
+		            <div class="category_shechipin">
+		              <img src="{php echo assets_link('/framework/style/images/shechipin.png')}" >
+		                {$items['good']}
+		                {if $items['is_fanxidan']}
+		                	<img  class="re-washing" src="{php echo assets_link('/framework/style/images/re-washing.png')}" >
+		                {/if}
+		            </div>
+		            {else if $items['category_id'] == '5'}    <!-- 奢侈品皮具-->
+		            <div class="category_piyi">
+		              <img src="{php echo assets_link('/framework/style/images/piyi.png')}" >
+		                {$items['good']}
+		                {if $items['is_fanxidan']}
+		                	<img  class="re-washing" src="{php echo assets_link('/framework/style/images/re-washing.png')}" >
+		                {/if}
+		            </div>
+		            {else if $items['category_id'] == '17'}		<!--快洗订单-->
+		            <div class="category_kuaixi">
+		                <img src="{php echo assets_link('/framework/style/images/kuaixi_c.png')}" >
+		                {$items['good']}
+		                {if $items['is_fanxidan']}
+		                	<img  class="re-washing" src="{php echo assets_link('/framework/style/images/re-washing.png')}" >
+		                {/if}
+		            </div>
+		            {else if in_array($items['category_id'], array('60', '61'))}      <!--改衣订单-->
+	                <div class="category_tailor">
+	                    <img src="{php echo assets_link('/framework/style/images/caiyi.png')}" >
+	                    {$items['good']}
+	                    {if $items['is_fanxidan']}
+	                        <img  class="re-washing" src="{php echo assets_link('/framework/style/images/re-washing.png')}" >
+	                    {/if}
+	                </div>
+	                {else if $items['category_id'] == '7'}    <!--按袋洗-->
+                    <div class="category_shoes">
+                        <img class="icon-washing" src="{php echo assets_link('/framework/style/images/daixi.png')}"  style="position:relative;">
+                        {$items['good']}
+                        {if $items['is_fanxidan']}
+                            <img  class="re-washing" src="{php echo assets_link('/framework/style/images/re-washing.png')}" >
+                        {/if}
+                    </div>
+	                {else}    <!--默认洗衣品类-->
+                    <div class="category_shoes">
+                        <img class="icon-washing" src="{php echo assets_link('/framework/style/images/xi_cloth.png')}"  style="position:relative;">
+                        {$items['good']}
+                        {if $items['is_fanxidan']}
+                            <img  class="re-washing" src="{php echo assets_link('/framework/style/images/re-washing.png')}" >
+                        {/if}
+                    </div>
+	                {/if}
+		               
+		            <div class="order_status_div">
+	                  <?php
+	                        $status_sn = $items['delivery_status_group']['status'];
+	                        $status_desc = $items['delivery_status_group']['steps'][$status_sn];
+	                  ?>
+	                  {if $status_sn == '0'}
+	                   <img name="12" src="{php echo assets_link('/framework/style/images/queren.png')}" >
+	                  {else if $status_sn == '1'}
+	                   <img src="{php echo assets_link('/framework/style/images/qujian.png')}" >
+	                  {else if $status_sn == '2'}
+	                   <img src="{php echo assets_link('/framework/style/images/qingxi.png')}" >
+	                  {else if $status_sn == '3'}
+	                   <img src="{php echo assets_link('/framework/style/images/songhui.png')}" >
+	                  {else if $status_sn == '4'}
+	                   <!-- null -->
+	                  {/if}
+	                  <span class="text-info {if $status_sn == '4'} qianshou {/if}">{$items['delivery_status_text']}</span>
+	                </div>
+		        </div>
+		      </a>
+	      </li>
+	      <div class="borderD" style="border-color:#eee"></div>
+	  <!-- Order title end -->
+	  
+	  <!-- Order item start -->
+	      <li class="order_item mobile-font">
+	        <a href="{php echo create_url('order/order_details',array('order_id' => $items['order_id']))}" >
+	          <div class="order_box">
+	             <?php
+	               $ord_id = $items['order_id'];
+                   $cate_id = $items['category_id'];
+                   $qj_city = $items['city_id'];
+                   $qj_area = $items['area'];
+	               $m_count = $items['can_change_qu_delivery_time_count'];
+                   $m_reason = $items['cannot_change_qu_time_reason'] ?: '同一订单只能修改三次';
+                   $qj_date = $items['qj_date'];
+                   $qj_time = $items['qj_time'];
+                   $tk_soon = $items['asap'];
+	             ?>
+	            
+	            <div class="item_list_box">订单编号：{$items['order_sn_first']}   {$items['order_sn_end']}
+	            {if $items['has_insurance'] == true}<img src="{php echo assets_link('/framework/style/images/has_insurance.png')}" style="float: none;">{/if}</div>
+	            <div class="item_list_box">
+	              <span>取件时间：<font id="qj-time-{$ord_id}">{$items['yuyue_qujian_time']}</font></span>		         
+	              {if $items['can_change_qu_delivery_time'] > 0}
+	              <p id="modify-{$ord_id}" class="modify_time" onClick="return modifyTime('{$ord_id}','{$cate_id}','{$qj_city}','{$qj_area}');">
+                      <img class="modify_img" src="{php echo assets_link('/framework/style/images/edit.png')}" alt="" /><span>修改</span>
+                  </p>
+	              {/if}
+	            </div>
+	          </div>
+	        </a>
+	        <div class="clearBoth"></div>
+	        
+	        <!-- Order button start -->
+	        <div class="item_list_money navlist">
+	          <div class="borderD"></div>
+	          <div class="item_list_box min-height">
+	            {if $items['is_fanxidan']}
+             		<div class="check-original-order">
+                		<a class="original-order-link" href="{php echo create_url('order/order_details',array('order_id' => $items['yuandingdan_id']))}">
+                		    <font>查看原始订单</font>
+                		</a>
+                	</div>
+                	{if !$items['can_be_paid'] && in_array($items['status'], array('9', '1', '4', '5', '6', '15', '2', '-2'))}
+                        <?php 
+                            $phone = '400-818-7171';
+                            if(in_array($items['category_id'], array('4', '5'))){
+								$phone = '400-852-7178';
+							} 
+                            if(9 == $items['status']) $phone = $items['courier_phone_qu'];
+                            if(2 == $items['status']) $phone = $items['courier_phone_song'];
+                        ?>
+                        <div class="item_list_btn wx_confirm_btns float_btn">
+                            <a class="order_link order_blue" href="tel:{$phone}">催单</a>                    
+                        </div> 
+                    {/if}
+                    {if in_array($items['status'], array('3'))}
+                        <?php
+                            if(in_array($items['category_id'], array('60', '61'))){
+                                $comment_url = create_url('order/tailor_comment',array('order_id'=>$items['order_id']));
+                            }else{
+                                $comment_url = create_url('order/order_comment',array('order_id'=>$items['order_id'],'comment'=>'appraise'));
+                            }
+                        ?>
+                        <div class="orderText">评价最高返5元</div>
+                        <a href="{$comment_url}" class="order_link order_red">评价</a>
+                    {/if}
+                {else}
+                    {if !$items['can_be_paid'] && ($items['pay_status'] == 0) && in_array($items['status'], array('-1', '0', '11', '9'))}
+                    	<?php if ($items['is_prepaid']):?>
+                    	  <div class="orderList">预付款</div>
+                        <?php elseif ($items['status'] == 11):?>
+                		  <div class="orderList">等待系统分配物流</div>
+                        <?php else:?>
+                          <div class="orderList">等待上门计价付款</div>
+                        <?php endif;?>
+                	{/if}
+                	{if $items['can_be_paid'] && !$items['pay_in_process'] &&in_array($items['status'], array('9'))}	                
+                    	<div class="orderList">订单金额：{$items['order_price']}元</div>
+                        <div class="item_list_btn wx_confirm_btns float_btn"> 
+		                 	<a href="{php echo create_url('payment/pay_list',array('order_id' => $items['order_id'], 'order_city' => $items['city_id']))}" 
+		                 		class="order_link order_red" id="order-pay" warn="<?php echo $items['is_pay_warn'];?>" warn-text="<?php echo @$items['pay_warn_message'];?>">支付</a>
+		                </div>
+                    {elseif $items['pay_in_process']}
+                        <div class="orderList">订单金额：{$items['order_price']}元</div>
+                        <div class="item_list_btn wx_confirm_btns float_btn"> 
+                            <a href="{php echo create_url('payment/platform',array('order_id' => $items['order_id'], 'order_city' => $items['city_id']))}" 
+                                class="order_link order_red">继续支付</a>
+                        </div>
+                    {/if}
+                    {if !$items['can_be_paid'] && !$items['pay_in_process'] &&($items['pay_status'] == 1) && in_array($items['status'], array('9', '1', '4', '5', '6', '15', '2', '3', '-2'))}
+                    	<div class="orderList">实付款：{$items['money_paid']}元</div>
+                    {/if}
+                    {if in_array($items['status'], array('3'))}
+                    	<?php
+                    		if(in_array($items['category_id'], array('60', '61'))){
+								$comment_url = create_url('order/tailor_comment',array('order_id'=>$items['order_id']));
+							}else{
+								$comment_url = create_url('order/order_comment',array('order_id'=>$items['order_id'],'comment'=>'appraise'));
+							}
+						?>
+                    	<div class="orderText">评价最高返5元</div>
+						<a href="{$comment_url}" class="order_link order_red">评价</a>
+                    {/if}         	                  	
+                  	{if !$items['can_be_paid'] && !$items['pay_in_process'] && in_array($items['status'], array('9', '1', '4', '5', '6', '15', '2', '-2'))}
+                  		<?php 
+							$phone = '400-818-7171'; 
+							if(in_array($items['category_id'], array('4', '5'))){
+								$phone = '400-852-7178';
+							}
+ 							if(9 == $items['status']) $phone = $items['courier_phone_qu'];
+ 							if(2 == $items['status']) $phone = $items['courier_phone_song'];
+ 						?>
+	                 	<div class="item_list_btn wx_confirm_btns float_btn">
+	                 		<a class="order_link order_blue" href="tel:{$phone}">催单</a>	                   
+	                 	</div> 
+	    			{/if}
+                 {/if}
+	          </div>
+	        </div>
+	        <!-- Order button end -->
+	        
+	        <div class="clearBoth"></div>
+	      </li>
+	    <!-- Order item end -->
+	    {/loop}
+      	<div id="prompt" style="text-align:center;line-height:40px;color:#999;"> 无更多订单</div>
+	  </ul>
+	  
+	    {if $show_more == 1}
+	        <div id="prompt" style="text-align:center;height:40px;line-height:40px;color:#999;display:none">订单加载中...</div>
+	    {else if $status == 2}
+	        <div id="prompt" style="text-align:center;height:40px;line-height:40px;color:#999">无更多订单</div>
+	    {/if}
+	  </div>
+	{/if}
+	<!-- 我的订单 end -->
+
+    {if $list || $detergent_list}
+        <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+
+	   	<!-- 分享领券（暂时取消2017-09-01） start -->
+	   	{if $user_type==1 && $order_can_share && 1==2}
+			{php //include template('_share_get_coupon', 'wap', 'order');}
+			{php include template('lottery', 'wap', 'order');}		
+		{/if}
+		<!-- 分享领券 end -->
+		    
+		<!-- 返回顶部图标 start -->
+		<div class="scroll" id="scroll" style="display:none;">
+		  <img src="{php echo assets_link('/framework/style/images/back_top.png')}" >
+		</div>
+		<!-- 返回顶部图标 end -->
+        <!-- 推荐好友弹窗显示 -->
+        <div id='recommend_order_html'></div>
+
+        <!-- 合单支付提示  start-->
+        <div id="cod" style="display:none">
+          <div class="wx_mask"></div>
+          <div class="wx_confirm ">
+            <div class="wx_confirm_inner padding-top" id="wx_confirm_pay">
+              <div class="wx_confirm_hd">
+                  <div class="cot_content" id="confirm-content"></div>
+                  <div class="floatBorder floatbox ">
+                       <a id="confirm-pay-false" class="single_input2" href="javascript:void(0);">取消</a>
+                       <a id="confirm-pay-true" class="cancel single_input2 ">确认</a>
+                  </div>
+                  <div class="clearBoth"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 合单支付提示 弹窗 end-->
+	
+
+		<!-- 确认收货  start-->
+		<div id="cod-sure-pay" style="display:none">
+	      <div class="wx_mask"></div>
+	      <div class="wx_confirm ">
+	        <div class="wx_confirm_inner padding-top width100" id="wx_confirm_coupon">
+	          <div class="wx_confirm_hd">
+	              <div class="wx_confirm_tit blue-color">确认收货</div>
+	              <div class="cot_content">请确定要收货吗?</div>
+	              <div class="floatBorder floatbox ">
+	                   <a id="exchange" class="single_input2" href="javascript:void(0);">还没收到</a>
+	                   <a id="sure-order-true" class="cancel single_input2"  >确认收货</a>
+	              </div>
+	              <div class="clearBoth"></div>
+	          </div>
+	        </div>
+	      </div>
+	    </div>
+		<!-- 确认收货 弹窗 end-->
+
+		<!-- 操作提示 start -->
+			<div id="tip-box" style="display:none" class="cod" style="height:60px">
+			  
+			  <div class="wx_confirm ">
+			      <div class="wx_confirm_inner" id="wx_confirm_float">
+			         <div class="wx_confirm_hd">
+			        	<div class="wx_confirm_tit" id = "show_mes"><!-- 提示信息 --></div>
+			         </div>
+			   	  </div>
+			   </div>
+			</div>
+		<!-- 操作提示 end -->
+
+		<script type="text/javascript">
+		    var order_id = + "{$order_id}";
+		    var pindex = 2;
+	        var show_more = "{$show_more}";
+            var clicked_pay = null;
+	        // 勿删 推荐好友url
+            var url_icard_invite = '{$url_icard_invite}';
+		    // 页面加载时,弹出下单成功邀请有奖弹窗
+	        $(function(){
+	            if(order_id && sessionStorage.getItem('order_' + order_id)){
+	            	sessionStorage.removeItem('order_' + order_id);
+                    $.get(
+                        '{$url_order_invite_template}',
+                        function(data){
+                            if(data.message.state == 1){
+                                 $(data.message.msg).insertAfter($('#recommend_order_html'));
+                            }else{
+                            
+                            }
+                        },
+                        'json'
+                    );
+                    if(sessionStorage.getItem('replace_order')){
+                        $("#order_success_first").html('为TA预约成功');
+                        $("#order_success_second").html('小e将上门取件，请等待计后为Ta支付');
+                        sessionStorage.removeItem('replace_order')
+                    }
+	                $("#order-success").show();
+	            }
+	        });
+
+		    // 离开页面时,关闭下单成功邀请有奖弹窗
+	        window.onbeforeunload = function(){
+	            sessionStorage.removeItem('order_' + order_id);
+	        }
+			
+		    // 修改订单取件时间
+		    function modifyTime(orderid, category_id, city_id, area){
+		    	window.location.href = "/new_weixin/time_control.html?order="+orderid+"&category_id="+category_id+"&city_id="+city_id+"&area="+area+"&back="+"{$back_url}";
+		    	return false;
+		    }
+
+		   	// 点击确认收货按钮
+        	$('a[name="confirm_detergent_order"]').click(function(){
+			   $('#cod-sure-pay').show();
+			   confirm_detergent_order_id = $(this).attr('order_id');
+        	});
+
+            //确认收货
+            $("#sure-order-true").click(function(){
+				   //隐藏弹框
+				   $('#cod-sure-pay').hide();
+				   var url = "{php echo create_url('order/sure_detergent_order');?>}";
+				   var data = {order_id: confirm_detergent_order_id};
+				    $.post(url, data, function(data){
+				      var jump_url = data.redirect;
+				      showTip(data.message.msg, jump_url);
+				    },"json");
+            });
+
+            //取消收货
+            $("#exchange").click(function(){
+                $("#cod-sure-pay").hide();
+                confirm_detergent_order_id = '';
+            });
+
+			// 显示提示信息
+			function showTip(msg, url, persistent){
+				$('#show_mes').html(msg);
+				if(url){
+					$('#tip-box').show().delay(2000).hide(function(){
+						window.location.href = url;
+					});
+				}else{
+			    if (persistent) {
+			      $('#tip-box').show()
+			    } else {
+			      $('#tip-box').show().delay(2000).hide(0);
+			    }
+				}
+			}
+			function add_title(msg){
+			  $("#prompt").html(msg);
+			}
+			
+			function add_order_1(add_o,str){
+			  str = str + add_o;
+			  $("#order-list").html(str);
+			  show_more = 1;
+			  $("#prompt").hide();
+			}
+
+            //点击订单支付
+            $("a[warn$='1']").click(function(){
+                clicked_pay = $(this);
+                var warn_text = $(this).attr("warn-text");
+                $("#confirm-content").html(warn_text);
+                $("#cod").show();
+                return false;
+            });
+
+            //确认跳转订单支付
+            $("#confirm-pay-true").click(function(){
+                var url = clicked_pay.attr("href");
+                window.location.href = url;
+            });
+
+            //取消跳转订单支付
+            $("#confirm-pay-false").click(function(){
+                $("#cod").hide();
+            });
+			
+			function showmore(pindex){
+			  $("#prompt").show();
+			  var str = $("#order-list").html(); 
+			  submitData = {
+			    pindex : pindex
+			  };
+			  $.post("{php echo create_url('order/add_order')}",submitData,
+			    function (data){
+			      if (data.message.state == 1) {
+			        add_order_1(data.message.add_order,str);
+			      }else if(data.message.state == 0){
+			        add_title(data.message.msg);
+			      }
+			    },"json")
+			}
+			  
+			window.onscroll = function(){
+			    var a = document.body.clientHeight;
+			    var b = document.documentElement.scrollTop==0? document.body.scrollTop : document.documentElement.scrollTop;
+			    var c = document.documentElement.scrollTop==0? document.body.scrollHeight : document.documentElement.scrollHeight;
+			     if(a+b+10>=c && show_more == 1){
+			      show_more = 0;
+			      showmore(pindex);
+			      pindex ++;
+			    }
+			}
+	
+			function closeorder(){
+			    $("#order-success").hide();
+			}
+			
+		</script>
+		
+    {/if}
+    
+{/if}
+
+{if !$order_can_share}
+<?php include template('navigate') ?>
+{/if}
+<?php include template('foot') ?>
+</body>
+</html>

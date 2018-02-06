@@ -1,0 +1,113 @@
+<?php defined('IN_IA') or exit('Access Denied');?><html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" type="text/css" href="<?php  echo assets_link('/framework/style/css/card.css')?>" media="all">
+<link href="<?php  echo assets_link('/framework/style/css/base.css')?>" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="<?php  echo assets_link('/framework/style/js/zepto.js')?>"></script>
+<script type="text/javascript" src="<?php  echo assets_link('/framework/style/js/jQuery.js')?>"></script>
+<title>e袋洗</title>
+<meta content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta name="format-detection" content="telephone=no">
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body id="carduser" ondragstart="return false;" onselectstart="return false;" class="white_bg">
+	<section class="body p10">
+		<div>
+			
+			<ul class="round">
+				<form action="javascript:;" method="post">
+					
+
+					<li class="nob">
+						<?php  if(!$sn_code) { ?>
+						<table width="100%" border="0" cellspacing="0" cellpadding="0"
+							class="kuang">
+							<tbody>
+								<tr>
+									<th style="width: 100px">实体卡卡号</th>
+									<td><input name="sn_code" type="text" class="px" id="sn_code" value="" placeholder="请输入实体卡卡号"></td>
+								</tr>
+								<tr>
+									<th style="width: 100px">实体卡串码</th>
+									<td><input name="sn_password" type="text" class="px" id="sn_password" value="" placeholder="请输入实体卡串码"></td>
+								</tr>
+							</tbody>
+						</table>
+						<?php  } else { ?>
+							<h3>已绑定实体卡：<?php  echo $sn_code;?></h3>
+						<?php  } ?>
+					</li>
+				</form>
+			</ul>
+			<?php  if(!$sn_code) { ?>
+			 <div class="footReturn" style="margin:0 10px;">
+				<a id="showcard" class=" coupon-btn" href="javascript:void(0)">提交</a>
+				<div id="windowcenter" style="display:none" class="cod" style="height:60px">
+			    <div class="wx_mask"></div>
+			      <div class="wx_confirm ">
+			          <div class="wx_confirm_inner" id="wx_confirm_float">
+			            <div class="" style="text-align:center">
+			                <div class="wx_confirm_tit" id = "txt">提示信息</div>
+			            </div>
+			          </div>
+			      </div>
+			    </div>
+		</div>
+</div>
+			<?php  } ?>
+
+		</div>
+		<script type="text/javascript">
+			var kaiguan = 1;
+			$(document).ready(
+					function() {
+						$("#showcard").click(
+						function() {
+						    var submitData = {
+									sn_code : $("#sn_code").val().trim(),
+									sn_password : $("#sn_password").val().trim()
+								};
+						    if($("#sn_code").val().trim() == ""){
+						    	alert("请输入实体卡卡号");
+						    	return false;
+						    }
+						    if($("#sn_password").val().trim() == ""){
+						    	alert("请输入实体卡串码");
+						    	return false;
+						    }
+						    if(kaiguan == 1){
+						    	kaiguan = 2;
+							$.post("<?php  echo create_url('icard/bind_icard', array())?>",submitData,
+								function(data) {
+									if (data.message.state == 1) {
+										alertToUrl(
+												data.message.msg,
+												"<?php  echo create_url('icard/my_icard', array())?>");
+									} else {
+										kaiguan = 1;
+										alert(data.message.msg);
+									}
+							}, "json");
+						}
+					});
+			});
+
+			
+			function alert(title) {
+				$("#windowcenter").slideToggle("slow");
+				$("#txt").html(title);
+				setTimeout('$("#windowcenter").slideUp(500)', 2000);
+			}
+
+			function alertToUrl(title, url) {
+				if (url == '')
+					url = window.location.href;
+				$("#windowcenter").slideToggle("slow");
+				$("#txt").html(title);
+				setTimeout("window.location.href='" + url + "'", 1000);
+			}
+		</script>
+	</section>
+ <?php include template('foot') ?>
+</body>
+</html>

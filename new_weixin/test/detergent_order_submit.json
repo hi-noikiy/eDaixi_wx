@@ -1,0 +1,9 @@
+{
+    "ret": true, 
+    "ts": 1477640201, 
+    "version": "1.0", 
+    "data": {
+        "order_id": 12,
+        "url": "/mobile.php?m=wap&act=payment&do=platform&is_xiyiye=1&order_id=12&city_id=1"
+    }
+}

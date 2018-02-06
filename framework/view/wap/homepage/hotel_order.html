@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>{$title}</title>
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/order.css')}" rel="stylesheet" type="text/css" />
+<link href="{php echo assets_link('/framework/style/css/time_plugin.css')}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.3&key=1c22ed8fcc81436197faf632aaed0ddb"></script>
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>');</script>
+<script type="text/javascript" src="{php echo assets_link('/framework/style/js/jquery.cookie.min.js')}"></script>
+<script type='text/javascript' src="{php echo assets_link('/framework/style/js/hotel-locate.js')}?ts=v1"></script>
+<script type="text/javascript">
+  var category_id = "{$category_id}", sub_id = "{$sub_id}", hotel_id = "{$hotel_id}", hotel_area = "{$area}";
+</script>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body class="Bg-gray" >
+<div class="tip_bar">
+    <span class="color_8a8a8a">{$price_info['price_title']}</span>
+    <a id="price-link" href="javascript:void(0);" data-price-url="{$price_info['price_url']}">  
+       <em class="priceColor">查看价目</em>
+    </a>
+</div>
+
+<div class="wrap_index">  
+  <div class="color_8a8a8a font12 kuaixi_area">
+  	 <img src="{php echo assets_link('/framework/style/images/kuaixi_time.png')}"/>
+     <p class="kuaixi_text">目前仅限{$hotel_tip}下单</p>
+  </div>
+
+  <div class="clearBoth"></div>
+  <div class="p5"></div>
+  <div class="wrap_index">  
+      <div class="add_bg"></div>
+      <section id="form-section" class="kuaixi-info">
+       <ul class="hotel-info">
+         <li id="hotel-item">
+             <div id="locate-btn" class="hotel_icon icon_position"></div>
+             <div class="info_input">
+               <input placeholder="请选择您所在的酒店" type="text" id="hotel" value="{$hotel_name}" readonly="readonly" class="hotel_input" />
+               <p id="edit" class="change_address" {if !($hotel_id && $hotel_name)}style="display:none;"{/if}>修改</p>
+               <span id="arrow" class="arrow-left"></span> 
+             </div>
+         </li>
+         <div class="borderD"></div>
+         <li>
+           <div class="icon_position room_icon"></div>
+           <div class="info_input">
+              <input placeholder="房间号(必填)" id="room" name="room" type="text" form="hotel-form" value="{$room}" maxlength="30" class="room_input" />  
+           </div>
+         </li>
+         <div class="borderD"></div>
+         <li>
+            <div class="icon_position name_icon"></div>
+             <div class="info_input">
+                <input placeholder="您的姓名" id="uname" name="uname" type="text" form="hotel-form" value="{$uname}" maxlength="30" class="name_input" />     
+            </div>
+         </li>
+         <div class="borderD"></div>
+         <li>
+            <div class="icon_position tel_icon"></div>
+            <div class="info_input">
+                <input placeholder="手机号码" id="mobile" name="mobile" type='tel' form="hotel-form" value="{$mobile}" maxlength="11"  
+               onkeyup="value=value.replace(/[^\d]/g,'')"
+               onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
+               class="num_input" />
+               <span id="mobile-clear" class="clearInput clearCommon clearPosition" {if !$mobile}style="display:none;"{/if} onclick="clearInput(this, 'mobile');"></span>
+           </div>
+         </li>
+       </ul> 
+       </section>
+       <div class="add_bg"></div>
+   </div>
+    
+  <div class="p10"></div>
+  <!-- 服务时段 start -->
+  <section class="section" id="time-handle">
+        <div class="time_icon icon_gray"></div>
+        <div id="J_shipDateTemplateWrapper">        
+          <div class="m_input J_shipTimeContainer">
+            <div class="selectBox  selectcont y_hover">       
+              <div class="Selected selectBx" id="select_datetime" {if $select_datetime}style="color:#3e3e3e"{/if} >
+                 {if $select_datetime}{$select_datetime}{else}请选择取件时间{/if}
+              </div>
+              <span class="arrow-left" style="top:36%"></span>
+              <span id="back_time_tip" class="back_time">{$back_time}</span>  
+            </div>  
+          </div>         
+        </div>
+  </section>
+  <!-- 服务时段 end -->  
+    <div class="borderD2"></div>
+    <section>
+      <textarea placeholder="如有其他问题，请留言" class='textarea' id='comment' form="hotel-form" onfocus="this.style.color='#3e3e3e';" 
+      maxlength="50" style="{if $comment}color:#3e3e3e{else}color:#c1c1c1{/if}"
+     >{if $comment}{$comment}{/if}</textarea>
+    </section>
+    <div class="borderD2"></div>
+</div>
+
+{if $coupon_tips}
+<div class="tuijian_coupon">
+    <span class="quan">券</span><span class="quan_text">{$coupon_tips}</span>
+</div>
+{/if}
+
+<!-- 立即预约 start -->
+<div class="order_bottom">
+  <form id="hotel-form" action="{$submit_url}" method="POST" style="padding-top:5px">
+      <input type="hidden" name="category_id" id="category_id" value="{$category_id}" />
+      <input type="hidden" name="sub_id" id="sub_id" value="{$sub_id}" />
+      <input type="hidden" name="hotel_id" id="hotel-id" value="{$hotel_id}" />
+      <input type="hidden" name="washing_date" id="washing_date" value="{$washing_date}" />
+      <input type="hidden" name="washing_time" id="washing_time" value="{$washing_time}" />
+      <input type="hidden" name="time_range" id="time_range" value="{$time_range}" />
+      
+      <input type="hidden" id="tmp_date" value="{$washing_date}" />
+      <input type="hidden" id="tmp_time" value="{$washing_time}" />
+      <input type="hidden" id="tmp_range" value="{$time_range}" />
+      <input type="hidden" id ="date_text" value="{$date_text}" />
+      <input type="hidden" id ="week_text" value="{$week_text}" />
+      <input type="hidden" id ="time_text" value="{$washing_time}" />
+      <input type="hidden" id ="tmp_back" value="" />
+      <div class="p15"></div>
+      
+      <button type="button" id="order-btn" class="btn_order {$btn_style}" {$btn_status}> 立即预约</button>
+  </form>
+
+  <div class="delivery_fee">
+   {if $delivery_fee[0]['tip']}
+      <ul>
+           <li>{$delivery_fee[0]['tip']}</li>
+       </ul>
+    {/if}
+    <ul>
+      {loop $delivery_fee $items}
+        <li>{$items['title']}</li>
+      {/loop}
+    </ul>
+  </div>
+</div>    
+<!-- 立即预约 end -->
+
+<!-- 引导下单品类 start -->
+{if $guide_category_text}
+<div class="tuijian_rukou">
+    <a href="{$guide_category_url}">{$guide_category_text}</a>
+    <span class="arrow-left"></span> 
+</div>
+{/if}
+<!-- 引导下单品类 end -->
+	
+<!-- 信息提示浮层 start -->
+<div id="codFloat" style="display: none" class="cod" style="height:60px">
+  <div class="wx_mask"></div>
+  <div class="wx_confirm ">
+    <div class="wx_confirm_inner" id="wx_confirm_float">
+      <div class="wx_confirm_hd">
+        <div class="wx_confirm_tit" id="show_mes" style="font-size: 14px; line-height: 22px">
+          <!-- 提示信息 -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 信息提示浮层 end -->
+
+<!-- 预约成功浮层 start -->
+<div id="order_success" class="order_success" style="display:none">
+  <em><b></b></em>
+  <span id="success_tip" style="padding-left:10px">预约成功</span>
+  <p>请等待小e上门取件计价</p>
+</div>
+<!-- 预约成功浮层 end -->
+
+<!-- 时间控件 start -->
+  {php include template('_time_control', 'wap', 'homepage');}
+<!-- 时间控件 end -->
+
+ <!--  小e管家  -->
+ {if $_SESSION['user_info']['user_type'] == 18 || get_mark() == 'eservice'}
+    <div class="e_tip">以上服务由e袋洗提供</div>
+{/if}  
+
+<script type="text/javascript">
+  var
+	  $priceLink = $('#price-link'),
+	  $formSection = $('#form-section'),
+	  $hotelForm = $('#hotel-form'),
+	  $locateBtn = $('#locate-btn'),
+	  $hotelLi = $('#hotel-item'),
+	  $hotelInput = $('#hotel'),
+	  $hotelEdit = $('#edit'),
+	  $hotelidInput = $('#hotel-id'),
+	  $roomInput = $('#room'),
+	  $unameInput = $('#uname'),
+	  $mobileInput = $('#mobile'),
+	  $mclearBtn = $('#mobile-clear'),
+	  $timeHandle = $("#time-handle"),
+	  $dateInput = $('#washing_date'), 
+	  $timeInput = $('#washing_time'),
+    $timeRange = $("#time_range"),
+	  $commentText = $("#comment"),
+	  $orderBtn = $('#order-btn'),
+	  jqueryXhr = null; //jquery-ajax对象
+	  // 定位插件参数
+	  var locateOpt = {
+	          btn : $locateBtn,     // 定位按钮
+	          overtime : 5000,      // 超时时间
+	          callback : getHotel   // 定位成功回调
+	  };
+  
+  if('hotelSearch' == "{$refer}" || !!hotel_id){
+      // 恢复用户输入
+      if("1" == "{$price_read}"){
+    	  priceReturn();
+      }
+      if('hotelSearch' == "{$refer}"){
+          searchReturn();
+      }
+  }else{
+      sessionStorage.removeItem('hotel_room');
+      sessionStorage.removeItem('hotel_uname');
+      sessionStorage.setItem('hotel_mobile', "{$mobile}");
+      $.cookie('hotel_room', '', { expires : -1}),
+      $.cookie('hotel_uname', '', { expires : -1}),
+      $.cookie('hotel_mobile', "{$mobile}");
+      
+      // 执行自动定位
+      if(AMap){
+          AMap.autoLocate(locateOpt);
+      }
+      /* 测试方法
+      var lat = '39.904989';  
+      var lng = '116.405285';    
+      getHotel(lng, lat);
+      //*/
+ }
+  
+ // 点击定位酒店
+ $locateBtn.on('click', function(){
+	 if(AMap){
+	     AMap.autoLocate(locateOpt);
+	 }
+ });
+ // 初始化"立即预约"按钮状态
+ setHotelOrderBtn();
+ // 初始化手机号清除按钮显示状态
+ setMobileBtn();
+ // 点击价目链接
+ $priceLink.one('click', redirectPrice);
+ // 跳转酒店搜索页
+ $hotelLi.on('click', '#hotel,#edit,#arrow', hotelSearch);
+ // 设置手机号清除按钮显示状态
+ $mobileInput.on('focus input blur', setMobileBtn);
+ // 设置“立即预约”按钮显示状态
+ $formSection.on('focus input blur', '#hotel,#room,#uname,#mobile', setHotelOrderBtn);
+ // 打开时间控件
+ $timeHandle.on('click', showServiceTime);
+ // 点击“立即预约”按钮
+ $orderBtn.on('click', sumitOrder);
+ 
+ // 经纬度换取酒店位置
+ function getHotel(lng, lat){
+      //alert("getHotel：\r\nlng：" + lng + "\r\nlat：" + lat);
+      if(!lng || !lat){
+         sessionStorage.setItem('hotel_lng', '');
+         sessionStorage.setItem('hotel_lat', '');
+         return;
+      }
+      sessionStorage.setItem('hotel_lng', lng);
+      sessionStorage.setItem('hotel_lat', lat);
+      // 终止之前的未结束的 ajax请求，重新开始新的请求  
+      if(jqueryXhr){
+          jqueryXhr.abort(); 
+      }
+      jqueryXhr = $.ajax({
+          url: "{php echo create_url('order/ajax_get_hotel')}",
+          type: "POST",
+          async: true,        // 异步请求 
+          timeout: 2000,      // 超时时间
+          data: {
+              city_id: "{$city_id}",
+              lng: lng,       // 经度
+              lat: lat,       // 纬度
+              page: 1,        // 页码
+              per_page: 1,    // 偏移量
+              search_type: 0  // 搜索类型
+          },
+          dataType: "json",
+          complete: function (xhr, ts){
+              // 请求完成
+              jqueryXhr = null;
+          },
+          success: function (res, ts, xhr) {
+              // 请求成功
+              var hcount = res.message.hcount;
+              if(hcount){
+                  var html = '', hotel = res.message.hotels, hotelId, hotelName, hotelAddr;
+                  hotelId = hotel[0].id,
+                  hotelName = hotel[0].title,
+                  hotelAddr = hotel[0].city + hotel[0].area + (hotel[0].street || '') + (hotel[0].address || '');
+                  
+                  hotel_id = hotelId;
+                  $hotelidInput.val(hotelId);
+                  $hotelInput.val(hotelName);
+                  $hotelEdit.show();
+              }else{
+                  $hotelidInput.val('');
+                  $hotelInput.val('');
+                  $hotelEdit.hide();
+              }
+          },
+          error:function (xhr, ts, err){
+              // ...
+          }
+      });
+  };
+  
+  // 跳转价目页链接
+  function redirectPrice(){
+      var price_url = $(this).data('price-url');
+      if(!price_url){
+          return;
+      }
+      var 
+        hotel_id = $hotelidInput.val(), 
+        hotel_name = $hotelInput.val(), 
+        date_val = $dateInput.val(), 
+        time_val = $timeInput.val(),
+        range_val = $timeRange.val(),
+        soon_val = $soonInput.val(),
+        comment_val = $commentText.val(),
+        room = $.trim($roomInput.val()) || '',
+        uname = $.trim($unameInput.val()) || '',
+        mobile = $.trim($mobileInput.val()) || '{$mobile}';
+      $.cookie('hotel_room', room); 
+      $.cookie('hotel_uname', uname); 
+      $.cookie('hotel_mobile', mobile);
+      if(hotel_id){
+          price_url += '&hotel_id=' + hotel_id;
+      }
+      /*
+      if(room){
+          price_url += '&room=' + room;
+      }
+      if(uname){
+          price_url += '&uname=' + uname;
+      }
+      if(mobile){
+          price_url += '&mobile=' + mobile;
+      }
+      */
+      if(hotel_name){
+          price_url += '&hotel_name=' + hotel_name;
+      }
+      if(hotel_area){
+          price_url += '&hotel_area=' + hotel_area;
+      }
+      if(date_val){
+          price_url += '&washing_date=' + date_val;
+      }
+      if(time_val){
+          price_url += '&washing_time=' + time_val;
+      }
+      if(range_val){
+          price_url += '&time_range=' + range_val;
+      }
+      if(comment_val){
+          price_url += '&comment=' + encodeURIComponent(comment_val);
+      }
+      window.location.href = price_url;
+      setTimeout(function(){
+          $(this).one('click', redirectPrice);
+      }, 2000);
+      return;
+  }
+  
+  // 跳转酒店搜索页
+  function hotelSearch(){
+      var 
+        room = $.trim($roomInput.val()),
+        uname = $.trim($unameInput.val()),
+        mobile = $.trim($mobileInput.val()),
+        lng = sessionStorage.getItem('hotel_lng'),
+        lat = sessionStorage.getItem('hotel_lat'),
+        date_val = $dateInput.val(), 
+        time_val = $timeInput.val(),
+        range_val = $timeRange.val(),
+        soon_val = $soonInput.val(),
+        comment_val = $commentText.val();
+      sessionStorage.setItem('hotel_room', room);
+      sessionStorage.setItem('hotel_uname', uname);
+      sessionStorage.setItem('hotel_mobile', mobile);
+      var search_url = "{$serach_url}";
+      if(lng && lat){
+    	  search_url += '&lng=' + lng + '&lat=' + lat; 
+      }
+      if(date_val){
+          search_url += '&washing_date=' + date_val;
+      }
+      if(time_val){
+          search_url += '&washing_time=' + time_val;
+      }
+      if(range_val){
+          search_url += '&time_range=' + range_val;
+      }
+      if(comment_val){
+          search_url += '&comment=' + encodeURIComponent(comment_val);
+      }
+      window.location.href = search_url;
+  }
+  
+  // 来自酒店搜索页
+  function searchReturn(){
+    var
+      room = sessionStorage.getItem('hotel_room'),
+      uname = sessionStorage.getItem('hotel_uname'),
+      moblie = sessionStorage.getItem('hotel_mobile') || '{$mobile}';
+    $roomInput.val(room);
+    $unameInput.val(uname);
+    $mobileInput.val(moblie);
+  }
+  
+  // 来自官网价目
+  function priceReturn(){
+    var
+      room = $.cookie('hotel_room') || '',
+      uname = $.cookie('hotel_uname') || '',
+      moblie = $.cookie('hotel_mobile') || '{$mobile}';
+    $roomInput.val(room);
+    $unameInput.val(uname);
+    $mobileInput.val(moblie);
+  }
+  
+  // 设置手机号清除按钮显示状态
+  function setMobileBtn(){
+      var mobile = $mobileInput.val();
+      if($.trim(mobile).length > 0 ){
+          $mclearBtn.show();
+      }else{
+          $mclearBtn.hide();
+      }
+  }
+  
+  // 设置“立即预约”按钮显示状态
+  function setHotelOrderBtn(){
+      var 
+        hotelFlag = $hotelidInput.val() && $hotelInput.val(),
+        roomFlag = $.trim($roomInput.val()),
+        unameFlag = $.trim($unameInput.val()),
+        mobileFlag = /^1[3-8]\d{9}$/.test($.trim($mobileInput.val())),
+        timeFlag = $dateInput.val() && $timeInput.val();
+        
+      if(hotelFlag && roomFlag && unameFlag && mobileFlag && timeFlag){
+          toggleBtn(true);
+      }else{
+          toggleBtn(false);
+      }
+  }
+  
+  // 设置提交按钮状态
+  function toggleBtn(bool){
+      if(bool){
+          $orderBtn.prop('disabled', false).removeClass("noBook").addClass("canBook");
+      }else{
+          $orderBtn.prop('disabled', true).removeClass("canBook").addClass("noBook");
+      }
+  }
+ 
+  // 清空输入内容
+  function clearInput(o, id){
+      $('#' + id).val('');
+      $(o).hide();
+      if('uname' != id ){
+          toggleBtn(false);
+      }
+  }
+
+  // 校验提交表单，提交订单预约
+  function sumitOrder(){
+      $orderBtn.text('正在提交').prop("disabled",true).addClass("noBook").removeClass('canBook');
+      var submit_url = $hotelForm.attr('action') + '&comment=' + $commentText.val();
+      var submit_data = $hotelForm.serializeArray();
+      $.post(submit_url, submit_data, function(data){
+            if(data.message.state == 1){
+               {if 1 == $user_type}
+                 sessionStorage.setItem('order_' + data.message.order_id, true);
+               {/if}
+               $orderBtn.text('预约成功').prop("disabled",true).removeClass("canBook").addClass("noBook");
+               alertToUrl(data.message.url,'预约成功');
+            }else{
+               $orderBtn.text('立即预约').prop("disabled",false).removeClass("noBook").addClass("canBook");
+               showTip(data.message.msg);
+            }
+      },"json"); 
+  }
+  
+  // 操作提示
+  function showTip(msg){
+    $('#show_mes').html(msg);
+    $('#codFloat').show().delay(2000).hide(0);
+    return;
+  }
+  
+  // 提示并跳转
+  function alertToUrl(url,title) {
+    if(title){
+      $("#success_tip").text(title);
+    }
+    {if 1 != $user_type}
+      $("#order_success").show();
+    {/if}
+    setTimeout("window.location.href='" + url + "'", 2000);
+    return;
+  }
+
+</script>
+<?php include template('foot') ?>
+</body>
+</html>

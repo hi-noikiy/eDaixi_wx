@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="description" content="<?php echo $this->activity_title; ?>" />
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title><?php echo $this->activity_title; ?></title>
+    <link rel="stylesheet" type="text/css" href="/new_weixin/css/gift-recharge.css">
+    <script src="/new_weixin/js/jquery-1.8.2.min.js" type="text/javascript"></script>
+    <script type="text/javascript" src="/new_weixin/js/template.js"></script>
+    <script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+    <!--
+    <script type="text/javascript" src="/new_weixin/js/webviewjsbridge.js"></script>
+    -->
+    <?php if($is_from_weixin){ ?>
+    <script type='text/javascript'>
+    wx.ready(function(){
+      // “分享到朋友圈”
+      wx.onMenuShareTimeline({
+        title: "<?php echo $title; ?>",
+        link: "<?php echo $share_url; ?>",
+        imgUrl: "<?php echo $img_url; ?>",
+        success: function (res) {
+          // $.post("{$callback_url}", {}, function(){}, "json");
+          return;
+        },
+        cancel: function(res){
+          return;
+        },
+        fail: function (res) {
+          // alert('wx.onMenuShareTimeline:fail: ' + JSON.stringify(res));
+          return;
+        }
+      });
+  
+      // “分享给朋友”
+      wx.onMenuShareAppMessage({
+        title: "<?php echo $title; ?>",
+        desc: "<?php echo $desc; ?>",
+        link: "<?php echo $share_url; ?>",
+        imgUrl: "<?php echo $img_url; ?>",
+        success: function () { 
+          // $.post("{$callback_url}", {}, function(){}, "json");
+          return;
+        },
+        cancel: function () { 
+          return;
+        },
+        fail: function (res) {
+          // alert('wx.onMenuShareAppMessage:fail: ' + JSON.stringify(res));
+          return;
+        }
+      });
+  
+      wx.error(function(res){
+        // config信息验证失败会执行error函数
+        // alert('wx.error: ' + JSON.stringify(res));
+        return;
+      });
+    });
+    </script>
+    <?php } ?>
+</head>
+
+<body>
+    <ol class="tips-info" id="tipsInfo"></ol>
+    <div class="main">
+      <!-- 活动 -->
+        <div id="gift-con"></div>
+      <!-- 活动 end-->
+
+      <div class="content_info">
+        
+        
+        <div id="duihuan"></div>
+
+        <div class="borderD"></div>
+        <div style="height:5px;background:#f4fbff"></div>
+        <div class="borderD"></div>     
+          
+        <div id="recharge_money"></div>
+
+        <div class="money-link width96" id="otherRecharge" style="display:none;">
+            <span><a href="javascript:void(0)">其他金额</a></span>
+            <p></p>
+        </div> 
+
+      </div>
+   
+      </div>
+    
+    <div class="btn-form">
+          <div id="recharge-fm">
+            <a href="javascript:void(0)" class="recharge-btn" id="recharge-btn">马上充值</a>
+          </div>
+
+          <!-- 兑换记录 -->
+          <p id="duihuanUrl" style="height:20px;line-height:20px"></p>
+          <p>点击查看<a href="javascript:void(0)" class="light-blue" id="rule_info">《充值送礼活动规则》</a></p>
+          <p>点击马上充值，即表示您已经同意e袋洗<a href="javascript:void(0)" class="light-blue" id="agreement_info">《充值送礼活动协议》</a></p>
+          <!-- 兑换记录 -->
+      </div>
+    <!-- 活动规则 -->
+    <div class="result_text" id="rule" style="display:none">
+        <div class="content-info">
+            <h3 class="text-center blue-color">e袋洗充值送礼活动规则</h3>
+            <p>一、活动内容</p>
+            <p>充值送礼活动规则如下：</p>
+            <div>1、 单笔充值499元，可获得e袋洗499元余额+尊享可选礼三选一（科耐尔不锈钢烤花厨房刀具、sohome水具五件套、K.S.旅行套装 ）；</div>
+            <div>2、 单笔充值999元，可获得e袋洗999元余额+换享可选礼三选一（美缘登双面两用席三件套、WRC20寸旅行箱、韩式多功能方锅）；</div>
+            <div>3、单笔充值1,999元，可获得e袋洗1,999元余额+品质可选礼三选一（Sohome晶莹瓷釉不锈钢汤锅、IPUDA抚光灯-Q7、飞科蒸汽熨烫机）；</div>
+            <div>4、单笔充值3,999元，可获得e袋洗3,999元余额+尊享可选礼三选一（现代（HYUNDAI）智能方煲、潘多拉手链指定款、日本象印多功能电烤盘）；</div>
+            <div>5、单笔充值6,999元，可获得e袋洗6,999元余额+豪华可选礼三选一（Wenger/瑞士威戈22寸行李箱、MK经典手袋30S3GLMS2L BLACK、潘多拉手链指定款）；</div>
+            <p>礼品发货周期：</p>
+            <div>1、所有礼品自兑换之日期10个工作日内发货；</div><br>
+
+            <p>二、活动时间：</p>
+            <div>2017年7月15日—2017年8月20日</div>
+            <div>请您务必在活动期间内完成兑换，逾期将不可兑换，造成的损失将不给予赔偿</div><br>
+
+            <p>三、特别提示</p>
+            <div>1、本次活动中，用户完成礼品兑换流程后，所充余额不支持退款、提现；</div>
+            <div>2、选择参与充值送礼活动固定档位的用户，可获得其档位对应的礼品，请您根据自己的消费情况进行充值，e袋洗对充值次数不设任何限制；</div>
+            <div>3、礼品以积分兑换的形式获得，每期充值活动所得积分只可兑换当期活动礼品，如想获得最新充值活动礼品，请到最新充值活动页面充值后再兑换； </div>
+            <div>4、用户在充值后，若满足上述送礼条件即可获得相对应的礼品兑换积分，只需在礼品兑换页面输入个人联系方式及地址，即可获得相应的礼品（相应的充值所得积分会被自动扣除），因收货人信息填写错误等问题造成的损失，不予补发及赔偿；</div>
+            <div>5、本次活动仅限个人用户参与，企业用户不在此活动范围；</div>
+            <div>6、按照e袋洗现行的风控规则，一旦发现作弊行为，e袋洗有权取消相关账户活动返现金额、追回作弊所得（对应赠送礼品）、回收账号使用权，并保留取消作弊人后续参与e袋洗任何活动的权利，必要时会追究其法律责任；</div>
+            <div>7、您若选择开具发票，发票金额根据我们已收到的充值金额开具，充值赠送金额或其他并非您实际支付的费用不能开具发票。</div>
+            <div>8、e袋洗充值送礼活动的相关问题，您可咨询e袋洗全国客服电话：400-818-7171；</div>
+        </div>
+        <div class="agree-block">
+            <div class="go-back">同意并返回</div>
+        </div>
+    </div>
+    <!-- 活动规则 -->
+    <!-- 活动协议 -->
+    <div class="result_text" id="agreement" style="display:none">
+        <div class="content-info">
+            <h3 class="text-center blue-color">充值送礼活动协议</h3>
+            <p>尊敬的用户，为保障您的合法权益，请您在参加充值送礼活动前仔细阅读本协议。当您点击“马上充值”按钮后，即视为您已阅读、理解本协议，并同意按本协议规定执行。</p><br>
+            <p>一、活动内容</p>
+            <p>充值送礼活动规则如下：</p>
+            <div>1、 单笔充值499元，可获得e袋洗499元余额+尊享可选礼三选一（科耐尔不锈钢烤花厨房刀具、sohome水具五件套、K.S.旅行套装 ）；</div>
+            <div>2、 单笔充值999元，可获得e袋洗999元余额+换享可选礼三选一（美缘登双面两用席三件套、WRC20寸旅行箱、韩式多功能方锅）；</div>
+            <div>3、单笔充值1,999元，可获得e袋洗1,999元余额+品质可选礼三选一（Sohome晶莹瓷釉不锈钢汤锅、IPUDA抚光灯-Q7、飞科蒸汽熨烫机）；</div>
+            <div>4、单笔充值3,999元，可获得e袋洗3,999元余额+尊享可选礼三选一（现代（HYUNDAI）智能方煲、潘多拉手链指定款、日本象印多功能电烤盘）；</div>
+            <div>5、单笔充值6,999元，可获得e袋洗6,999元余额+豪华可选礼三选一（Wenger/瑞士威戈22寸行李箱、MK经典手袋30S3GLMS2L BLACK、潘多拉手链指定款）；</div>
+            <p>礼品发货周期：</p>
+            <div>1、所有礼品自兑换之日期10个工作日内发货；</div><br>
+
+            <p>二、活动时间：</p>
+            <div>2017年7月15日—2017年8月20日</div>
+            <div>请您务必在活动期间内完成兑换，逾期将不可兑换，造成的损失将不给予赔偿</div><br>
+
+            <p>三、特别提示</p>
+            <div>1、本次活动中，用户完成礼品兑换流程后，所充余额不支持退款、提现；</div>
+            <div>2、选择参与充值送礼活动固定档位的用户，可获得其档位对应的礼品，请您根据自己的消费情况进行充值，e袋洗对充值次数不设任何限制；</div>
+            <div>3、礼品以积分兑换的形式获得，每期充值活动所得积分只可兑换当期活动礼品，如想获得最新充值活动礼品，请到最新充值活动页面充值后再兑换； </div>
+            <div>4、用户在充值后，若满足上述送礼条件即可获得相对应的礼品兑换积分，只需在礼品兑换页面输入个人联系方式及地址，即可获得相应的礼品（相应的充值所得积分会被自动扣除），因收货人信息填写错误等问题造成的损失，不予补发及赔偿；</div>
+            <div>5、本次活动仅限个人用户参与，企业用户不在此活动范围；</div>
+            <div>6、按照e袋洗现行的风控规则，一旦发现作弊行为，e袋洗有权取消相关账户活动返现金额、追回作弊所得（对应赠送礼品）、回收账号使用权，并保留取消作弊人后续参与e袋洗任何活动的权利，必要时会追究其法律责任；</div>
+            <div>7、您若选择开具发票，发票金额根据我们已收到的充值金额开具，充值赠送金额或其他并非您实际支付的费用不能开具发票。</div>
+            <div>8、e袋洗充值送礼活动的相关问题，您可咨询e袋洗全国客服电话：400-818-7171；</div>
+        </div>
+        <div class="agree-block">
+            <div class="go-back">同意并返回</div>
+        </div>
+    </div>
+    <script id="content-text" type="text/html">
+             
+      
+         {{each list as r}}
+          <div class="recharge-money {{if list.length == 3 }}width4{{else}}width96{{/if}}">
+            
+              {{if r.remark=="1"}}
+                <div class="hot-cake">
+                  <img src="/new_weixin/images/activeHot.png" />
+                </div>
+              {{/if}}
+              <span data-money="{{r.money}}">{{r.money}}元送</span>
+              
+              <p data-title="可兑换{{r.title}}">{{r.desc}}</p>
+                
+          </div> 
+         {{/each}} 
+     
+
+    </script>
+
+    <script type="text/html" id="content-img">
+      {{each list as r}}
+       <div class="gift-img" rel={{r.money}}>
+                <a href="{{r.url}}"><img src="{{r.img}}"></a>
+            </div>
+      {{/each}}
+    </script>
+
+    <script type="text/html" id="content-tip">
+      {{each exchange as info}}
+       <li>可兑换商品：<a href="{{info.url}}">{{info.title}}</a><span class="closeTips"><em>x</em></span></li>
+      {{/each}}
+    </script>
+
+    <script type="text/html" id="content-card">
+       <a href="javascript:void(0)" class="duihuan">兑换活动充值码</a>
+    </script>
+
+    <script type="text/html" id="content-history">
+      {{if history.length == 0}}        
+        <a href="javascript:void(0)" class="light-blue" style="display:none">兑换记录</a>
+      {{else}}
+        <a href="javascript:void(0)" class="light-blue">兑换记录</a>
+      {{/if}}
+    </script>
+    <!-- 活动协议 -->
+    <script type="text/javascript">
+      // 获取url中参数
+      function getSearchParams() {
+          var params = {};
+          var chunks = location.search.substr(1).split(/&/g);
+          for (var i = 0; i < chunks.length; i++) {
+              try {
+                  var items = chunks[i].split('=', 2);
+                  var key = items[0];
+                  var value = decodeURIComponent(items[1]);
+                  params[key] = value;
+              }
+              catch (ex) {
+              }
+          }
+        return params;
+    }
+
+    </script>
+
+    <script type="text/javascript">
+
+      /**
+       * 获取cookie
+       * @param  {string} name cookie名
+       * @return {string}   cookie值
+      */
+      function getCookie(name) 
+        {
+            var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+            if(arr=document.cookie.match(reg))
+                return unescape(arr[2]); 
+            else 
+                return null; 
+
+
+        }
+
+    </script>
+    <script type="text/javascript">
+        var paymentUrl = '';
+        var url = "/api.php?m=third&act=static_charge717&do=recharge_page";
+        var param = getSearchParams();
+        var mark = param.mark;
+        var city_id = param.city_id;
+
+
+        if(mark != undefined && mark != ''){
+          url += '&mark='+mark;
+        }
+
+        if(city_id != undefined && city_id != ''){
+          url += '&city_id='+city_id;
+        }   
+      
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json'
+        })
+
+        .done(function(data) {
+          
+          if (data.ret) {
+            rechargeList(data);
+            mark(data);
+            clickTab (data);
+            urlHref (data);             
+            paymentUrl = data.data.payment_page;
+            cardNo (data);
+            $("#otherRecharge").show();
+          
+    //判断充值个数是否为4           
+            if($(".recharge-money").length == 3){
+
+              $('.money-link').removeClass('width96').addClass('width4');
+            }
+
+          }else{         
+            
+            if (data.error == 40001) {
+                // sessionid 过期，已没有权限
+                
+                exceptionHandle(40001);
+            }
+            
+          };
+        })
+
+        .fail(function() {
+          alert("网络出错")
+        })
+
+        // 取数据展示模板
+        function rechargeList(data){
+         
+          var list = data.data.recharge_items;
+          console.log(list)
+          var card = data.data;
+          var exchange = data.data.exchange_items;
+          var history = data.data.exchange_history;
+          // console.log(card.wx_share)
+
+          var recharge_list = template('content-text',{"list":list});
+          var recharge_list2 = template('content-img',{"list":list});
+          var exchange_items = template('content-tip',{"exchange":exchange});
+          var cardUrl2 = template('content-card',{"card": card});
+          var exchange_history = template('content-history',{"history": history});
+                 
+          document.getElementById('recharge_money').innerHTML = recharge_list;
+          document.getElementById('gift-con').innerHTML = recharge_list2;
+          document.getElementById('tipsInfo').innerHTML = exchange_items;
+          document.getElementById('duihuan').innerHTML = cardUrl2;
+          document.getElementById('duihuanUrl').innerHTML = exchange_history;
+        }
+
+        // 点击充值金额
+        function clickTab (data) {
+          $("#gift-con > .gift-img").first().show().siblings().hide();
+
+          $("#recharge_money .recharge-money").click(function() {
+
+              var index = $("#recharge_money .recharge-money").index(this);
+
+              $(this).addClass('current').siblings().removeClass('current');
+
+              $("#gift-con > .gift-img").eq(index).show().siblings().hide();
+
+              　
+          });
+          var num = '<?php echo $this->default_num; ?>'
+          $("#recharge_money .recharge-money").eq(num).click();
+          $(".closeTips").click(function() {
+            $(this).parent().hide();
+          });
+        }
+
+        // 兑换记录
+        function urlHref (data) {
+          $("#duihuanUrl a").on('click', function() {
+              var urlHref = data.data.exchange_history;
+              location.href = urlHref.url;
+            });
+        }
+
+        // 兑换按钮跳转
+        function cardNo (data) {
+          $(".duihuan").on('click', function() {
+            var url = data.data.cardno_page;
+            location.href = url;
+
+          });
+        }
+
+
+      $("#recharge-fm").click(function(){
+
+        var fee = $(".recharge-money.current span").data('money');   
+        var additional = $(".recharge-money.current p").data('title');
+        var otherParams = {"fee":fee, "business_id":'<?php echo $this->business_id; ?>', "additional":additional}
+        var payInfo = {"klass":'pay', "type":'recharge_pay', "otherParams":otherParams}
+        var business_id = '<?php echo $this->business_id; ?>'
+
+        location.href = paymentUrl+"&fee=" + fee;
+        if(fee <= 0){
+          alert('充值金额有误');
+        }
+
+      })
+        
+      // 其他金额跳转
+      $("#otherRecharge").click(function() {
+        var otherRecharge = {"klass": "balance","type": "recharge"};
+        url = "/mobile.php?m=wap&act=icard&do=icard_charge"
+        location.href = url;  
+      });
+
+    </script>
+
+    <!-- 统计数据 -->
+    <script type="text/javascript">
+
+      function mark(data) {
+      
+        var flag = true;
+        var timer = null; // 计时器
+        var flag1 = true;
+        var timer1 = null; // 计时器
+        var flag2 = true;
+        var timer2 = null; // 计时器
+        var mark_source = data.data.mark_source;
+
+        //统计不同渠道进入页面次数
+        window.onload = function() {
+            TDAPP.onEvent("<?php echo $this->business_id; ?>_活动首页PV", mark_source);
+        }
+
+        // 活动充值 金额(埋点统计)
+        $('.recharge-money').on('click', 'span', function() {
+            if (flag) {
+                flag = false;
+                clearTimeout(timer); // 关闭定时器  
+                // talkingdata 埋点
+                var moneyText = $(this).data('money');
+                if (!moneyText) {
+                    moneyText = '其他';
+                }
+                TDAPP.onEvent("<?php echo $this->business_id; ?>_充值div点击_" + mark_source, moneyText);
+                timer = setTimeout(function() {
+                    flag = true;
+                }, 1000);
+
+            }
+        });
+
+        // 活动充值 banner(埋点统计)
+        $('#gift-con').on('click', 'div', function() {
+            if (flag1) {
+                flag1 = false;
+                clearTimeout(timer1); // 关闭定时器
+                // datatalking 埋点
+                var bannerId = $(this).attr("rel");
+                if (!bannerId) {
+                    bannerId = '其他';
+                }
+                TDAPP.onEvent("<?php echo $this->business_id; ?>_banner点击_" + mark_source, bannerId);
+                timer1 = setTimeout(function() {
+                    flag1 = true;
+                }, 1000);
+            }
+        });
+
+        // 马上充值按钮点击(埋点统计)
+        $('.recharge-btn').on('click', function() {
+            if (flag2) {
+                flag2 = false;
+                clearTimeout(timer2); // 关闭定时器
+                // datatalking 埋点       
+                TDAPP.onEvent("<?php echo $this->business_id; ?>_马上充值点击", mark_source);
+                timer2 = setTimeout(function() {
+                    flag2 = true;
+                }, 1000);
+            }
+        });
+      }
+    </script>
+  
+    <!-- 所有活动规则协议 -->
+    <script type="text/javascript">
+    
+
+      // 活动规则
+
+      $("#rule_info").click(function() {
+          $("#rule").show();
+          $(".btn-form,#tipsInfo").hide();
+      });
+      // 活动协议
+      $("#agreement_info").click(function() {
+          $("#agreement").show();
+          $(".btn-form,#tipsInfo").hide();
+      });
+
+      // 关闭活动规则以及协议
+
+      $(".agree-block").click(function() {
+          $("#rule,#agreement").hide();
+          $(".btn-form,#tipsInfo").show();
+      });
+
+      // $("#rule").height($("html").height())
+
+    </script>
+    <script type="text/javascript">
+    $(".result_text").height($("html").height());
+
+
+    </script>
+    <div class="p60"></div>
+
+    
+</body>
+
+</html>

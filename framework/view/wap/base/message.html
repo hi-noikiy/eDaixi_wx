@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>e袋洗</title>
+<link href="{php echo assets_link('/framework/style/css/success.css')}" rel="stylesheet" type="text/css" />
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body>
+	{if $type == 'sql'}
+		<h3>数据库错误</h3>
+	{else}
+    <!-- 状态提示  -->
+    <div class="ftips" id="J_pol_tips">
+   		{if $type == 'success'}
+        <div class="ftips_info">
+            <span class="ftips_ico success_ico"></span>
+            <div class="ftips_cnt">
+                <p id="cod_title" class="ftips_tit">提交成功</p>
+                <p class="ftips_txt" id="J_arrive_txt">{$msg}</p>					
+            </div>
+        </div>
+        {/if}
+        {if $type == 'error'}
+        <div class="ftips_info">
+            <span class="ftips_ico error_ico"></span>
+            <div class="ftips_cnt">
+                <p id="cod_title" class="ftips_tit">错误</p>
+                <p class="ftips_txt" id="J_arrive_txt">{$msg}</p>					
+            </div>
+        </div>
+        {/if}
+        {if $type == 'block'}
+        <div class="ftips_info">
+            <span class="ftips_ico  block_ico"></span>
+            <div class="ftips_cnt">
+                <p id="cod_title" class="ftips_tit">警告</p>
+                <p class="ftips_txt" id="J_arrive_txt">{$msg}</p>					
+            </div>
+        </div>
+        {/if}
+        {if $type == 'info'}
+        <div class="ftips_info">
+            <span class="ftips_ico info_ico"></span>
+            <div class="ftips_cnt">
+                <p id="cod_title" class="ftips_tit">提示</p>
+                <p class="ftips_txt" id="J_arrive_txt">{$msg}</p>					
+            </div>
+        </div>
+       {/if} 
+    </div>
+    {if !$button && $redirect}
+	<script type="text/javascript">
+		setTimeout(function () {
+			location.href = "{$redirect}";
+		}, 5000);
+	</script>
+	{/if}
+	{if !$button && !$redirect}
+	<script type="text/javascript">
+		setTimeout(function () {
+			location.href = "javascript:history.go(-1);";
+		}, 5000);
+	</script>
+	{/if}
+    {if $redirect}
+	 <div id="share" >
+		<div class="fshare_btn">
+			{if !$hidden}
+    		    {if $button}
+              {if $type == 'success'}
+                  <a id="back_mall"  href="{$redirect}" class="continue-btn btn_cancle ">继续</a>
+              {else}
+    		        <a id="back_mall"  href="javascript:history.go(-1);" class="continue-btn btn_cancle">返回上一页</a>
+              {/if}
+      		    <a id="share_friend"  href="{$redirect}" class="continue-btn btn_cancle">{$button}</a>
+    		    {else}
+              {if $type == 'success'}
+                <a id="back_mall"  href="{$redirect}" class=" continue-btn btn_cancle">继续</a>
+              {else}
+                <a id="back_mall"  href="javascript:history.go(-1);" class="continue-btn btn_cancle">返回上一页</a>
+              {/if}
+    		    {/if}
+		    {/if}
+		</div>
+	</div>
+	{/if}
+	{/if}
+    <!-- /状态提示  -->
+</body>
+<?php include template('foot') ?>
+</html>

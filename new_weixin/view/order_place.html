@@ -1,0 +1,762 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>预约取件</title>
+    <link rel="stylesheet" type="text/css" href="../css/order_place.css?v=20161121">
+    <!-- <script type="text/javascript" src="http://apps.bdimg.com/libs/zepto/1.1.4/zepto.min.js"></script> -->
+    <script type="text/javascript" src="../js/zepto.js"></script>
+    <script type="text/javascript" src="../js/template.js"></script>
+    <script src="https://jic.talkingdata.com/app/h5/v1?appid=DE19A88DC80D4C18A0D4406FA493E423&vn=微信公众号前端异常统计&vc=1.0.1"></script>
+</head>
+<body>
+    <header></header>
+    <section id="category-part"></section>
+    <section id="address-part"></section>
+    <section id="time-part">
+        <div class="timeinput">请选择取件时间</div>
+        <div class="arrow-left"></div>
+    </section>
+    <section id="guest-part">
+        <textarea placeholder="如果有问题请备注留言"> 
+        </textarea>
+    </section>
+    <section id="delivery-part"></section>
+    <footer>
+        <div class="disabled">立即预约</div>
+    </footer>
+    <div class="loader"><span class="mask"></span>加载中...</div>
+    <section id="dialog"></section>
+    <!-- tips banner -->
+    <script id="tips" type="text/html">
+        {{if order_tips.details.length > 0}}
+        <div class="tips">
+            <img src="{{order_tips.background_image}}">
+            <div class="wrapline">
+                <div class="outter">
+                    <div class="tablecell">
+                        {{each order_tips.details as item}}
+                        <span>{{item}}</span>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+    </script>
+    
+    <!-- 品类区-->
+    <script id="category-wrap" type="text/html">
+        <div id="category-list">
+            <p>请选择您需要的服务</p>
+            <ul>
+                {{each categories as item}}
+                <li>
+                    <a href="javascript:void(0)" data-id="{{item.category_id}}" class="{{item.active}}">{{item.category_name}}</a>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+    </script>
+
+    <!-- 地址栏 -->
+    <script id="address-wrap" type="text/html">
+        <div id="address">
+            <div class="addborder"></div>
+            <div class="address-content">
+                {{if address.address !== "undefined undefined"}}
+                <p><span class="name">{{address.username}}</span><span class="tel">{{address.tel}}</span></p>
+                <p>{{address.address}}</p>
+                {{else}}
+                <p class="add-address">添加/选择地址</p>
+                {{/if}}
+                <div class="arrow-left"></div>
+            </div>
+            <div class="addborder"></div>
+        </div>
+    </script>
+
+    <!-- 合单运费 -->
+    <script id="total-delivery-wrap" type="text/html">
+        {{if total.length < 5}}
+                <div class="total-delivery clearfix">
+                    <div class="title"><p>关于</p><p>运费</p></div>
+                    {{each total as item index}}
+                        <div class="delivery">
+                            <p>{{item.sentinel_min}}</p>
+                            <p class="blue">{{item.fee}}</p>
+                        </div>
+                        {{if index < total.length - 1}}
+                        <div class="vertical-line"></div>
+                        {{/if}}
+                    {{/each}}
+                </div>
+        {{else}}
+            <div class="total-delivery five cleanfix">
+                <p>关于运费</p>
+                <ul>
+                    {{each total as item}}
+                    <li>
+                        <div>
+                            <p>{{item.sentinel_min}}</p>
+                            <p class="blue">{{item.fee}}</p>
+                        </div>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+        {{/if}}
+    </script>
+
+    <!-- 分品类运费 (运费有五级时倒序为免运费到高运费)-->
+    <script id="sub-delivery-wrap" type="text/html">
+        <ul>
+        {{each sub as item}}
+            <li>
+            {{if item.delivery_fee.length <= 4}}
+                <div class="sub-delivery clearfix">
+                    <div><p>{{item.category_name}}</p><p>运费</p></div>
+                    {{each item.delivery_fee as subitem index}}
+                        <div>
+                            <p>{{subitem["sentinel_min"]}}</p>
+                            <p class="blue">{{subitem["fee"]}}</p>
+                        </div>
+                        {{if index < item.delivery_fee.length - 1 }}
+                        <div class="vertical-line"></div>
+                        {{/if}}
+                    {{/each}}
+                </div>
+            {{else}}
+                <div class="sub-delivery-fiveitem">
+                    <p>{{item.category_name}}运费</p>
+                    <ul>
+                        {{each item.delivery_fee as subitem subindex}}
+                        <li>
+                            <div>
+                                <p>{{subitem["sentinel_min"]}}</p>
+                                <p class="blue">{{subitem["fee"]}}</p>
+                            </div>
+                        </li>
+                        {{/each}}
+                    </ul>
+                </div>
+            {{/if}}
+            </li>
+        {{/each}}
+        </ul>
+
+    </script>
+
+    <!-- 确认弹框 -->
+    <script id="alert-dialog-wrap" type="text/html">
+        <div id="alert-dialog" style="display: none;">
+            <div class="wx_mask"></div>
+            <div class="wx_confirm alert-dialog">
+                <div class="head">{{tips.title}}</div>
+                <div class="body">{{tips.content}}</div>
+                <div class="i-know-btn">我知道了</div>
+            </div>
+        </div>
+    </script>
+    <script type="text/javascript">
+        // 开发联调控制
+        window.debug = false;
+        var api = {};
+        var preLocation;
+        if (window.debug) {
+            api.pagejson = "/getOrderPlace";
+            api.errlog = "/errlog";
+            preLocation = "";
+        }
+        else {
+            api.pagejson = "/api.php?m=wap&act=homepage&do=comm_order_place";
+            api.errlog = "/api.php?m=wap&act=homepage&do=view_api_log";
+            preLocation = "/new_weixin";
+        }
+
+        // 用于获取接口返回数据的时间
+        var date = new Date();
+        var startTime = date.getTime();
+    </script>
+    <script>
+        var params = getSearchParams();
+
+        // 存储整个页面的数据
+        var orderPlaceData = {
+            category_id: params.category_id  && params.category_id.split(","),
+            city_id: params.city_id,
+            price_read: params.price_read
+        };
+        if (params.mark) {
+            orderPlaceData.mark = params.mark;
+        }
+        
+        $(function() {
+            var category_id = params.category_id;
+            var price_read = params.price_read;
+            var city_id = params.city_id;         
+            var searchParam = {
+                category_id: category_id,
+                price_read: price_read,
+                city_id: city_id
+            };
+
+            // 用于判断接口是否返回json
+            var jsonLoader = false;
+
+            if (params.mark) {
+                searchParam.mark = params.mark;
+            }
+            $.ajax({
+                type: "GET",
+                url: api.pagejson,
+                data: searchParam,
+                dataType: "json",
+                success: function(data) {
+                    $(".loader").hide();
+                    if (data.ret) {
+
+                        // 从价目页跳到下单页
+                        if (!params.select_address && !params.time_range) {
+                            try {
+                                var default_address = data.data.order_page_info.default_address;
+                                if (default_address) {
+                                    orderPlaceData.address_id = default_address.address_id;
+                                    orderPlaceData.city_id = default_address.city_id;
+                                    orderPlaceData.area_id = default_address.area_id;
+                                    orderPlaceData.area = default_address.area;
+                                    orderPlaceData.username = default_address.username;
+                                    orderPlaceData.tel = default_address.tel;
+                                }
+                            }
+                            catch (ex) {
+                                // 收集错误数据
+                                var onekv = {
+                                    default_address: default_address
+                                };
+                                TDAPP.onEvent("下单页出现异常","从价目页跳转", onekv);
+                            }
+                            
+                        }
+                        // 从地址列表页跳到下单页
+                        if (params.select_address && !params.time_range) {
+                            try {
+                                var select_address = myDecodeUrl(params.select_address);
+                                orderPlaceData.address_id = select_address.address_id;
+                                orderPlaceData.city_id = select_address.city_id;
+                                orderPlaceData.area_id = select_address.area_id;
+                                orderPlaceData.area = select_address.area;
+                                orderPlaceData.address_line_1 = select_address.address_line_1;
+                                orderPlaceData.address_line_2 = select_address.address_line_2;
+                                orderPlaceData.username = select_address.username;
+                                orderPlaceData.tel = select_address.tel;
+                                if (params.comment) {
+                                    orderPlaceData.comment = params.comment;
+                                }
+                            }
+                            catch (ex) {
+                                // 收集错误数据
+                                var twokv = {
+                                    select_address: select_address
+                                };
+                                TDAPP.onEvent("下单页出现异常", "从地址列表页跳转", twokv);
+                            }
+                            
+                        }
+                        
+                        //从时间控件页跳到下单页, 地址栏使用默认的地址
+                        if (params.time_range && !params.select_address) {
+                            try {
+                                var default_address = data.data.order_page_info.default_address;
+                                // orderPlaceData.category_id = params.category_id && params.category_id.split(",");
+                                orderPlaceData.city_id = params.city_id;
+                                orderPlaceData.price_read = params.price_read;
+                                orderPlaceData.washing_date = params.washing_date;
+                                orderPlaceData.washing_time = params.washing_time;
+                                orderPlaceData.time_range = params.time_range;
+                                orderPlaceData.address_id = default_address.address_id;
+                                orderPlaceData.area = default_address.area;
+                                orderPlaceData.area_id = default_address.area_id;
+                            }
+                            catch (ex) {
+                                // 收集错误数据
+                                var threekv = {
+                                    default_address: default_address
+                                };
+                                TDAPP.onEvent("下单页出现异常", "从时间控件页跳转且地址栏使用默认的地址", threekv);
+                            }
+                        }
+
+                        // 从时间控件页跳到下单页，地址栏使用修改的地址
+                        if (params.time_range &&　params.select_address) {
+                            try {
+                                var select_address = myDecodeUrl(params.select_address);
+                                orderPlaceData.username = select_address.username;
+                                orderPlaceData.tel = select_address.tel;
+                                // orderPlaceData.category_id = params.category_id && params.category_id.split(",");
+                                orderPlaceData.city_id = params.city_id;
+                                orderPlaceData.price_read = params.price_read;
+                                orderPlaceData.address_id = select_address.address_id;
+                                orderPlaceData.address_line_1 = select_address.address_line_1;
+                                orderPlaceData.address_line_2 = select_address.address_line_2;
+                                orderPlaceData.select_address = select_address.select_address;
+                                orderPlaceData.area = select_address.area;
+                                orderPlaceData.area_id = select_address.area_id;
+                                orderPlaceData.washing_date = params.washing_date;
+                                orderPlaceData.washing_time = params.washing_time;
+                                orderPlaceData.time_range = params.time_range;
+                            }
+                            catch (ex) {
+                                // 收集错误数据
+                                var fourkv = {
+                                    select_address: select_address
+                                };
+                                TDAPP.onEvent("下单页出现异常", "从时间控件页跳转且地址栏使用修改的地址", fourkv);
+                            }
+                        }
+
+                        // 渲染数据
+                        renderTemplate(data.data);
+                        // 绑定事件
+                        bindEvent(data.data, params);
+
+                        try {
+                            var endTime = date.getTime();
+                            var duration = (endTime - startTime) / 1000;
+                            var kv = {
+                                json: JSON.stringify(data),
+                                url: location.href,
+                                duration: duration + "秒"
+                            };
+                            TDAPP.onEvent("后端返回错误数据_haslog", "后端返回错误数据", kv);
+                            $.ajax({
+                                type: "POST",
+                                url: api.errlog,
+                                data: kv,
+                                dataType: "json",
+                                success: function(data) {
+                                }
+                            })
+                        }
+                        catch (ex) {}
+                    }
+                    else {
+                        // 收集错误数据
+                        try {
+                            var endTime = date.getTime();
+                            var duration = (endTime - startTime) / 1000;
+                            var kv = {
+                                json: data,
+                                url: location.href,
+                                duration: duration + "秒"
+                            };
+                            TDAPP.onEvent("后端返回错误数据_haslog", "后端返回错误数据", kv);
+                            $.ajax({
+                                type: "POST",
+                                url: api.errlog,
+                                data: kv,
+                                dataType: "json",
+                                success: function(data) {
+                                }
+                            })
+                        }
+                        catch (ex) {}
+                        if (data.error && data.error.url) {
+                            TDAPP.onEvent("后端返回错误数据", "跳转登录页", kv);
+                            window.location.href = data.error.url;
+                        }
+                        else {
+                            TDAPP.onEvent("后端返回错误数据", "未跳转登录页", kv);
+                            myalert("错误提示", data.error ? data.error.msg : "");
+                        }
+                    }
+                },
+                error: function(xhr, type) {
+                    $(".loader").hide();
+                    myalert("操作提示", "网络错误，请稍后再试");
+                },
+                complete: function() {
+                    jsonLoader = true;
+                    clearTimeout(load);
+                }
+            })
+
+            var load = setTimeout(function() {
+                if (!jsonLoader) {
+                    TDAPP.onEvent("下单页接口5秒无返回，重新加载页面");
+                    location.reload();
+                }
+            }, 5000);
+        })
+
+        function renderTemplate(data) {
+
+            // 渲染tips
+            var tipsHtml = template("tips", data.order_page_info);
+            $("header").html(tipsHtml);
+
+            // 渲染品类列表
+            var category_id_list = window.sessionStorage.getItem("category_id_list");
+            if (category_id_list) {
+                orderPlaceData.category_id = category_id_list.split(",");
+            }
+            var category_id = orderPlaceData.category_id;
+
+            var len = category_id.length;
+            var leng = data.order_page_info.categories.length;
+            for (var i = 0; i < len; i++) {
+                for (var j = 0; j < leng; j++) {
+                    if (+category_id[i] === data.order_page_info.categories[j]["category_id"]) {
+                        data.order_page_info.categories[j]["active"] = "active";
+                    }
+                }
+            }
+
+            var categoryListHtml = template("category-wrap", {"categories": data.order_page_info.categories});
+            $("#category-part").html(categoryListHtml);
+
+            // 渲染地址栏
+            if (!params.select_address) {
+                // 默认地址
+                var address = data.order_page_info.default_address.address_line_1 + " " + data.order_page_info.default_address.address_line_2;
+                if (address.length > 22) {
+                    address = address.substring(0, 21) + "...";
+                }
+                orderPlaceData.address = address;
+                orderPlaceData.username = data.order_page_info.default_address.username;
+                orderPlaceData.tel = data.order_page_info.default_address.tel;
+                var addressHtml = template("address-wrap", {"address": orderPlaceData});
+                $("#address-part").html(addressHtml);
+            }
+            else {
+                // 选择或填充的地址
+                var address = orderPlaceData.address_line_1 + " " + orderPlaceData.address_line_2;
+                if (address.length > 22) {
+                    address = address.substring(0, 21) + "...";
+                }
+                orderPlaceData.address = address;
+                var addressHtml = template("address-wrap", {"address": orderPlaceData});
+                $("#address-part").html(addressHtml);
+            }
+
+            // 填充时间
+            if (params.washing_date_text && params.washing_time) {
+                var datetext = params.washing_date_text + " " + params.view_text;
+                $(".timeinput").text(datetext).addClass("has-time");
+            }
+
+            // 填充留言
+            if (params.comment) {
+                $("#guest-part textarea").val(params.comment);
+                orderPlaceData.comment = params.comment;
+            }
+            else {
+                $("textarea").val("");
+            }
+
+            // 渲染运费
+            renderDelivery(data);
+
+            // 预约取件激活 (取消提交事件在submit事件中return)
+            if (orderPlaceData.address && orderPlaceData.time_range) {
+                $("footer div").removeClass("disabled");
+            }
+
+        }
+
+        /**
+         * [bindEvent description]
+         * @param  {obj} data [description]
+         */
+        function bindEvent(data) {
+
+            // 变更品类
+            $("#category-list").on("click", "a", function(e) {
+                if ($(this).hasClass("active")) {
+                    if (orderPlaceData.category_id.length === 1) {
+                        alert("请至少选择一个品类");
+                        return;
+                    }
+                    $(this).removeClass("active");
+                    for (var i = 0; i < orderPlaceData.category_id.length; i++) {
+                        if (+orderPlaceData.category_id[i] === $(this).data("id")) {
+                            orderPlaceData.category_id.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+                else {
+                    $(this).addClass("active");
+                    orderPlaceData.category_id.push($(this).data("id"));
+                }
+                
+                // 重新渲染运费部分
+                renderDelivery(data);
+            })
+            // 跳转到地址列表页
+            $("#address-part").on("click", "#address", function() {
+                var searchParam = "&category_id=" + orderPlaceData.category_id.join(",");  
+                if (orderPlaceData.address_id) {
+                    searchParam += "&address_id=" + orderPlaceData.address_id;
+                }
+                if ($("#guest-part textarea").val()) {
+                    searchParam += "&comment=" + $("#guest-part textarea").val();
+                }
+                window.location.href = data.select_addr_url + searchParam;
+            })
+            // 跳转到时间控件页面
+            $("#time-part").on("click", function() {
+
+                // 如果没有填写地址
+                if ($.contains($("#address").get(0), $(".add-address").get(0))) {
+                    myalert("操作提示", "请先填写/选择地址。");
+                    return;
+                }
+                else {
+                    // 跳转到时间控件页
+                    var searchParam;
+                    var params = getSearchParams();
+                    var comment = $("#guest-part textarea").val();
+                    if (params.select_address) {
+                        searchParam = "category_id=" + orderPlaceData.category_id + "&city_id=" + orderPlaceData.city_id + "&price_read=" 
+                            + orderPlaceData.price_read + "&area=" + orderPlaceData.area + "&area_id=" + orderPlaceData.area_id +
+                            "&address_id=" + params.address_id + "&select_address=" + params.select_address + "&comment=" + comment;
+                    }
+                    else {
+                        searchParam = "category_id=" + orderPlaceData.category_id + "&city_id=" + orderPlaceData.city_id + "&price_read=" 
+                            + orderPlaceData.price_read + "&area=" + orderPlaceData.area + "&area_id=" + orderPlaceData.area_id + "&comment=" + comment;
+                    }
+                    
+                    // 在sessionStorage中记录选中的category_id, 便于在时间控件页面没有操作时间直接返回时还原
+                    var storage = window.sessionStorage;
+                    storage.removeItem("category_id_list");
+                    storage.setItem("category_id_list", orderPlaceData.category_id);
+
+                    window.location.href = preLocation + "/time_control.html?" + searchParam;
+                }
+            })
+
+            // 立即预约事件
+            $("footer div").on("click", function() {
+                var searchParam = {};
+                searchParam.category_id = orderPlaceData.category_id.join(",");
+                searchParam.address_id = orderPlaceData.address_id;
+                searchParam.washing_date = orderPlaceData.washing_date;
+                searchParam.washing_time = orderPlaceData.washing_time;
+                searchParam.time_range = orderPlaceData.time_range;
+                searchParam.city_id = orderPlaceData.city_id;
+                searchParam.comment = $("#guest-part textarea").val() || "";
+                if (orderPlaceData.mark) {
+                    searchParam.mark = orderPlaceData.mark;
+                }
+
+                // if (!orderPlaceData.address) {
+                //     myalert("操作提示", "请填写/选择地址");
+                //     return;
+                // }
+                // if (!orderPlaceData.time_range) {
+                //     myalert("操作提示", "请选择取件时间");
+                //     return;
+                // }
+                if (!orderPlaceData.address || !orderPlaceData.time_range) {
+                    return;
+                }
+
+                // 立即预约按钮置灰，防止多次点击
+                $("footer div").addClass("disabled");
+                
+                $.ajax({
+                    type: "POST",
+                    url: data.submit_url,
+                    data: searchParam,
+                    dataType: "json",
+                    success: function(data) {
+                        
+                        switch(data.message.state + "") {
+                            case "1":
+                                // 下单成功
+                                if (data.message.user_type === 1) {
+                                    sessionStorage.setItem("order_" + data.message.order_id, true);
+                                }
+
+                                window.location.href = data.message.url;
+                                break;
+                            case "10019":
+                                // 清空地址
+                                var addressHtml = template("address-wrap", {"address": {"address": "undefined undefined"}});
+                                $("#address-part").html(addressHtml);
+                                orderPlaceData.address = "";
+
+                                //清空时间
+                                $(".timeinput").text("");
+                                orderPlaceData.time_range = "";
+                                myalert("错误提示", data.message.msg);
+
+                                // 立即预约按钮置灰
+                                $("footer div").addClass("disabled");
+                                break;
+                            default:
+                                //清空时间
+                                $(".timeinput").text("");
+                                myalert("错误提示", data.message.msg);
+
+                                // 立即预约按钮置灰
+                                $("footer div").addClass("disabled");
+                        }
+
+                    },
+                    error: function(xhr, type) {
+                        alert("出错了，请重新下单试试");
+                    }
+                })
+
+            })
+        }
+        /**
+         * 渲染合单运费
+         * @param  {obj} data 
+         */
+        function renderTotalDelivery(data) {
+            // 将运费项没有“运费”的补全“运费”二字
+            var len = data.order_page_info.delivery_fee_info.total.length || 0;
+            for (var i = 0; i < len; i++) {
+                if (data.order_page_info.delivery_fee_info.total[i]["fee"].indexOf("运费") < 0) {
+                    data.order_page_info.delivery_fee_info.total[i]["fee"] += "运费";
+                }
+            }
+            if (len && data.order_page_info.delivery_fee_info.total[0]["fee"] === "免运费") {
+                if (data.order_page_info.delivery_fee_info.total.length < 5) {
+                    data.order_page_info.delivery_fee_info.total.reverse();
+                }
+            }
+            var totalDeliveryHtml = template("total-delivery-wrap", {"total": data.order_page_info.delivery_fee_info.total});
+            $("#delivery-part").html(totalDeliveryHtml);
+        }
+
+        /**
+         * 渲染分品类运费
+         * @param  {obj} data 
+         */
+        function renderSubDelivery(data) {
+            var len = data.order_page_info.delivery_fee_info.sub.length;
+            if (len && data.order_page_info.delivery_fee_info.sub[0]["delivery_fee"][0]["fee"] === "免运费") {
+                for (var i = 0; i < len; i++) {
+                    if (data.order_page_info.delivery_fee_info.sub[i]["delivery_fee"].length < 5) {
+                        data.order_page_info.delivery_fee_info.sub[i]["delivery_fee"].reverse();
+                    }
+                }
+            }
+            // 将分品类缩小为选中的
+            
+            var sub = [];
+            for (var i = 0; i < len; i++) {
+                for (var j = 0; j < orderPlaceData.category_id.length; j++) {
+                    if (+data.order_page_info.delivery_fee_info.sub[i].category_id === +orderPlaceData.category_id[j]) {
+                        sub.push(data.order_page_info.delivery_fee_info.sub[i]);
+                    }
+                }
+            }
+            // 将运费项没有“运费”的补全“运费”二字
+            var len = data.order_page_info.delivery_fee_info.sub.length || 0;
+            for (var i = 0; i < len; i++) {
+                for (var j = 0, leng = data.order_page_info.delivery_fee_info.sub[i]["delivery_fee"].length; j < leng; j++) {
+                    if (data.order_page_info.delivery_fee_info.sub[i]["delivery_fee"][j]["fee"].indexOf("运费") < 0) {
+                        data.order_page_info.delivery_fee_info.sub[i]["delivery_fee"][j]["fee"] += "运费";
+                    }
+                }
+            }
+            var subDeliveryHtml = template("sub-delivery-wrap", {"sub": sub});
+            $("#delivery-part").html(subDeliveryHtml);
+        }
+
+        /**
+         * 渲染运费部分
+         * @param  {object} data 整个页面用的json的data字段
+         */
+        function renderDelivery(data) {
+            // 对运费数组反转，达到先显示满，后显示不满
+            // if (data.order_page_info.delivery_fee_info.total.length) {
+            //     data.order_page_info.delivery_fee_info.total.reverse();
+            // }
+            // if (data.order_page_info.delivery_fee_info.sub.length) {
+            //     var len = data.order_page_info.delivery_fee_info.sub.length;
+            //     for (var i = 0; i < len; i++) {
+            //         data.order_page_info.delivery_fee_info.sub[i]["delivery_fee"].reverse();
+            //     }
+            // }
+            // 渲染合单运费
+            if (orderPlaceData.category_id.length > 1 && data.order_page_info.delivery_fee_info.total.length) {
+                renderTotalDelivery(data);
+            }
+
+            // 渲染分品类运费
+            if ((orderPlaceData.category_id.length > 1 &&　!data.order_page_info.delivery_fee_info.total.length) || orderPlaceData.category_id.length === 1) {
+                renderSubDelivery(data);
+            }
+        }
+
+        /**
+         * 限制50字数
+         */
+        var oldStr;
+        $("#guest-part textarea").on("input propertychange", function() {
+            var str = $("#guest-part textarea").val();
+            var str = str.replace(/^(\u3000|\s|\t|\u00A0)*|(\u3000|\s|\t|\u00A0)*$/g, "");
+            var aMatch = str.match(/[^\x00-\x80]/g); 
+            var len = Math.ceil((str.length + (!aMatch ? 0: aMatch.length)) / 2);
+            if (len <= 50) {
+                oldStr = str;
+            }
+            else {
+                $("#guest-part textarea").val(oldStr)
+            }
+        })
+        // 获取url中参数
+        function getSearchParams() {
+            var params = {};
+            var chunks = location.search.substr(1).split(/&/g);
+            for (var i = 0; i < chunks.length; i++) {
+                try {
+                    var items = chunks[i].split('=', 2);
+                    var key = items[0];
+                    var value = decodeURIComponent(items[1]);
+                    params[key] = value;
+                }
+                catch (ex) {
+                }
+            }
+            return params;
+        }
+
+        /**
+         * 后端php做了两次编码，所以解码两次
+         * @param  {string} encodeUrl  php UrlEncode编码后字符串
+         * @return {object}  
+         */
+        function myDecodeUrl(encodeUrl) {
+            var temp = decodeURIComponent(decodeURIComponent(encodeUrl));
+            return JSON.parse(temp);
+        }
+
+        /**
+         * 提示框
+         * @param  {string} title   标题
+         * @param  {string} content 内容
+         */
+        function myalert(title, content) {
+            var alertHtml = template("alert-dialog-wrap", {"tips": {"title": title, "content": content}});
+            $("#dialog").html(alertHtml);
+            $("#alert-dialog").show();
+
+            $("#dialog").on("click", ".i-know-btn", function(e) {
+                $("#alert-dialog").hide();
+            })
+        }
+    </script>
+</body>
+</html>

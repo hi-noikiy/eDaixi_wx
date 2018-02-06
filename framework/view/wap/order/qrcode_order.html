@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta content="email=no" name="format-detection">
+  <meta content="" name="pgv">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>扫码下单</title>
+  <link href="{php echo assets_link('/framework/style/css/order.css')}" rel="stylesheet" type="text/css" />
+  <link href="{php echo assets_link('/framework/style/css/myOrder.css')}" rel="stylesheet" type="text/css" />
+  <link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css" />
+  <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+  <script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+ </head>
+ <body>
+   <div class="white_bg">
+       <div class="order_item">
+        <div class="item_list_box">
+         <div class="item_list_title">
+          <img src="{php echo assets_link('/framework/style/images/ziti_xinxi.png')}" class="img_ziti">
+          订单信息
+          <span class="code_status status_color">已取件</span>
+         </div>
+        <div class="borderD" style="margin-top:4px;margin-left:14px"></div>
+       </div>
+       <div class="prelative item_list_con p5 margin-left">
+        <div class="prelative">取件时间：{$qrcode_order['washing_date']} {$qrcode_order['washing_time']}</div>
+        <div class="prelative">服务项目：{$qrcode_order['category_desc']}
+        <span class="code_status">{$qrcode_order['amount_desc']}</span>
+        </div>
+       </div>
+       <div class="borderD2"></div>
+     </div>
+   </div>
+   <div class="white_bg">
+     {if 2 === $back_type}
+        <!-- 自提信息 -->
+        <div class="add_bg"></div>
+	        <div class="ziti">
+	           <div class="ziti-tip"><p>自提</p>已选择自提服务，请凭短信或微信通知自提</div>
+	           {if $dak_info}
+		           <div class="ziti-dizhi"><img src="{php echo assets_link('/framework/style/images/ziti_zhandian.png')}">{$dak_info['name']}</div>
+			       <div class="ziti-dizhi"><img src="{php echo assets_link('/framework/style/images/icon_phone.png')}">{$dak_info['tel']}</div>
+			       <div class="ziti-dizhi"><img src="{php echo assets_link('/framework/style/images/icon_location.png')}"><span>{$dak_info['address']}</span></div>
+			   {else}
+			       <div class="ziti-dizhi">
+			         <img src="{php echo assets_link('/framework/style/images/ziti_zhandian.png')}">
+			         <span style="color:#ccc;">无法获取自提地址</span>
+			       </div>
+		       {/if}
+	        </div>
+         <div class="add_bg"></div>
+    {else}
+        {if !$addr_info}
+           <!-- 无常用地址 -->
+           <div class="add_bg"></div>
+           <section class="address-handle section" id="address-handle">
+             <div class="address_icon icon_gray"></div>
+             <span class="m_input add-left"> 添加/选择地址</span>
+             <span class="arrow-left" style="top:44%"></span>
+           </section>
+           <div class="add_bg"></div>
+          <!--  <div class="p5"></div> -->
+        {else}
+           <!-- 有常用地址 -->
+           <div class="add_bg"></div>
+           <section class="address-handle section prelative" id='address-handle' style="padding: 0;padding-left: 15px;">
+              <span class="arrow-left"></span>
+              <div class=" wuliu-div">
+                <img src = "{php echo assets_link('/framework/style/images/icon_name.png')}"/>{$addr_info['username']}
+              </div>
+              <div class=" wuliu-div">
+                <img src = "{php echo assets_link('/framework/style/images/icon_phone.png')}"/>{$addr_info['tel']}
+              </div>
+              <div class="clearBoth"></div>
+              <div class="address_detail">
+                <div class=" wuliu-div textOverflow2">
+                  <img src = "{php echo assets_link('/framework/style/images/icon_location.png')}"/>{$addr_info['address']}
+                </div>
+              </div>
+            </section>
+            <div class="add_bg"></div>
+          <!--   <div class="p5"></div> -->
+        {/if}
+    {/if}
+   </div>
+
+   </div>
+    
+<div class="bottom_pay">
+      <form id="qrcode-form" action="{$qrcode_order_url}" method="POST">
+        <input type="hidden" name="qrid" id="qrid" value="{$qrid}" />
+        <input type="hidden" name="category_id" id="category_id" value="{$category_id}" />
+        <input type="hidden" name="back_type" id="back_type" value="{$back_type}" />
+	    <input type="hidden" name="address_id" id="address_id" value="{$address_id}" />
+        <input type="hidden" name="washing_date" id="washing_date" value="{$qrcode_order['washing_date']}" />
+        <input type="hidden" name="washing_time" id="washing_time" value="{$qrcode_order['washing_time_pass']}" />
+        <span class="bottom_font">订单总额: {$qrcode_order['price_desc']}</span>
+        <div class="go_pay">
+            <button type="button" id="order-btn" class="qr_order {$btn_style}" {$btn_status}> 去支付</button>
+        </div>
+      </form>
+</div>
+   
+<!-- 操作提示 start -->
+    <div id="tip-box" style="display:none" class="cod" style="height:60px">
+      <div class="wx_mask"></div>
+      <div class="wx_confirm ">
+          <div class="wx_confirm_inner" id="wx_confirm_float">
+             <div class="wx_confirm_hd">
+                <div class="wx_confirm_tit" id="show_mes"><!-- 提示信息 --></div>
+             </div>
+          </div>
+       </div>
+    </div>
+<!-- 操作提示 end -->
+
+	<script type="text/javascript">
+		var
+		  qrid = "{$qrid}",
+		  backType = "{$back_type}",
+		  selectAddrUrl = "{$select_addr_url}",
+		  $qrcodeForm = $('#qrcode-form'),
+		  $addressInput = $('#address_id'),
+		  $dateInput = $('#washing_date'), 
+		  $timeInput = $('#washing_time'),
+		  $addressHandle = $('#address-handle'),
+		  $orderBtn = $('#order-btn'),
+      orderEnable = "{$order_enable}";
+	
+        // 检验是否已生成订单
+        (function(){
+            if(qrid.length > 2 && sessionStorage.getItem('qrcode_' + qrid)){
+                $orderBtn.prop("disabled",true).removeClass("canBook").addClass("noBook");
+                showTip('已生成订单', "{php echo create_url('order/order_list')}");
+            }
+        })();
+        
+        // 填充地址
+        $addressHandle.one('click', fillAddr);
+        // 点击“去支付”按钮
+        $orderBtn.on('click', sumitOrder);
+        
+	    // 填充地址
+	    function fillAddr(){
+	        if(!selectAddrUrl){
+	            return;
+	        }
+	        window.location.href = selectAddrUrl;
+	        setTimeout(function(){
+	            $(this).one('click', fillAddr);
+	        }, 2000);
+	        return;
+	    }
+	                
+	    // 校验提交表单，提交订单预约
+	    function sumitOrder(){
+            var address_id = $addressInput.val(); 
+            if(! address_id){
+            	if(2 === parseint(backType)){
+            		showTip('驿站地址错误');
+            	}else{
+            		showTip('请添加/选择地址');
+            	}
+                return;
+            }
+            if ( "0" == orderEnable) {
+              showTip('我们爆单了哦');
+              return;
+            }
+	        $orderBtn.text('提交中').prop("disabled",true).removeClass('canBook').addClass("noBook");
+	        var submit_url = $qrcodeForm.attr('action');
+	        var submit_data = $qrcodeForm.serializeArray();
+	        $.post(submit_url, submit_data, function(data){
+	            if(data.message.state == 1){ // 订单生成成功
+	            	 if(qrid.length > 2){
+	            		 sessionStorage.setItem('qrcode_' + qrid, data.message.timestamp);
+	            	 }
+	                 window.location.href = data.message.url;
+	            }else{ // 订单生成失败
+	                 showTip(data.message.msg);
+	                 setBtnStatus(true);
+	                 $orderBtn.text(" 去支付");
+	            }
+	        },"json");
+	    }
+	
+	    // 设置提交按钮状态
+	    function setBtnStatus(bool){
+	        if(bool){
+	            $orderBtn.prop('disabled', false).removeClass("noBook").addClass("canBook");
+	        }else{
+	            $orderBtn.prop('disabled', true).removeClass("canBook").addClass("noBook");
+	        }
+	    }
+	      
+	    // 显示提示信息
+	    function showTip(msg, url){
+	    	if(!msg){
+	    		return;
+	    	}
+	        $('#show_mes').html(msg);
+	        if(url){
+	            $('#tip-box').show();
+	            setTimeout(function(){
+	            	window.location.href = url;
+	            }, 1500);
+	        }else{
+	            $('#tip-box').show().delay(2000).hide(0);
+	        }
+	    }
+	</script>
+ </body>
+</html>

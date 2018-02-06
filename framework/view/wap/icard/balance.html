@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<link href="{php echo assets_link('/framework/style/css/jifen.css')}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="{php echo assets_link('/framework/style/js/jquery-1.8.2.min.js')}"></script>
+<title>我的余额</title>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body id="card" ondragstart="return false;" onselectstart="return false;">
+    <section class="my_jifen">
+    <div class="white-bg radius_block">
+      <div class="balance_mall">
+        <a href="{$balance_mall_url}"><img src="{php echo assets_link('/framework/style/images/balance_mall.png')}">余额商城</a>
+      </div>
+      <div class="jifen_box">
+        余额  
+        <div class="font16">{$icard_sum}<small style="font-size:12px;margin-top:-3px;">元</small></div>
+      </div>
+      {if !in_array($_SESSION['user_info']['user_type'], array(26, 34))}
+      <div class="chongzhi_shc"><a href = "{php echo create_url('icard/icard_charge',array('status' => '1'))}">去充值</a></div>
+      {/if}
+      <div class="jifen_mingxi">
+        <div class="borderD2"></div>
+        <span>余额明细</span>
+      </div>
+    </div>
+    
+  </section>
+  <section id="icard_details_list" class="jifen_list white-bg">
+  {loop $icard_details $key $icard_detail}
+    <div class="jifen_itle2 feature_block icard_row" page="{$page}" rows_count="{$rows_count}">{$icard_detail['type']}
+      <div class="add_jifen chongzhi_yue {if $icard_detail['increase'] < 0}green_color{/if}">{$icard_detail['increase']}</div>
+      <div class="time2">
+        {$icard_detail['created_at']}
+        <span>{$icard_detail['status']}</span>
+      </div>
+    </div>
+    <div class="borderD"></div>
+   {/loop}
+  </section>
+  <p class="detail_prompt">2015年1月1日之前的记录暂不显示</p>
+  
+  <script type="text/javascript">
+  var pageSize = 10;	// 每页显示记录数（由接口决定）
+  var totalHeight = 0;	// 滚动距离 + 窗口高度
+  $(window).scroll(function() {
+	  var lastRow = $('#icard_details_list .icard_row:last');
+	  var rowsCount = lastRow.attr('rows_count');
+	  if(rowsCount >= pageSize){
+	  	var page = parseInt(lastRow.attr('page')) + 1;
+		nextPage(page);
+	  }
+  });
+  
+  // 加载下一页
+  function nextPage(page){ 
+      totalHeight = parseFloat($(window).height()) + parseFloat($(window).scrollTop()); 
+      if (totalHeight >= $(document).height()) {
+      	var url = "{php echo create_url('icard/next_balance');}&page=" + page;
+      	$.getJSON(url, function(resp){
+      		if(resp.message.rows_count > 0){
+      			$("#icard_details_list").append(resp.message.html);
+      		}
+      	});
+      } 
+  }
+  </script>
+  <?php include template('foot') ?>
+</body>
+</html>

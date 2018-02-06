@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>支付订单</title>
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/myOrder.css?v=20161116')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/animation.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/payconfirm.css')}" rel="stylesheet" type="text/css">
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+
+<body style="background:#fff">
+<div class="order_bar">
+  <!-- 要支付的订单信息 -->
+  <?php foreach ($pay_info['orders_info'] as $order_info): ?>
+    <div><?php echo $order_info['order_info_text'];?> <span><?php echo $order_info['total_count_text'];?></span>
+    </div>
+    <div class="borderD2"></div>
+  <?php endforeach;?>
+</div>
+<div class="myOrder_list pay_order_list">
+    {if $is_xiyiye}
+    <div class="white-bg pay-detail">
+      <p class="pay-status">
+        <span class="word-tip">订单总额</span>
+        <span class="pay-money-order"><?php echo $pay_info['order_amount'];?></span>
+        <span class="word-tip">元</span>
+      </p>
+    </div>
+    {else}
+    <div class="white-bg pay-detail">
+      <p class="pay-status">
+        <span class="word-tip">订单总额</span>
+        <span class="pay-money-order"><?php echo $pay_info['order_amount'];?></span>
+        <span class="yunfei">(含运费<?php echo $pay_info['trans_amount'];?>元)</span>
+      </p>
+      {if !in_array($_SESSION['user_info']['user_type'], array(26, 34))}
+      <p class="tip_culm">
+        <?php if ($discount_show):?>
+          <span><em class="pay-tip"><?php echo $recharge_text;?>!</em>充值后相当于<em  class="pay-tip"><?php echo $discount_text;?>元</em></span>
+        <?php endif;?>
+        <span class="go-pay" id="redirect-recharge" data-recharge-url="{$recharge_url}" data-recharge-item="{$recharge_text}">去充值 &nbsp;<em class="gt"></em></span>
+      </p>
+      {/if}
+    </div>
+    {/if}
+  <ul>
+    <li class="order_item order_bottom">
+      <!--订单金额-->
+    <div class="borderD2"></div>
+      <div class="space-split15"></div>
+      
+      <!--优惠券-->
+      <?php if(($can_choose) ||
+                $pay_info['coupon_amount'] > 0):?>
+      <div class="borderD2"></div>
+      <div class="item_list_box">
+        <a href="<?php echo $coupon_url;?>" class="mobile-font font16">
+           <img src="{php echo assets_link('/framework/style/images/coupon.png')}" <?php echo $can_click;?> style="width:20px;margin-top:16px"/>
+           优惠券<span class="pull-right blue-color  position-span"><?php echo $pay_info['pay_text']['coupon_text'];?></span>&nbsp;&nbsp;
+            <?php if ($can_choose):?>
+              <em class="gt coupon-right"></em>
+            <?php endif;?>
+        </a>
+      </div>  
+      <div class="borderD2"></div>
+    <?php endif;?>
+      <!-- end of 优惠券-->
+      
+      <!-- E卡 -->
+      {if !in_array($_SESSION['user_info']['user_type'], array(34))}
+      <?php if(($total_pay_money > 0 && $can_choose) ||
+                $pay_info['ecard_amount'] > 0):?>
+        <div class="space-split15"></div>
+        <div class="borderD2"></div>
+        <div class="item_list_box">
+           <a href="<?php echo $ecard_url;?>" <?php echo $can_click;?> class="mobile-font font16">
+               <img src="{php echo assets_link('/framework/style/images/e-card.png')}" style="width:20px;margin-top:16px"/>
+               e卡<span class="pull-right blue-color  position-span"><?php echo $pay_info['pay_text']['ecard_text'];?></span>&nbsp;&nbsp;
+                <?php if ($can_choose):?>
+                  <em class="gt coupon-right"></em>
+                <?php endif;?>
+             </a>
+        </div>  
+        <div class="borderD2"></div>
+      <?php endif;?>
+      {/if}
+      <!-- end of E卡-->
+
+        <form id="pay-form" action="<?php echo $pay_url;?>" method="POST">
+          {if !in_array($_SESSION['user_info']['user_type'], array(26, 34))}
+          <?php if(($total_pay_money > 0 && $can_choose)||
+                   $pay_info['icard_amount'] > 0):?>
+            <div class="item_list_box font16 paytpe-item" style="">
+                  <label for="icard_pay" class="label_checked">
+                    <img src="{php echo assets_link('/framework/style/images/balance.png')}" style="width:20px;margin:16px 12px 0 2px;"/>
+                    <name>余额支付</name>
+                    <div class="yue"> 
+                      <div>
+                        <name><?php echo $pay_info['pay_text']['icard_default_text'];?></name>
+                        <?php if(!empty($pay_info['pay_text']['icard_text'])):?>
+                          <name class="blue-color" id="icard_fee_text"><?php echo $pay_info['pay_text']['icard_text'];?></name>
+                        <?php else:?>
+                          <name class="blue-color" id="icard_fee_text">支付<money style="color:#ff6339;">0</money>元</name>
+                        <?php endif;?>
+                      </div>
+                    </div>
+                    <span class="pull-right orange_color ">
+                      <input class="paytype_1" id="icard_pay" type="checkbox" name="choose_icard" <?php echo $icard_can_click;?> <?php echo $icard_checked;?> value="1"/>
+                      <label for="icard_pay" class="te-input"><b></b></label>
+                    </span>
+                  </label>
+               </div>
+            <div class="borderD"></div>
+          <?php endif;?>
+          {/if}
+          <!-- 第三方支付方式-->
+          <?php if (!empty($pay_info['third_pay']) &&
+                    $total_pay_money > 0):?>
+            <section id="third-pay-list">
+              <div class="bgf0f0f0 p15">
+                <span>支付方式</span>
+                <div class="clearBoth"></div>  
+              </div>
+              <div class="borderD" style=""></div>
+              <?php foreach ($pay_info['third_pay'] as $pay_type => $info):?>
+                  <div class="item_list_box font16 paytpe-item" id="third-pay-<?php echo $pay_type;?>">
+                      <label for="<?php echo $info['name'];?>" class="label_checked">
+                        <img src="<?php echo assets_link($info['img_url']);?>"/>
+                        <name><?php echo $info['show_name'];?></name>
+                        <span class="pull-right orange_color">
+                          <input id="<?php echo $info['name'];?>" class="paytype_<?php echo $pay_type;?>" type="radio" name="paytype" value="<?php echo $pay_type;?>" <?php echo $info['checked'];?> showname="<?php echo $info['show_name'];?>" usable="<?php echo $info['is_usable'] ? 'true' : 'false';?>" autocomplete="off"/>
+                          <label paytype="<?php echo $pay_type;?>" for="<?php echo $info['name'];?>">
+                            <b></b>
+                          </label>
+                        </span>
+                        <?php if(!empty($pay_info['third']['pay_active'][$pay_type])){ ?>
+                        <div class="bottom-mark"><?php echo $pay_info['third']['pay_active'][$pay_type]; ?></div>
+                        <?php }?>
+                      </label>
+                  </div>
+                  <div class="borderD" style="">
+                  </div>
+              <?php endforeach;?>           
+              <div class="clear"></div>
+            </section>
+          <?php endif;?>
+            
+          <input type="hidden" name="coupon_id" value="<?php echo $coupon_id;?>" />
+          <input type="hidden" name="order_list" value="<?php echo $order_list;?>" />
+          <input type="hidden" name="ecard_list" value="<?php echo $ecard_list;?>" />
+          <input type="hidden" name="coupon_fee" value="<?php echo $pay_info['coupon_amount'];?>" />
+          <input type="hidden" name="ecard_fee" value="<?php echo $pay_info['ecard_amount'];?>" />
+          <input type="hidden" id="icard_fee" name="icard_fee" value="0" />
+          <input type="hidden" id="third_price" name="third_price" value="<?php echo $total_pay_money;?>" />
+          {if $is_xiyiye}
+          <input type="hidden" id="physical_order_id" name="physical_order_id" value="<?php echo $order_id;?>" />
+          <input type="hidden" id="is_xiyiye" name="is_xiyiye" value=1 />
+          {/if}
+          <div class="btn-bottom">
+            <div class="borderD4"></div>
+            <button type="button" id="pay-btn" <?php echo $btn_style;?> class="<?php echo $btn_class;?>" autocomplete="off"><?php echo $btn_text;?></button>
+            <?php if ($pay_status == 1):?>
+              <div class="zhifu-tip">
+                <span>修改支付方式或遇到其他问题请点击</span>
+                <a href="javascript:void(0);" id="cancel-pay">取消支付</a>
+              </div>
+            <?php endif;?>
+          </div>
+          
+        </form>
+    </li>
+  </ul>
+  <!-- 支付进行提示 start --> 
+  <div class="remaining-pay">
+     <div id="paying" class="paying" style="display:none;">
+       <img src="{php echo assets_link('/framework/style/images/paying.png')}" class="rotate"/>
+       <p id="paying-text">支付中</p>
+     </div>
+     <div id="pay-finish" class="pay-finish" style="display:none;">
+        <img src="{php echo assets_link('/framework/style/images/pay-finish.png')}"/>
+        <p>支付完成</p>
+     </div>
+  </div>
+  <!-- 支付进行提示 end -->
+</div>
+
+<!-- 操作提示 start -->
+<div id="tip-box" style="display:none" class="cod" style="height:60px">
+  <div class="wx_mask"></div>
+  <div class="wx_confirm ">
+      <div class="wx_confirm_inner" id="wx_confirm_float">
+         <div class="wx_confirm_hd">
+            <div class="wx_confirm_tit" id = "show_mes"><!-- 提示信息 --></div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- 操作提示 end -->
+
+<!-- 加载中 -->
+<div class="loader" style="display:none;"><span class="mask"></span>加载中...</div>
+<!-- end of 加载中-->
+
+<!-- 支付方式与优惠券不匹配弹窗 start -->
+<div id="paytype_tip" class="paytype_tip" style="display: none;">
+  <div class="wx_mask"></div>
+    <div class="wx_confirm">
+      <div class="wx_confirm_inner" style="padding:6% 0 0 0;width:100%">
+        <div class="wx_confirm_hd bigfont p30">
+          所选的支付方式不支持当前优惠券，是否放弃使用该优惠券？
+       </div>
+        <div class="wx_confirm_bd">
+          <div class="borderD"></div>
+          <div class="wx_confirm_btns" style="position:relative">
+              <button type="button" id="use_coupon" class="blue-color">否</button>
+              <button type="button" id="nonuse_coupon" class="blue-color">继续</button>
+              <div class="borderL"></div>
+          </div>
+
+        </div>
+        </div>
+    </div>
+</div>
+<!-- 支付方式与优惠券不匹配弹窗 end -->
+
+<!-- 取消支付  start-->
+<div id="cod-cancel-pay" style="display:none">
+  <div class="wx_mask"></div>
+  <div class="wx_confirm ">
+    <div class="wx_confirm_inner padding-top width100" id="wx_confirm_coupon">
+      <div class="wx_confirm_hd">
+          <div class="wx_confirm_tit blue-color">取消支付</div>
+          <div class="cot_content">取消支付后将重新选择支付方式</div>
+          <div class="floatBorder floatbox ">
+               <a id="cancel-pay-false" class="single_input2" href="javascript:void(0);">不取消了</a>
+               <a id="cancel-pay-true" class="cancel single_input2 ">确认取消</a>
+          </div>
+          <div class="clearBoth"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 取消支付 弹窗 end-->
+
+{if $is_xiyiye}<div class="warn-info">15分钟内未完成支付将自动帮您取消订单<img src="{php echo assets_link('/framework/style/images/huanjiao.png')}"/></div>{/if}
+
+<div id="pay_win" style="display:none;" class="cod">
+  <div class="pay_mask"></div>
+  <div class="pay_confirm">
+    <div class="pay_confirm_inner">
+      <div class="pay_confirm_hd">
+        <div class="pay_confirm_tit" id="tip_div">支付确认</div>
+      </div>
+      <div class="pay_confirm_bd">
+        <p>1.请在微信内完成支付，如果您已支付成功，请点击“已完成支付”按钮</p>
+        <p class="p2">2.如果您还未安装微信6.0.2及以上版本客户端，请点击“取消”并选择其他支付方式付款</p>
+        <div class="pay_confirm_btn">
+          <div class="border-top"></div>
+          <div class="border-left"></div>
+          <a class="canclebtn">取消</a>
+          <a class="okbtn">已完成支付</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  //ajax计算运费未发起状态
+  var ajax_caclulate_status = 0;
+  //待支付金额
+  var need_pay_money = parseFloat("<?php echo $total_pay_money;?>");
+  //第三方支付金额
+  var third_money = need_pay_money;
+  //可用的第三方支付
+  var third_list = <?php echo json_encode($pay_info['third']['usable']);?>;
+  //充值flag
+  var recharge_flag = true;
+  //点击的支付方式
+  var clicked_pay = null;
+  var clicked_third_pay = null;
+  var need_check = true;
+  //点击余额支付
+  $("#icard_pay").on("click", function(){
+    clicked_pay = $(this);
+    var icard_enable = <?php echo $icard_enable ? 'true' : 'false';?>;
+    var checked = $(this).prop('checked');
+    if (checked && !icard_enable) {
+      //与优惠券冲突弹框
+      $("#paytype_tip").show();
+      return false;
+    }
+    if (checked) {
+      var url = "<?php echo $caclulate_url;?>";
+      caclulate_price(url);
+    } else {
+      //清空余额支付金额
+      $("#icard_fee_text").html('支付<money style="color:#ff6339;">0</money>元').show();
+      $("#icard_fee").val("0");
+      $("#third_price").val(need_pay_money);
+      updateThirdPay(need_pay_money, third_list);
+    }
+  });
+  // 继续使用优惠券
+  $('#use_coupon').on('click', function(){
+    $('#paytype_tip').hide();
+    if (clicked_third_pay) {
+      //支付方式与优惠券冲突时，选择继续使用优惠券去情况
+      //取消支付方式的选中状态
+      clicked_third_pay.prop('checked', false);
+      clicked_third_pay = null;
+    }
+  });
+  // 放弃使用优惠券
+  $('#nonuse_coupon').on('click', function(){
+    var url = "<?php echo $default_url;?>";
+    showLoading(true);
+    window.location.href = url;
+  });
+  //计算支付金额
+  function caclulate_price(url) {
+    //请求中
+    showLoading(true);
+    //ajax计算运费发起状态
+    ajax_caclulate_status = 1;
+    caclulate_time_count = setTimeout(function(){
+      if (ajax_caclulate_status == 1) {
+        caclulate_ajax.abort();
+        //ajax计算运费返回状态
+        ajax_caclulate_status = 2;
+        showLoading(false);
+        //取消余额支付的选中状态
+        $("#icard_pay").prop('checked', false);
+        show_mes('出错啦，请稍后再试！', 2000);
+      }
+    }, 8000);
+    caclulate_ajax = $.ajax({
+            type : "GET",
+            async:true,
+            url : url,
+            dataType : "json",
+            timeout: 5000,
+            success : function(ret){
+              clearTimeout(caclulate_time_count);
+              showLoading(false);
+              ajax_caclulate_status = 2;
+              if (ret.status) {
+                var icard_fee_text = ret.data.icard_fee_text;
+                var icard_fee = ret.data.icard_fee;
+                var pay_money = ret.data.pay_money;
+                var thirds = ret.data.third;
+                //显示余额抵扣金额
+                $("#icard_fee_text").html(icard_fee_text).show();
+                $("#icard_fee").val(icard_fee);
+                $("#third_price").val(pay_money);
+                updateThirdPay(pay_money, thirds);
+              } else {
+                //取消余额支付的选中状态
+                $("#icard_pay").prop('checked', false);
+                show_mes(ret.msg, 2000);
+              }
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+              clearTimeout(caclulate_time_count);
+              ajax_caclulate_status = 2;
+              showLoading(false);
+              //取消余额支付的选中状态
+              $("#icard_pay").prop('checked', false);
+              if (textStatus == 'timeout') {
+                show_mes('网络超时, 请稍后再试!', 2000);
+              } else {
+                show_mes('出错了，请稍后再试！', 2000);
+              }
+            }
+    });
+  }
+  //支付订单
+  function pay_order(url, send_data, pay_type, is_wx_browser) {
+    if (pay_type == 3 || (pay_type == 2 && is_wx_browser == 1)) {//现金支付或者除微信浏览器以外支付
+      //请求中状态
+      showLoading(true);
+    } else {
+      //隐藏去支付按钮
+      $("#pay-btn").hide();
+      //显示支付中
+      $("#paying").show();
+    }
+    //ajax订单支付发起状态
+    ajax_pay_status = 1;
+    pay_time_count = setTimeout(function(){
+      if (ajax_pay_status == 1) {
+        pay_ajax.abort();
+        //ajax订单支付返回状态
+        ajax_pay_status = 2;
+        $("#pay-btn").show();
+        $("#paying").hide();
+        show_mes('出错啦，请稍后再试！', 2000);
+        showLoading(false);
+      }
+    }, 12000);
+    pay_ajax = $.ajax({
+            type : "POST",
+            async:true,
+            url : url,
+            data: send_data,
+            dataType : "json",
+            timeout: 10000,
+            success : function(ret){
+              clearTimeout(pay_time_count);
+              $("#paying").hide();
+              ajax_pay_status = 2;
+              if (ret.status) {
+                if (pay_type == 3 || (pay_type == 2 && is_wx_browser == 1)) {
+                  showLoading(false);
+                } else {
+                  $("#pay-finish").show();
+                }
+
+                if( pay_type == 2 && is_wx_browser == 1 ) {
+                  $("#pay_win").show(500);
+                  $("#pay_win").find('.canclebtn').unbind('click');
+                  $("#pay_win").find('.canclebtn').bind('click',function(){
+                      $("#pay_win").hide(500);
+                  });
+                  $("#pay_win").find('.okbtn').unbind('click');
+                  $("#pay_win").find('.okbtn').bind('click',function(){
+                      window.location.href = ret.success_url;
+                  });
+                  window.location.href = ret.pay_url;
+                } else {
+                  if (ret.url) {
+                    window.location.href = ret.url;
+                  } else {
+                    window.location.reload();
+                  }
+                }
+              } else {
+                show_mes('支付失败啦', 2000);
+                jumpUrl('reload', 2000);
+              }
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+              clearTimeout(pay_time_count);
+              ajax_pay_status = 2;
+              $("#paying").hide();
+              showLoading(false);
+              $("#pay-btn").show();
+              if (textStatus == 'timeout') {
+                show_mes('网络超时, 请稍后再试!', 2000);
+              } else {
+                show_mes('出错了，请稍后再试！', 2000);
+              }
+            }
+    });
+  }
+  //点选第三方支付
+  $("#third-pay-list input").click(function(){
+    var usable = $(this).attr('usable');
+    if (usable == 'false') { 
+      clicked_third_pay = $(this);
+      //与优惠券冲突弹框
+      $("#paytype_tip").show();
+      $(this).prop('checked', false);
+      return false;
+    }
+    updateThirdPay(third_money, true);
+  });
+  
+  //更新第三方支付方式
+  function updateThirdPay(money, thirds)
+  {
+    //更新第三方支付列表
+    if (thirds instanceof Array) {
+      $("#third-pay-list input").each(function(){
+        $(this).prop("checked", false);
+        var pay_type = parseInt($(this).val());
+        //默认选中第一个可用第三方支付
+        if (thirds.length > 0 &&
+            pay_type == thirds[0]) {
+          $(this).prop("checked", true);
+        }
+      });
+    } else if (!thirds){
+      //没有可用第三方支付
+      $("#third-pay-list input").each(function(){
+        $(this).prop("checked", false);
+      });
+    }
+    money = parseFloat(money);
+    money = money.toFixed(2);
+    third_money = money;
+    if (money > 0) {
+      //当前选中的第三方支付方式
+      var third_pay = $("#third-pay-list input:checked");
+      var name = third_pay.attr("showname");
+      var pay_type = parseInt(third_pay.val());
+      if(pay_type == 20){
+        name = '一网通支付';
+      }
+      if (!name) {
+        //没有可用第三方支付
+        name = '支付';
+        $("#pay-btn").attr("disabled", true);
+        $("#pay-btn").addClass("gray-btn");
+      } else {
+        $("#pay-btn").removeAttr("disabled");
+        $("#pay-btn").removeClass("gray-btn");
+      }
+      $("#pay-btn").html(name + " ￥" + money);
+      $("#third-pay-list").show();
+    } else {
+      //隐藏第三方支付方式
+      $("#third-pay-list").hide();
+      $("#third-pay-list input").each(function(){
+        $(this).prop("checked", false);
+      });
+      //点亮按钮，设为可用
+      $("#pay-btn").removeAttr("disabled");
+      $("#pay-btn").removeClass("gray-btn");
+      $("#pay-btn").html("完成支付");
+    }
+  }
+
+  //点击完成支付
+  $("#pay-btn").click(function(){
+    var pay_form = $("#pay-form");
+    var pay_data = pay_form.serializeArray();
+    var third_price = parseFloat($("#third_price").val());
+    var pay_type = $('input:radio[name="paytype"]:checked').val();
+    var is_wx_browser = <?php echo $pay_info['is_wx_browser'] ? $pay_info['is_wx_browser'] : 0; ?>;
+    //非’现金支付‘的第三方支付
+    if ( (pay_type == 2 && is_wx_browser == 1) || pay_type == 3 ||
+         third_price <= 0) {
+      //ajax订单支付
+      var pay_url = pay_form.attr("action");
+      var pay_data = pay_form.serializeArray();
+      pay_order(pay_url, pay_data, pay_type, is_wx_browser);
+    } else {
+      pay_form.submit();
+    }
+  });
+
+  //点击取消支付事件
+  $("#cancel-pay").click(function(){
+    $('#cod-cancel-pay').show();
+  });
+  //不取消了
+  $('#cancel-pay-false').click(function () {
+     $('#cod-cancel-pay').hide(); 
+  });
+  //确认取消支付事件
+  $('#cancel-pay-true').click(function () {
+     //订单取消支付
+     var url = "<?php echo $cancel_pay_url;?>";
+     var order_id = <?php echo $cancel_order_id;?>;
+     var order_data = {order_id : order_id};
+     cancel_pay(url, order_data);
+  });
+
+  //订单取消支付
+  function cancel_pay(url, send_data) {
+    //显示取消支付中
+    showLoading(true);
+    //ajax订单取消支付发起状态
+    ajax_cancel_pay_status = 1;
+    cancel_pay_time_count = setTimeout(function(){
+      if (ajax_cancel_pay_status == 1) {
+        showLoading(false);
+        $('#cod-cancel-pay').hide();
+        cancel_pay_ajax.abort();
+        //ajax订单取消支付返回状态
+        ajax_cancel_pay_status = 2;
+        show_mes('出错啦，请稍后再试！', 2000);
+      }
+    }, 8000);
+    cancel_pay_ajax = $.ajax({
+            type : "POST",
+            async:true,
+            url : url,
+            data: send_data,
+            dataType : "json",
+            timeout: 5000,
+            success : function(ret){
+              clearTimeout(cancel_pay_time_count);
+              ajax_cancel_pay_status = 2;
+              showLoading(false);
+              if (ret.status) {
+                if (ret.url) {
+                  location.href = ret.url;
+                } else {
+                  location.reload();
+                }
+              } else {
+                $('#cod-cancel-pay').hide();
+                show_mes(ret.msg, 2000);
+                jumpUrl('reload', 1000);
+              }
+            },
+            error:function(XMLHttpRequest, textStatus, errorThrown){
+              clearTimeout(cancel_pay_time_count);
+              ajax_cancel_pay_status = 2;
+              showLoading(false);
+              $('#cod-cancel-pay').hide();
+              if (textStatus == 'timeout') {
+                show_mes('网络超时, 请稍后再试!', 2000);
+              } else {
+                show_mes('出错了，请稍后再试！', 2000);
+              }
+            }
+    });
+
+  }
+
+  //显示加载中
+  function showLoading(show)
+  {
+      if (show) {
+         $(".loader").show(); 
+      } else {
+          $(".loader").hide(); 
+      } 
+  }
+  //显示提示信息
+  function show_mes(title, delay_time) {
+    if(title){
+        $("#show_mes").html(title);
+    }
+    if (delay_time) {
+      setTimeout(function(){
+        $("#tip-box").hide();
+      }, delay_time);
+    }
+    $("#tip-box").show();
+  }
+  //跳转url
+  function jumpUrl(url, delay_time) {
+    if (url == 'reload') {
+      if (delay_time) {
+        setTimeout("location.reload()", delay_time);
+      } else {
+        location.reload(true);
+      }
+    } else if (url) {
+      if (delay_time) {
+        setTimeout("location.href='" + url + "'", delay_time);
+      } else {
+        location.href = url;
+      }
+    }
+  }
+  // 引导跳转充值页
+  $("#redirect-recharge").on('click', function(){
+    var $this = $(this);
+    var timer = null;
+      if(recharge_flag){
+          recharge_flag = false;
+          clearTimeout(timer);   // 关闭定时器
+          
+          <?php if($_W['config']['statistics']['piwik']): ?>
+          // Piwik 埋点
+          var rechargeItem = $this.data('recharge-item'), orderPrice = parseFloat(+"<?php echo $pay_info['order_amount'];?>");
+          // category  event_action  event_action_name event_action_value
+          _paq && _paq.push(['trackEvent', 'guide_recharge', 'click', rechargeItem, orderPrice, {dimension1: rechargeItem}]);
+          <?php endif; ?>
+          var rechargeCallback = "<?php echo $recharge_callback;?>";
+          //是否选择了余额
+          var icard_check = $("#icard_pay").prop('checked');
+          //选择的第三方支付方式
+          var third_pay_type = $('input:radio[name="paytype"]:checked').val();
+          if (icard_check) {
+            rechargeCallback += "&choose_icard=1";
+          }
+          if (third_pay_type) {
+            rechargeCallback += "&third_pay_type=" + third_pay_type;
+          }
+          var rechargeUri = $this.data('recharge-url') + '&recharge_callback=' + encodeURIComponent(rechargeCallback);
+          if(rechargeCallback && rechargeUri){
+            window.location.href = rechargeUri;
+          }
+          timer = setTimeout(function(){
+              recharge_flag = true;
+          }, 1000);
+      }
+  });
+</script>
+<?php include template('foot') ?>
+<script type="text/javascript">
+</script>
+</body>
+</html>

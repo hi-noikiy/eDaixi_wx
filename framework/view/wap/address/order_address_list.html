@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>选择地址</title>
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/order.css')}" rel="stylesheet" type="text/css" />
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body style="padding-bottom:60px;background:#f0f0f0">
+<div id = "all_address"> 
+   <div data-role="content">
+      {if $serv_count}
+        <!-- 可服务地址 start -->
+        <table class="order-place-table swipe-delete"  cellpadding="0" cellspacing="0">     
+            {loop $serv_list $key $items}
+            <tr id="address_list_{php echo $items['address_id']}" data-addr-id="{php echo $items['address_id']}" data-addr-info="{php echo $items['address_info']}" data-can-wash="{php echo $items['can_wash']}">
+              <td width="16%" class="white-bg sel-addr-btn">
+                <span class="check-label"><em class="arrow-gou"></em></span>
+              </td>
+              <td style="padding:0 0px;" class="white-bg">
+                <div class="change-address sel-addr-btn">
+                  <span ontouchstart="" class="bigf address_text">{$items['username']}</span>
+                  <span>{$items['tel']}</span>
+                  <p>{$items['city']}  {$items['area']}  {$items['address']}</p>            
+                </div>      
+                <div class="borderRight"></div>   
+                <!-- 编辑地址 -->
+                <a href="{php echo $items['manage_address_url']}" class="edit_arrow edit-btn">
+                  <img src="{php echo assets_link('/framework/style/images/edit_add.png')}" />
+                </a>
+                <div class="borderD"></div>
+              </td>
+            </tr>
+            {/loop}
+          
+        </table>
+        <div class="borderD"></div>
+        <div style="height:10px;background:#f0f0f0"></div>
+        <!-- 可服务地址 end -->
+      {/if}
+      {if $city_unserv_count}
+        <!-- 同城市不可服务地址 start -->
+        <table class="order-place-table swipe-delete"  cellpadding="0" cellspacing="0">     
+            {loop $city_unserv_list $key $items}
+            <tr id="address_list_{php echo $items['address_id']}" data-addr-id="{php echo $items['address_id']}" data-addr-info="{php echo $items['address_info']}" data-can-wash="{php echo $items['can_wash']}">
+              <td width="16%" class="white-bg sel-addr-btn">
+                <span class="check-label"><em class="arrow-gou"></em></span>
+              </td>
+              <td style="padding:0 0px;" class="white-bg">
+                <div class="change-address sel-addr-btn">
+                  <span ontouchstart="" class="bigf address_text">{$items['username']}</span>
+                  <span>{$items['tel']}</span>
+                  <p>{$items['city']}  {$items['area']}  {$items['address']}</p>            
+                </div>      
+                <div class="borderRight"></div>   
+                <!-- 编辑地址 -->
+                <a href="{php echo $items['manage_address_url']}" class="edit_arrow edit-btn">
+                  <img src="{php echo assets_link('/framework/style/images/edit_add.png')}" />
+                </a>
+                <div class="borderD"></div>
+              </td>
+            </tr>
+            {/loop}
+          
+        </table>
+        <div class="borderD"></div>
+        <div style="height:10px;background:#f0f0f0"></div>
+        <!-- 同城市不可服务地址 end -->
+      {/if}
+      {if $unserv_count}
+        <!-- 不可服务地址 start -->
+        <table class="order-place-table swipe-delete"  cellpadding="0" cellspacing="0">  
+            <div class="borderD"></div>
+            {loop $unserv_list $key $items}
+            <tr id = "address_list_{php echo $items['address_id']}">
+              <td width="16%" class="white-bg unserv_item" onclick="openWin('{$items['city_id']}', '{$items['city']}');">
+                <span class="check-label"><em class="arrow-gou"></em></span>
+              </td>
+              <td style="padding:0 0px;" class="white-bg">
+                <div class="change-address" onclick="openWin('{$items['city_id']}', '{$items['city']}');" >
+                  <span ontouchstart="" class="bigf address_text">{$items['username']}</span>
+                  <span>{$items['tel']}</span>
+                  <p>{$items['city']}  {$items['area']}  {$items['address']}</p>            
+                </div>
+                <div class="borderRight"></div>
+                <!-- 编辑地址 start -->
+                <a href="{php echo $items['manage_address_url']}" class="edit_arrow edit-btn">
+                	<img src="{php echo assets_link('/framework/style/images/edit_add.png')}" />
+                </a>
+                <!-- 编辑地址 end -->
+                <div class="borderD"></div>
+              </td>
+            </tr>
+            {/loop}
+        </table>
+        <!-- 不可服务地址 end -->
+      {/if}
+    </div>
+</div>
+
+<!-- 添加按钮 start-->
+<div class="fixed-bottom white-bg">
+    <a href="{$create_address_url}">
+	  <div class="borderD2"></div>
+	  <div class="choose-time ">
+	      <img src="{php echo assets_link('/framework/style/images/icon_add.png')}" >
+	      <span class="am-button"> 添加地址</span>
+	  </div>
+    </a>
+</div>
+<!-- 添加地址按钮 end-->
+  
+<!-- 是否切换城市 start -->
+<div id="confirm_win" style="display:none" class="cod">
+  <div class="wx_mask"></div>
+  <div class="wx_confirm">
+    <div class="wx_confirm_inner" style="padding:6% 0 0 0;width:100%">
+      <div class="wx_confirm_hd bigfont p10">
+        不同的城市价目可能不同，您是否需要切换到所选城市再下单？
+      </div>
+      <div class="wx_confirm_bd">
+        <div class="borderD"></div>
+        <div class="wx_confirm_btns" style="position:relative">    
+          <input type="hidden" id="city_id" value="" />
+          <input type="hidden" id="city_name" value="" />                    
+          <button type="cancel" onclick="closeWin();" id="cancel_btn">取消</button>
+          <button type="submit" onclick="changeCity();" id="confirm_btn">确定</button>
+          <div class="borderL"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 是否切换城市 end -->
+
+<!-- 操作提示 start -->
+<div id="msg_win" style="display:none" class="cod" style="height:60px">
+  <div class="wx_mask"></div>
+  <div class="wx_confirm ">
+      <div class="wx_confirm_inner" id="wx_confirm_float">
+         <div class="wx_confirm_hd">
+        	<div class="wx_confirm_tit" id = "msg_tip" style="font-size:1em"><!-- 提示信息 --></div>
+         </div>
+   	  </div>
+   </div>
+</div>
+<!-- 操作提示 end -->
+
+<script type="text/javascript">
+var 
+  sel_address_id = "{$address_id}", 
+  switch_city_tip = "{$switch_city_tip}", 
+  un_service = "{$un_service}",
+  $selAddrBtn = $('.sel-addr-btn'),
+  $editBtn = $('.edit-btn');
+
+// 选中常用地址样式
+if(!!sel_address_id && !un_service){
+    $("#address_list_" + sel_address_id).addClass('select_tr');
+}
+// 弹出切换城市提示
+if('1' == switch_city_tip){
+	$('.unserv_item:first').click();
+}
+// 弹出不支持品类提示
+if('1' == un_service){
+  // showTip('该区域尚未开通您选择的业务，请更换地址');
+	showTip('地址超出所选品类的取送服务范围，无法添加地址，请更换“正确行政区域”后再次尝试');
+}
+
+// 选中地址,返回下单页
+$selAddrBtn.on('click', selectAddress);
+function selectAddress() {
+	var $this = $(this).parents('tr');
+	var address_id = $this.data('addr-id'), address_info = $this.data('addr-info'), can_wash = $this.data('can-wash');
+	if(! address_id){
+		showTip('出错了,请稍后重试');
+		return;
+	}
+    if(1 != can_wash){
+        $(".select_tr").removeClass('select_tr');
+        // showTip('该区域尚未开通您选择的业务，请更换地址');
+        showTip('地址超出所选品类的取送服务范围，无法添加地址，请更换“正确行政区域”后再次尝试');
+        return;
+    }
+	$(".select_tr").removeClass('select_tr');
+    $("#address_list_" + address_id).addClass('select_tr');
+    
+    var place_order_url = "{$place_order_url}";
+    if(address_id){
+    	place_order_url += '&address_id=' + address_id;
+    }
+    if(address_info){
+        place_order_url += '&select_address=' + encodeURIComponent(address_info);
+    }
+    if(place_order_url){
+        window.location.href = place_order_url;
+    }
+}
+
+// 编辑地址
+$editBtn.on('click', editAddress);
+
+// 打开“切换地址”确认框
+function openWin(cityId, cityName){
+	if(cityId && cityName){
+	    $("#city_id").val(cityId);
+	    $("#city_name").val(cityName);
+	    $('#chg_city').html(cityName);
+	    $("#confirm_win").show();
+	}
+    return false;
+}
+  
+// 切换首页城市
+function changeCity(){
+   	$("#confirm_win").hide();
+  	var cityId = $("#city_id").val();
+   	var cityName = $("#city_name").val();
+	if(cityId && cityName){
+		window.location = "{php echo create_url('homepage/index')}&city_id=" + cityId;
+	}
+	return false;
+}
+   
+// 关闭“切换地址”确认框
+function closeWin(){
+    $("#city_id").val("");
+    $("#city_name").val("");
+    $('#chg_city').html("");
+    $("#confirm_win").hide();
+    return false;
+}
+
+// 显示提示信息
+function showTip(msg, url){
+	$('#msg_win #msg_tip').html(msg);
+	if(url){
+		$('#msg_win').show().delay(2000).hide(function(){
+			window.location.href = url;
+		});
+	}else{
+		$('#msg_win').show().delay(2000).hide(0);
+	}
+	return;
+}
+
+// 携带地址数据,跳转地址编辑页
+function editAddress(){
+    var url = $(this).data('link');
+    if(url){
+        window.location = url; 
+    }
+}
+</script>
+<?php include template('foot') ?>
+</body>
+</html>

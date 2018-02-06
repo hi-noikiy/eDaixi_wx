@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>e袋洗</title>
+<link href="{php echo assets_link('/framework/style/css/footer.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/wap.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/myOrder.css')}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="{php echo assets_link('/framework/style/js/jquery-1.8.2.min.js')}"></script>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body style="padding-bottom:110px;">
+<div class="channel-nav three-nav">
+	<ul>
+    	<li><a style="opacity:1;color:#fff;" href="###">{$title}</a></li>
+	</ul>
+</div>
+<div class="wapContent">
+	<div class="subwrap">
+		<p>您还没有登录，请先登录！</p>
+		<p><a href  = "{php echo create_url('order/login_back',array('loginback_url' => create_url('order/order_list')))}">登录</a></p>
+	</div>
+</div>
+<?php include template('navigate') ?>
+<?php include template('foot') ?>
+</body>
+</html>

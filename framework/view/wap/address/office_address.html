@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="" name="pgv">
+  <title>填写写字楼地址</title>
+  <link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+  <link href="{php echo assets_link('/framework/style/css/order.css')}" rel="stylesheet" type="text/css">
+  <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+</head>
+<body id="body">
+  <section class="input_col">
+    <div class="searchInput">
+       <div class="search_left"><a class="back_before" href="javascript:history.back();"> <em class="back-icon"></em></a></div>
+       <div class="search_right">
+        <input placeholder="请输入写字楼名称" type="text" id="search_text" class="search_hotel">
+        <div id="clear" class="clearHotel clearCommon" style="display:none;"></div>
+       </div>
+    </div>
+  </section>
+  <div class="borderD"></div>
+  <!-- 搜索成功 start -->
+  <section class="search_key" id="found-hotel" style="display:none;">
+      <ul id="found-list" class="position_address">
+        <!-- ajax 搜索写字楼列表 -->
+	  </ul>
+  </section>
+  <!-- 搜索成功 end -->
+  
+  <!-- 搜索失败 start -->
+  <section class="not_open" id="not-found" style="display:none;">
+      <img src="<?php  echo assets_link('/framework/style/images/search-fail.png')?>">
+      <p>很抱歉</p>
+      <p>该写字楼暂时未开启e袋洗写字楼快洗业务</p>
+  </section>
+  <!-- 搜索失败 end -->
+  
+  <!-- 有坐标数据 start-->
+  <section class="position_success" id="near-hotel" {if !$near_buildings}style="display:none;"{/if}>
+    <div class="sucess_text">
+      附近写字楼
+    </div>
+    <div class="borderD"></div>
+    <div class="nearby_hotel">
+      <ul id="near-list" class="position_address">
+         {loop $near_buildings $key $item}
+	         <li class="position_list hotel-item" data-hotel-id="{$item['id']}" data-hotel-name="{$item['title']}" data-hotel-area="{$item['area']}" data-hotel-area-id="{$item['area_id']}">
+	            <div class="address_img">
+	               <img src="<?php  echo assets_link('/framework/style/images/address-position.png')?>">
+	            </div>
+	            <div class="detail_hotel" >
+		            <p class="hotel_name">{$item['title']}</p>
+		            <p class="hotel_area">{$item['city']}{$item['area']}{$item['street']}{$item['address']}</p>
+	            </div>
+	            <div class="hotel_distance">{$item['distance']}</div>
+	         </li>
+	         <div class="borderD"></div>
+         {/loop}
+      </ul>
+    </div>
+  </section>
+  <!--有坐标数据 end -->
+
+  <!-- 无坐标数据（全部写字楼） start -->
+    <section class="position_fail" id="all-hotel" {if !$all_buildings}style="display:none;"{/if}>
+      <div class="sucess_text">
+        全部写字楼
+      </div>
+      <div class="borderD"></div>
+      <div class="all_hotel">
+        <ul id="hotel-list" data-total-pages="{$total_pages}" class="position_address">
+	        {loop $all_buildings $key $item}
+		        <li class="position_list hotel-item" data-page="{$page}" data-hotel-id="{$item['id']}" data-hotel-name="{$item['title']}" data-hotel-area="{$item['area']}" data-hotel-area-id="{$item['area_id']}">
+		            <div class="address_img">
+		               <img src="<?php  echo assets_link('/framework/style/images/address-position.png')?>">
+		            </div>
+		            <div class="detail_hotel" >
+		               <p class="hotel_name">{$item['title']}</p>
+		               <p class="hotel_area">{$item['city']}{$item['area']}{$item['street']}{$item['address']}</p>
+		            </div>
+		         </li>
+		         <div class="borderD"></div>
+	         {/loop}
+	      </ul>
+      </div>
+    </section>
+  <!-- 无坐标数据（全部写字楼） end -->
+
+
+<script type="text/javascript">
+ var
+    $searchInput = $('#search_text'),
+    $clearBtn = $('#clear'),
+    $foundSection = $('#found-hotel'),
+    $foundList = $('#found-list'),
+    $notFoundSection = $('#not-found'),
+    $hotelSection = $('#all-hotel'),
+    $hotelList = $('#hotel-list'),
+    $nearSession = $('#near-hotel'),
+    $nearList = $('#near-list'),
+    $hotelItem = $('.hotel-item'),
+    pageSize = 7,    // 每页显示记录数
+    totalHeight = 0,  // 滚动距离 + 窗口高度
+    timer = null,     // 计时器
+    jqueryXhr = null; //jquery-ajax 对象
+    
+  // 清空搜索关键词
+  $clearBtn.on('click', function(){
+      $searchInput.val('');
+      listensearch_text('');
+  });
+  
+  // 关键字搜索写字楼
+  $searchInput.on('input propertychange', function(){
+	  //console.log('正在输入...');
+	
+	  clearTimeout(timer);  // 关闭定时器(必须)
+	  var search_text = $.trim(this.value);
+	  listensearch_text(search_text);
+	  if(! search_text){
+	      return false; // 终止执行(必须)
+	  }else{
+		  timer = setTimeout(function(){
+			  //console.log('发送请求...');
+			  searchHotel(search_text);
+		  }, 500);
+	  }
+  });
+  
+  // 发送写字楼搜索请求
+  function searchHotel(search_text){
+	  // 终止之前的未结束的 ajax请求，重新开始新的请求  
+      if(jqueryXhr){
+          jqueryXhr.abort(); 
+      }
+      jqueryXhr = $.ajax({
+          url: "{php echo create_url('address/ajax_search_office')}",
+          type: "GET",
+          async: true,        // 异步请求 
+          timeout: 5000,      // 超时时间
+          data: {
+              city_id: "{$city_id}",
+              lng: "{$lng}",  // 经度
+              lat: "{$lat}",  // 纬度
+              page: 1,        // 页码
+              per_page: 7,    // 偏移量
+              search_type: 1, // 搜索类型
+              search_text: search_text
+          },
+          dataType: "json",
+          complete: function (){
+              // 请求完成
+              jqueryXhr = null;
+          },
+          success: function (res, ts, xhr) {
+              // 请求成功
+              var search_buildings = res.data.search_buildings;
+              if(search_buildings){
+                var html = '';
+                for(var i=0; i<search_buildings.length; i++){
+                    hotelId = search_buildings[i].id,
+                    hotelName = search_buildings[i].title,
+                    hotelArea = search_buildings[i].area,
+                    hotelAreaId = search_buildings[i].area_id,
+                    hotelAddr = search_buildings[i].city + search_buildings[i].area + (search_buildings[i].street || '') + (search_buildings[i].address || '');
+                    html += '<li class="position_list hotel-item" data-hotel-id="' + hotelId + '" data-hotel-name="' + hotelName + '" data-hotel-area="' + hotelArea + '" data-hotel-area-id="' + hotelAreaId + '">'
+                      +    '<div class="address_img">'
+                      +        '<img src="<?php echo assets_link('/framework/style/images/address-position.png')?>">'
+                      +    '</div>'
+                      +    '<div class="detail_hotel">'
+                      +        '<p class="hotel_name">' + hotelName + '</p>'
+                      +        '<p class="hotel_area">' + hotelAddr + '</p>'
+                      +    '</div>'
+                        +  '</li>'
+                        +  '<div class="borderD"></div>';
+                }
+                $notFoundSection.hide();
+                $foundList.empty().append(html);
+                if($hotelSection.is(':hidden') && $nearSession.is(':hidden') && $notFoundSection.is(':hidden')){
+                    $foundSection.show();
+                }
+              }else{
+            	  $foundSection.hide();
+                  $foundList.empty();
+                  if($hotelSection.is(':hidden') && $nearSession.is(':hidden') && $foundSection.is(':hidden')){
+                	  $notFoundSection.show();
+                  }
+              }
+          },
+          error:function (xhr, ts, err){
+              // ...
+          }
+      });
+  }
+  
+  // 选择写字楼列表条目，跳转下单页
+  $('section').on('click', '.hotel-item', function(){
+	  var hotelId = $(this).data('hotel-id'), hotelName = $(this).data('hotel-name'), hotelArea = $(this).data('hotel-area'), hotelAreaId = $(this).data('hotel-area-id');
+	  var office_order_url = "{$office_order_url}" + '&office_building_id=' + hotelId + '&office_name=' + hotelName + '&area=' + hotelArea + '&area_id=' + hotelAreaId;
+	  window.location.href = office_order_url;
+  });
+  
+  // 监听关键字输入
+  function listensearch_text(search_text){
+	  if(search_text.length == 0){
+	      $clearBtn.hide();
+	      $foundSection.hide();
+	      $notFoundSection.hide();
+	      if(Number({$all_buildings_count}) > 0){
+	          $hotelSection.show();
+	      }
+	      if(Number({$near_count}) > 0){
+	          $nearSession.show();
+	      }
+	      return false;
+	  }else{
+		  $clearBtn.show();
+	      $hotelSection.hide();
+	      $nearSession.hide();
+	  }
+  }
+
+  // 向下滑动屏幕加载下一页
+  (function(){
+	  $(window).scroll(function() {
+	      var totalPages = parseInt($hotelList.data('total-pages'));
+	      var lastRow = $hotelList.find('.hotel-item:last');
+	      var page = parseInt(lastRow.data('page')) + 1;
+	      if(page <= totalPages){
+	    	  if($notFoundSection.is(':hidden') && $foundSection.is(':hidden') && $hotelSection.is(':visible')){
+	    		  nextPageHotel(page);
+	    	  }
+	      }
+	  });
+  })();
+  function nextPageHotel(page){
+      totalHeight = parseFloat($(window).height()) + parseFloat($(window).scrollTop()); 
+      if (totalHeight + 7 >= $(document).height()) {
+        if(jqueryXhr){
+        	// 终止之前的未结束的ajax请求，重新开始新的请求
+            jqueryXhr.abort();
+        }
+        jqueryXhr = $.ajax({
+            url: "{php echo create_url('address/ajax_next_office', array('city_id' => $city_id));}&page=" + page + '&per_page=' +pageSize,
+            type: "GET",
+            async: true,        // 异步请求 
+            timeout: 5000,      // 超时时间
+            dataType: "json",
+            complete: function (){
+                // 请求完成
+                jqueryXhr = null;
+            },
+            success: function (resp) {
+                if(resp.message.rows_count > 0){
+                    $hotelList.append(resp.message.html);
+                }
+            },
+            error:function (xhr, ts, err){
+                // ...
+            }
+        });
+      } 
+  }
+</script>
+
+<?php include template('foot'); ?>
+</body>
+</html>

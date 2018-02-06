@@ -1,0 +1,38 @@
+@CHARSET "UTF-8";
+.container {
+     padding: 20px 3%;
+}
+.xiaci_intro {
+	margin-bottom: 16px;
+}
+.xiaci {
+	font-size: 16px;
+	color: #3e3e3e;
+	padding: 0 2%;
+}
+.xiaci img{
+	width: 22px;
+	margin-right: 4px;
+	vertical-align: text-bottom;
+}
+.pinlei {
+	float: right;
+}
+.my-gallery figure{
+	width: 44%;
+	margin: 0 3% 20px 3%;
+	float: left;
+	box-shadow: 1px 1px 4px 1px #E0E0E0;
+}
+
+.my-gallery figure img{
+	width: 100%;
+	display: block;
+}
+.my-gallery figcaption {
+	text-align: center;
+	background: #fff;
+	padding: 6px;
+	font-size: 14px;
+	color: #3e3e3e;
+}

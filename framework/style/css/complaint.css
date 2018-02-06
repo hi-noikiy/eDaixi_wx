@@ -1,0 +1,324 @@
+@media screen and (max-width:768px){html{font-size:22px !important;}}
+@media screen and (max-width:640px){html{font-size:22px !important;}}
+@media screen and (max-width:580px){html{font-size:22px !important;}}
+@media screen and (max-width:540px){html{font-size:20px !important;}}
+@media screen and (max-width:480px){html{font-size:18px !important;}}
+@media screen and (max-width:414px){html{font-size:16px !important;}}
+@media screen and (max-width:375px){html{font-size:14px !important;}}
+@media screen and (max-width:360px){html{font-size:.84em !important;}}
+@media screen and (max-width:320px){html{font-size:12px !important;}}
+body {
+  padding: 0;
+  margin: 0;
+}
+.m10 {
+  margin: 10px;
+}
+.no-bg {
+  background: none;
+}
+a{
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  tap-highlight-color: rgba(0, 0, 0, 0)
+}
+.borderD{border-bottom:1px solid #dcdcdc;transform: scaleY(0.5);-webkit-transform: scaleY(0.5)}
+.title-list {
+  background: #fff;
+  border-radius: 4px;
+  /*text-align: center;*/
+  text-indent: 10px;
+  line-height: 2.8em;
+  font-size: .9em;
+  position: relative;
+  color: #3e3e3e;
+}
+.titleText {
+  color: #8a8a8a;
+  font-size: .8em;
+  margin-bottom: 10px;
+  font-weight: normal;
+  padding-left: 10px;
+  line-height: 1.6em;
+  margin-top: 10px;
+}
+.category-btn {
+  display: block;
+}
+.category-btn .flag_icon {
+  position: absolute;
+  right: 1em;
+  top: 40%;
+  border-right: 1px solid #8a8a8a;
+  border-bottom: 1px solid #8a8a8a;
+  float: left;
+  width: 8px;
+  height: 8px;
+  -webkit-transform:rotate(-40deg);
+  transform:rotate(-40deg);
+}
+.textarea {
+  border: 0;
+  outline: 0;
+  min-height: 6em;
+  border-radius: 4px;
+
+  width: 94%;
+  padding: 3%;
+  /*margin: 20px;*/
+  font-size: 14px;
+  color: #c1c1c1;
+  -webkit-outline:none;
+  outline:none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  resize: none;
+}
+.sure-btn {
+  background: #00dbf5;
+  width: 94%;
+  margin-left: 3%;
+  left: 0;
+  right: 0;
+  line-height: 2.6em;
+  font-size: 1.1em;
+  text-align: center;
+  color: #fff;
+  border: 0;
+  border-radius: 4px;
+  -webkit-appearance : none;
+  -webkit-outline:none;
+  outline:none;
+  position: fixed;
+  bottom: 2%;
+}
+
+.wx_confirm2{
+  position:fixed;left:0;right:0;
+     top: 50%; 
+     
+    left: 0;
+    right: 0;
+    margin: 0 auto;  
+    -webkit-transform: translate(0%,-50%);  
+        -ms-transform: translate(0%,-50%);  
+            transform: translate(0%,-50%); 
+    z-index: 11111;margin: 0 10%;}
+.wx_mask{background-color:rgba(0,0,0,0.7);position:fixed;top:0;bottom:0;left:0;right:0;z-index:1111;-webkit-animation:an_wx_mask .25s ease-in}
+
+@-webkit-keyframes an_wx_mask{0%{opacity:.8;}100%{opacity:1;}}
+@-webkit-keyframes an_wx_confirm{0%{-webkit-transform:scale(1.1);}100%{-webkit-transform:scale(1);}}
+.wx_confirm{position:fixed;left:0;right:0;top:22%;z-index:1200; margin: 0 6%;}
+.wx_confirm_inner{background-color:#fff;margin:0 auto;-webkit-animation:an_wx_confirm .25s ease-in; border-radius: 4px;position: relative; z-index: 1}
+
+.logout-btn {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -o-box;
+  display: box;
+  
+  position: relative;
+}
+.logout-btn button {
+  display: block;
+  background:0;border:0;border-radius: 4px;
+  line-height:2.6em;
+  height:2.6em;
+  text-align:center;
+  font-size:1.1em;
+  margin: 5px 0;
+  width: 42%;display: block;color: #8a8a8a;
+  -webkit-box-flex:1;
+  -webkit-outline: 0;
+  outline: 0;
+
+}
+.warm-tip {
+  text-align: center;
+  padding: 15px 0;
+  font-size: 1.2rem;
+}
+.warm-tip p:first-child {
+  font-size: .9em;
+}
+.warm-tip p.title-msg {
+  font-size: 1em;
+  margin-top: 10px;
+}
+.logout-btn button.btn-ok {
+  color: #1db7fe;
+  border-left: 1px solid #eee;
+  
+}
+
+.borderL {
+  border-left: 1px solid #eee;
+  height: 100%;
+  position: absolute;
+  left: 50%;
+}
+/*投诉成功*/
+.text-center {
+  text-align: center;
+}
+.check-icon img {
+  height: 30px;
+  margin-right: 10px;
+}
+.gray-bg {
+  background: #f0f0f0;
+  color: #8a8a8a;
+}
+.header-complaint {
+  padding: 4% 0;
+  font-size: 1.2em;
+}
+.textarea_word {
+  text-align: right;
+  font-size: 14px;
+  padding-right: 10px;
+  color: #666;
+}
+.complain-form,.complain-form2 {
+  background: #fff;
+  padding-bottom: 10px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+}
+.complain-form .textarea {
+  border: 0;
+}
+.order_success p {
+  font-size: 0.8em;
+
+}
+.order_success {
+  position: fixed;
+  top: 30%;
+  left: 0;
+  right: 0;
+  background: #000;
+  opacity: 0.8;
+  color: #fff;
+  width: 11em;
+  z-index: 1111;
+  line-height: 26px;
+  padding: .5em 1em;
+  border-radius: 8px;
+  text-align: center;
+  margin: 0 auto;
+  font-size: 1em;
+}
+
+.white-block {
+  background: #fff;
+}
+
+.upload-block,.upload-info h3 {
+  background: #fff;
+  margin: 0;
+  font-size: .9em;
+  font-weight: normal;
+  padding: 15px 10px;
+}
+.upload-info h3 em {
+  color: #c1c1c1;
+  font-style: normal;
+}
+.clear {
+  clear: both;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+    color:#ddd;
+}
+::-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color:#ddd;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color:#ddd;
+}
+::-ms-input-placeholder { /* Internet Explorer 10+ */
+    color:#ddd;
+}
+.upload-info {
+  padding-bottom: 10px;
+}
+#form-upload input[type='file'] {
+  opacity: 0;
+  height: 5.4rem;
+  width: 5.4rem;
+}
+.upload-file {
+  background: url('../images/ic_add_photos.png') no-repeat;
+  background-size: 100%;
+  height: 5.5rem;
+  width: 5.5rem;
+  padding-bottom: 2px;
+  float: left;
+  margin: 0 0rem 0rem .6rem;
+}
+.smallImg {
+  width: 5.4rem;
+  height: 5.4rem;
+  overflow: hidden;
+  margin: 0 0rem 1rem .6rem;
+  float: left;
+    
+}
+.imgDiv {
+  width: 24.4%;
+  text-align: center;
+  display: inline-block;
+  overflow: hidden;
+  float: left;
+}
+.imgDiv img.small-img{ 
+  width: 10rem;
+}
+.codBigImg {
+  position: absolute;
+  background: rgba(0,0,0,1);
+  height: 100%;
+  z-index: 111;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: table-cell;
+  vertical-align: middle;
+}
+.codBigImg img {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    -webkit-transform: translate(0%,-50%);
+    -ms-transform: translate(0%,-50%);
+    transform: translate(0%,-50%);
+    z-index: 1111;
+    width: 100%;
+
+}
+.codBigImg span {
+  background: url('../images/ic_delete_photos.png') no-repeat;
+  background-size: 100%;
+  height: 30px;
+  width: 30px;
+  float: left;
+  position: absolute;
+  top: 0;
+  z-index: 11111;
+  right: 2%;
+}
+.space-img {
+  float: left;
+    box-shadow: 0 0 0 1px #eee;
+     width: 5.4rem;
+    height: 5.4rem;
+    overflow: hidden;
+    margin: 0 .6rem 1rem .6rem;
+    line-height: 5.4rem;
+    text-align: center;
+    color: #999;
+    font-size: .9em;
+    
+}

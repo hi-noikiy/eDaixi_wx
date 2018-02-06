@@ -1,0 +1,29 @@
+{
+  "ret": true,
+  "ts": 1470033128,
+  "version": "5.0",
+  "data": [
+  		{
+  			"invoice_content": "清洗费",
+			"invoice_money": "200",
+			"company_name": "xxxx公司",
+			"status": "审核中",
+			"express_no": "1231312312312",
+			"created_date": "2016-08-08",
+			"receiver_name": "Jack",
+			"receiver_tel": "10101010101",
+			"address": "Beijing Chaoyang Jiuxianqiao"
+  		},
+  		{
+  			"invoice_content": "洗衣费",
+			"invoice_money": "300",
+			"company_name": "abc公司",
+			"status": "审核中",
+			"express_no": "1231312312312",
+			"created_date": "2016-08-08",
+			"receiver_name": "Jack",
+			"receiver_tel": "10101010101",
+			"address": "Beijing Chaoyang Jiuxianqiao"
+  		}
+  ]
+}

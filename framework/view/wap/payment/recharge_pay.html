@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>充值确认</title>
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/buy.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/payconfirm.css')}" rel="stylesheet" type="text/css">
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body>
+ <div class="recharge_list">
+     <p class="recharge_font">充值金额</p>
+     <div class="recharge_money">
+      <span ><p><img class="pay-icon" src="<?php  echo assets_link('/framework/style/images/pay_money.png')?>"><span class="pay-money"><?php  echo $fee;?></span></p>
+    </div>
+    <div class="recharge_send">
+      <span class="send">赠送金额</span>
+      <span class="money">￥<em><?php  if($money_give) { ?><?php  echo $money_give;?><?php  } else { ?>0.00<?php  } ?> </em></span>
+    </div>
+ </div>
+ <div  class="pay_font">
+   <span >支付方式</span>
+   <div class="clearBoth"></div> 
+ </div>
+ <div class="pay_manner white_bg">
+    <form action="{php echo create_url('payment/icard_pay_center', array('t' => time()))}" method="post" id="pay-form">
+        <input type="hidden" name="fee" value="{$fee}" />
+        <input type="hidden" name="money_give" value="{$money_give}" />
+        <input type="hidden" name="mobile" value="{$mobile}" />
+        
+        <?php foreach($paytype_lists['pay_list'] as $k => $v){ ?>
+        <div class="item_list_box" >
+                 <label for="{$v['pay_name']}" class="label_checked">
+                    <img src="{php echo assets_link($v['img'])}" />
+                    {$v['name']}
+                    <div class="bottom-mark">
+                    {$v['pay_active_text']}
+                    </div>
+                    <span class="pull-right orange_color">
+                      <input id="{$v['pay_name']}" type="radio" name="paytype" value="{$v['pay_type']}" <?php if($k==0){ ?> checked="checked" <?php } ?> />
+                      <label for="{$v['pay_name']}"><b></b></label>
+                    </span>
+                </label>
+                <div class="borderD" style="margin-left:2.6rem"></div>
+        </div>
+        <?php } ?>
+    
+      <div class="borderD"></div>
+      <div class="clear"></div>
+      <div class="item_list_btn">
+        <div class="chongzhi_btns" style="padding-right:0">
+           <input type="hidden" name="recharge_discount" value="{$recharge_discount}" />
+           <input type="hidden" name="recharge_callback" value="{$recharge_callback}" />
+           <button type="button"  autocomplete="off" id="pay-btn" class="pay_btn link-btn-all" onclick="submitting(this)">需支付{$fee}元</button>
+        </div>
+      </div>
+    </form>
+ </div>
+<!-- 操作提示 start -->
+<div id="tip-box" style="display:none" class="cod" style="height:60px">
+  <div class="wx_mask"></div>
+  <div class="wx_confirm ">
+      <div class="wx_confirm_inner" id="wx_confirm_float">
+         <div class="wx_confirm_hd">
+            <div class="wx_confirm_tit" id = "show_mes"><!-- 提示信息 --></div>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- 操作提示 end -->
+
+<!-- 加载中 -->
+<div class="loader" style="display:none;"><span class="mask"></span>加载中...</div>
+
+<div id="pay_win" style="display:none;" class="cod">
+  <div class="pay_mask"></div>
+  <div class="pay_confirm">
+    <div class="pay_confirm_inner">
+      <div class="pay_confirm_hd">
+        <div class="pay_confirm_tit" id="tip_div">支付确认</div>
+      </div>
+      <div class="pay_confirm_bd">
+        <p>1.请在微信内完成支付，如果您已支付成功，请点击“已完成支付”按钮</p>
+        <p class="p2">2.如果您还未安装微信6.0.2及以上版本客户端，请点击“取消”并选择其他支付方式付款</p>
+        <div class="pay_confirm_btn">
+          <div class="border-top"></div>
+          <div class="border-left"></div>
+          <a class="canclebtn">取消</a>
+          <a class="okbtn">已完成支付</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+var flag = true;
+
+//支付订单
+function pay_order(url, send_data, pay_type, is_wx_browser) {
+  if (pay_type == 3 || (pay_type == 2 && is_wx_browser == 1)) {
+    //请求中状态
+    showLoading(true);
+  } 
+
+  //ajax订单支付发起状态
+  ajax_pay_status = 1;
+  var price = parseFloat($.trim($("input[name=fee]").val()));
+  pay_time_count = setTimeout(function(){
+    if (ajax_pay_status == 1) {
+      pay_ajax.abort();
+      //ajax订单支付返回状态
+      ajax_pay_status = 2;
+      $("#pay-btn").css({'background-color':'#1db7fe', 'border':'#1db7fe'}).removeAttr('disabled').html('需要支付'+price+'元');
+      show_mes('出错啦，请稍后再试！', 2000);
+      showLoading(false);
+    }
+  }, 12000);
+  pay_ajax = $.ajax({
+                type : "POST",
+                async:true,
+                url : url,
+                data: send_data,
+                dataType : "json",
+                timeout: 10000,
+                success : function(ret){
+                  clearTimeout(pay_time_count);
+                  $("#paying").hide();
+                  ajax_pay_status = 2;
+                  if (ret.status) {
+                    if (pay_type == 3 || (pay_type == 2 && is_wx_browser == 1)) {
+                      showLoading(false);
+                    } else {
+                      $("#pay-finish").show();
+                    }
+
+                    if( pay_type == 2 && is_wx_browser == 1 ) {
+                      $("#pay_win").show(500);
+                      $("#pay_win").find('.canclebtn').unbind('click');
+                      $("#pay_win").find('.canclebtn').bind('click',function(){
+                          $("#pay_win").hide(500);
+                          $("#pay-btn").css({'background-color':'#1db7fe', 'border':'#1db7fe'}).removeAttr('disabled').html('需要支付'+price+'元');
+                      });
+                      $("#pay_win").find('.okbtn').unbind('click');
+                      $("#pay_win").find('.okbtn').bind('click',function(){
+                          window.location.href = ret.success_url;
+                      });
+                      window.location.href = ret.pay_url;
+                    } else {
+                      if (ret.url) {
+                        window.location.href = ret.url;
+                      } else {
+                        window.location.reload();
+                      }
+                    }
+                  } else {
+                    $("#pay-btn").css({'background-color':'#1db7fe', 'border':'#1db7fe'}).removeAttr('disabled').html('需要支付'+price+'元');
+                    show_mes('支付失败啦', 2000);
+                    jumpUrl('reload', 2000);
+                  }
+                },
+                error:function(XMLHttpRequest, textStatus, errorThrown){
+                  clearTimeout(pay_time_count);
+                  ajax_pay_status = 2;
+                  $("#paying").hide();
+                  showLoading(false);
+                  $("#pay-btn").css({'background-color':'#1db7fe', 'border':'#1db7fe'}).removeAttr('disabled').html('需要支付'+price+'元');
+                  if (textStatus == 'timeout') {
+                    show_mes('网络超时, 请稍后再试!', 2000);
+                  } else {
+                    show_mes('出错了，请稍后再试！', 2000);
+                  }
+                }
+        });
+}
+
+function submitting(el){
+  
+  $(el).css({'background-color':'#dadada', 'border':'#dadada'}).attr({"disabled":true}).html('正在提交');
+  
+  //$(el).css({'background-color':'#1db7fe', 'border':'#1db7fe'}).html('正在提交');
+  var pay_form = $("#pay-form");
+  var is_wx_browser = <?php echo $is_wx_browser ? $is_wx_browser : 0; ?>;
+  var pay_type = $('input:radio[name="paytype"]:checked').val();
+  
+  if ( (pay_type == 2 && is_wx_browser == 1) || pay_type == 3 ) {
+    var pay_data = pay_form.serializeArray();
+    var pay_url = pay_form.attr("action");
+    var pay_data = pay_form.serializeArray();
+    pay_order(pay_url, pay_data, pay_type, is_wx_browser);
+  } else {
+    pay_form.submit();
+  }
+}
+
+//显示加载中
+function showLoading(show)
+{
+    if (show) {
+       $(".loader").show(); 
+    } else {
+        $(".loader").hide(); 
+    } 
+}
+//显示提示信息
+function show_mes(title, delay_time) {
+  if(title){
+      $("#show_mes").html(title);
+  }
+  if (delay_time) {
+    setTimeout(function(){
+      $("#tip-box").hide();
+    }, delay_time);
+  }
+  $("#tip-box").show();
+}
+
+//跳转url
+function jumpUrl(url, delay_time) {
+  if (url == 'reload') {
+    if (delay_time) {
+      setTimeout("location.reload()", delay_time);
+    } else {
+      location.reload(true);
+    }
+  } else if (url) {
+    if (delay_time) {
+      setTimeout("location.href='" + url + "'", delay_time);
+    } else {
+      location.href = url;
+    }
+  }
+}
+</script>
+</body>
+</html>

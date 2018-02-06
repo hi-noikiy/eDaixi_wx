@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>e袋洗</title>
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/apply.css')}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="{php echo assets_link('/framework/style/js/jquery-1.8.2.min.js')}"></script>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body style="background:#fff;">
+<div class="success">
+  <div class="pay_con">
+    <img src="{php echo assets_link('/framework/style/images/shuaige_1.jpg')}" />
+    <img src="{php echo assets_link('/framework/style/images/shuaige_2.jpg')}" />
+    <img src="{php echo assets_link('/framework/style/images/shuaige_3.jpg')}" />
+    <img src="{php echo assets_link('/framework/style/images/shuaige_4.jpg')}" />
+    <img src="{php echo assets_link('/framework/style/images/bottom_1.jpg')}" />
+    <!-- 代金券购买按钮状态 start -->
+    <div class="btn_info">
+    {if $coupon_status == 'selling'}
+        <a href="{php echo create_url('luxury_coupon/buy_page', array(), 'third')}">
+          <img src="{php echo assets_link('/framework/style/images/bottom_btn.png')}" />
+        </a>
+    {else}
+        <img src="{php echo assets_link('/framework/style/images/bottpm_2.png')}" />
+    {/if}      
+    </div>
+    <!-- 代金券购买按钮状态 end -->
+    <img src="{php echo assets_link('/framework/style/images/bottom_3.png')}" />
+  </div>
+</div>
+<?php include template('foot') ?>
+<script type="text/javascript">
+          wx.ready(function(){
+                  var order_id = "{$uuid}";
+                  var share_url =  "{$_W['config']['site']['domain']}"+"mobile.php?m=third&act=luxury_coupon&do=activity_page";
+                  var share_img_url = "{php echo assets_link('/framework/style/images/300_78.jpg')}";
+                  var title = "头条新闻：某知名互联网公司被曝其男性员工多数已被包养";
+                  var data_des = 'www.edaixi.com';
+                  var coupon_type = 2;
+                   wx.onMenuShareAppMessage({
+                        title: title,
+                        desc: data_des,
+                        link:  share_url,
+                         imgUrl: share_img_url,
+                        trigger: function (res) {
+                        },
+                        success: function (res) {
+                            $.post("{$_W['config']['site']['domain']}"+"mobile.php?m=third&act=luxury_coupon&do=activity_page",'',function(){},"json");
+                        },
+                        cancel: function (res) {
+                        },
+                        fail: function (res) {
+                        }
+                  });
+                    wx.onMenuShareTimeline({
+                         title: title,
+                         link: share_url,
+                         imgUrl: share_img_url,
+                         trigger: function (res) {
+                        },
+                      success: function (res) {
+                            $.post("{$_W['config']['site']['domain']}"+"https://wx.rongchain.com/mobile.php?m=third&act=luxury_coupon&do=activity_page",'',function(){},"json");
+                      },
+                      fail: function (res) {
+                      }
+                    });
+               });
+</script>
+</body>
+
+</html>

@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>{$title}</title>
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/order.css')}" rel="stylesheet" type="text/css" />
+<link href="{php echo assets_link('/framework/style/css/time_plugin.css')}" rel="stylesheet" type="text/css" />
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+<script type="text/javascript">
+	var category_id = "{$category_id}", sub_id = "{$sub_id}", address_id = "{$address_id}";
+</script>
+</head>
+<body class="{if $_SESSION['user_info']['user_type'] == 18 || get_mark() == 'eservice'} e_background {else} Bg-gray {/if}">
+<div class="{$skin}">
+	<div class="tip_bar">
+  		<span class="color_8a8a8a">{$price_info['price_title']}</span>
+  		<a id="price-link" href="javascript:void(0);" data-price-url="{$price_info['price_url']}">       
+	   	   <em class="{if $_SESSION['user_info']['user_type'] == 18 || get_mark() == 'eservice'} e_color {else}priceColor {/if}">查看价目</em>
+	  	</a>
+	</div>
+
+	<div class="wrap_index">  
+	{if !$addr_info}
+	   <!-- 无地址填充 -->
+	   <div class="add_bg"></div>
+	   <section class="address-handle section" id="address-handle">
+	     <div class="address_icon icon_gray"></div>
+	     <span class="m_input"> 添加/选择地址</span>
+	     <span class="arrow-left" style="top:44%"></span>
+	   </section>
+	   <div class="add_bg"></div>
+	   <div class="p5"></div>
+	{else}
+	   <!-- 有地址填充 -->
+	   <div class="add_bg"></div>
+	   <section class="address-handle section" id='address-handle'>
+	      <span class="arrow-left" style="top:44%"></span>
+	      <div class=" wuliu-div">
+	        <img src = "{php echo assets_link('/framework/style/images/icon_name.png')}"/>{$addr_info['username']}
+	      </div>
+	      <div class=" wuliu-div">
+	        <img src = "{php echo assets_link('/framework/style/images/icon_phone.png')}"/>{$addr_info['tel']}
+	      </div>
+	      <div class="clearBoth"></div>
+	      <div class="address_detail">
+	        <div class=" wuliu-div textOverflow2">
+	          <img src = "{php echo assets_link('/framework/style/images/icon_location.png')}"/>{$addr_info['address']}
+	        </div>
+	      </div>
+	    </section>
+	    <div class="add_bg"></div>
+	    <div class="p5"></div>
+	{/if}
+	    
+	  <!-- 取件时间 start -->
+	    <section class="section" id="time-handle">
+	      <div class="time_icon icon_gray"></div>
+	      <div id="J_shipDateTemplateWrapper">
+	        <div class="m_input J_shipTimeContainer">
+	          <div class="selectBox selectcont y_hover">       
+	            <div class="Selected selectBx" id="select_datetime" {if $select_datetime}style="color:#3e3e3e"{/if} >
+	               {if $select_datetime}{$select_datetime}{else}请选择取件时间{/if}
+	            </div>
+	            <span class="arrow-left" style="top:36%"></span>
+	            <span class="suishikequ" id="take_soon_icon" style="{if $take_soon}display:block;{else}display:none;{/if}">
+	               <img src="{php echo assets_link('/framework/style/images/suishikequ.png')}">
+	            </span>
+	          </div>  
+	        </div>         
+	      </div>
+	    </section>
+	  <!-- 取件时间 end -->
+    
+	    <div class="borderD"></div>
+	    <section>
+	      <textarea class='textarea' id='comment' onfocus="this.style.color='#3e3e3e';" style="{if $comment}color:#3e3e3e{else}color:#c1c1c1{/if}"
+	      maxlength="50" placeholder="如有其他问题，请留言">{if $comment}{$comment}{/if}</textarea>
+	    </section>
+	    <div class="borderD2"></div>
+	</div>
+
+  
+	<div class="tuijian_coupon">
+	  {if $coupon_tips}
+	    <span class="quan">券</span><span class="quan_text">{$coupon_tips}</span>
+	   {/if}
+	</div>
+	<div class="p30"></div>
+    
+	<!-- 立即预约 start -->
+	<div class="order_bottom">
+	  <form action="javascript:void(0);" method="POST" syle="padding-top:5px">
+	      <input type="hidden" name="category_id" id="category_id" value="{$category_id}" />
+	      <input type="hidden" name="sub_id" id="sub_id" value="{$sub_id}" />
+	      <input type="hidden" name="address_id" id="address_id" value="{$address_id}" />
+	      <input type="hidden" name="washing_date" id="washing_date" value="{$washing_date}" />
+	      <input type="hidden" name="washing_time" id="washing_time" value="{$washing_time}" />
+        <input type="hidden" name="time_range" id="time_range" value="{$time_range}" />
+	      <input type="hidden" name="take_soon" id="take_soon" value="{$take_soon}" />
+	      {if $category_id == 61}
+	      <input type="hidden" name="clothes_ids" id="clothes_ids" value="{$clothes_ids}" />
+          <input type="hidden" name="categories_ids" id="categories_ids" value="{$categories_ids}" />
+	      {/if}
+	      <input type="hidden" id="tmp_date" value="{$washing_date}" />
+        <input type="hidden" id="tmp_time" value="{$washing_time}" />
+        <input type="hidden" id="tmp_range" value="{$time_range}" />
+	      <input type="hidden" id="date_text" value="{$date_text}" />
+	      <input type="hidden" id="time_text" value="{$washing_time}" />
+	   
+	      {if $address_id && $washing_date && $washing_time && $time_range}
+	       <button id="order-btn" class="{if $_SESSION['user_info']['user_type'] == 18 || get_mark() == 'eservice'} btn_order e_canBook {else}  btn_order canBook {/if}"> 立即预约</button>
+	      {else}
+	       <button id="order-btn" class="{if $_SESSION['user_info']['user_type'] == 18 || get_mark() == 'eservice'} btn_order e_noBook {else}btn_order noBook {/if}" disabled="disabled"> 立即预约</button>
+	      {/if}
+	  </form>
+
+	  <div class="delivery_fee">
+	   {if $delivery_fee[0]['tip']}
+		  <ul>
+		      <li>{$delivery_fee[0]['tip']}</li>
+	      </ul>
+        {/if}
+        <ul>
+          {loop $delivery_fee $items}
+            <li>{$items['title']}</li>
+          {/loop}
+        </ul>
+	  </div>
+	  
+	</div>
+	<!-- 立即预约 end -->
+
+	<!-- 引导下单品类 start -->
+	{if $guide_category_text}
+	<div id="guide-link" data-guide-url="{$guide_category_url}" class="tuijian_rukou">
+	    <a><span style="color: #818181">1233{$guide_category_text}</span></a>
+	    <span class="arrow-left"></span> 
+	</div>
+	{/if}
+	<!-- 引导下单品类 end -->
+
+	<!-- 信息提示浮层 start -->
+	<div id="codFloat" style="display: none" class="cod" style="height:60px">
+		<div class="wx_mask"></div>
+		<div class="wx_confirm ">
+			<div class="wx_confirm_inner" id="wx_confirm_float">
+				<div class="wx_confirm_hd">
+					<div class="wx_confirm_tit" id="show_mes" style="font-size: 14px; line-height: 22px">
+						<!-- 提示信息 -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 信息提示浮层 end -->
+	
+	<!-- 预约成功浮层 start -->
+	<div id="order_success" class="order_success" style="display:none">
+	  <em><b></b></em>
+	  <span id="success_tip" style="padding-left:10px">预约成功</span>
+	  <p>请等待小e上门取件计价</p>
+	</div>
+	<!-- 预约成功浮层 end -->
+</div>
+      
+<!-- 时间控件 start -->
+  {php include template('_time_control', 'wap', 'homepage');}
+<!-- 时间控件 end -->
+
+<!-- 小e管家 start -->
+  {if $_SESSION['user_info']['user_type'] == 18 || get_mark() == 'eservice'}
+      <div class="e_tip">以上服务由e袋洗提供</div>
+  {/if}
+<!-- 小e管家 end -->
+ 
+<script type="text/javascript">
+var 
+  $priceLink = $('#price-link'),
+  $guideLink = $('#guide-link'),
+  $addressHandle = $('#address-handle'),
+  $clothesIds = $('#clothes_ids'),
+  $cateroriesIds = $('#categories_ids'),
+  $timeHandle = $("#time-handle"),
+  $addressInput = $('#address_id'), 
+  $dateInput = $('#washing_date'), 
+  $timeInput = $('#washing_time'),
+  $timeRange = $('#time_range'),
+  $soonInput = $('#take_soon'),
+  $commentText = $("#comment"),
+  $orderBtn = $('#order-btn');
+
+// 官网价目
+$priceLink.one('click', redirectPrice);
+// 品类引导
+$guideLink.one('click', redirectGuide);
+// 填充地址
+$addressHandle.one('click', fillAddr);
+// 时间控件
+$timeHandle.on('click', showServiceTime);
+// 预约按钮
+$orderBtn.on('click', sumitOrder);
+
+// 查看价目
+function redirectPrice(){
+    var price_url = $(this).data('price-url');
+    if(!price_url){
+        return;
+    }
+    var 
+      address_id = $addressInput.val(), 
+      clothes_ids = $clothesIds.val(),
+      categories_ids = $cateroriesIds.val(),
+      comment_val = $commentText.val();
+    if(address_id){
+        price_url += '&address_id=' + address_id;
+    }
+    if(clothes_ids){
+        price_url += '&clothes_ids=' + clothes_ids;
+    }
+    if(categories_ids){
+        price_url += '&categories_ids=' + categories_ids;
+    }
+    if(comment_val){
+        price_url += '&comment=' + encodeURIComponent(comment_val);
+    }
+    window.location.href = price_url + getTimeParams();
+    setTimeout(function(){
+        $(this).one('click', redirectPrice);
+    }, 2000);
+    return;
+}
+
+// 品类引导
+function redirectGuide(){
+    var guide_url = $(this).data('guide-url') + '&guide=1';
+    if(!guide_url){
+        return;
+    }
+    var address_id = $addressInput.val();
+	if(address_id){
+		guide_url += '&address_id=' + address_id;
+	}
+    window.location.href = guide_url + getTimeParams();
+    setTimeout(function(){
+        $(this).one('click', redirectGuide);
+    }, 2000);
+    return;
+}
+
+// 填充地址
+function fillAddr(){
+	var select_addr_url = "{$select_addr_url}";
+    if(!select_addr_url){
+        return;
+    }
+    var 
+      get_addr_url = select_addr_url,
+      clothes_ids = $clothesIds.val(),
+      categories_ids = $cateroriesIds.val(),
+      comment_val = $commentText.val();
+    if(clothes_ids){
+    	get_addr_url += '&clothes_ids=' + clothes_ids;
+    }
+    if(categories_ids){
+    	get_addr_url += '&categories_ids=' + categories_ids;
+    }
+    if(comment_val){
+        get_addr_url += '&comment=' + encodeURIComponent(comment_val);
+    }
+    window.location.href = get_addr_url + getTimeParams();;
+    setTimeout(function(){
+        $(this).one('click', fillAddr);
+    }, 2000);
+    return;
+}
+            
+// 校验提交表单，提交订单预约
+function sumitOrder(){
+    var 
+      address_id = $addressInput.val(),
+      clothes_ids = $clothesIds.val(),
+      categories_ids = $cateroriesIds.val(),
+      date_val = $dateInput.val(), 
+      time_val = $timeInput.val(),
+      range_val = $timeRange.val(),
+      soon_val = $soonInput.val(),
+      comment_val = $commentText.val();
+    if(!address_id){
+        showTip('请添加/选择地址');
+        return;
+    }
+    if(!date_val){
+        showTip('请选择服务日期');
+        return;
+    }
+    if(!time_val){
+        showTip('请选择服务时段');
+        return;
+    }
+    {if $_SESSION['user_info']['user_type'] == 18 || get_mark() == 'eservice'}
+        $orderBtn.text('正在提交').prop("disabled",true).addClass("e_noBook").removeClass('e_canBook');
+    {else}
+         $orderBtn.text('正在提交').prop("disabled",true).addClass("noBook").removeClass('canBook');
+    {/if}  
+    var submit_url = "{$submit_url}";
+    var submit_data = {
+            category_id : category_id,
+            sub_id : sub_id,
+            clothes_ids : clothes_ids,
+            categories_ids : categories_ids,
+            address_id : address_id,
+            washing_date : date_val,
+            washing_time : time_val,
+            time_range : range_val,
+            take_soon : soon_val,
+            comment : comment_val
+          };
+    $.post(submit_url, submit_data, function(data){
+          if(data.message.state == 1){
+            {if $_SESSION['user_info']['user_type'] == 18 || get_mark() == 'eservice'}
+               $orderBtn.text('预约成功').prop("disabled",true).removeClass("e_canBook").addClass("e_noBook");
+            {else}
+               {if 1 == $user_type}
+                 sessionStorage.setItem('order_' + data.message.order_id, true);
+               {/if}
+               $orderBtn.text('预约成功').prop("disabled",true).removeClass("canBook").addClass("noBook");
+            {/if}       
+            alertToUrl(data.message.url,'预约成功');
+          }else{
+            {if $_SESSION['user_info']['user_type'] == 18 || get_mark() == 'eservice'}
+               $orderBtn.text('立即预约').prop("disabled",false).removeClass("e_noBook").addClass("e_canBook");
+            {else}
+                $orderBtn.text('立即预约').prop("disabled",false).removeClass("noBook").addClass("canBook");
+            {/if}  
+            showTip(data.message.msg);
+          }
+    },"json"); 
+}
+
+// 下单时间参数
+function getTimeParams(){
+	var params = '';
+    var date_val = $dateInput.val(), time_val = $timeInput.val(), range_val = $timeRange.val(), soon_val = $soonInput.val();
+    if(date_val){
+    	params += '&washing_date=' + date_val;
+    }
+    if(time_val){
+    	params += '&washing_time=' + time_val;
+    }
+    if(range_val){
+      params += '&time_range=' + range_val;
+    }
+    if(soon_val){
+    	params += '&take_soon=' + soon_val;
+    }
+    return params;
+}
+
+function showTip(msg){
+    $('#show_mes').html(msg);
+    $('#codFloat').show().delay(2000).hide(0);
+    return;
+}
+
+function alertToUrl(url,title) {
+    if(title){
+        $("#success_tip").text(title);
+    }
+    {if 1 != $user_type}
+      $("#order_success").show();
+    {/if}
+    setTimeout("window.location.href='" + url + "'", 0);
+    return;
+}
+
+$('.highOrder').height($(window).height()-20);
+</script>
+<?php include template('foot') ?>
+</body>
+</html>

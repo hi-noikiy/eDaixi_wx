@@ -1,0 +1,329 @@
+html {
+	background: #f3f7fa;
+	min-height: 100%;
+}
+input, .personal, .company, .last, .close-picker {
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+/* 开票说明 开票记录 begin*/
+/* 开具发票的说明和记录单独，在下面*/
+.menu {
+	height: 1rem;
+	line-height: 1rem;
+	font-size: 0.3rem;
+	color: #6A6A6A;
+}
+.menu .invoice-declare, .menu .invoice-record, .menu hr {
+	float: right;
+}
+.menu .invoice-record {
+	margin: 0 0.4rem 0 0.266667rem;
+}
+.menu .invoice-declare:after {
+	content: "|";
+	height: 0.266667rem;
+	margin-left: 0.266667rem;
+}
+/* 开票说明 开票记录 end*/
+
+
+/* 订单 beging*/
+.order-wrap {
+	padding: 0.4rem;
+	margin-bottom: 0.266667rem;
+	background: #ffffff;
+}
+.order-wrap div {
+	float: left;
+}
+.order-wrap .select-option {
+	width: 0.586667rem;
+	height: 1.626667rem;
+	margin-right: 0.266667rem;
+}
+.order-wrap .selected {
+	background: url('../images/checked.png') no-repeat center;
+	background-size: 0.586667rem;
+}
+.order-wrap .noselect {
+	background: url("../images/unchecked_invoice.png") no-repeat center;
+	background-size: 0.586667rem;
+}
+.order-wrap .content .order-title {
+	color: #333333;
+	font-size: 0.32rem;
+	margin-bottom: 0.133333rem;
+}
+.order-wrap .content {
+	width: 90%;
+}
+.order-wrap .content p {
+	color: #1A1A1A;
+	font-size: 0.373333rem;
+}
+.order-wrap .date, .order-wrap .title {
+	margin-right: 0.4rem;
+}
+.order-wrap .fee {
+	margin-left: 0.4rem;
+}
+.order-wrap .invoice-total {
+	float: right;
+}
+
+.order-wrap .invoice-fee {
+	margin-left: 0.4rem;
+	color: #18ddf5;
+}
+#main .order-wrap:last-child {
+	margin-bottom: 1.733333rem;
+}
+.show {
+	display: block;
+}
+.hide {
+	display: none;
+}
+.nodata {
+	height: 0.8rem;
+	line-height: 0.8rem;
+	text-align: center;
+	background: #ffffff;
+}
+/* 订单 end*/
+
+/* 底部开发票 being */
+#footer {
+	position: fixed;
+	bottom: 0;
+	height: 1.48rem;
+
+	background: #ffffff;
+	width: 100%;
+}
+#footer .select-option {
+	width: 0.586667rem;
+	height: 100%;
+	float: left;
+	margin-right: 0.266667rem;
+	margin-left: 0.4rem;
+}
+#footer .selected {
+	background: url('../images/checked.png') no-repeat center;
+	background-size: 0.586667rem;
+}
+#footer .noselect {
+	background: url("../images/unchecked_invoice.png") no-repeat center;
+	background-size: 0.586667rem;
+}
+#footer .content {
+	float: left;
+	height: 1.48rem;
+	padding-top: 0.2rem;
+}
+#footer .content .allselet {
+	color: #333333;
+	font-size: 0.373333rem;
+}
+#footer .content .detail {
+	color: #333333;
+	font-size: 0.346667rem;
+}
+#footer .content .detail .total {
+	margin-left: 0.3rem;
+}
+#footer .content .detail .price {
+	color: #18ddf5;
+}
+#footer .make-invoice {
+	float: right;
+	width: 2.26rem;
+	height: 1.48rem;
+	line-height: 1.48rem;
+	background: #00DBF5;
+	color: #ffffff;
+	font-size: 0.533333rem;
+	text-align: center;
+}
+#footer .make-invoice.disabled {
+	background: #bbc1cc;
+}
+/* 底部开发票 end */
+
+/* 开票说明 begin*/
+#explain {
+	position: fixed;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	margin: 0;
+	font-size: 13px;
+	color: #333333;
+	background: #ffffff;
+	z-index: 1000;
+	padding: 40px 20px;
+	line-height: 1.8;
+	opacity: 0.95;
+	text-align: justify;
+	height: 100%;
+}
+#explain img {
+	position: fixed;
+	bottom: 42px;
+	left: 0;
+	right: 0;
+	margin: 0 auto;
+	height: 50px;
+	width: 50px;
+	
+}
+/* 开票说明 end*/
+
+/* 开具发票 begin */
+/* 这个页面使用了jqWeui， 在375px时使用了html {font-size: 20px;}*/
+#invoice-part, #user-address {
+	padding-left: 0.75rem;
+	font-size: 0.7rem;
+	color: #1A1A1A;
+	background: #ffffff;
+	margin-bottom: 0.5rem;
+}
+#invoice-part p, #user-address p {
+	height: 2.25rem;
+	line-height: 2.25rem;
+	border-bottom: 1px solid #e9ebf2;
+}
+#invoice-part p.last, #user-address p.last {
+	border-bottom: none;
+}
+#invoice-part p label, #user-address p label {
+	display: inline-block;
+	width: 20%;
+	margin-right: 0.75rem;
+}
+#invoice-part p input.weui_input, #user-address p input.weui_input {
+	width: 70%;
+}
+#invoice-part p.last span, 
+#invoice-part p span.personal, #invoice-part p span.company {
+	margin-right: 1.5rem;
+	color: #bbc1cc;
+}
+#invoice-part p.last span.checked,
+#invoice-part p span.personal.checked, #invoice-part p span.company.checked {
+	color: #1A1A1A;
+}
+#tip {
+	margin: 0.75rem 1.125rem 3rem;
+	padding: 0.2rem;
+	border: 2px solid #e7efff;
+}
+#tip .content {
+	background: #ffffff;
+	padding: 0.9rem;
+	border: 2px solid #e7efff;
+	font-size: 0.55rem;
+	line-height: 1.05rem;
+}
+#tip .title {
+	color: #18ddf5;
+	margin-bottom: 0.5rem
+}
+
+
+.menu-make-invoice {
+	height: 1.8rem;
+	line-height: 1.8rem;
+	font-size: 0.6rem;
+	color: #6A6A6A;
+}
+.menu-make-invoice .invoice-declare, .menu-make-invoice .invoice-record, .menu-make-invoice hr {
+	float: right;
+}
+.menu-make-invoice .invoice-record {
+	margin: 0 0.75rem 0 0.5rem;
+}
+.menu-make-invoice .invoice-declare:after {
+	content: "|";
+	height: 0.5rem;
+	margin-left: 0.5rem;
+}
+
+#submit {
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	height: 2.775rem;
+	line-height: 2.775rem;
+	color: #ffffff;
+	font-size: 1rem;
+	text-align: center;
+	background: #00DBF5;
+}
+#submit.disabled {
+	background: #bbc1cc;
+}
+/* 开具发票 end */
+
+/* 开票记录 begin */
+.record {
+	position: relative;
+	font-size: 0.373333rem;
+	color: #333333;
+	padding: 0.4rem;
+	margin-top: 0.266667rem;
+	background: #ffffff;
+}
+.record p:first-child {
+	margin-bottom: 0.2rem;
+}
+.record p span {
+	margin-right: 0.4rem;
+}
+.record p:first-child span:last-child {
+	color: #18ddf5;
+}
+.arrow-left {
+	position: absolute;
+	right: 0.4rem;
+	top: 45%;
+	border-right: 1px solid #cacaca;
+	border-bottom: 1px solid #cacaca;
+	width: 8px;
+	height: 8px;
+	-webkit-transform: rotate(-44deg);
+	transform: rotate(-44deg);
+}
+
+.record-detail .status {
+	height: 0.8rem;
+	line-height: 0.8rem;
+	font-size: 0.32rem;
+	color: #18ddf5;
+	text-align: center;
+	background: #E1F5FA;
+}
+.record-detail p {
+	margin-left: 0.4rem;
+	height: 1.2rem;
+	line-height: 1.2rem;
+	border-bottom: 1px solid #e9ebf2;
+}
+.record-detail p.end {
+	border-bottom: none;
+}
+.record-detail .express, .record-detail .invoice-part, .record-detail .user-part {
+	background: #ffffff;
+	margin-bottom: 0.266667rem;
+	font-size: 0.373333rem;
+	color: #1A1A1A;
+}
+.record-detail label {
+	display: inline-block;
+	width: 20%;
+	/*margin-right: 0.4rem;*/
+}
+
+/* 开票记录 end */

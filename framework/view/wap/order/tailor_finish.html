@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta charset="utf-8" />
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+<meta content="telephone=no" name="format-detection" />
+<meta content="email=no" name="format-detection" />
+<meta content="" name="pgv" />
+<title>匿名评价</title>
+<link href="{php echo assets_link('/framework/style/css/footer.css')}" rel="stylesheet" type="text/css" />
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css" />
+<link href="{php echo assets_link('/framework/style/css/appraise.css')}" rel="stylesheet" type="text/css" />
+<link href="{php echo assets_link('/framework/style/css/photoswipe/photoswipe.css')}" rel="stylesheet" type="text/css" /> 
+<link href="{php echo assets_link('/framework/style/css/photoswipe/photoswipe-skin/custom-skin.css')}" rel="stylesheet" type="text/css" />
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+<script type="text/javascript" src="{php echo assets_link('/framework/style/js/photoswipe/photoswipe.min.js')}"></script>
+<script type="text/javascript" src="{php echo assets_link('/framework/style/js/photoswipe/photoswipe-ui-custom.js')}"></script>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body>
+<!-- 整体评价 start -->
+<div class="appraise_box white_bg">   
+    <div class="appraise-top p10">
+      <div class="appraise-type"><span>{$total['item']}</span></div>
+      <div class="appraise_middle">
+        <div id="total-icon" class="star_appraise">
+          <?php for($score=1; $score<=5; $score++):?>
+            <?php if($score <= $total_score):?>
+                <img src="{$star[1]}" title="{$score_tip[$score]}" data-score="{$score}" />
+            <?php else:?>
+                <img src="{$star[0]}" title="{$score_tip[$score]}" data-score="{$score}" />
+            <?php endif;?>
+          <?php endfor;?>
+        </div>
+      </div>
+      <div class="attitude"><p id="total-tip">{$score_tip[$total_score]}</p></div>
+    </div>
+    <div class="borderD"></div>
+</div>
+<div class="space-split10"></div>
+<!-- 整体评价 end -->
+
+<!-- 单项评价 start -->
+<div class="pingjia_bg appraise_box" id="detail-comment" >
+   <div class="borderD"></div>
+   <!-- 修改质量 start -->
+   <div class="appraise-top p10">
+      <div class="appraise-type"><span>{$quality['item']}</span></div>
+      <div class="appraise_middle">
+        <div id="quality-icon" data-item="quality" class="star_appraise comment-icon">
+          <?php for($score=1; $score<=5; $score++):?>
+            <?php if($score <= $quality_score):?>
+                <img src="{$face[$quality_score]}" title="{$score_tip[$score]}" data-score="{$score}" data-face="{$face[$score]}" />
+            <?php else:?>
+                <img src="{$face['0']}" title="{$score_tip[$score]}" data-score="{$score}" data-face="{$face[$score]}" />
+            <?php endif;?>
+          <?php endfor;?>
+        </div>
+      </div>
+      <div class="attitude"><p id="quality-tip">{$score_tip[$quality_score]}</p></div>
+   </div>
+   <!-- 修改质量 end -->
+   
+   <!-- 量体人员 start -->
+   <div class="appraise-top p10">
+       <div class="appraise-type"><span>{$tailor['item']}</span></div>
+       <div class="appraise_middle">
+        <div id="tailor-icon" data-item="tailor" class="star_appraise comment-icon">
+          <?php for($score=1; $score<=5; $score++):?>
+            <?php if($score <= $tailor_score):?>
+                <img src="{$face[$tailor_score]}" title="{$score_tip[$score]}" data-score="{$score}" data-face="{$face[$score]}" />
+            <?php else:?>
+                <img src="{$face['0']}" title="{$score_tip[$score]}" data-score="{$score}" data-face="{$face[$score]}" />
+            <?php endif;?>
+          <?php endfor;?>
+        </div>
+       </div>
+       <div class="attitude"><p id="tailor-tip">{$score_tip[$tailor_score]}</p></div>
+   </div>
+   <div id="tailor-opt" class="appraise_box appraise_margin" {if !$tailor_comment}style="display:none"{/if}>
+       <div style="padding-right:0; diplay: none"> 
+          <div class="bad_info comment-opt" id="tailorbad" style="padding:0;">
+            {loop $tailor['opts'] $id $opt}
+              <span class="comment-span {if in_array($id, explode(',', $tailor_comment))}select{/if}" data-opt-id="{$id}">
+                <div><em></em></div><span>{$opt}</span>
+              </span>
+            {/loop}
+          </div> 
+          <div class="clearBoth"></div> 
+       </div>  
+   </div>
+   <!-- 量体人员 end -->
+                    
+   <!-- 送件人员 start -->
+   <div class="appraise-top p10">
+     <div class="child appraise-type"><span>{$sender['item']}</span></div>
+     <div class="appraise_middle">
+         <div id="sender-icon" data-item="sender" class="child star_appraise comment-icon">
+           <?php for($score=1; $score<=5; $score++):?>
+              <?php if($score <= $sender_score):?>
+                <img src="{$face[$sender_score]}" title="{$score_tip[$score]}" data-score="{$score}" data-face="{$face[$score]}" />
+              <?php else:?>
+                <img src="{$face['0']}" title="{$score_tip[$score]}" data-score="{$score}" data-face="{$face[$score]}" />
+              <?php endif;?>
+           <?php endfor;?>
+         </div>
+     </div>
+     <div class="attitude"><p id="sender-tip">{$score_tip[$sender_score]}</p></div>
+   </div>
+   <div id="sender-opt" class="appraise_box appraise_margin" {if !$sender_comment}style="display:none"{/if}>
+      <div style="padding-right:0;"> 
+          <div class="bad_info comment-opt"id="sender-bad" style="padding:0;">
+            {loop $sender['opts'] $id $opt}
+              <span class="comment-span {if in_array($id, explode(',', $sender_comment))}select{/if}" data-opt-id="{$id}">
+                <div><em></em></div><span>{$opt}</span>
+              </span>
+            {/loop}
+        </div> 
+        <div class="clearBoth"></div> 
+       </div>  
+   </div>
+   <!-- 送件人员 end --> 
+   <div class="borderD2"></div>
+</div>
+<div class="space-split10"></div>
+<!-- 单项评价 end -->
+   
+<div class="white_bg" {if !$comment_text}style="display:none"{/if}>
+   <div class="borderD2"></div>
+   <div class="order-comment">
+     <textarea name="comment_text" placeholder="对e袋洗的服务有什么建议？我们将积极改进" class="textarea" readonly style="color: #3e3e3e;"
+     id="comment-text">{$comment_text}</textarea>
+   </div>
+   <div class="borderD2"></div>
+</div>
+<div  class="white_bg my-gallery" style="padding-top:10px" {if !$comment_imgs}style="display: none"{/if}>
+    {loop $comment_imgs $key $img}
+      <figure class="imgDiv">
+        <a class="smallImg"  href="{$img}" data-size="{$imgs_wh[$key]}">
+          <img src="{$img}" class="small-img" />
+        </a>
+      </figure>
+    {/loop}
+</div>
+<div class="clearBoth"></div>
+<div class="borderD2"></div>
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+  <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe.  It's a separate element, as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+      <!-- Container that holds slides. PhotoSwipe keeps only 3 slides in DOM to save memory. -->
+      <!-- don't modify these 3 pswp__item elements, data is added later on. -->
+      <div class="pswp__container">
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+      </div>
+
+      <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+      <div class="pswp__ui pswp__ui--hidden">
+        <div class="pswp__top-bar">
+          <!--  Controls are self-explanatory. Order can be changed. -->
+          <div class="pswp__counter"></div>
+            <!-- element will get class pswp__preloader--active when preloader is running -->
+          <div class="pswp__preloader">
+            <div class="pswp__preloader__icn">
+              <div class="pswp__preloader__cut">
+                <div class="pswp__preloader__donut"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+          <div class="pswp__share-tooltip"></div> 
+        </div>
+        <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+        <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+        <div class="pswp__caption">
+          <div class="pswp__caption__center"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<?php include template('foot') ?>
+
+<script type="text/javascript">
+var initPhotoSwipeFromDOM = function(gallerySelector) {
+// parse slide data (url, title, size ...) from DOM elements 
+// (children of gallerySelector)
+var parseThumbnailElements = function(el) {
+    var thumbElements = el.childNodes,
+        numNodes = thumbElements.length,
+        items = [],
+        figureEl,
+        linkEl,
+        size,
+        item;
+
+    for (var i = 0; i < numNodes; i++) {
+        figureEl = thumbElements[i]; // <figure> element
+        // include only element nodes 
+        if (figureEl.nodeType !== 1) {
+            continue;
+        }
+        linkEl = figureEl.children[0]; // <a> element
+        size = linkEl.getAttribute('data-size').split('x');
+        // create slide object
+        item = {
+            src: linkEl.getAttribute('href'),
+            w: parseInt(size[0], 10),
+            h: parseInt(size[1], 10)
+        };
+        if (figureEl.children.length > 1) {
+            // <figcaption> content
+            item.title = figureEl.children[1].innerHTML;
+        }
+        if (linkEl.children.length > 0) {
+            // <img> thumbnail element, retrieving thumbnail url
+            item.msrc = linkEl.children[0].getAttribute('src');
+        }
+        item.el = figureEl; // save link to element for getThumbBoundsFn
+        items.push(item);
+    }
+    return items;
+};
+
+// find nearest parent element
+var closest = function closest(el, fn) {
+    return el && (fn(el) ? el : closest(el.parentNode, fn));
+};
+
+// triggers when user clicks on thumbnail
+var onThumbnailsClick = function(e) {
+    e = e || window.event;
+    e.preventDefault ? e.preventDefault() : e.returnValue = false;
+    var eTarget = e.target || e.srcElement;
+    // find root element of slide
+    var clickedListItem = closest(eTarget, function(el) {
+        return (el.tagName && el.tagName.toUpperCase() === 'FIGURE');
+    });
+    if (!clickedListItem) {
+        return;
+    }
+    // find index of clicked item by looping through all child nodes
+    // alternatively, you may define index via data- attribute
+    var clickedGallery = clickedListItem.parentNode,
+        childNodes = clickedListItem.parentNode.childNodes,
+        numChildNodes = childNodes.length,
+        nodeIndex = 0,
+        index;
+
+        for (var i = 0; i < numChildNodes; i++) {
+            if (childNodes[i].nodeType !== 1) {
+                continue;
+            }
+            if (childNodes[i] === clickedListItem) {
+                index = nodeIndex;
+                break;
+            }
+            nodeIndex++;
+        }
+        if (index >= 0) {
+            // open PhotoSwipe if valid index found
+            openPhotoSwipe(index, clickedGallery);
+        }
+        return false;
+    };
+    // parse picture index and gallery index from URL (#&pid=1&gid=2)
+    var photoswipeParseHash = function() {
+        var hash = window.location.hash.substring(1),
+                params = {};
+
+        if (hash.length < 5) {
+            return params;
+        }
+        var vars = hash.split('&');
+        for (var i = 0; i < vars.length; i++) {
+            if (!vars[i]) {
+                continue;
+            }
+            var pair = vars[i].split('=');
+            if (pair.length < 2) {
+                continue;
+            }
+            params[pair[0]] = pair[1];
+        }
+        if (params.gid) {
+            params.gid = parseInt(params.gid, 10);
+        }
+        return params;
+    };
+
+    var openPhotoSwipe = function(index, galleryElement, disableAnimation, fromURL) {
+        var pswpElement = document.querySelectorAll('.pswp')[0],
+                gallery,
+                options,
+                items;
+
+        items = parseThumbnailElements(galleryElement);
+
+        // define options (if needed)
+        options = {
+            // define gallery index (for URL)
+            galleryUID: galleryElement.getAttribute('data-pswp-uid'),
+            getThumbBoundsFn: function(index) {
+                // See Options -> getThumbBoundsFn section of documentation for more info
+                var thumbnail = items[index].el.getElementsByTagName('img')[0], // find thumbnail
+                        pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
+                        rect = thumbnail.getBoundingClientRect();
+
+                return {x: rect.left, y: rect.top + pageYScroll, w: rect.width};
+            }
+
+        };
+
+        // PhotoSwipe opened from URL
+        if (fromURL) {
+            if (options.galleryPIDs) {
+                // parse real index when custom PIDs are used 
+                for (var j = 0; j < items.length; j++) {
+                    if (items[j].pid == index) {
+                        options.index = j;
+                        break;
+                    }
+                }
+            } else {
+                // in URL indexes start from 1
+                options.index = parseInt(index, 10) - 1;
+            }
+        } else {
+            options.index = parseInt(index, 10);
+        }
+
+        // exit if index not found
+        if (isNaN(options.index)) {
+            return;
+        }
+
+        if (disableAnimation) {
+            options.showAnimationDuration = 0;
+        }
+
+        // Pass data to PhotoSwipe and initialize it
+        gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+        gallery.init();
+    };
+
+    // loop through all gallery elements and bind events
+    var galleryElements = document.querySelectorAll(gallerySelector);
+    for (var i = 0, l = galleryElements.length; i < l; i++) {
+        galleryElements[i].setAttribute('data-pswp-uid', i + 1);
+        galleryElements[i].onclick = onThumbnailsClick;
+    }
+
+    // Parse URL and open gallery if it contains #&pid=3&gid=1
+    var hashData = photoswipeParseHash();
+    if (hashData.pid && hashData.gid) {
+        openPhotoSwipe(hashData.pid, galleryElements[ hashData.gid - 1 ], true, true);
+    }
+};
+
+// execute above function
+initPhotoSwipeFromDOM('.my-gallery');
+</script>
+</body>
+</html>

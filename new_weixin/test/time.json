@@ -1,0 +1,1674 @@
+{
+    "ret": true,
+    "ts": 1467886365,
+    "version": "1.0",
+    "data": [
+        {
+            "date": "2016-07-07",
+            "weekday": "今天",
+            "selected": true,
+            "date_str": "7月7日",
+            "service_times": [
+                {
+                    "time_range": [
+                        32,
+                        36
+                    ],
+                    "text": "08:00-09:00",
+                    "view_text": "08:00-09:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": true
+                },
+                {
+                    "time_range": [
+                        36,
+                        40
+                    ],
+                    "text": "09:00-10:00",
+                    "view_text": "09:00-10:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": true
+                },
+                {
+                    "time_range": [
+                        40,
+                        44
+                    ],
+                    "text": "10:00-11:00",
+                    "view_text": "10:00-11:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": true
+                },
+                {
+                    "time_range": [
+                        44,
+                        48
+                    ],
+                    "text": "11:00-12:00",
+                    "view_text": "11:00-12:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": true
+                },
+                {
+                    "time_range": [
+                        48,
+                        52
+                    ],
+                    "text": "12:00-13:00",
+                    "view_text": "12:00-13:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": true
+                },
+                {
+                    "time_range": [
+                        52,
+                        56
+                    ],
+                    "text": "13:00-14:00",
+                    "view_text": "13:00-14:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": true
+                },
+                {
+                    "time_range": [
+                        56,
+                        60
+                    ],
+                    "text": "14:00-15:00",
+                    "view_text": "14:00-15:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": true
+                },
+                {
+                    "time_range": [
+                        60,
+                        64
+                    ],
+                    "text": "15:00-16:00",
+                    "view_text": "15:00-16:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": true
+                },
+                {
+                    "time_range": [
+                        64,
+                        68
+                    ],
+                    "text": "16:00-17:00",
+                    "view_text": "16:00-17:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": true
+                },
+                {
+                    "time_range": [
+                        68,
+                        72
+                    ],
+                    "text": "17:00-18:00",
+                    "view_text": "17:00-18:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": true
+                },
+                {
+                    "time_range": [
+                        72,
+                        76
+                    ],
+                    "text": "18:00-19:00",
+                    "view_text": "18:00-19:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": true
+                },
+                {
+                    "time_range": [
+                        76,
+                        80
+                    ],
+                    "text": "18:13",
+                    "view_text": "90分钟之内上门",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "尽快取",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        76,
+                        80
+                    ],
+                    "text": "19:00-20:00",
+                    "view_text": "19:00-20:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        80,
+                        84
+                    ],
+                    "text": "20:00-21:00",
+                    "view_text": "20:00-21:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        84,
+                        88
+                    ],
+                    "text": "21:00-22:00",
+                    "view_text": "21:00-22:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        88,
+                        92
+                    ],
+                    "text": "22:00-23:00",
+                    "view_text": "22:00-23:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        92,
+                        96
+                    ],
+                    "text": "23:00-24:00",
+                    "view_text": "23:00-24:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                }
+            ],
+            "quota_info": [
+                "aaaabbbb",
+                "aaaaaa"
+            ]
+        },
+        {
+            "date": "2016-07-08",
+            "weekday": "明天",
+            "selected": false,
+            "date_str": "7月8日",
+            "service_times": [
+                {
+                    "time_range": [
+                        32,
+                        36
+                    ],
+                    "text": "08:00-09:00",
+                    "view_text": "08:00-09:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        36,
+                        40
+                    ],
+                    "text": "09:00-10:00",
+                    "view_text": "09:00-10:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        40,
+                        44
+                    ],
+                    "text": "10:00-11:00",
+                    "view_text": "10:00-11:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        44,
+                        48
+                    ],
+                    "text": "11:00-12:00",
+                    "view_text": "11:00-12:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        48,
+                        52
+                    ],
+                    "text": "12:00-13:00",
+                    "view_text": "12:00-13:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        52,
+                        56
+                    ],
+                    "text": "13:00-14:00",
+                    "view_text": "13:00-14:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        56,
+                        60
+                    ],
+                    "text": "14:00-15:00",
+                    "view_text": "14:00-15:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        60,
+                        64
+                    ],
+                    "text": "15:00-16:00",
+                    "view_text": "15:00-16:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        64,
+                        68
+                    ],
+                    "text": "16:00-17:00",
+                    "view_text": "16:00-17:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        68,
+                        72
+                    ],
+                    "text": "17:00-18:00",
+                    "view_text": "17:00-18:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        72,
+                        76
+                    ],
+                    "text": "18:00-19:00",
+                    "view_text": "18:00-19:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        76,
+                        80
+                    ],
+                    "text": "19:00-20:00",
+                    "view_text": "19:00-20:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        80,
+                        84
+                    ],
+                    "text": "20:00-21:00",
+                    "view_text": "20:00-21:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        84,
+                        88
+                    ],
+                    "text": "21:00-22:00",
+                    "view_text": "21:00-22:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        88,
+                        92
+                    ],
+                    "text": "22:00-23:00",
+                    "view_text": "22:00-23:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        92,
+                        96
+                    ],
+                    "text": "23:00-24:00",
+                    "view_text": "23:00-24:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                }
+            ],
+            "quota_info": [
+                "aaaaaaaaaaaaa",
+                "bbbbbbbbbbbbbbbbb"
+            ]
+        },
+        {
+            "date": "2016-07-09",
+            "weekday": "周六",
+            "selected": false,
+            "date_str": "7月9日",
+            "service_times": [
+                {
+                    "time_range": [
+                        32,
+                        36
+                    ],
+                    "text": "08:00-09:00",
+                    "view_text": "08:00-09:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        36,
+                        40
+                    ],
+                    "text": "09:00-10:00",
+                    "view_text": "09:00-10:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        40,
+                        44
+                    ],
+                    "text": "10:00-11:00",
+                    "view_text": "10:00-11:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        44,
+                        48
+                    ],
+                    "text": "11:00-12:00",
+                    "view_text": "11:00-12:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        48,
+                        52
+                    ],
+                    "text": "12:00-13:00",
+                    "view_text": "12:00-13:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        52,
+                        56
+                    ],
+                    "text": "13:00-14:00",
+                    "view_text": "13:00-14:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        56,
+                        60
+                    ],
+                    "text": "14:00-15:00",
+                    "view_text": "14:00-15:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        60,
+                        64
+                    ],
+                    "text": "15:00-16:00",
+                    "view_text": "15:00-16:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        64,
+                        68
+                    ],
+                    "text": "16:00-17:00",
+                    "view_text": "16:00-17:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        68,
+                        72
+                    ],
+                    "text": "17:00-18:00",
+                    "view_text": "17:00-18:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        72,
+                        76
+                    ],
+                    "text": "18:00-19:00",
+                    "view_text": "18:00-19:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        76,
+                        80
+                    ],
+                    "text": "19:00-20:00",
+                    "view_text": "19:00-20:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        80,
+                        84
+                    ],
+                    "text": "20:00-21:00",
+                    "view_text": "20:00-21:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        84,
+                        88
+                    ],
+                    "text": "21:00-22:00",
+                    "view_text": "21:00-22:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        88,
+                        92
+                    ],
+                    "text": "22:00-23:00",
+                    "view_text": "22:00-23:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        92,
+                        96
+                    ],
+                    "text": "23:00-24:00",
+                    "view_text": "23:00-24:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                }
+            ],
+            "quota_info": [
+                "cccccccccccc",
+                "ddddddddddddd"
+            ]
+        },
+        {
+            "date": "2016-07-10",
+            "weekday": "周日",
+            "selected": false,
+            "date_str": "7月10日",
+            "service_times": [
+                {
+                    "time_range": [
+                        32,
+                        36
+                    ],
+                    "text": "08:00-09:00",
+                    "view_text": "08:00-09:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        36,
+                        40
+                    ],
+                    "text": "09:00-10:00",
+                    "view_text": "09:00-10:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        40,
+                        44
+                    ],
+                    "text": "10:00-11:00",
+                    "view_text": "10:00-11:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        44,
+                        48
+                    ],
+                    "text": "11:00-12:00",
+                    "view_text": "11:00-12:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        48,
+                        52
+                    ],
+                    "text": "12:00-13:00",
+                    "view_text": "12:00-13:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        52,
+                        56
+                    ],
+                    "text": "13:00-14:00",
+                    "view_text": "13:00-14:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        56,
+                        60
+                    ],
+                    "text": "14:00-15:00",
+                    "view_text": "14:00-15:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        60,
+                        64
+                    ],
+                    "text": "15:00-16:00",
+                    "view_text": "15:00-16:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        64,
+                        68
+                    ],
+                    "text": "16:00-17:00",
+                    "view_text": "16:00-17:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        68,
+                        72
+                    ],
+                    "text": "17:00-18:00",
+                    "view_text": "17:00-18:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        72,
+                        76
+                    ],
+                    "text": "18:00-19:00",
+                    "view_text": "18:00-19:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        76,
+                        80
+                    ],
+                    "text": "19:00-20:00",
+                    "view_text": "19:00-20:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        80,
+                        84
+                    ],
+                    "text": "20:00-21:00",
+                    "view_text": "20:00-21:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        84,
+                        88
+                    ],
+                    "text": "21:00-22:00",
+                    "view_text": "21:00-22:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        88,
+                        92
+                    ],
+                    "text": "22:00-23:00",
+                    "view_text": "22:00-23:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        92,
+                        96
+                    ],
+                    "text": "23:00-24:00",
+                    "view_text": "23:00-24:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                }
+            ],
+            "quota_info": [
+                "eeeeeeeeeeeeee",
+                "rrrrrrrrrrrrrrrr"
+            ]
+        },
+        {
+            "date": "2016-07-11",
+            "weekday": "周一",
+            "selected": false,
+            "date_str": "7月11日",
+            "service_times": [
+                {
+                    "time_range": [
+                        32,
+                        36
+                    ],
+                    "text": "08:00-09:00",
+                    "view_text": "08:00-09:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        36,
+                        40
+                    ],
+                    "text": "09:00-10:00",
+                    "view_text": "09:00-10:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        40,
+                        44
+                    ],
+                    "text": "10:00-11:00",
+                    "view_text": "10:00-11:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        44,
+                        48
+                    ],
+                    "text": "11:00-12:00",
+                    "view_text": "11:00-12:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        48,
+                        52
+                    ],
+                    "text": "12:00-13:00",
+                    "view_text": "12:00-13:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        52,
+                        56
+                    ],
+                    "text": "13:00-14:00",
+                    "view_text": "13:00-14:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        56,
+                        60
+                    ],
+                    "text": "14:00-15:00",
+                    "view_text": "14:00-15:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        60,
+                        64
+                    ],
+                    "text": "15:00-16:00",
+                    "view_text": "15:00-16:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        64,
+                        68
+                    ],
+                    "text": "16:00-17:00",
+                    "view_text": "16:00-17:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        68,
+                        72
+                    ],
+                    "text": "17:00-18:00",
+                    "view_text": "17:00-18:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        72,
+                        76
+                    ],
+                    "text": "18:00-19:00",
+                    "view_text": "18:00-19:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        76,
+                        80
+                    ],
+                    "text": "19:00-20:00",
+                    "view_text": "19:00-20:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        80,
+                        84
+                    ],
+                    "text": "20:00-21:00",
+                    "view_text": "20:00-21:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        84,
+                        88
+                    ],
+                    "text": "21:00-22:00",
+                    "view_text": "21:00-22:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        88,
+                        92
+                    ],
+                    "text": "22:00-23:00",
+                    "view_text": "22:00-23:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        92,
+                        96
+                    ],
+                    "text": "23:00-24:00",
+                    "view_text": "23:00-24:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                }
+            ],
+            "quota_info": [
+                "ttttttttttttt",
+                "uuuuuuuuuuuuuu"
+            ]
+        },
+        {
+            "date": "2016-07-12",
+            "weekday": "周二",
+            "selected": false,
+            "date_str": "7月12日",
+            "service_times": [
+                {
+                    "time_range": [
+                        32,
+                        36
+                    ],
+                    "text": "08:00-09:00",
+                    "view_text": "08:00-09:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        36,
+                        40
+                    ],
+                    "text": "09:00-10:00",
+                    "view_text": "09:00-10:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        40,
+                        44
+                    ],
+                    "text": "10:00-11:00",
+                    "view_text": "10:00-11:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        44,
+                        48
+                    ],
+                    "text": "11:00-12:00",
+                    "view_text": "11:00-12:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        48,
+                        52
+                    ],
+                    "text": "12:00-13:00",
+                    "view_text": "12:00-13:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        52,
+                        56
+                    ],
+                    "text": "13:00-14:00",
+                    "view_text": "13:00-14:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        56,
+                        60
+                    ],
+                    "text": "14:00-15:00",
+                    "view_text": "14:00-15:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        60,
+                        64
+                    ],
+                    "text": "15:00-16:00",
+                    "view_text": "15:00-16:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        64,
+                        68
+                    ],
+                    "text": "16:00-17:00",
+                    "view_text": "16:00-17:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        68,
+                        72
+                    ],
+                    "text": "17:00-18:00",
+                    "view_text": "17:00-18:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        72,
+                        76
+                    ],
+                    "text": "18:00-19:00",
+                    "view_text": "18:00-19:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        76,
+                        80
+                    ],
+                    "text": "19:00-20:00",
+                    "view_text": "19:00-20:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        80,
+                        84
+                    ],
+                    "text": "20:00-21:00",
+                    "view_text": "20:00-21:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        84,
+                        88
+                    ],
+                    "text": "21:00-22:00",
+                    "view_text": "21:00-22:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        88,
+                        92
+                    ],
+                    "text": "22:00-23:00",
+                    "view_text": "22:00-23:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        92,
+                        96
+                    ],
+                    "text": "23:00-24:00",
+                    "view_text": "23:00-24:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                }
+            ],
+            "quota_info": [
+                "yyyyyyyyyyyy",
+                "OOOOOOOOOOO"
+
+            ]
+        },
+        {
+            "date": "2016-07-13",
+            "weekday": "周三",
+            "selected": false,
+            "date_str": "7月13日",
+            "service_times": [
+                {
+                    "time_range": [
+                        32,
+                        36
+                    ],
+                    "text": "08:00-09:00",
+                    "view_text": "08:00-09:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        36,
+                        40
+                    ],
+                    "text": "09:00-10:00",
+                    "view_text": "09:00-10:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        40,
+                        44
+                    ],
+                    "text": "10:00-11:00",
+                    "view_text": "10:00-11:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        44,
+                        48
+                    ],
+                    "text": "11:00-12:00",
+                    "view_text": "11:00-12:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        48,
+                        52
+                    ],
+                    "text": "12:00-13:00",
+                    "view_text": "12:00-13:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        52,
+                        56
+                    ],
+                    "text": "13:00-14:00",
+                    "view_text": "13:00-14:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        56,
+                        60
+                    ],
+                    "text": "14:00-15:00",
+                    "view_text": "14:00-15:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        60,
+                        64
+                    ],
+                    "text": "15:00-16:00",
+                    "view_text": "15:00-16:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        64,
+                        68
+                    ],
+                    "text": "16:00-17:00",
+                    "view_text": "16:00-17:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        68,
+                        72
+                    ],
+                    "text": "17:00-18:00",
+                    "view_text": "17:00-18:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        72,
+                        76
+                    ],
+                    "text": "18:00-19:00",
+                    "view_text": "18:00-19:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        76,
+                        80
+                    ],
+                    "text": "19:00-20:00",
+                    "view_text": "19:00-20:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        80,
+                        84
+                    ],
+                    "text": "20:00-21:00",
+                    "view_text": "20:00-21:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        84,
+                        88
+                    ],
+                    "text": "21:00-22:00",
+                    "view_text": "21:00-22:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        88,
+                        92
+                    ],
+                    "text": "22:00-23:00",
+                    "view_text": "22:00-23:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                },
+                {
+                    "time_range": [
+                        92,
+                        96
+                    ],
+                    "text": "23:00-24:00",
+                    "view_text": "23:00-24:00",
+                    "special_delivery_fee": "",
+                    "is_available": true,
+                    "quick_text": "",
+                    "quick_take": false,
+                    "selected": false,
+                    "is_passed": false
+                }
+            ],
+            "quota_info": [
+                "PPPPPPPPPPP",
+                "KKKKKKKKKKKK"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>充值</title>
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/wap.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/myOrder.css')}" rel="stylesheet" type="text/css" />
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body>
+  <div class="channel-nav three-nav" style="margin-bottom:0">
+    <ul >
+      <li class="active" ><a href="<?php echo $online_charge_url;?>">在线充</a></li>
+      <li><a href="<?php echo $icard_charge_url;?>">充值卡</a></li>
+    </ul>
+    <div class="borderD2"></div>
+  </div>
+  <div class="icard_bg text-center">
+    <div class="p5">
+      <table>
+        <tr>
+          <td><img src="{php echo assets_link('/framework/style/images/icon_person.png')}" ></td>
+          <td>{$tel}</td>
+        </tr>
+        <tr>
+          <td style="width: 20%"><img src="{php echo assets_link('/framework/style/images/1icon_money.png')}" ></td>
+          <td class="orange_color">
+            <?php if (is_numeric($user_wallet['icard_amount'])):?>
+              <span>余额：<?php echo $user_wallet['icard_amount'];?></span>
+            <?php else:?>
+              <span>余额：<small><?php echo $user_wallet['icard_amount'];?></small></span>
+            <?php endif;?>
+            <?php if (is_numeric($user_wallet['icard_amount'])):?>
+              <span style="margin-left: 12px;">e卡： <?php echo $user_wallet['ecard_num'] . "张";?></span>
+            <?php else:?>
+              <span style="margin-left: 12px;">e卡： <small><?php echo $user_wallet['ecard_num'];?></small></span>
+            <?php endif;?>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="p5"></div>
+  </div>
+  <div class="icard_bg_b"></div>
+  <div class="p5"></div>
+  
+  <!-- 在线充值 start -->
+  <div id="input_jquery">
+    <form  id="recharge_form" action="{php echo create_url('payment/recharge_pay',array('status' => 1))}" method = "POST">
+    	<ul id="recharge-list" class="recharge-list">
+    	    {loop $recharge_list $key $item}
+    		<li data-sum="{$item['min']}">
+    			充{$item['min']}返{$item['money_give']}
+			    <img src="{php echo assets_link('/framework/style/images/icon_choose.png')}" class="select_charge" style="display:none">
+    		</li>
+    		{/loop}
+    		<li {if $long_input}class="singleLi"{/if}>
+                <input type="hidden" value="" name="fee_2" id="selected-sum">
+	            <input class="charge_money input_sum" style="display:inline" type="tel" name="fee" id="sum-input" placeholder="输入其他金额" maxlength="8"
+	            style="ime-mode: disabled; color: #c1c1c1;" autocomplete="off" oninput="value=value.replace(/[^\d.]/g, '');" >
+	        </li>
+    	</ul>	     
+		<div>
+	        <div style="height: 230px;"></div>
+	        <div class="footReturn p10">
+	          <input type="hidden" name="recharge_discount" value="{$recharge_discount}" />
+	          <input type="hidden" name="recharge_callback" value="{$recharge_callback}" />
+	          <button type="button" value="确定" id="recharge_btn" class="coupon-btn"> 立即充值</button>
+	        </div>
+		</div>
+              <div>
+                {if $new_user_tips}
+                <p class="yue_tip">{$new_user_tips}</p><!-- 余额支付不享受首次免单 -->
+                {/if}
+              </div>
+   </form>
+ </div>
+ <!-- 在线充值 end -->
+  
+ <div class="text-center bind_icard">
+   {if $card['rcard_sn']}
+       <span>已绑定实体卡：{$card['rcard_sn']}</span>
+   {else}
+     <a href="<?php  echo create_url('icard/bind_icard_show', array())?>">
+       <div class = "blue-color">
+         <span>绑定实体卡</span>
+       </div>
+     </a>
+   {/if}
+ </div>
+ 
+<!-- 提示浮层 start -->
+<div id="codFloat" style="display:none" class="cod" style="height:60px">
+  <div class="wx_mask"></div>
+  <div class="wx_confirm ">
+      <div class="wx_confirm_inner" id="wx_confirm_float">
+        <div class="wx_confirm_hd">
+            <div class="wx_confirm_tit" id="show_mes">出错了，请稍后再试！</div>
+        </div>
+      </div>
+  </div>
+</div>
+<!-- 提示浮层 end -->
+
+<script type="text/javascript">
+var flag = 1;
+var 
+  $sumSel = $("#recharge-list").find('li'),
+  $sumInput = $("#sum-input"),
+  $selectedSum = $("#selected-sum"),
+  $selectedImg = $("img.select_charge");
+
+// 选择金额
+$sumSel.on('click', function() {
+	$sumInput.val('').attr("placeholder", "输入其他金额");
+	var sel_img = $(this).find("img.select_charge");
+	var unsel_img = $selectedImg.not(sel_img);
+	sel_img.toggle();
+	unsel_img.hide();
+	var sum = $(this).data('sum');
+	if(sel_img.css('display') == 'none'){
+		sum = '';
+	}
+	// 选中金额放入隐藏域
+	$selectedSum.val(sum);
+});
+$sumSel.eq(0).click();
+
+// 输入金额
+$sumInput.on('focus', function() {
+	$selectedSum.val('');
+	$(this).css({'color':'#3e3e3e'});
+	$selectedImg.hide();
+});
+
+// 提交金额
+$("#recharge_btn").on('click', function(){
+	if(check_sum()){
+        $(this).prop("disabled", true);
+	    $("#recharge_form").submit();
+	}
+	return;
+});
+
+
+// 检查金额
+function check_sum() {
+	var select_sum = + $.trim($selectedSum.val()); // 选择金额
+	var input_sum = + $.trim($sumInput.val());   // 输入金额
+	if (select_sum > 0) {
+		return true;
+	}
+    if (!select_sum && !input_sum) {
+        alert_1("请选择或输入正确充值金额");
+        return false;
+    }
+	var re = /^\d+\.{0,1}\d{0,2}$/;
+	if (!re.test(input_sum) || input_sum <= 0 || input_sum > 99999) {
+		alert_1("请输入合理金额(1~99999)");
+		return false;
+	}
+	return true;
+}
+
+// 弹窗提示
+function alert_1(title) {
+    if(title){
+        $("#show_mes").html(title);
+    }
+    $("#codFloat").show().delay(2000).hide(0);
+}
+
+// 提示 + 跳转
+function alertToUrl(title, url) {
+    if (title == '') {
+        window.location.href = url;
+    } else {
+        alert_1(title);
+        setTimeout("window.location.href='" + url + "'", 500);
+    }
+}
+</script>
+<?php include template('foot') ?>
+</body>
+</html>

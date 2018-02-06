@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <meta content="" name="pgv">
+    <title>我的优惠券</title>
+    <link href="{php echo assets_link('/framework/style/css/footer.css')}" rel="stylesheet" type="text/css">
+    <link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+    <link href="{php echo assets_link('/framework/style/css/wap.css')}" rel="stylesheet" type="text/css">
+    <link href="{php echo assets_link('/framework/style/css/card.css')}" rel="stylesheet" type="text/css" media="all">
+    <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+    <script>
+    window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')
+    </script>
+</head>
+
+<body style="padding-bottom:68px;">
+    <div id="second" style="margin-top:0px;">
+        <div class="headerPlace header-address" style="margin-bottom:0px">
+            <div class="choose-time">
+                <span class="">我的优惠券</span>
+                <span class="pull-right"> 
+            <a href="{$_W['config']['site']['static']['html']}pages/coupon_des" style="padding:2px 6px"> 使用说明</a>
+        </span>
+            </div>
+        </div>
+        <div class="borderD"></div>
+        <div class="coupon-btn-long">
+            <div id="coupon-btn-style" class="coupon-btn-style">
+                <div class="borderD2"></div>
+                <img src="{php echo assets_link('/framework/style/images/icon_add.png')}">
+                <span>兑换优惠券</span>
+                <div class="borderD2"></div>
+            </div>
+        </div>
+        <div class="cardexplain white_bg" style="margin:0;display:none" id="cardExplain">
+            <div class="cod">
+                <div class="wx_mask"></div>
+                <div class="wx_confirm ">
+                    <div class="wx_confirm_inner" id="wx_confirm_coupon">
+                        <div class="wx_confirm_hd" style="margin-bottom:0;padding-top:10px">
+                            <div class="wx_confirm_tit" id="ump_color_gray">兑换优惠券</div>
+                            <form action="javascript:;" method="POST">
+                                <div class="inputbox">
+                                    <input id="coupon_sn" name="bind_sn_coupon" type="text" placeholder="输入优惠码" class="bind_sn_coupon #coupon_sn" />
+                                </div>
+                                <div id="coupon-tip" class="coupon-tip">
+                                    <!-- 兑换提示 -->
+                                </div>
+                                <div class="floatBorder floatbox">
+                                    <a id="cancel" class="cancel single_input2">取消</a>
+                                    <a id="exchange" class="single_input2" href="javascript:void(0);">兑换</a>
+                                </div>
+                            </form>
+                            <div class="clearBoth"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="border-top:1px solid #eee;"></div>
+    <div id="coupon_list">
+        {if !$coupon_list}
+        <div class="empty_Coupons cardexplain no-coupon">
+            <img src="{php echo assets_link('/framework/style/images/no_coupon.png')}">
+            <p>无可用优惠券</p>
+        </div>
+        {else} {if $coupon_desc}
+        <div class="kaixi" style="text-align:left;padding: 0 0 10px 20px;color:#8a8a8a">{$coupon_desc}</div>
+        {/if}
+        <div class="ump-coupon-wrap">
+            <ul id="usable-coupon-list" class="ump-coupon-list">
+                {loop $coupon_list $key $item}
+                <li class="ump-coupon-item {if $item['coupon_type'] ==0}coupon-style-0{elseif $item['coupon_type'] ==2}coupon-style-2{else}coupon-style-1{/if}" id="li_{$key}" onclick="showTip('请在支付过程中使用优惠券')">
+                    
+                      {if $item['coupon_type'] =='0'}
+                        <img src="{php echo assets_link('/framework/style/images/light-gray-logo.png')}" class="gray-img">
+                        
+                      {elseif $item['coupon_type'] =='2'}
+                        <img src="{php echo assets_link('/framework/style/images/violet-logo.png')}" class="gray-img">
+                      {else}
+                        <img src="{php echo assets_link('/framework/style/images/blue-logo.png')}" class="gray-img">                    
+                      
+                      {/if}
+
+                      <!-- 品类 -->
+                      <p class="category_display">{$item['category_display']}</p>
+
+                      <!-- 折扣 -->
+                      <div class="ump-coupon-value {if $item['coupon_type'] ==0}color-gray {elseif $item['coupon_type'] == 2}color-shechipin{else}color-blue{/if}">
+                          <p>
+                              {if 2 == $item['discount_type']}
+                              <i>{$item['coupon_price']}</i><span>折</span> {else}
+                              <span>￥</span><i>{$item['coupon_price']}</i> {/if}
+                          </p>
+                      </div>
+
+                      <!-- 券名 -->
+                      <p class="coupon-title">{$item['coupon_title']}</p>
+
+                      <!-- 满减&最多折扣 -->
+                      <p class="limit-font {if $item['coupon_type'] ==0}color-gray {elseif $item['coupon_type'] == 2}color-shechipin{else}color-blue{/if}">{$item['coupon_price_limit']} {$item['exclusive_channels_display']}</p>
+                      
+                      <p style="height:5px"></p>
+                      
+                      {if $item['coupon_validity_time']}
+                        <p class="limit-font {if $item['coupon_will_expire']}hight-red{/if}">{$item['coupon_validity_time']}</p>
+                      {/if}
+                    
+                    <div class="coupon_limit">
+                      {loop $item['coupon_limit'] $v}
+                        {if $v['partial_content']}
+                          <p>· {$v['partial_content']} {if $v['has_fold']}<span class="color-blue open_fold">点击查看详情{/if}</span></p>
+                        {/if}
+                        {if $v['has_fold']}
+                          <p class="has_flod" style="display:none">· {$v['fold_content']}</p>
+                        {/if}
+                      {/loop}
+                    </div>
+                </li>
+                {/loop}
+            </ul>
+        </div>
+        {/if}
+    </div>
+    <div class="back-home">
+        <a href="{php echo create_url('homepage/index',array())}">
+            <img src="{php echo assets_link('/framework/style/images/btn_home.png')}">
+        </a>
+    </div>
+    <!-- 操作提示 start -->
+    <div id="tip-box" style="display:none" class="cod" style="height:60px">
+        <!-- <div class="wx_mask"></div> -->
+        <div class="wx_confirm ">
+            <div class="wx_confirm_inner" id="wx_confirm_float">
+                <div class="wx_confirm_hd">
+                    <div class="wx_confirm_tit" id="show_mes">
+                        <!-- 提示信息 -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 操作提示 end -->
+    <script type="text/javascript">
+    var flag = 1;
+    $("#exchange").click(function() {
+        var submitData = {
+            bind_sn_coupon: $.trim($("#coupon_sn").val())
+        };
+        if ($.trim($("#coupon_sn").val()) == "") {
+            $("#coupon-tip").text("请输入优惠码");
+            return false;
+        }
+        if (flag == 1) {
+            flag = 2;
+            $.post("{php echo create_url('payment/ajax_exchange_coupon')}", submitData, function(data) {
+                if (data.message.state == 1) {
+                    $("#coupon-tip").text(data.message.msg);
+                    setTimeout(function() {
+                        window.location.href = "{php echo create_url( 'payment/coupon_list')}";
+                    }, 1000);
+                } else {
+                    flag = 1;
+                    $("#coupon-tip").text(data.message.msg);
+                }
+            }, "json");
+        }
+    });
+
+    $("#coupon-btn-style").click(function() {
+        $("#cardExplain").show();
+        $('#coupon_sn').val('');
+    })
+
+    $('#cancel').click(function() {
+        $("#cardExplain").hide();
+        $("#coupon-tip").text('');
+        return false;
+    });
+
+    $("#coupon_sn").on('focus', function() {
+        $("#coupon-tip").text("");
+    });
+
+    // 展开城市
+    $(".open_fold").click(function(event) {
+      $(this).parent().hide();
+      $(this).parent().parent().find('.has_flod').show();
+      event.stopPropagation();
+    });
+
+    // 显示提示信息
+    function showTip(msg, url) {
+        $('#show_mes').html(msg);
+        if (url) {
+            $('#tip-box').show();
+            setTimeout(function() {
+                if ('reload' == url) {
+                    window.location.reload();
+                } else {
+                    window.location.href = url;
+                }
+            }, 2000);
+        } else {
+            $('#tip-box').show().delay(2000).hide(0);
+
+        }
+        
+    }
+    </script>
+    <?php include template('foot') ?>
+</body>
+
+</html>

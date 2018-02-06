@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>个人中心</title>
+<link rel="stylesheet" type="text/css" href="{php echo assets_link('/framework/style/css/card.css')}" media="all">
+<link href="{php echo assets_link('/framework/style/css/footer.css')}" rel="stylesheet" type="text/css">
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+<body id="card" ondragstart="return false;" onselectstart="return false;" class="white_bg" style="padding-bottom:54px;">
+  
+<div class="card" id="icard">
+  <img src="{$user_center_info['center_info_back_group_img']}" class="card-bg-card" />
+  <img src="{$user_center_info['center_info_avatar_img']}" class="edaixi_logo" />
+  <div class="loginInfo">
+    {if $denglu == 'no'}
+      	<h4><a href  = "{php echo create_url('icard/login_back',array('loginback_url' => create_url('icard/my_icard')))}">立即登录</a></h4>
+    {else}
+    	<p>{$tel}</p>
+      {if !in_array($_SESSION['user_info']['user_type'], array(26, 34))}
+    	<a href = "{php echo create_url('icard/icard_charge',array('status' => '1'))}" class="link-chongzhi" style="width: 40%;padding:5px 0;">
+    		充值<span class="go-card"></span>
+    	</a>
+      {/if}
+    {/if}
+	<p>{$user_center_info['center_info_slogan']}</p>
+  </div>
+</div>
+<nav class="main-nav white-bg">
+  <div>
+    <div class="wallet">
+    <p><img alt=" " src="{php echo assets_link('/framework/style/images/My wallet.png')}"></p>
+    <p class="wallet-word">我的钱包</p>
+    <img alt="" src="/framework/style/images/rignt_icon.png" class="wallet-arrow">
+    <a href="/new_weixin/view/invoice_order_list.html" class="invoice">发票</a>
+    </div>
+    <div class="borderD"></div>
+    <div class="wallet-types">
+      <div class="types">
+        <a href = "{php echo create_url('payment/coupon_list',array())}">
+          <p>
+            <?php if (is_numeric($user_wallet['coupon_num'])):?>
+              <span><?php echo $user_wallet['coupon_num'] . "张";?></span>
+            <?php else:?>
+              <small><?php echo $user_wallet['coupon_num'];?></small>
+            <?php endif;?>
+          </p>
+          <p>优惠券</p>
+        </a>
+      </div>
+      {if $_SESSION['user_info']['user_type'] != 26}
+      <div class="types">
+        <a href = "{php echo create_url('icard/balance',array())}">
+          <p>
+            <?php if (is_numeric($user_wallet['icard_amount'])):?>
+              <span><?php echo "￥" . $user_wallet['icard_amount'];?></span>
+            <?php else:?>
+              <small><?php echo $user_wallet['icard_amount'];?></small>
+            <?php endif;?>
+          </p>
+          <p>余额</p>
+        </a>
+      </div>
+      {if $_SESSION['user_info']['user_type'] != 34}
+      <div class="types">
+        <a href="{php echo create_url('ecard/index',array())}">
+          <p>
+            <?php if (is_numeric($user_wallet['ecard_num'])):?>
+              <span><?php echo $user_wallet['ecard_num'] . "张";?></span>
+            <?php else:?>
+              <small><?php echo $user_wallet['ecard_num'];?></small>
+            <?php endif;?>
+          </p>
+          <p>e卡</p>
+        </a>
+      </div>
+      {/if}
+      {if !in_array($_SESSION['user_info']['user_type'], array(14, 34))}
+      <div class="types">
+        <a href="{php echo create_url('icard/my_points',array())}">
+        <p>
+          <?php if (is_numeric($user_wallet['point'])):?>
+              <span><?php echo $user_wallet['point'];?></span>
+            <?php else:?>
+              <small><?php echo $user_wallet['point'];?></small>
+            <?php endif;?>
+        </p>
+        <p>积分</p>
+        </a>
+      </div>
+      {/if}
+      {/if}
+    </div>
+  </div>
+</nav>
+
+<div class="clear"></div>
+<div class="borderD2"></div>
+<div style="height:14px"></div>
+<div class="cardexplain">
+	<ul class="round operate navlist">
+		<li class="mobile-font">
+      <table class="icardTable">
+         <tr>
+          <td style="border:0;width:42px;">
+            <img alt="" src="{php echo assets_link('/framework/style/images/Common _address.png')}">
+          </td>
+          <td>
+            <a href = "{php echo create_url('address/address_list',array())}">
+              <div class = "list-titel no-img">
+                常用地址
+                <img alt="" src="{php echo assets_link('/framework/style/images/rignt_icon.png')}" class="icon-right-card">
+              </div>
+            </a>
+            <div class="borderD"></div>
+          </td>
+        </tr>
+
+        <!-- 我的彩票 -->
+        {if $lingcb_entrance}
+        <tr>
+          <td style="border:0;width:42px;">
+            <img alt="" src="{php echo assets_link('/framework/style/images/caipiao.png')}">
+          </td>
+          <td style="position:relative">
+            <a id="my-lottery">
+              <div class = "list-titel no-img">
+                我的彩票
+                <img alt="" src="{php echo assets_link('/framework/style/images/rignt_icon.png')}" class="icon-right-card">
+              </div>
+            </a>
+            <div class="borderD"></div>
+          </td>
+        </tr>
+        {/if}
+
+        {if $from_user && $is_from_weixin}
+        <tr>
+          <td style="border:0;width:42px;">
+            <img alt="" src="{php echo assets_link('/framework/style/images/Recommended Awards.png')}">
+          </td>
+          <td style="position:relative">
+            <a href="{php echo create_url('icard/recommend')}">
+              <div class = "list-titel no-img">
+                推荐有奖
+                <img alt="" src="{php echo assets_link('/framework/style/images/rignt_icon.png')}" class="icon-right-card">
+              </div>
+            </a>
+            <div class="borderD"></div>
+          </td>
+        </tr>
+        {/if}
+        {if !in_array($_SESSION['user_info']['user_type'], array(14, 34)) && !is_from_psdzbt_pingan()}
+        <tr>
+          <td style="border:0;width:42px;">
+            <img alt="" src="{php echo assets_link('/framework/style/images/Integral mall.png')}">
+          </td>
+          <td style="position:relative">
+            <a href = "{$points_mall_url}">
+              <div class = "list-titel no-img">
+                积分商城
+                <img alt="" src="{php echo assets_link('/framework/style/images/rignt_icon.png')}" class="icon-right-card">
+              </div>
+            </a>
+           </a>
+           <div class="borderD" style=" margin-bottom: -4px;"></div>
+          </td>
+        </tr>
+        {/if}
+        {if !is_from_psdzbt_pingan() && $_SESSION['user_info']['user_type'] != 34}
+        <tr>
+          <td style="border:0;width:42px;">
+            <img alt="" src="{php echo assets_link('/framework/style/images/job.png')}">
+          </td>
+          <td style="position:relative">
+            <a href = "http://www.edaixi.com/m/xiaoehelper">
+              <div class = "list-titel no-img">
+                取送小e招募
+                <img alt="" src="{php echo assets_link('/framework/style/images/rignt_icon.png')}" class="icon-right-card">
+              </div>
+            </a>
+           <div class="borderD" style=" margin-bottom: -4px;"></div>
+          </td>       
+        </tr>
+        {/if}
+        {if $is_from_weixin}
+        <tr>
+          <td style="border:0;width:42px;">
+            <img alt="" src="{php echo assets_link('/framework/style/images/download_icon.png')}">
+          </td>
+          <td style="position:relative">
+            <a href = "http://t.cn/RyV5nVB">
+              <div class = "list-titel no-img">
+               下载APP
+                <img alt="" src="{php echo assets_link('/framework/style/images/rignt_icon.png')}" class="icon-right-card">
+              </div>
+            </a>
+          </td>
+        </tr>
+        {/if}
+      </table>
+             
+    </li>  
+    <div class="borderD2"></div>
+</ul>
+</div>
+
+<div class="cardexplain">
+  <ul class="round operate navlist" style="border-radius:0 0 10px 10px;border-top:0">  
+    <li class="mobile-font">  
+      <table class="icardTable">
+        {if $_SESSION['user_info']['user_type'] != 14}
+        <tr>
+          <td style="border:0;width:42px;">
+            <img alt=" " src="{php echo assets_link('/framework/style/images/feedback.png')}">
+          </td>
+          <td>
+            <div id="feedback" data-href="{$feedback_url}" class="list-titel no-img">
+              意见反馈
+              <img alt="" src="{php echo assets_link('/framework/style/images/rignt_icon.png')}" class="icon-right-card">
+            </div>
+            <div class="borderD"></div>
+          </td>
+        </tr>
+        {/if}
+        <tr>
+          <td>
+            <img alt="" src="{php echo assets_link('/framework/style/images/More.png')}" >
+          </td>
+          <td>
+            <a href = "{php echo create_url('icard/show_more',array())}">
+              <div class = "list-titel no-img">
+                更多
+                <img alt="" src="{php echo assets_link('/framework/style/images/rignt_icon.png')}" class="icon-right-card">
+              </div>
+            </a>
+          </td>
+        </tr>
+      </table>
+    <div class="borderD2"></div>  
+    </li> 
+    <div style="height:14px;background:#f0f0f0"></div>
+    <li class="tel-text">
+      <div><a href="tel:{$user_center_info['service_tel']}">客服 {$user_center_info['service_tel']}</a></div>
+    </li>
+  </ul>
+  <div class="borderD2"></div>
+</div>
+
+<script type='text/javascript'>
+window.onerror = function() {
+	return true;
+}
+// 记录意见反馈返回路径
+$('#feedback').on('click', function(){
+    sessionStorage.setItem('feedbook_from', window.location.href);
+    window.location.href = $(this).data('href');
+});
+
+// 我的彩票点击并统计
+$('#my-lottery').on('click', function(){
+  TDAPP.onEvent("零彩宝我的彩票");
+  window.location.href = "{$lingcb_entrance}";
+});
+
+</script>
+<?php include template('navigate') ?>
+<?php include template('foot') ?>
+</body>
+</html>

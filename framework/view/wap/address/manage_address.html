@@ -1,0 +1,465 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+	<meta content="" name="pgv">
+	<title>填写地址</title>
+	<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+	<link href="{php echo assets_link('/framework/style/css/order.css')}" rel="stylesheet" type="text/css" />
+	<script type="text/javascript" src="//webapi.amap.com/maps?v=1.3&key=1c22ed8fcc81436197faf632aaed0ddb"></script>
+	<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>');</script>
+    <script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+	<script type="text/javascript">
+	    var category_id = "{$category_id}", sub_id = "{$sub_id}", sign = "{$sign}", home_city = "{$home_city}", city_name = "{$city_name}", 
+	    area_name = "{$area_name}", verifyUrl = "{$verify_url}", SCFlag = 1; //城市搜索标识
+	    if(sign == 'update'){SCFlag = 2;} //编辑地址初始化
+	</script>
+	
+	<!-- <script type="text/javascript" src="/framework/style/js/debug.min.js"></script> -->
+</head>
+
+<body>
+<!-- 正在定位 start -->
+<section class="waiting">
+	<div class="wait-block">
+		<span id="wait_msg">正在定位</span> <em class="bounce1"></em><em class="bounce2"></em><em class="bounce3"></em>
+	</div>
+</section>
+<!-- 正在定位 end -->
+
+<div id="mainWin" style="padding: 0">
+	<div class="space-split10"></div>
+	<form method="post" id="addr_form" action="#">
+
+		<!-- 地址信息 start -->
+		<div class="white-bg">
+			<div id="home_city" class="city_item" {if $sign == 'update'}style="display: none;"{/if}>
+				<div id="home_city_wrap" class="city_select_wrap">
+					<select id="home_city_sel" class="city_select" >
+						{$city_options}
+					</select>
+				</div>
+				<div class="city_item_title">添加地址城市</div>
+			</div>
+			
+			<div class="m_input select y_hover" id="select_wrap" {if $sign == 'create'}style="display: none;"{/if}>
+				<div id="cmbCity_wrap" class="select y_hover after1">
+					<select id="cmbCity" class="J_city select_J_ytag" name="city">
+						{$city_options}
+					</select>
+				</div>
+				<div id="cmbArea_wrap" class="select y_hover after2" {if $sign == 'create'}style="display: none;"{/if}>
+					<div class="borderP"></div>
+					<select id="cmbArea" class="J_area select_J_ytag" name="area">
+						{$area_options}
+					</select>
+				</div>
+				<div class="clearBoth"></div>
+			</div>
+			<div class="borderD"></div>
+
+			<div class="m_input m_input_5" style="margin-top: 10px">
+				<div class="input">
+					<span class="dingwei-icon " id="location_btn"><img src="{php echo assets_link('/framework/style/images/dingwei.png')}"></span>
+					<input id="addr_name" name="address_line_1" type="text" placeholder="请输入小区名或者大厦名" readonly="readonly" value="{$address['address_line_1']}" />
+				</div>
+				<div class="borderD"></div>
+			</div>
+			<div class="m_input m_input_5" style="margin-bottom: 0">
+				<div class="input">
+					<textarea placeholder="请输入门牌号等详细地址" maxlength="50"
+					id="detail" name="address_line_2" class="textarea-address">{$address['address_line_2']}</textarea>
+				</div>
+			</div>
+		</div>
+		<div class="borderD2"></div>
+		<!-- 地址信息 end -->
+
+		<div style="height: 10px; background: #f0f0f0"></div>
+
+		<!-- 个人基本信息 start -->
+		<div class="borderD2"></div>
+		<section class="section_4" style="padding: 1px">
+			<div class="m_input m_input_5">
+				<div class="input" style="margin-top: 10px">
+					<input placeholder="{if $replace_order}Ta的姓名{else}您的姓名{/if}" value="{$address['username']}" maxlength="30" id="username" name="username" class="address_input" />
+				</div>
+				
+			</div>
+		</section>
+		<div class="borderD2"></div>
+		<div style="height: 10px; background: #f0f0f0"></div>
+		<div class="borderD2"></div>
+		<section class="section_4">
+
+			<div class="m_input m_input_5">
+				<div class="check-div">
+					女士
+					<div class="label-radio">
+						<input type="radio" name="gender" id="lady" value="女士" {if $gender == '女士' || empty($gender)}checked="checked"{/if} class="gender" /> 
+						<label for="lady" name="lady"><b></b></label>
+					</div>
+				</div>
+				<div class="check-div">
+					先生
+					<div class="label-radio">
+						<input type="radio" name="gender" id="man" value="男士" {if $gender == '男士'}checked="checked"{/if} class="gender" /> 
+						<label for="man" name="man"><b></b></label>
+					</div>
+				</div>
+				<div class="clearBoth"></div>
+				<div class="borderD"></div>
+			</div>
+
+			<div class="m_input m_input_5" style="margin-bottom:0">
+				<div class="input">
+					<input placeholder="手机号码" value="<?php if(empty($replace_order)) echo $mobile?>" id="tel" type='tel' maxlength="11" name="tel" 
+						onkeyup="value=value.replace(/[^\d]/g,'')"
+						onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
+						class="cleartet need_clear" />
+					
+					<span id="tel_clear" class="clearInput clearCommon" onclick="clearInput(this, 'tel');" style="display: none"></span>
+				</div>
+			</div>
+		</section>
+		<!-- 个人基本信息 end -->
+
+		<!-- 保存 start -->
+		<sectoin class="true-btn">
+			<div class="">
+				<input name="category_id" type="hidden" value="{$category_id}" /> 
+				<input name="customer_lng" type="hidden" value="0" /> 
+				<input name="customer_lat" type="hidden" value="0" /> 
+				<input name="sign" type="hidden" value="{$sign}"> 
+				<input name="address_id" type="hidden" value="{$address_id}" /> 
+				<input name="link_from" type="hidden" value="{$link_from}" /> 
+				<input name="tmp_order" type="hidden" value="{$tmp_order}" /> 
+				<input name="replace_order" type="hidden" value="{$replace_order}" /> 
+				{if $back} <input name="back" type="hidden" value="{$back}" />{/if}
+				<!--此处增加一个area_id-->
+				<input id="city_id0" type="hidden" value="" />
+				<input id="area_id" name="area_id" type="hidden" value="0" />
+				<input type="submit" class="btn_order y_hover J_ytag" id="save_address" value="保存" disabled='disabled' />
+			</div>
+		</sectoin>
+		<!-- 保存 end -->
+	</form>
+</div>
+
+<!-- 搜索联想 start -->
+<section style="display: none;" id="searchWin">
+	<span onclick="showMainWin();" class="back-span">{if $_SESSION['user_info']['user_type'] != 14}<em class="back-icon"></em>{/if}</span> 
+	<input placeholder="请输入小区或大厦名" type="text" id="searchInp" value="" class="search-text need_clear" />
+	<div class="borderD" style="margin-top: 10px"></div>
+	<span id="searchInp_clear" onclick="clearInput(this, 'searchInp');"class="clearInput search-icon clearCommon" style="display: none"></span>
+
+	<!-- 搜索结果列表 start -->
+	<div id="searchList" class="searchList">
+		<!-- 搜索结果列表 -->
+	</div>
+	<!-- 搜索结果列表 end -->
+
+	<!-- 用户输入地址 start -->
+	<div id="userWin" style="display: none;">
+		<div class="tips_text">没有想要的地址，尝试手动选择市、区</div>
+		<div class="m_input select y_hover" id="user_select_wrap">
+			<div class="select y_hover after1">
+				<select id="user_city" class="J_city select_J_ytag">
+					{$city_options}
+				</select>
+			</div>
+			<div class="select y_hover after2">
+				<div class="borderP"></div>
+				<select id="user_area" class="J_area select_J_ytag">
+					{$area_options}
+				</select>
+			</div>
+		</div>
+		<div class="borderD"></div>
+		<div class="true-btn">
+			<input type="button" class="btn_order y_hover J_ytag" id="confirm_address" value="确定" />
+		</div>
+	</div>
+	<!-- 用户输入地址 end -->
+</section>
+<!-- 搜索联想  end -->
+
+<!-- 信息提示浮层 start -->
+<div id="codFloat" style="display: none" class="cod" style="height:60px">
+	<div class="wx_mask"></div>
+	<div class="wx_confirm ">
+		<div class="wx_confirm_inner" id="wx_confirm_float">
+			<div class="wx_confirm_hd">
+				<div class="wx_confirm_tit" id="show_mes" style="font-size: 14px; line-height: 22px">
+					<!-- 提示信息 -->
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- 信息提示浮层 end -->
+
+<!-- 所有区域选项列表 start -->
+<section id="area_options_list" style="display:none;">
+	{$all_area_opts}
+</section>
+<!-- 所有区域选项列表 end -->
+
+<!-- 操作提示 start -->
+<div id="msg_win" style="display:none" class="cod" style="height:60px">
+  <div class="wx_mask"></div>
+  <div class="wx_confirm ">
+      <div class="wx_confirm_inner" id="wx_confirm_float">
+         <div class="wx_confirm_hd">
+        	<div class="wx_confirm_tit" id = "msg_tip" style="font-size:1em"><!-- 提示信息 --></div>
+         </div>
+   	  </div>
+   </div>
+</div>
+<!-- 操作提示 end -->
+  
+<!-- 是否切换城市 start -->
+<div id="confirm_win" style="display:none" class="cod">
+  <div class="wx_mask"></div>
+  <div class="wx_confirm">
+    <div class="wx_confirm_inner" style="padding:6% 0 0 0;width:100%">
+      <div class="wx_confirm_hd bigfont p10">
+        不同的城市价目可能不同，您是否需要切换到所选城市再下单？
+      </div>
+      <div class="wx_confirm_bd">
+        <div class="borderD"></div>
+        <div class="wx_confirm_btns" style="position:relative">    
+          <input type="hidden" id="city_id" value="" />
+          <input type="hidden" id="city_name" value="" />                    
+          <button type="cancel" onclick="closeWin();" id="cancel_btn">取消</button>
+          <button type="submit" onclick="changeCity();" id="confirm_btn">确定</button>
+          <div class="borderL"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 是否切换城市 end -->
+
+<script type='text/javascript' src="{php echo assets_link('/framework/style/js/address_location2.js')}?ts=v15"></script>
+
+<script type='text/javascript'>
+/**
+ * @param {String}  errorMessage   错误信息
+ * @param {String}  scriptURI      出错的文件
+ * @param {Long}    lineNumber     出错代码的行号
+ */
+window.onerror = function(errorMessage, scriptURI, lineNumber) { 
+     return true;
+}
+ 
+
+// 打开“切换地址”确认框
+function openWin(cityId, cityName){
+	if(cityId && cityName){
+	    $("#city_id").val(cityId);
+	    $("#city_name").val(cityName);
+	    $('#chg_city').html(cityName);
+	    $("#confirm_win").show();
+	}
+    return false;
+}   
+
+// 关闭“切换地址”确认框
+function closeWin(){
+    $("#city_id").val("");
+    $("#city_name").val("");
+    $('#chg_city').html("");
+    $("#confirm_win").hide();
+
+    $('#home_city_sel').find('option:selected').removeAttr('selected');
+    var city_sn = $('#user_city').find('option:selected').attr('city_sn');
+    var wa = $("#home_city_sel").find("option[city_sn='"+city_sn+"']")[0];
+    $(wa).prop('selected', true);  
+    return false;
+}
+
+// 切换首页城市
+function changeCity(){
+   	$("#confirm_win").hide();
+  	var cityId = $("#city_id").val();
+   	var cityName = $("#city_name").val();
+	if(cityId && cityName){
+		window.location = "{php echo create_url('homepage/index')}&city_id=" + cityId;
+	}
+	return false;
+}
+ $('#home_city_sel').on('change', function(){
+ 	var chang_city_sn = $(this).find('option:selected').attr('city_sn').split('city_')[1];
+ 	var chang_city_name = $(this).find('option:selected').val();
+ 	openWin(chang_city_sn,chang_city_name);
+ 	
+ });
+
+ /**
+  * for manage_address.html 
+  * JQuery Code
+  */
+ //切换城市
+ /*$('#cmbCity').on('change', function(){
+     $('#cmbArea option.default').prop('selected', true);
+     var city_sn = $(this).find('option:selected').attr('city_sn');
+     var area_options = $('#area_options_list option.' + city_sn).clone(true);
+     $('#cmbArea option:not(.default)').remove();
+     $('#cmbArea').append(area_options);
+     resetLngLat();
+     setSaveBtn();
+ });*/
+
+/* $('#cmbCity').on('change', function(){
+ 	
+ 	
+ 	$('#cmbArea option.default').prop('selected', true);
+     var city_sn = $(this).find('option:selected').attr('city_sn');
+     var area_options = $('#area_options_list option.' + city_sn).clone(true);
+     $('#cmbArea option:not(.default)').remove();
+     $('#cmbArea').append(area_options);
+     resetLngLat();
+     setSaveBtn();
+
+     var oVal=$(this).find('option:selected').val();
+     if(oVal=='永康'){
+ 		$('#cmbArea option[value=永康]').prop('selected', true); 
+ 	 }
+
+ 	 var city_sn = $(this).find('option:selected').attr('city_sn');
+	 var area_options = $('#area_options_list option.' + city_sn).clone(true);
+	 var oVal=$(this).find('option:selected').val();
+     if(oVal=='永康'){     
+	     $('#cmbArea option:not(.default)').remove();
+	     $('#cmbArea').append(area_options);
+	     $('#cmbArea option[value=永康]').prop('selected', true); 
+     }else{
+     	 $('#cmbArea option.default').prop('selected', true);
+	     $('#cmbArea option:not(.default)').remove();
+	     $('#cmbArea').append(area_options);
+     }
+ 	 resetLngLat();
+     setSaveBtn();
+
+ });*/
+
+ $('#cmbCity').on('change', function(){
+ 	
+
+ 	 var city_sn = $(this).find('option:selected').attr('city_sn');
+	 var area_options = $('#area_options_list option.' + city_sn).clone(true);
+	 var oVal=$(this).find('option:selected').val();
+     if(oVal=='永康'){     
+	     $('#cmbArea option:not(.default)').remove();
+	     $('#cmbArea').append(area_options);
+	     $('#cmbArea option[value=永康]').prop('selected', true); 
+     }else{
+     	 $('#cmbArea option.default').prop('selected', true);
+	     $('#cmbArea option:not(.default)').remove();
+	     $('#cmbArea').append(area_options);
+     }
+ 	 resetLngLat();
+     setSaveBtn();
+
+ });
+
+ //用户体验差--待后期删除
+ $('#user_city').on('change', function(){
+     $('#user_area option.default').prop('selected', true);
+     var city_sn = $(this).find('option:selected').attr('city_sn');
+     var area_options = $('#area_options_list option.' + city_sn).clone(true);
+     $('#user_area option:not(.default)').remove();
+     $('#user_area').append(area_options);
+     setBtnStatus2();
+ });
+ //用户体验差--待后期删除
+ $('#user_area').on('change', function(){
+     setBtnStatus2();
+ });
+ //切换区域
+ $('#cmbArea').on('change', function(){
+     resetLngLat();
+     setSaveBtn();
+ });
+ //绑定定位方法
+ $('#location_btn').one('click', function(){
+     autoPostion();
+ });
+ // 绑定输入小区名称方法
+ $('#addr_name').on('click', function(){
+     showSearch();
+ });
+ //设置“清空”按钮状态
+ $('.need_clear').on('focus input blur', function(){
+     xbtnStatus(this);
+ });
+ //“确定”按钮绑定方法
+ $('#confirm_address').on('click', function(){
+     returnKeyword2();
+ });
+ //设置“确定”按钮状态
+ $('#searchInp').on('focus input blur', function(){
+     setBtnStatus2();
+ });
+ //设置“保存”按钮状态
+ $('#username, #tel, #addr_name, #detail').on('focus input blur', function(){
+     setSaveBtn();
+ });
+ $(":radio[name='gender']").on('change', function(){
+     setSaveBtn();
+ });
+ //绑定“自动完成”搜索框动作
+ $('#searchInp').on('input propertychange', function(){
+     autoSearch(this);
+ });
+ //初始化“清除”按钮状态
+ $('.need_clear').each(function(){
+     xbtnStatus(this);
+ });
+ //初始化“保存”按钮状态
+ setSaveBtn();
+// 表单提交
+$(function(){
+	$('#addr_form').submit(function(){
+		if(false === checkform()){
+			return false;
+		}
+
+		var url = "{php echo create_url('address/update_address');}";
+		var data = $(this).serialize();
+		$.post(url, data, function(data){
+			if(data.ret == true){
+				window.location.href = data.data.url;
+			}else{
+				showTip(data.error.message);
+			}
+		}, 'json');
+		return false;
+	});
+});
+
+// 显示提示信息
+function showTip(msg, url){
+	$('#msg_win #msg_tip').html(msg);
+	if(url){
+		$('#msg_win').show().delay(2000).hide(function(){
+			window.location.href = url;
+		});
+	}else{
+		$('#msg_win').show().delay(2000).hide(0);
+	}
+	return;
+}
+</script>
+<?php include template('foot') ?>
+</body>
+</html>

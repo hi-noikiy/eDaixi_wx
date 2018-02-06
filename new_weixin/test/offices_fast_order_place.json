@@ -1,0 +1,30 @@
+{
+  "ret": true,
+  "ts": 1466129022,
+  "version": "1.0",
+  "data": {
+        
+        "order_tips":{
+            "background_image": "../images/tips_background.jpg",
+            "details":[
+                "雨天路滑，小e过后再来，谢谢合作。",
+                "明天打折，快来买啊，谢谢。中国万岁万万岁。"
+            ]
+        },
+        "title": "专业清洗",
+        "success_description": "预约成功请等待小e上门取件",
+        "delivery_description": "当天18:00前下单, 明天18:00前送回;当天18:00后下单, 后天18:00前送回",
+        "delivery_fee_info":[
+            {
+                "sentinel_min": "不满0.0元",
+                "fee": "12.0元"
+            },
+            {
+                "sentinel_min": "满50.0元",
+                "fee": "免运费"
+            }
+        ],
+        "tel": "15847583312",
+        "office_address_url": "/mobile.php?m=wap&act=address&do=office_address&city_id=1"
+    }
+}

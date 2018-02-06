@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>选择投诉订单</title>
+
+<link href="{php echo assets_link('/framework/style/css/complain_robot.css')}" rel="stylesheet" type="text/css">
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body>
+  <div class="wx_robot">
+    {if $complain_orders} 
+    <ul>
+      <?php foreach ($complain_orders as $order) { ?>
+        <li>
+          <a href="<?php echo $detail_url.'&order_id='.$order['order_id'].'&robot=1'; ?>">
+          <div class="blockInfo">
+            <img src="<?php echo $order['icon']; ?>"></img>
+            <?php echo $order['type']; ?>
+            <span class="floatR">订单编号：<?php echo $order['order_sn_first'].' '.$order['order_sn_end']; ?></span>
+          </div>
+          <div class="clear"></div>
+          <div class="borderD"></div>
+          <div class="blockInfo">
+            <?php if($order['has_order_info']){ ?>
+              <p>衣物总数 <span class="floatR"><?php echo $order['amount']; ?></span></p>
+              <p>订单金额 <span class="floatR"><?php echo $order['price']; ?>元</span></p>
+          <?php }else{ ?>
+            <span class="floatR">等待上门取件</span>
+            <div class="clear"></div>
+          <?php }?>
+          </div>
+          </a>
+          <div class="borderD"></div>
+          <div class="blockInfo textR">
+            <?php if($order['processing']){ ?>
+              投诉处理中
+            <?php }else{ ?>
+              <a href="<?php echo $com_url.'&order_id='.$order['order_id'].'&robot=1';?>" class="btn-complain">投诉</a>
+            <?php } ?>
+          </div>        
+        </li>
+      <?php } ?>
+    </ul>
+    {else}
+      <div id="confirm_tip" style="display:block" class="cod" rel=''>
+        <div class='wx_mask'></div>
+        <div class="wx_confirm2">
+          <div class="wx_confirm_inner">
+            <div class="warm-tip">
+              <p>抱歉，您现在没有可投诉订单，从下单到订单完成后15天内均可以对订单进行投诉，如有其他问题，请直接留言。</p>
+            </div>
+            <div class="borderD"></div>
+            
+            <div class="wx_confirm_btns">
+
+                <button type="button" id="confirm-true" class="btn-ok" rel=''>确定</button>
+            </div>
+              
+          </div>
+        </div>
+      </div>
+    {/if}
+
+  </div>
+
+<?php include template('foot') ?>
+</body>
+<script type="text/javascript">
+  $("#confirm-true").on('click', function() {
+    wx.closeWindow();
+  });
+</script>
+</html>

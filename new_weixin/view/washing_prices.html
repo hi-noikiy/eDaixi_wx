@@ -1,0 +1,1217 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <title>专业清洗</title>
+    <link rel="stylesheet" type="text/css" href="../css/edaixi_prices.css?date=20170417">
+    <!-- <script type="text/javascript" src="http://apps.bdimg.com/libs/zepto/1.1.4/zepto.min.js"></script> -->
+    <script type="text/javascript" src="../js/zepto.js"></script>
+    <script type="text/javascript" src="../js/template.js"></script>
+    <script type="text/javascript" src="../js/webviewjsbridge.js"></script>
+    <script type="text/javascript" src="../js/Swipe.min.js"></script>
+    <script type="text/javascript" src="../js/slider.js?date=20161103"></script>
+</head>
+<body>
+    <header>
+        <div class="menu"></div>
+        <div id="slider"></div>
+    </header>
+    <section id="category-content-part">
+        <nav class="sub-menu-wrap"></nav>
+        <section class="taocan-wrap"></section>
+        <section class="prices-content-wrap"></section>            
+    </section>
+    <section id="server-wrap"></section>
+    <section id="tips-wrap"></section>
+    <article id="forecast-wrap"></article>
+    <footer></footer>
+    <div id="dialog"></div>
+    <!-- 品类菜单 -->
+    <script id="category-menu" type="text/html">
+        <ul>
+            {{each data as item}}
+                {{if item.active}}
+                    <li class="active" data-id="{{item.category_id}}" data-coupon_info="{{item.coupon_info}}">{{item.category_name}}</li>
+                {{else}}
+                    <li data-id="{{item.category_id}}" data-coupon_info="{{item.coupon_info}}">{{item.category_name}}</li>
+                {{/if}}
+            {{/each}}
+        </ul>
+    </script>
+    
+    <!-- banner -->
+    <!-- web 环境-->
+    <script id="banner_web" type="text/html">
+        {{each data as item}}
+            {{if item.active && item.banners.length > 0}}
+                <div class="swipe-wrap">
+                {{each item.banners as bannerItem}}
+                    <div>
+                        {{if bannerItem.url_type === 'none'}}
+                        <a href="javascript:void(0)" title="{{bannerItem.title}}"><img src="{{bannerItem.image_url}}" class="banner"></a>
+                        {{else}}
+                        <a href="{{bannerItem.url}}" title="{{bannerItem.title}}"><img src="{{bannerItem.image_url}}" class="banner"></a>
+                        {{/if}}
+                    </div>
+                {{/each}}
+                </div>
+                <div class="bgboxgo">
+                    <div class="botton-box mBxCm" id="sbsd"></div>
+                </div>
+            {{/if}}
+        {{/each}}
+    </script>
+    <!-- app 环境-->
+    <script id="banner_app" type="text/html">
+        {{each data as item}}
+            {{if item.active && item.banners.length > 0}}
+                <div class="swipe-wrap">
+                {{each item.banners as bannerItem}}
+                    <div>
+                        {{if (bannerItem.url_type === "none")}}
+                        <a href="javascript:void(0)" title="{{bannerItem.title}}"><img src="{{bannerItem.image_url}}" class="banner"></a>
+                        {{/if}}
+                        {{if (bannerItem.url_type === "web")}}
+                        <a href="{{bannerItem.url}}" title="{{bannerItem.title}}"><img src="{{bannerItem.image_url}}" class="banner"></a>
+                        {{/if}}
+                        {{if (bannerItem.url_type === "in_app")}}
+                        <a href="javascript:void(0)" title="{{bannerItem.title}}"><img src="{{bannerItem.image_url}}" data-category_id="{{item.category_id}}" data-url="{{bannerItem.url}}" class="banner banner_in_app"></a>
+                        {{/if}}
+                    </div>
+                {{/each}}
+                </div>
+                <div class="bgboxgo">
+                    <div class="botton-box mBxCm" id="sbsd"></div>
+                </div>
+            {{/if}}
+        {{/each}}
+    </script>
+
+    <!-- 品类子菜单 -->
+    <script id="sub-menu" type="text/html">
+        {{if types.length !== 1}}
+            <ul>
+                {{each types as item index}}
+                    {{if item.active}}
+                        <li><span class="active">{{item.type_name}}</span></li>
+                    {{else}}
+                        <li><span>{{item.type_name}}</span></li>
+                    {{/if}}
+                {{/each}}
+            </ul>
+        {{/if}}
+    </script>
+
+    <!-- 价目列表 -->
+    <script id="price-content" type="text/html">
+        <div class="price-content clearfix">
+            {{each clothes as item}}
+                {{if (!item.is_discount) }}
+                    <div class="price-box" data-id="{{item.id}}">
+                        <div class="pic-box">
+                            <img src="{{item.image}}" alt="{{item.clothes_name}}">
+                        </div>
+                        <div class="desp-box">
+                            <p class="washing-name">{{item.clothes_name}}</p>
+                            <p class="washing-prices">
+                                <span>￥</span>
+                                <span class="price">{{item.price}}</span>
+                            </p>
+                        </div>
+                        <div class="buy-number"></div>
+                    </div>
+                {{else}}
+                    <div class="price-box" data-id="{{item.id}}">
+                        <div class="pic-box">
+                            <img src="{{item.image}}" alt="{{item.clothes_name}}">
+                        </div>
+                        <div class="desp-box">
+                            <p class="washing-name">{{item.clothes_name}}</p>
+                            <p class="washing-prices">
+                                <span class="coupon-price">
+                                    <span>￥</span>
+                                    <span class="price">{{item.price}}</span>
+                                </span>
+                                <span class="origin-price">
+                                    ￥{{item.discount_info.original_price}}
+                                </span>
+                            </p>
+                            <p class="deadline">需在<span>{{item.discount_info.deadline_format}}</span>支付</p>
+                        </div>
+                        <img src="../images/tejia.png">
+                        <div class="buy-number"></div>
+                    </div>
+                {{/if}}
+            {{/each}}
+        </div>
+    </script>
+
+    <!-- 按袋洗的价目页 -->
+    <script id="bag-price" type="text/html">
+        <div class="bag-content">
+            {{each clothes as item index}}
+                {{if (index === 1)}}
+                <hr/>
+                {{/if}}
+                <div class="bag-wrap">
+                    {{if (item.is_discount)}}
+                    <p style="position: absolute; width: 60px;"><img style="width: 100%" src="../images/tejia.png"></p>
+                    {{/if}}
+                    {{if (index === 0)}}
+                    <div class="small-bag-img" data-category-id="1070" data-id="{{item.id}}">
+                    {{else}}
+                    <div class="big-bag-img" data-category-id="1070" data-id="{{item.id}}">
+                    {{/if}}
+                        <img src="{{item.image}}">
+                        {{if (index === 0)}}
+                        <p>33cm X 43cm</p>
+                        {{else}}
+                        <p>53cm X 63cm</p>
+                        {{/if}}
+                        <p>
+                            <span>￥</span><span class="price">{{item.price}}</span>/袋
+                            {{if (item.is_discount)}}
+                            <span>￥{{item.discount_info.original_price}}</span>
+                            {{/if}}
+                        </p>
+                        {{if (item.is_discount)}}
+                        <p class="deadline">需在<span>{{item.discount_info.deadline_format}}</span>支付</p>
+                        {{/if}}
+                        <div class="buy-number"></div>
+                    </div>
+                    <div class="vertical-line"></div>
+                    {{if (index === 0)}}
+                    <div class="message">
+                        <p><img src="../images/bag_able.png"><span>可入袋</span></p>
+                        <p>衬衫、裤子、羽绒服、<br>沙发套等多种衣物</p>
+                        <p><img src="../images/bag_unable.png"><span>不可入袋</span></p>
+                        <p>真丝类、真皮类、婚纱类<br>鞋靴类、箱包类</p>
+                    </div>
+                    {{else}}
+                    <div class="message">
+                        <p><img src="../images/bag_able.png"><span>可入袋</span></p>
+                        <p>沙发套、窗帘</p>
+                        <p><img src="../images/bag_unable.png"><span>不可入袋</span></p>
+                        <p>除沙发套、窗帘外其它物品都不可入袋</p>
+                    </div>
+                    {{/if}}
+                </div>
+            {{/each}}
+            <table cellspacing="0">
+                <thead>
+                    <tr><th colspan="2">白袋子可以装些什么？</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>T恤</td><td>最多可装<span>36</span>件</td></tr>
+                    <tr><td>衬衫</td><td>最多可装<span>32</span>件</td></tr>
+                    <tr><td>西裤</td><td>最多可装<span>15</span>件</td></tr>
+                    <tr><td>半身裙</td><td>最多可装<span>18</span>件</td></tr>
+                    <tr><td>窗帘</td><td>主窗帘最多可装<span>6~8</span>平米<br>纱窗帘最多可装<span>9~12</span>平米</td></tr>
+                    <tr><td>沙发套</td><td>最多可装<span>4~5</span>平米，约<span>5~7</span>位</td></tr>
+                </tbody>
+            </table>
+            {{if (clothes.length == 2)}}
+            <table cellspacing="0">
+                <thead>
+                    <tr><th colspan="2">蓝袋子可以装些什么？</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>窗帘</td><td>主窗帘最多可装<span>20~23</span>平米<br>纱窗帘最多可装<span>30~35</span>平米</td></tr>
+                    <tr><td>沙发套</td><td>最多可装<span>13~15</span>平米，约<span>10~20</span>位</td></tr>
+                </tbody>
+            </table>
+            {{/if}}
+        </div>
+    </script>
+
+    <!-- 套餐样式 -->
+    <script id="taocan" type="text/html">
+        {{each suit as item}}
+            <div class="taocan">
+                <div class="taocan-pic-box" >
+                    <div class="taocan-pic-cell" data-id="{{item.id}}">
+                        <img src="{{item.image}}">
+                        <p class="washing-name">{{item.clothes_name}}</p>
+                        <p><span>￥</span><span class="price">{{item.price}}</span></p>
+                        <p><span>￥</span><span>{{item.original_price}}</span></p>
+                        <div class="buy-number"></div>
+                    </div>
+                </div>
+                <div class="vertical-line"></div>
+                <div class="message">
+                    <div>
+                        <p>套餐介绍：</p>
+                        <p class="content">
+                            {{each item.suit_clothes as subitem index}}
+                            <span>{{subitem.title}} x {{subitem.count}}{{if (index + 1 < item.suit_clothes.length)}}、{{/if}}</span>
+                            {{/each}}
+                        </p>
+                        <p>
+                            {{each item.comments as comment}}
+                            <img src="../images/xian.png" class="limit">
+                            <span class="limit">{{comment}}</span>
+                            {{/each}}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        {{/each}}
+    </script>
+
+    <!-- 洗窗帘 -->
+    <script id="curtain" type="text/html">
+        <div class="curtain-content clearfix">
+            {{each types as item index}}
+                {{if item.type_name === "小窗帘"}}
+                <div class="small-bag" data-id="{{item.clothes[0].id}}">
+                {{else}}
+                <div class="big-bag" data-id="{{item.clothes[0].id}}">
+                {{/if}}
+                    <img src="{{item.clothes[0].image}}">
+                    <p class="washing-name">{{item.descriptions[0]}}</p>
+                    <p><span>￥</span><span class="price">{{item.clothes[0].price}}</span>/袋</p>
+                    {{if index==1 && city_id==1}}
+                    <p>拆装窗帘每袋收取</p>
+                    <p>{{item.clothes[0].price}}元拆装费</p>
+                    {{else}}
+                    <p>主窗帘可装{{item.descriptions[1]}}m²</p>
+                    <p>纱窗帘可装{{item.descriptions[2]}}m²</p>
+                    {{/if}}
+                    <div class="buy-number"></div>
+                </div>
+                {{if index === 0}}
+                <div class="vertical-line"></div>
+                {{/if}}
+            {{/each}}
+            <table cellspacing="0">
+                <thead>
+                    <tr><th>备注说明</th></tr>
+                </thead>
+                <tbody>
+                    <tr><td>两室一厅的窗帘面积约为20m²左右</td></tr>
+                    {{if city_id==1}}
+                    <tr><td>北京市六环内均可提供上门拆装服务，六环外区域服务范围以电话确认为准。</td></tr>
+                    {{else}}
+                    <tr><td>用于别墅、会议室等场所的大型窗帘，暂时不提供服务。</td></tr>
+                    <tr><td>不含上门拆卸服务</td></tr>
+                    {{/if}}
+                </tbody>
+            </table>
+        </div>
+    </script>
+    
+    <!-- 服务展示（三个）-->
+    <script id="server" type="text/html">
+        <div>
+            <img src="../images/server.png"><br/>
+            <span>高效服务</span>
+        </div>
+        <div>
+            <img src="../images/baoxian.png"><br/>
+            <span>每单投保</span>
+        </div>
+        <div>
+            <img src="../images/shangmen.png"><br/>
+            <span>上门取件</span>
+        </div>
+    </script>
+
+    <!-- 提示信息 -->
+    <script id="tips" type="text/html">
+        <div class="tips-content">
+            <div class="tips">
+                {{each tips as item}}
+                    <p>{{item}}</p>
+                {{/each}}
+                <p>点击查看<a href="javascript:void(0)" class="locationUrl">《e袋洗清洗说明及不能提供清洗服务衣物列表》</a></p>
+            </div>
+        </div>
+    </script>
+
+    <!-- 预约取件按钮，包括优惠券 -->
+    <script id="order" type="text/html">
+        <div class="order">
+            {{if coupon_info}}
+                <div class="coupon-info">
+                    {{coupon_info}}
+                    <img src="../images/huanjiao.png">
+                </div>
+            {{/if}}
+            <div class="order-btn">预约取件</div>
+        </div>
+    </script>
+
+    <!-- 购物车，包括预约取件按钮-->
+    <script id="shopping-cart" type="text/html">
+        <p>请等待小e上门确认价格并付款</p>
+        <div class="shopping-cart-wrap">
+            <div class="shopping-cart">
+                <img src="../images/shopping-cart.png"/>
+                <img src="../images/shopping-cart-yuanhu.png"/>
+                <p>预估价格￥<span class="total-price">0.0</span></p>
+                <p>不含运费</p>
+            </div>
+            <div class="order-btn">预约取件</div>
+            <div class="buy-number-total"></div>
+        </div>
+    </script>
+
+    <!-- 价格预估 -->
+    <script id="forecast" type="text/html">
+        <div id="price-forecast">
+            <div class="head">
+                <span>清空</span>
+                <span>价格预估</span>
+                <span>关闭</span>
+            </div>
+            <div class="clothes-list">
+                <ul>
+                    {{each washing as item}}
+                    <li>
+                        {{if item.selected}}
+                        <div class="select checked" data-id="{{item.id}}"></div>
+                        {{else}}
+                        <div class="select unchecked" data-id="{{item.id}}"></div>
+                        {{/if}}
+                        <div class="content-wrap">
+                            <div class="content">
+                                <div class="pic-box">
+                                    <img src="{{item.image}}">
+                                </div>
+                                <span class="clothes-name">{{item.washing_name}}</span>
+                                <span>￥</span>
+                                <span>{{item.price}}</span>
+                                <div class="add-subtract">
+                                    <span data-id="{{item.id}}"><img src="../images/minus.png"></span>
+                                    <span>{{item.order}}</span>
+                                    <span data-id="{{item.id}}"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABYAAAAWCAYAAADEtGw7AAAATUlEQVR42u3SIQ4AIAxDUe6vwREcwcCJOMeChE7gJ0aCqPii5qmGMMVSRIKGbktWeN8IE/4U7mg7VxWWB/BSOD2AM19BmLADXNBCzQofqUvk3/Bm3rcAAAAASUVORK5CYII="></span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+        <div id="mask"></div>
+    </script>
+
+    <!-- 确认弹框 -->
+    <script id="alert-dialog-wrap" type="text/html">
+        <div id="alert-dialog" style="display: none;">
+            <div class="wx_mask"></div>
+            <div class="wx_confirm alert-dialog">
+                <div class="head">{{tips.title}}</div>
+                <div class="body">{{tips.content}}</div>
+                <div class="footer">
+                    <div class="cancel">取消</div>
+                    <div class="ok">确认</div>
+                </div>
+            </div>
+        </div>
+    </script>
+
+    <script type="text/javascript">
+        window.debug = false;
+        var api = {};
+        api.data = {};
+        var preLocation;
+        if (window.debug) {
+            // 价目页接口
+            api.washingprices = "/washingprices";
+            preLocation = "";
+        }
+        else {
+            api.washingprices = "/api.php?m=wap&act=homepage&do=show_price";
+            preLocation = "/new_weixin";
+        }
+    </script>
+    <script>
+        var open_common_params = getCookie("open_common_params");
+        var params = getSearchParams();
+
+        if (open_common_params) {
+            api.data = JSON.parse(open_common_params);
+            api.data.is_web_request = true;
+            
+            if (api.data.base_url.indexOf("https") < 0) {
+                api.data.base_url = api.data.base_url.replace(/http/, "https");
+            }
+
+            api.washingprices = api.data.base_url + "/v5/get_normal_categories_price";
+
+            // 在跳转不可洗衣物页面时要使用city_id
+            params.city_id = api.data.city_id;
+            // user_type: 3 android, 2 ios, 1 web
+            if (+api.data.user_type === 3) {
+                if (window.WebViewJavascriptBridge) {
+                    main();
+                }
+                else {
+                    document.addEventListener("WebViewJavascriptBridgeReady", main, false);
+                }
+            }
+            else {
+                main();
+            }
+        }
+        else {
+            var urlparam = {};
+            if (params.city_id) {
+                urlparam.city_id = params.city_id;
+            }
+            if (params.mark) {
+                urlparam.mark = params.mark;
+            }
+            if (params.hongbao_tel) {
+                urlparam.hongbao_tel = params.hongbao_tel;
+            }
+            api.data = urlparam;
+
+            main();
+        }
+
+        function main() {
+            $(function() {
+                $.ajax({
+                    type: "GET",
+                    url: api.washingprices,
+                    data: api.data,
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.ret) {
+
+                            // 存放激活的品类菜单的序号，用于从renderTemplate传序号到bindEvent
+                            var index = 0;
+
+                            // 渲染数据
+                            renderTemplate(data);
+
+                            // 绑定事件
+                            bindEvent(data);
+
+                        }
+                        else {
+                            if (+data.error_code === 40001) {
+                                // sessionid 过期，已没有权限
+                                exceptionHandle(40001);
+                            }
+                            else {
+                                alert(data.error.message);
+                            }
+                        }
+                    },
+                    error: function(xhr, type) {
+                        alert("网络错误，请稍后再试");
+                    }
+                })
+            })
+        }
+        
+        /**
+         *  渲染初始页面
+         * @param  {Object} data 后端返回的整个页面用的json
+         */
+        function renderTemplate(data) {
+            var len = data.data.length;
+            //标记数组中active的品类序号
+            var order = 0;
+            for (var i = 0; i < len; i++) {
+                if (+params.category_id === +data.data[i].category_id) {
+                    data.data[i].active = true;
+                    order = i;
+
+                    // 用于激活的品类序号到bindEvent函数中
+                    index = i;
+                    break;
+                }
+            }
+            // 渲染品类菜单
+            var categoryMenuHtml = template("category-menu", data);
+            $("header .menu").html(categoryMenuHtml);
+            
+            //渲染banner
+            renderBanner(data);
+
+            var category_id = params.category_id;
+            // 洗窗帘和按袋洗的样式不一样， 需要按category_id区分后处理 ！！！！！！！
+            if (+category_id === 1070) {
+                // 按袋洗价目页（无子菜单）
+                renderBagPrice(data.data[4]["types"][0]["clothes"]);
+                $(".sub-menu-wrap").empty();
+
+                // 清空套餐价目页
+                $(".taocan-wrap").empty();
+            }
+            else if (+category_id === 1030) {
+                // 洗窗帘
+                 renderCurtain(data.data[order]['types']);
+            }
+            else {
+                // 子菜单
+                renderSubMenu(data.data[order]["types"], data.data[order]["types"][0]["type_id"]);
+
+                // 套餐价目页
+                renderTaoCan(data.data[order]["types"], data.data[order]["types"][0]["type_id"]);
+
+                // 价目表
+                renderPriceList(data.data[order]["types"], data.data[order]['types'][0]['type_id']);
+                coupon_padding_bottom(data.data[order]['types'][0]["clothes"]);
+            }
+
+            // 服务展示区
+            renderServer();
+
+            // 提示信息展示
+            var tips = data.data[order]["tips"];
+            renderTips(tips);
+
+            // 预约取件,包括优惠券
+            var coupon_info = data.data[order]["coupon_info"];
+            renderOrder(coupon_info);
+
+            // 恢复洗衣篮和用户操作
+            showProductResult();
+        }
+
+        /**
+         * 绑定事件
+         */
+        function bindEvent(data) {
+
+            //  激活的品类菜单的category_id
+            var category_id;
+            // 激活的品类子菜单的序号
+            var subIndex = 0;
+
+            // 品类菜单
+            $("header").on("click", "li", function(e) {
+                // 如果已经是选中的，return
+                if ($(this).hasClass("active")) {
+                    return;
+                }
+
+                $(this).addClass("active").siblings().removeClass("active");
+                index = $(this).index();
+                category_id = $(this).data("id");
+
+                var len = data.data.length;
+                for (var i = 0; i < len; i++) {
+                    data.data[i].active = false;
+                }
+                data.data[index].active = true;
+
+                // 渲染banner
+                renderBanner(data);
+
+                // 洗窗帘和按袋洗的样式不一样， 需要按category_id区分后处理 
+                if (+category_id === 1070) {
+                    // 按袋洗价目页（无子菜单）
+                    renderBagPrice(data.data[4]["types"][0]["clothes"]);
+                    $(".sub-menu-wrap").empty();
+
+                    // 清空套餐价目页
+                    $(".taocan-wrap").empty();
+                }
+                else if (+category_id === 1030) {
+                    // 洗窗帘
+                     renderCurtain(data.data[index]['types']);
+                }
+                else {
+                    // 子菜单
+                    renderSubMenu(data.data[index]["types"], data.data[index]["types"][0]["type_id"]);
+
+                    // 套餐价目页
+                    renderTaoCan(data.data[index]["types"], data.data[index]["types"][0]["type_id"]);
+
+                    // 价目表
+                    renderPriceList(data.data[index]["types"], data.data[index]['types'][0]['type_id']);
+                    coupon_padding_bottom(data.data[index]['types'][0]["clothes"]);
+                }
+                
+                // 提示信息展示
+                var tips = data.data[index]["tips"];
+                renderTips(tips);
+
+                // 预约取件(如果没有购物车)
+                if (!$.contains($("footer").get(0), $(".shopping-cart-wrap").get(0))) {
+                    var coupon_info = data.data[index]["coupon_info"];
+                    renderOrder(coupon_info);     
+                }
+
+                // 恢复洗衣篮和用户操作
+                showProductResult();
+            })
+
+            // 品类子菜单
+            $(".sub-menu-wrap").on("click", "span", function(e) {
+                $(".sub-menu-wrap span").removeClass("active");
+                $(this).addClass("active");
+                subIndex = $(this).parent().index();
+
+                // 套餐价目页
+                renderTaoCan(data.data[index]["types"], data.data[index]["types"][subIndex]["type_id"]);
+
+                // 价目表
+                renderPriceList(data.data[index]["types"], data.data[index]['types'][subIndex]['type_id']);
+                coupon_padding_bottom(data.data[index]['types'][subIndex]["clothes"]);
+
+                // 恢复洗衣篮和用户操作
+                showProductResult();
+            })
+
+            // 不能提供清洗衣物页面跳转
+            $("#tips-wrap").on("click", ".locationUrl", function(){
+                var city_id = params.city_id;
+                location.href = "http://www.edaixi.com/washing_prices/washing_description?" + "&city_id=" + city_id
+            })
+
+            // 点击购物车，打开价格预估页面
+            $("footer").on("click", ".shopping-cart img:first-child", function(e) {
+                var productInfo = JSON.parse(window.sessionStorage.getItem("productInfo"));
+                if (productInfo) {
+                    renderForecast(productInfo);
+                }
+            })
+
+            // 价格预估-清空
+            $("#forecast-wrap").on("click", ".head span:first-child", function(e) {
+
+                confirm("操作提示", "确认清空选项吗？")
+                $("#dialog").on("click", "#alert-dialog .ok", function(e) {
+                    cleanShoppingCat();
+                    $("#dialog").empty();
+                })
+                $("#dialog").on("click", "#alert-dialog .cancel", function(e) {
+                    $("#dialog").empty();
+                })
+            })
+
+            /**
+             * 清空购物车
+             */
+            function cleanShoppingCat() {
+                $("#forecast-wrap").empty();
+                $(".buy-number-total").empty().hide();
+                $(".buy-number").empty().hide();
+                $(".total-price").text("0.0");
+
+                // 回到预约取件按钮
+                var coupon_info = $("header").find(".active").data("coupon_info");
+                renderOrder(coupon_info);
+                window.sessionStorage.clear();
+            }
+
+            // 价格预估-关闭
+            $("#forecast-wrap").on("click", ".head span:last-child", function(e) {
+                $("#forecast-wrap").empty();
+            })
+
+            // 价格预估-- 左侧选择按钮事件
+            $("#forecast-wrap").on("click", ".clothes-list .select", function(e) {
+                if ($(this).hasClass("checked")) {
+                    $(this).removeClass("checked").addClass("unchecked");
+
+                    countTotalPrice($(this).data("id"), "sub");
+                }
+                else {
+                    $(this).removeClass("unchecked").addClass("checked");
+
+                    countTotalPrice($(this).data("id"), "add");
+                }               
+            })
+
+            // 价格预估 -- 增加减少
+            $("#forecast-wrap").on("click", ".add-subtract span:first-child", function(e) {
+                addOrSub($(this).data("id"), "sub", this);
+            })
+            $("#forecast-wrap").on("click", ".add-subtract span:last-child", function(e) {
+                addOrSub($(this).data("id"), "add", this);
+            })
+
+            // 跳转下单页 （没有选中衣物时）
+            $("footer").on("click", ".order .order-btn", function() {
+                var category_id = $("header ul .active").data("id");
+
+                // app环境和app通讯
+                if (open_common_params) {
+                    goShoppingPage(category_id);
+                }
+                else {
+                    // 微信环境
+                    var params = getSearchParams();
+                    var price_read = 1;
+                    var city_id = params.city_id;
+
+                    var searchParam = "category_id=" + category_id + "&price_read=" + price_read + "&city_id=" + city_id;
+                    var mark;
+                    if (params.mark) {
+                        mark = params.mark;
+                        searchParam += searchParam + "&mark=" + mark;
+                    }
+                
+                    window.location.href = preLocation + "/view/order_place.html?" + searchParam;
+                }
+
+            })
+
+            // 跳转下单页 (有选中衣物时)
+            $("footer").on("click", ".shopping-cart-wrap .order-btn", function(e) {
+
+                var storage = window.sessionStorage;
+                var productInfo = JSON.parse(storage.getItem("productInfo"));
+
+                var category_id = [];
+                var origin_category_id = ["1010", '1020', "1011", "1030", "1070"];
+                var len = productInfo.washing.length;
+
+                for (var i = 0; i < 5; i++ ) {
+                    for (var j = 0; j < productInfo.washing.length; j++) {
+                        if (+origin_category_id[i] === +productInfo.washing[j].category_id) {
+                            category_id.push(origin_category_id[i]);
+                            break;
+                        }
+                    }
+                }
+                category_id = category_id.join(",");
+
+                // 和app通讯
+                if (open_common_params) {
+                    goShoppingPage(category_id);
+                }
+                else {
+                    var params = getSearchParams();
+                    var price_read = 1;
+                    var city_id = params.city_id;
+                    var searchParam = "category_id=" + category_id + "&price_read=" + price_read + "&city_id=" + city_id;
+                    var mark;
+                    if (params.mark) {
+                        mark = params.mark;
+                        searchParam += searchParam + "&mark=" + mark;
+                    }
+                    window.location.href = preLocation + "/view/order_place.html?" + searchParam;
+                }
+            })
+
+            // app 环境下，点击banner后跳转
+            if (open_common_params) {
+
+                // 点击banner跳转
+                $("header").on("click", ".banner_in_app", function(e) {
+                    var url = $(this).data("url");
+                    hitBanner(url,'');
+                })
+            }
+
+        }
+
+        /**
+         * 渲染 banner
+         * (注：微信直接跳转url，app中需要判断url_type（“web”和“in_app”）："web"时直接跳转，"in_app"时调用handler)
+         * @param  {object} data 
+         * {注：app环境下data是从ruby端获取，banners中url_type为in_app时 url为json，需转为字符串。 传入handler前再转为json}
+         */
+        function renderBanner(data) {
+            if (open_common_params) {
+                for (var i = 0; i < data.data.length; i++) {
+                    for (var n = 0, m = data.data[i]["banners"].length; n < m; n++) {
+                        if (data.data[i]["banners"][n]["url_type"] === "in_app" && $.type(data.data[i]["banners"][n]["url"]) === "object") {
+                            data.data[i]["banners"][n]["url"] = JSON.stringify(data.data[i]["banners"][n]["url"]);
+                        }
+                    }
+                }
+                var bannerHtml = template("banner_app", data);
+                $("header #slider").html(bannerHtml);
+
+                if ($("#slider").children().length > 0) {
+                    slider(5000);
+                }
+            }
+            else {
+                var bannerHtml = template("banner_web", data);
+                $("header #slider").html(bannerHtml);
+                
+                if ($("#slider").children().length > 0) {
+                    slider(5000);
+                }
+            }
+        }
+
+        /**
+         * 渲染 品类子菜单, 当types数组中只有一项时不显示品类（在模板中实现）
+         * @param  {array} types   某个品类的types
+         * @param  {number} type_id 当前子菜单，默认为第一项
+         */
+        function renderSubMenu(types, type_id) {
+            var len = types.length;
+            for (var i = 0; i < len; i++) {
+                if (types[i].type_id === type_id) {
+                    types[i].active = true;
+                    break;
+                }
+            }
+
+            var subMenuHtml = template("sub-menu", {"types": types});
+            $(".sub-menu-wrap").html(subMenuHtml);
+        }
+
+        /**
+         * 渲染 价目表
+         * @param  {array} types   types数组
+         * @param  {number} type_id 激活的子菜单id
+         */
+        function renderPriceList(types, type_id) {
+            var len = types.length;
+            for (var i = 0; i < len; i++) {
+                if (+types[i].type_id === +type_id) {
+                    // 生成符合要求的deadline
+                    formatDeadline(types[i]);
+                    var priceListHtml = template("price-content", types[i]);
+                    $(".prices-content-wrap").html(priceListHtml);
+                    break;
+                }
+            }
+
+            //当子菜单和套餐区都不存在时，价目表上边线取消，以免和主菜单的下边线冲突
+            if ($(".sub-menu-wrap").children().length === 0 && $(".taocan-wrap").children().length === 0 && $("header").children("a").length === 0) {
+                $(".price-content").css("border-top", "0");
+            }
+        }
+
+        /**
+         * 渲染套餐
+         * @param  {[type]} types   [description]
+         * @param  {[type]} type_id [description]
+         * @return {[type]}         [description]
+         */
+        function renderTaoCan(types, type_id) {
+            var len = types.length;
+            for (var i = 0; i < len; i++) {
+                if (+types[i].type_id === +type_id && types[i].suit) {
+                    var taoCanHtml = template('taocan', {"suit": types[i].suit});
+                    $(".taocan-wrap").html(taoCanHtml);
+                }
+
+                if (+types[i].type_id === +type_id && !types[i].suit) {
+                    $(".taocan-wrap").empty();
+                }
+            }
+        }
+        /**
+         * 渲染服务展示
+         */
+        function renderServer() {
+            var serverHtml = template("server", {});
+            $("#server-wrap").html(serverHtml);
+        }
+
+        /**
+         * 渲染提示信息
+         * @param {array} tips 提示信息数组
+         */
+        function renderTips(tips) {
+            var tipsHtml = template("tips", {"tips": tips});
+            $("#tips-wrap").html(tipsHtml);
+        }
+        /**
+         * 渲染预约取件按钮，包括优惠券
+         * @param  {string} coupon_info 优惠券信息
+         */
+        function renderOrder(coupon_info) {
+            var orderHtml = template("order", {"coupon_info": coupon_info});
+            $("footer").html(orderHtml);
+        }
+
+        // 获取url中参数
+        function getSearchParams() {
+            var params = {};
+            var chunks = location.search.substr(1).split(/&/g);
+            for (var i = 0; i < chunks.length; i++) {
+                try {
+                    var items = chunks[i].split('=', 2);
+                    var key = items[0];
+                    var value = decodeURIComponent(items[1]);
+                    params[key] = value;
+                }
+                catch (ex) {
+                }
+            }
+            return params;
+        }
+
+        /**
+         * 将types数组中的某个json中的日期格式化
+         * 并增加属性
+         * @param  {object} types 
+         */
+        function formatDeadline(types) {
+            var len = types.clothes.length;
+            for (var i = 0; i < len; i++) {
+                var a = types.clothes[i]["is_discount"];
+                if (types.clothes[i]["is_discount"] && !types.clothes[i]["discount_info"]["deadline_format"]) {
+                    var deadline = types.clothes[i]["discount_info"]["deadline"];
+                    var date = deadline.split("-");
+                    var deadline_format = date[1] + "月" + date[2] + "日前";
+                    types.clothes[i]["discount_info"]["deadline_format"] = deadline_format;
+                }
+            }
+        }
+
+        /**
+         * 特价时padding-bottom：17px，非特价时为32px
+         * @param  {array} clothes  衣物数组
+         */
+        function coupon_padding_bottom(clothes) {
+            var len = clothes.length;
+            for (var i = 0; i < len; i++) {
+                if (clothes[i].is_discount) {
+                    $(".price-content .price-box").addClass("coupon");
+                    break;
+                }
+            }
+        }
+
+        /**
+         * 渲染按袋洗页面
+         * @param  {array} clothes 
+         */
+        function renderBagPrice(clothes) {
+            formatDeadline({clothes: clothes});
+            var bagPriceHtml = template("bag-price", {"clothes": clothes});
+            $(".prices-content-wrap").html(bagPriceHtml);
+        }
+        /**
+         * 渲染洗窗帘页面
+         * @param  {array} types 窗帘的types
+         */
+        function renderCurtain(types) {
+            //清空子菜单和套餐部分
+            $(".sub-menu-wrap").empty();
+            $(".taocan-wrap").empty();
+            var curtainHtml = template("curtain", {"types": types, "city_id":params.city_id});
+            $(".prices-content-wrap").html(curtainHtml);
+        }
+
+        /**
+         * 渲染购物车的预估页面
+         * @param  {object} clothes localStorage中的clothes，格式：
+         * { clothes：[
+         *     {
+         *         id: xxxx,
+         *         clothes_name: xxxx,
+         *         image: xxxx,
+         *         num:  1,
+         *         price: 10.00,
+         *         selected: true  // 默认为true
+         *     }
+         * ]}
+         */
+        function renderForecast(clothes) {
+            var foreCastHtml = template("forecast", clothes);
+            $("#forecast-wrap").html(foreCastHtml);
+        }
+
+        /**
+         * 计算总价，包括总单数
+         * @param  {string} id    
+         * @param  {string} addOrSub "add"(默认), "sub"
+         */
+        function countTotalPrice(id, addOrSub) {
+            var addOrSub = addOrSub || "add";
+            var storage = window.sessionStorage;
+            var productInfo = JSON.parse(storage.getItem("productInfo"));
+            var len = productInfo.washing.length;
+            for (var i = 0; i < len; i++) {
+                if (+productInfo.washing[i]["id"] === +id) {
+                    if (addOrSub === "add") {
+                        productInfo.washing[i]["selected"] = true;
+                    }
+                    if (addOrSub === "sub") {
+                        productInfo.washing[i]["selected"] = false;
+                    }
+                    break;
+                }
+            }
+            var totalPrice = 0;
+            var totalOrder = 0;
+            for (var i = 0; i < len; i++) {
+                if (productInfo.washing[i]["selected"]) {
+                    totalPrice += (+productInfo.washing[i]["price"]) * (+productInfo.washing[i]["order"]);
+                    totalOrder += (+productInfo.washing[i]["order"]);
+                }
+            }
+            $("footer .total-price").text(totalPrice.toFixed(2));
+            $("footer .buy-number-total").text(totalOrder);
+
+            storage.setItem("productInfo", JSON.stringify(productInfo));
+        }
+
+        /**
+         * 价格预估-- 加减事件
+         * @param {string} id   订单id
+         * @param {string} addOrSub "add"(+), "sub"(-)
+         */
+        function addOrSub(id, addOrSub, self) {
+            var storage = window.sessionStorage;
+            var productInfo = JSON.parse(storage.getItem("productInfo"));
+            var len = productInfo.washing.length;
+            for (var i = 0; i < len; i++) {
+                if (+id === +productInfo.washing[i]["id"] && addOrSub === "sub") {
+                    productInfo.washing[i]["order"]--;
+                    $(self).next().text(productInfo.washing[i]["order"]);
+
+                    // 减少到0时，删除此订单
+                    if (+productInfo.washing[i]["order"] === 0) {
+                        $(self).closest("li").remove();
+                        productInfo.washing.splice(i,1);
+                    }
+                    break;
+                }
+                if (+id === +productInfo.washing[i]["id"] && addOrSub === "add") {
+                    productInfo.washing[i]["order"]++;
+                    $(self).prev().text(productInfo.washing[i]["order"]);
+                    var a = $(self).text();
+                    break;
+                }
+            }
+            storage.setItem("productInfo", JSON.stringify(productInfo));
+
+            // 如果左侧unchecked就不计算, 否则计算
+            if ($(self).closest("li").children(".select").hasClass("checked")) {
+                countTotalPrice(id);
+            }
+            
+
+            // 所有订单删除后，只显示预约取件按钮
+            if (addOrSub === "sub" && !productInfo.washing.length) {
+                $("#forecast-wrap").empty();
+                $(".buy-number-total").empty().hide();
+                $(".buy-number").empty().hide();
+
+                var coupon_info = $("header").find(".active").data("coupon_info");
+                renderOrder(coupon_info);
+            }
+        }
+
+        /**
+         * 恢复购物篮和衣物上数目
+         */
+        function showProductResult() {
+
+            var storage = window.sessionStorage;
+            var productInfo = JSON.parse(storage.getItem("productInfo"));
+            if (productInfo) {
+                // 显示洗衣篮
+                if (!$.contains($("footer").get(0), $(".shopping-cart-wrap").get(0))) {
+                    var shoppingCartHtml = template("shopping-cart", {});
+                    $("footer").html(shoppingCartHtml);
+                }
+                // 洗衣篮件数
+                var totalOrder = 0;
+                // 洗衣篮总价
+                var totalPrice = 0;
+                var len = productInfo.washing.length;
+                for (var i = 0; i < len; i++) {
+                    totalOrder += productInfo.washing[i].order;
+                    totalPrice += productInfo.washing[i].order * productInfo.washing[i].price;
+                }
+                $("footer .buy-number-total").text(totalOrder).show();
+                $("footer .total-price").text(totalPrice.toFixed(2));
+
+                // 页面当前品类
+                var currentCatergoryId = $("header li.active").data("id");
+                for (var i = 0; i < len; i++) {
+                    if (+productInfo.washing[i].category_id === currentCatergoryId) {
+                        // 价目区
+                        if ($.contains($(".prices-content-wrap").get(0), $(".price-box").get(0))) {
+                            var leng = $(".prices-content-wrap .price-box").length;
+                            for (var j = 0; j < leng; j++) {
+                                if ($(".prices-content-wrap .price-box").eq(j).data("id") === +productInfo.washing[i].id) {
+                                    $(".prices-content-wrap .price-box").eq(j).find(".buy-number").text(productInfo.washing[i].order).show();
+                                    break;
+                                }
+                            }
+                        }
+                        // 套餐区
+                        if ($(".taocan-wrap").children().length) {
+                            var n = $(".taocan-wrap .taocan").length;
+                            for (var m = 0; m < n; m++) {
+                                if ($(".taocan-wrap .taocan").eq(m).find(".taocan-pic-cell").data("id") === +productInfo.washing[i].id) {
+                                    $(".taocan-wrap .taocan").eq(m).find(".taocan-pic-cell .buy-number").text(productInfo.washing[i].order).show();
+                                }
+                            }
+                        }
+
+                        // 窗帘区
+                        if (currentCatergoryId === 1030 && $.contains($(".prices-content-wrap").get(0), $(".curtain-content").get(0))) {
+                            if ($(".curtain-content .big-bag").data("id") === +productInfo.washing[i].id) {
+                                $(".big-bag .buy-number").text(productInfo.washing[i].order).show();
+                            }
+                            if ($(".curtain-content .small-bag").data("id") === +productInfo.washing[i].id) {
+                                $(".small-bag .buy-number").text(productInfo.washing[i].order).show();
+                            }
+                        }
+
+                        // 袋洗区
+                        if (currentCatergoryId === 1070 && $(".bag-content").length && +productInfo.washing[i].category_id === 1070) {
+                            $(".bag-content .buy-number").text(productInfo.washing[i].order).show();
+                        }
+                    }
+                }
+            }
+        }
+        /**
+         * 提示框
+         * @param  {string} title   标题
+         * @param  {string} content 内容
+         */
+        function confirm(title, content) {
+            var alertHtml = template("alert-dialog-wrap", {"tips": {"title": title, "content": content}});
+            $("#dialog").html(alertHtml);
+            $("#alert-dialog").show();
+
+            $("#dialog").on("click", ".i-know-btn", function(e) {
+                $("#alert-dialog").hide();
+            })
+        }
+
+        /**
+         * 获取cookie
+         * @param  {string} name cookie名
+         * @return {string}   cookie值
+         */
+        function getCookie(name) 
+        {
+            var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+            if(arr=document.cookie.match(reg))
+                return unescape(arr[2]); 
+            else 
+                return null; 
+        }
+
+        /**
+         * 字符串转义
+         * @param  {[type]} str [description]
+         * @return {[type]}     [description]
+         */
+        function stringEncode(str) {
+            var div = document.createElement("div");
+            if (div.innerText) {
+                div.innerText = str;
+            }
+            else {
+                div.textContent = str; //support firefox
+            }
+
+            return div.innerHTML;
+        }
+    </script>
+</body>
+<script type="text/javascript" src="../js/fly.js"></script>
+<script src="../js/shopping-cart.js?date=20161008"></script>
+</html>

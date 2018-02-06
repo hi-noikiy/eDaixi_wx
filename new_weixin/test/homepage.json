@@ -1,0 +1,313 @@
+{
+    "ret": true,
+    "ts": 1468824947,
+    "version": "1.0",
+    "data": {
+        "title": "e袋洗",
+        "is_from_eservice": false,
+        "city_id": 1,
+        "city_name": "北京",
+        "user_type": 20,
+        "loc_flag": "do",
+        "locateCityUrl": "/mobile.php?m=wap&act=homepage&do=ajax_locate_city&city_id=1&mark=ae891810-4aef-11e5-ade6-f80f41fd4734",
+        "keepCityUrl": "/mobile.php?m=wap&act=homepage&do=ajax_keep_city&city_id=1&mark=ae891810-4aef-11e5-ade6-f80f41fd4734",
+        "city_list_url": "/mobile.php?m=wap&act=homepage&do=city_list&state=userSw&city_id=1&mark=ae891810-4aef-11e5-ade6-f80f41fd4734",
+        "banner": {
+            "0": {
+                "banner_id": 1021,
+                "url": "http://mp.weixin.qq.com/s?__biz=MzA3NjA4OTkwNQ==&mid=526600746&idx=1&sn=87d3a812cf97f2e65c78b85233c735ef&scene=19#wechat_redirect&city_id=1&mark=ae891810-4aef-11e5-ade6-f80f41fd4734",
+                "url_type": "web",
+                "title": "【7.17品牌日】充值717返310大礼包！庆祝品牌升级！",
+                "image_url": "http://cdnops.edaixi.com//images/banners/1021/original/717-%E5%91%A8%E6%9C%AB%EF%BC%8D%E6%96%B0%E7%89%88%EF%BC%8D%E5%BE%AE%E4%BF%A1710x240.jpg?1468627013",
+                "inner_url": "",
+                "inner_type": "none",
+                "inner_title": "",
+                "description": "7.16-7.22全人类洗一洗，充值717返310大礼包",
+                "tips_id": "",
+                "tips_name": "",
+                "put_under": false
+            },
+            "1": {
+                "banner_id": 1024,
+                "url": "http://mp.weixin.qq.com/s?__biz=MzA3NjA4OTkwNQ==&mid=526600746&idx=2&sn=cd2dee3ae1145b10a4ff38a1e3b556e3&scene=19#wechat_redirect&city_id=1&mark=ae891810-4aef-11e5-ade6-f80f41fd4734",
+                "url_type": "web",
+                "title": "【717洗鞋】低至12元起，夏季最强优惠！",
+                "image_url": "http://cdnops.edaixi.com//images/banners/1024/original/0713%E6%99%AE%E6%B4%97%E9%9E%8B%E4%B8%BBkv%E5%BB%B6%E5%B1%95%EF%BC%8D%E5%8C%97%E4%BA%AC%E7%89%B9%E6%83%A0%EF%BC%88%E7%AC%AC2%E7%89%88%EF%BC%89%EF%BC%8D%E5%BE%AE%E4%BF%A1%EF%BC%8D710-240.jpg?1468647560",
+                "inner_url": "",
+                "inner_type": "none",
+                "inner_title": "",
+                "description": "交给e袋洗，一键全解决 清洗丨去渍丨烘干丨杀菌 而且咱本周洗鞋真的超！便！宜！",
+                "tips_id": "",
+                "tips_name": "",
+                "put_under": false
+            },
+            "2": {
+                "banner_id": 993,
+                "url": "http://mp.weixin.qq.com/s?__biz=MzA3NjA4OTkwNQ==&mid=526600690&idx=2&sn=144c25242042b77e77af2c3ce12ea3af&scene=19#wechat_redirect&city_id=1&mark=ae891810-4aef-11e5-ade6-f80f41fd4734",
+                "url_type": "web",
+                "title": "【十五道衣味】带你探秘e袋洗指尖上的\"净衣之旅\"",
+                "image_url": "http://cdnops.edaixi.com//images/banners/993/original/%E5%8D%81%E4%BA%94%E9%81%93%E8%A1%A3%E5%91%B3%EF%BC%8D%E5%BE%AE%E4%BF%A1%E7%AB%AF%EF%BC%8D710-240.jpg?1468635772",
+                "inner_url": "",
+                "inner_type": "none",
+                "inner_title": "",
+                "description": "我们近乎疯狂的，把洗衣洗鞋这些小事做好",
+                "tips_id": "",
+                "tips_name": "",
+                "put_under": false
+            },
+            "4": {
+                "banner_id": 958,
+                "url": "http://mp.weixin.qq.com/s?__biz=MzA3NjA4OTkwNQ==&mid=526600319&idx=1&sn=9907c8cf5ca9a534b4d394eac99811b9#rd",
+                "url_type": "web",
+                "title": "【e袋洗新用户特权】首单满40返40~",
+                "image_url": "http://cdnops.edaixi.com//images/banners/958/original/710x240%E6%96%B0%E7%94%A8%E6%88%B7%E6%BB%A140%E8%BF%9440.jpg?1467596946",
+                "inner_url": "",
+                "inner_type": "none",
+                "inner_title": "",
+                "description": "2016年7月1日~2016年7月31日 e袋洗新用户首次下单并支付 可获价值总额40元洗衣现金券",
+                "tips_id": "",
+                "tips_name": "",
+                "put_under": false
+            },
+            "5": {
+                "banner_id": 991,
+                "url": "http://mp.weixin.qq.com/s?__biz=MzA3NjA4OTkwNQ==&mid=526600715&idx=1&sn=9353cabec23972ed4f66be7f4d855de1&scene=1&srcid=0708zODxtzJa5gA5rBplGjje&from=singlemessage&isappinstalled=0#wechat_redirect",
+                "url_type": "web",
+                "title": "北京 | 买衬衫送洗衣充值卡，让衣服有型又有“young\"~",
+                "image_url": "http://cdnops.edaixi.com//images/banners/991/original/%E5%BE%AE%E4%BF%A1_%281%29.jpg?1468216024",
+                "inner_url": "",
+                "inner_type": "none",
+                "inner_title": "",
+                "description": "北京 | 买衬衫送洗衣充值卡，让衣服有型又有“young\"~",
+                "tips_id": "",
+                "tips_name": "",
+                "put_under": false
+            }
+        },
+        "recharge_banner": {
+            "banner_id": 1017,
+            "url": "/mobile.php?m=wap&act=icard&do=icard_charge&city_id=1&mark=ae891810-4aef-11e5-ade6-f80f41fd4734",
+            "url_type": "in_app",
+            "title": "充值页",
+            "image_url": "http://cdnops.edaixi.com//images/banners/1017/original/recharge.png?1468605858",
+            "inner_url": "",
+            "inner_type": "none",
+            "inner_title": "",
+            "description": "充值页",
+            "tips_id": "3",
+            "tips_name": "充值页",
+            "put_under": true
+        },
+        "category_list": [
+            {
+                "list": [
+                    {
+                        "url": "http://wx.rongchain.com/new_weixin/view/washing_prices.html?category_id=1010&city_id=1&mark=ae891810-4aef-11e5-ade6-f80f41fd4734",
+                        "url_type": "web",
+                        "title": "洗衣",
+                        "image_url": "http://cdnops.edaixi.com//images/banners/1006/original/ic_laundry.png?1468603545",
+                        "inner_url": "",
+                        "inner_type": "none",
+                        "inner_title": "洗衣价目",
+                        "description": "12元/件起",
+                        "tips_id": "",
+                        "tips_name": "",
+                        "transverse": false
+                    },
+                    {
+                        "url": "http://wx.rongchain.com/new_weixin/view/washing_prices.html?category_id=1020&city_id=1&mark=ae891810-4aef-11e5-ade6-f80f41fd4734",
+                        "url_type": "web",
+                        "title": "洗鞋",
+                        "image_url": "http://cdnops.edaixi.com//images/banners/1000/original/ic_wash_shoes.png?1468603222",
+                        "inner_url": "",
+                        "inner_type": "none",
+                        "inner_title": "洗鞋价目",
+                        "description": "25元/双起",
+                        "tips_id": "",
+                        "tips_name": "",
+                        "transverse": false
+                    },
+                    {
+                        "url": "http://wx.rongchain.com/new_weixin/view/washing_prices.html?category_id=1011&city_id=1&mark=ae891810-4aef-11e5-ade6-f80f41fd4734",
+                        "url_type": "web",
+                        "title": "洗家纺",
+                        "image_url": "http://cdnops.edaixi.com//images/banners/1010/original/ic_home_textile.png?1468603847",
+                        "inner_url": "",
+                        "inner_type": "none",
+                        "inner_title": "洗衣价目",
+                        "description": "12元/件",
+                        "tips_id": "",
+                        "tips_name": "",
+                        "transverse": false
+                    },
+                    {
+                        "url": "http://wx.rongchain.com/new_weixin/view/washing_prices.html?category_id=1030&city_id=1&mark=ae891810-4aef-11e5-ade6-f80f41fd4734",
+                        "url_type": "web",
+                        "title": "窗帘清洗",
+                        "image_url": "http://cdnops.edaixi.com//images/banners/1015/original/ic_wash_curtain.png?1468604317",
+                        "inner_url": "",
+                        "inner_type": "none",
+                        "inner_title": "窗帘清洗价目",
+                        "description": "158元/袋起",
+                        "tips_id": "",
+                        "tips_name": "",
+                        "transverse": false
+                    },
+                    {
+                        "url": "http://wx.rongchain.com/new_weixin/view/washing_prices.html?category_id=1070&city_id=1&mark=ae891810-4aef-11e5-ade6-f80f41fd4734",
+                        "url_type": "web",
+                        "title": "袋洗",
+                        "image_url": "http://cdnops.edaixi.com//images/banners/1009/original/%E8%A2%8B%E6%B4%97_bag.png?1468603801",
+                        "inner_url": "",
+                        "inner_type": "none",
+                        "inner_title": "袋洗价目",
+                        "description": "首创 袋洗 低至158一袋",
+                        "tips_id": "4",
+                        "tips_name": "HOT",
+                        "transverse": true
+                    }
+                ],
+                "title": "专业清洗",
+                "tag": 1
+            },
+            {
+                "list": [
+                    {
+                        "url": "http://www.edaixi.com/washing_prices/luxury/5/1?user_type=20&sub_id=77&city_id=1&mark=ae891810-4aef-11e5-ade6-f80f41fd4734",
+                        "url_type": "in_app",
+                        "title": "奢侈品养护",
+                        "image_url": "http://cdnops.edaixi.com//images/banners/77/original/ic_luxury_two.png?1468605675",
+                        "inner_url": "http://www.edaixi.com/washing_prices/luxury/5/1?user_type=20",
+                        "inner_type": "web",
+                        "inner_title": "奢侈品皮具养护",
+                        "description": "Luxury Goods",
+                        "tips_id": "",
+                        "tips_name": "",
+                        "transverse": false
+                    },
+                    {
+                        "url": "http://www.edaixi.com/washing_prices/luxury/4/1?user_type=20&sub_id=76&city_id=1&mark=ae891810-4aef-11e5-ade6-f80f41fd4734",
+                        "url_type": "in_app",
+                        "title": "高端成衣家纺",
+                        "image_url": "http://cdnops.edaixi.com//images/banners/76/original/ic_high_end_two.png?1468605610",
+                        "inner_url": "http://www.edaixi.com/washing_prices/luxury/4/1?user_type=20",
+                        "inner_type": "web",
+                        "inner_title": "高端服饰家纺精洗",
+                        "description": "Luxury Clothes",
+                        "tips_id": "",
+                        "tips_name": "",
+                        "transverse": false
+                    }
+                ],
+                "title": "高端洗护",
+                "tag": 2
+            },
+            {
+                "list": [],
+                "title": "酒店快洗",
+                "tag": 3
+            }
+        ],
+        "promotional_list": {
+            "details": [
+                {
+                    "tip": "http://cdnopen.edaixi.com/app_resources/ic_suit.png",
+                    "image_url": "http://opsgoods-10004522.image.myqcloud.com/promotion-1468603453805",
+                    "discount_price": "59.0",
+                    "original_price": "65.0",
+                    "name": "家纺四件套",
+                    "url_type": "web",
+                    "url": "http://wx.rongchain.com/new_weixin/view/washing_prices.html?city_id=1&category_id=1011&type_id=5"
+                },
+                {
+                    "tip": "http://cdnopen.edaixi.com/app_resources/ic_suit.png",
+                    "image_url": "http://opsgoods-10004522.image.myqcloud.com/promotion-1468603474722",
+                    "discount_price": "54.0",
+                    "original_price": "60.0",
+                    "name": "衬衫5件洗",
+                    "url_type": "web",
+                    "url": "http://wx.rongchain.com/new_weixin/view/washing_prices.html?city_id=1&category_id=1010&type_id=40"
+                }
+            ],
+            "total_page": 1,
+            "title": "优惠爆品"
+        },
+        "bottom_button": [
+            {
+                "url": "http://www.edaixi.com/pages/introduce?city_id=1&mark=ae891810-4aef-11e5-ade6-f80f41fd4734",
+                "url_type": "web",
+                "title": "服务介绍",
+                "image_url": "http://cdnops.edaixi.com//images/banners/89/original/ic_service_Introduction.png?1468603477",
+                "inner_url": "http://www.edaixi.com/pages/introduce",
+                "inner_type": "web",
+                "inner_title": "服务介绍",
+                "description": "服务介绍",
+                "tips_id": "",
+                "tips_name": ""
+            },
+            {
+                "url": "http://www.edaixi.com/service/service_area?city_id=1&mark=ae891810-4aef-11e5-ade6-f80f41fd4734",
+                "url_type": "web",
+                "title": "服务范围",
+                "image_url": "http://cdnops.edaixi.com//images/banners/90/original/ic_service_scope.png?1468603537",
+                "inner_url": "http://www.edaixi.com/service/service_area",
+                "inner_type": "web",
+                "inner_title": "服务范围",
+                "description": "服务范围",
+                "tips_id": "",
+                "tips_name": ""
+            },
+            {
+                "url": "http://www.edaixi.com/washing_prices/price_word?city_id=1&mark=ae891810-4aef-11e5-ade6-f80f41fd4734",
+                "url_type": "web",
+                "title": "价目中心",
+                "image_url": "http://cdnops.edaixi.com//images/banners/472/original/ic_price_center.png?1468603583",
+                "inner_url": "",
+                "inner_type": "none",
+                "inner_title": "价目中心",
+                "description": "价目中心",
+                "tips_id": "",
+                "tips_name": ""
+            },
+            {
+                "url": "/mobile.php?m=wap&act=icard&do=feedback&city_id=1&mark=ae891810-4aef-11e5-ade6-f80f41fd4734",
+                "url_type": "in_app",
+                "title": "意见反馈",
+                "image_url": "http://cdnops.edaixi.com//images/banners/1018/original/ic_feedback.png?1468603317",
+                "inner_url": "",
+                "inner_type": "none",
+                "inner_title": "",
+                "description": "意见反馈",
+                "tips_id": "",
+                "tips_name": ""
+            }
+        ],
+        "show_points": false,
+        "favourable_comments": [
+            {
+                "date": "2016.07.17",
+                "tel": "137****1746",
+                "comment": "洗得很干净，洗不掉的也做出了说明，取送人员也很认真负责，赞一个，以后就认准e袋洗了",
+                "category": "洗衣家纺",
+                "user": "北京用户"
+            },
+            {
+                "date": "2016.07.14",
+                "tel": "186****5163",
+                "comment": "鞋子洗护包装让人意外惊喜，一定会把好东西分享出去介绍给大家",
+                "category": "洗鞋服务",
+                "user": "成都用户"
+            },
+            {
+                "date": "2016.07.17",
+                "tel": "186****8275",
+                "comment": "很负责，取衣送衣超级快，今天打电话都吓到我了，没想到这么快就洗好了。谢谢",
+                "category": "洗衣家纺",
+                "user": "北京用户"
+            }
+        ],
+        "favourable_comments_url": "/mobile.php?m=wap&act=homepage&do=favourable_comments&city_id=1&mark=ae891810-4aef-11e5-ade6-f80f41fd4734",
+        "show_insurance": false,
+        "insurance_data": ""
+    }
+}

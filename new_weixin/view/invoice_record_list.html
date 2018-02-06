@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no, email=no" name="format-detection">
+    <script type="text/javascript">
+        !function(){var a="@charset \"utf-8\";html{color:#000;background:#fff;overflow-y:scroll;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}html *{outline:0;-webkit-text-size-adjust:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}html,body{font-family:sans-serif}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0}input,select,textarea{font-size:100%}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}abbr,acronym{border:0;font-variant:normal}del{text-decoration:line-through}address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:500}ol,ul{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:500}q:before,q:after{content:''}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}a:hover{text-decoration:underline}ins,a{text-decoration:none}",b=document.createElement("style");if(document.getElementsByTagName("head")[0].appendChild(b),b.styleSheet)b.styleSheet.disabled||(b.styleSheet.cssText=a);else try{b.innerHTML=a}catch(c){b.innerText=a}}();!function(a,b){function c(){var b=f.getBoundingClientRect().width;b/i>540&&(b=540*i);var c=b/10;f.style.fontSize=c+"px",k.rem=a.rem=c}var d,e=a.document,f=e.documentElement,g=e.querySelector('meta[name="viewport"]'),h=e.querySelector('meta[name="flexible"]'),i=0,j=0,k=b.flexible||(b.flexible={});if(g){console.warn("将根据已有的meta标签来设置缩放比例");var l=g.getAttribute("content").match(/initial\-scale=([\d\.]+)/);l&&(j=parseFloat(l[1]),i=parseInt(1/j))}else if(h){var m=h.getAttribute("content");if(m){var n=m.match(/initial\-dpr=([\d\.]+)/),o=m.match(/maximum\-dpr=([\d\.]+)/);n&&(i=parseFloat(n[1]),j=parseFloat((1/i).toFixed(2))),o&&(i=parseFloat(o[1]),j=parseFloat((1/i).toFixed(2)))}}if(!i&&!j){var p=(a.navigator.appVersion.match(/android/gi),a.navigator.appVersion.match(/iphone/gi)),q=a.devicePixelRatio;i=p?q>=3&&(!i||i>=3)?3:q>=2&&(!i||i>=2)?2:1:1,j=1/i}if(f.setAttribute("data-dpr",i),!g)if(g=e.createElement("meta"),g.setAttribute("name","viewport"),g.setAttribute("content","initial-scale="+j+", maximum-scale="+j+", minimum-scale="+j+", user-scalable=no"),f.firstElementChild)f.firstElementChild.appendChild(g);else{var r=e.createElement("div");r.appendChild(g),e.write(r.innerHTML)}a.addEventListener("resize",function(){clearTimeout(d),d=setTimeout(c,300)},!1),a.addEventListener("pageshow",function(a){a.persisted&&(clearTimeout(d),d=setTimeout(c,300))},!1),"complete"===e.readyState?e.body.style.fontSize=12*i+"px":e.addEventListener("DOMContentLoaded",function(){e.body.style.fontSize=12*i+"px"},!1),c(),k.dpr=a.dpr=i,k.refreshRem=c,k.rem2px=function(a){var b=parseFloat(a)*this.rem;return"string"==typeof a&&a.match(/rem$/)&&(b+="px"),b},k.px2rem=function(a){var b=parseFloat(a)/this.rem;return"string"==typeof a&&a.match(/px$/)&&(b+="rem"),b}}(window,window.lib||(window.lib={}));
+    </script>
+	<title>开票记录</title>
+    <link rel="stylesheet" type="text/css" href="../css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../css/invoice.css">
+    <script type="text/javascript" src="../js/zepto.js"></script>
+    <script type="text/javascript" src="../js/template.js"></script>
+    <script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body>
+	<div id="main"></div>
+    <script id="invoice_record_list" type="text/html">
+        {{if data.length}}
+        {{each data as item index}}
+        <div class="record" data-index="{{index}}">
+            <p><span>{{item.invoice_content}}</span><span>{{item.created_date}}</span><span>{{item.status}}</span></p>
+            <p><span>发票金额</span><span>{{item.invoice_money}}</span></p>
+            <p><span>发票抬头</span><span>{{item.company_name}}</span></p>
+            <div class="arrow-left"></div>
+        </div>
+        {{/each}}
+        {{else}}
+            <div class="nodata">暂无开票记录</div>
+        {{/if}}
+    </script>
+    <script id="invoice_record_detail" type="text/html">
+        <div class="record-detail">
+            <div class="status">{{item.status}}</div>
+            <div class="express">
+                <p class="end"><label>快递单号</label><span>{{item.express_no}}</span></p>
+            </div>
+            <div class="invoice-part">
+                <p><label>提交时间</label><span>{{item.created_date}}</span></p>
+                <p><label>发票金额</label><span>{{item.invoice_money}}</span></p>
+                <p><label>发票抬头</label><span>{{item.company_name}}</span></p>
+                {{if item.tax_id}}
+                <p class="end" style="position: relative;"><label style="line-height: 1.2;padding: .2rem 0;width: 18%;">纳税人识别号</label><span style="position: absolute;top: 0%;left: 20%;">{{item.tax_id}}</span></p>
+                 {{/if}}
+            </div>
+            <div class="user-part">
+                <p><label>收件人</label><span>{{item.receiver_name}}</span></p>
+                <p><label>联系电话</label><span>{{item.receiver_tel}}</span></p>
+                <p class="end"><label>详细地址</label><span>{{item.address}}</span></p>
+            </div>
+
+        </div>
+    </script>
+    <script type="text/javascript">
+        // 开发联调控制 
+        window.debug = false;
+        var api = {};
+        if (window.debug) {
+            api.invoice_record = "/invoice_record";
+        }
+        else {
+            api.invoice_record = "/api.php?m=wap&act=invoice&do=invoice_history";
+        }
+    </script>
+
+    <script type="text/javascript">
+        $.ajax({
+            type: "GET",
+            url: api.invoice_record,
+            dataType: "json",
+            success: function(data) {
+                if (data.ret) {
+                    // 价格数据格式转化
+                    formate(data);
+                    // 渲染数据
+                    renderTemplate(data);
+                    // 绑定事件
+                    bindEvent(data);
+                }
+            },
+            error: function(xhr, type) {
+                $.alert("出错了，请重新进入试试");
+            }
+        })
+
+        function formate(data) {
+            var len = data.data.length;
+            for (var i = 0; i < len; i++) {
+                data.data[i]["invoice_money"] = "￥" + formatCurrency(data.data[i]["invoice_money"]);
+            }
+        }
+
+        function renderTemplate(data) {
+            var html = template("invoice_record_list", {data: data.data});
+            $('#main').html(html);
+        }
+
+        function bindEvent(data) {
+            $("#main").on("click", ".record", function() {
+                var index = $(this).data("index");
+                var html = template("invoice_record_detail", {item: data.data[index]});
+                $("#main").html(html);
+            })
+        }
+        /**
+         * 货币样式格式化
+         * @param  {number, string} num 货币数字
+         * @return {string}    例：28,989.00
+         */
+        function formatCurrency(num) {
+            num = +num.toString().replace(/\$|\,/g,'');
+            if(isNaN(num))
+                num = "0";
+            sign = (num == (num = Math.abs(num)));
+            num = Math.floor(num*100+0.50000000001);
+            cents = num%100;
+            num = Math.floor(num/100).toString();
+            if(cents<10)
+            cents = "0" + cents;
+            for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+            num = num.substring(0,num.length-(4*i+3))+','+
+            num.substring(num.length-(4*i+3));
+            return (((sign)?'':'-') + num + '.' + cents);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="description" content="致敬女王，喜欢要表达，宠她要及时" />
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>白色情人节，为TA的美腻充值</title>
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css" />
+<link href="{php echo assets_link('/framework/style/css/women_day.css')}" rel="stylesheet" type="text/css" />
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+<?php if($is_from_weixin):?>
+<script type='text/javascript'>
+wx.ready(function(){
+  // “分享到朋友圈”
+  wx.onMenuShareTimeline({
+      title: "{$title}",
+      link: "https://wx.rongchain.com/mobile.php?m=third&act=recharge38&do=recharge_page",
+      imgUrl: "https://wx.rongchain.com/resource/image/payforlove200.png",
+      success: function (res) {
+          // $.post("{$callback_url}", {}, function(){}, "json");
+    	  return;
+      },
+      cancel: function(res){
+          return;
+      },
+      fail: function (res) {
+          // alert('wx.onMenuShareTimeline:fail: ' + JSON.stringify(res));
+    	  return;
+      }
+  });
+  
+  // “分享给朋友”
+  wx.onMenuShareAppMessage({
+       title: "{$title}",
+       desc: "{$desc}",
+       link: "https://wx.rongchain.com/mobile.php?m=third&act=recharge38&do=recharge_page",
+       imgUrl: "https://wx.rongchain.com/resource/image/payforlove200.png",
+       success: function () { 
+          // $.post("{$callback_url}", {}, function(){}, "json");
+    	  return;
+       },
+       cancel: function () { 
+          return;
+       },
+       fail: function (res) {
+          // alert('wx.onMenuShareAppMessage:fail: ' + JSON.stringify(res));
+    	  return;
+       }
+  });
+  
+  wx.error(function(res){
+      // config信息验证失败会执行error函数
+      // alert('wx.error: ' + JSON.stringify(res));
+	  return;
+  });
+});
+</script>
+<?php endif; ?>
+</head>
+<body class="gloalbackground">
+  <img src="{php echo assets_link('/resource/image/share.png')}" width="0" height="0" />
+  <section class="recharge_money">
+  	<img class="btn_help" id="open-helper-btn" src="{php echo assets_link('/framework/style/images/btn_help.png')}">
+  	<ul id="recharge-items">
+  		<li class="btn_money" data-reality-money="200" data-final-money="230">
+  			<img src="{php echo assets_link('/framework/style/images/btn_200.png')}">
+  			<img class="select-border btn_s" src="{php echo assets_link('/framework/style/images/btn_s.png')}">
+  		</li>
+	  	<li class="btn_money" data-reality-money="500" data-final-money="600">
+		  	<img src="{php echo assets_link('/framework/style/images/btn_500.png')}">
+		  	<img class="select-border btn_s" src="{php echo assets_link('/framework/style/images/btn_s.png')}">
+	  	</li>
+	  	<li class="btn_money" data-reality-money="1000" data-final-money="1260">
+		  	<img src="{php echo assets_link('/framework/style/images/btn_1000.png')}">
+		  	<img class="select-border btn_s" src="{php echo assets_link('/framework/style/images/btn_s.png')}">
+	  	</li>
+	  	<li class="btn_money" data-reality-money="2000" data-final-money="2600">
+		  	<img src="{php echo assets_link('/framework/style/images/btn_2000.png')}">
+		  	<img class="select-border btn_s" src="{php echo assets_link('/framework/style/images/btn_s.png')}">
+	  	</li>
+  	</ul>
+  </section>
+  <section class="recharge_message">
+  	<img src="{php echo assets_link('/framework/style/images/bg_letter.png')}">
+  	<form id="recharge-form" action="{$payment_page_url}" method="post" />
+  	    <input id="skipserv-input" type="hidden" name="skipserv" value="no" />
+  	    <input id="money-input" type="hidden" name="fee" />
+  		<input id="mobile-input" class="telephone nvwang women_border" name="mobile" type="tel" maxlength="11" placeholder="请输入女王手机号" value="" 
+  		onkeyup="value=value.replace(/[^\d]/g,'')" onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))" />
+  		<p class="tip women_tip">对方用手机号登录e袋洗后可查看余额</p>
+  		<textarea id="message-textarea" class="chongziji nvwang women_border" name="message" placeholder="女人节快乐，洗欢你，宠自己" maxlength="30"></textarea>
+  		<input id="username-input" class="name nvwang women_border" type="text" name="username" placeholder="请输入您的姓名" value="" maxlength="30" />
+  	</form>
+  </section>
+  <section class="footer">
+	<div id="show-money" class="recharge money">
+	   应付: <em id="reality-money">0</em><em>元</em><span>为她充值<em id="final-money">0</em>元</span>
+	</div>
+	<div id="recharge-btn" class="chongzhi recharge">立即为爱充值</div>
+  </section>
+  <section id="helper-window" class="pop_window">
+  	<div class="wx_mask" id="wx_mask"></div>
+      <div><img class="bow" src="{php echo assets_link('/framework/style/images/bow.png')}"></div>
+  	<div class="wx_rule">
+  		<div class="pop_title women_bg">充值优惠活动规则</div>
+  		<div class="pop_word">
+  			<p>1.充200送30；充500送100；充1000送260；充2000送600；</p>
+  			<p>2.充值成功后，e袋洗会短信通知充值手机号并送达您的祝福，对方登录e袋洗后可查看余额；</p>
+  			<p>3.在法律允许范围内，本次活动最终解释权归e袋洗所有。</p>
+  			<p class="word_tip">洗欢要及时，宠爱不能等，赶快为你的女王充值吧！</p>
+  			<div id="close-helper-btn" class="pop_close women_bg"></div>
+  		</div>
+  	</div>
+  </section>
+  
+  <section id="continue-tip" class="pop_tip">
+  	<div class="wx_mask" id="wx_mask"></div>
+  	<div class="tip_word">
+  		<p>您输入的手机号所在地不在e袋洗服务范围，是否继续充值</p>
+  		<span id="confirm-continue-btn" class="tip_ok tip_com" >确定</span>
+  		<span id="cancel-continue-btn" class="tip_cancel tip_com">取消</span>
+  	</div>
+  </section>
+
+<!-- 校验信息 -->
+  <div id="tips-mask" style="display: none;">
+      <div class="wx_mask"></div>
+      <div class="wx_confirm ">
+        <div class="wx_confirm_inner" id="wx_confirm_float">
+          <div class="wx_confirm_hd">
+            <div class="wx_confirm_tit" id="tips-content" style="font-size: 14px; line-height: 22px">
+              <!-- 提示信息 -->
+            </div>
+          </div>
+        </div>
+      </div>
+  </div>
+  
+  <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+  <script>
+	var 
+	  $rechargeForm = $('#recharge-form'),
+	  $helperWindow = $("#helper-window"),
+	  $openHelperBtn = $('#open-helper-btn'),
+	  $closeHelperBtn = $('#close-helper-btn'),
+	  $rechargeItems = $('#recharge-items'),
+	  $continueTip = $('#continue-tip'),
+	  $confirmBtn = $('#confirm-continue-btn'),
+	  $cancelBtn = $('#cancel-continue-btn'),
+	  $skipservInput = $('#skipserv-input'),
+	  $moneyInput = $('#money-input'),
+	  $realityMoney = $('#reality-money'),
+	  $finalMoney = $('#final-money'),
+	  $rechargeBtn = $('#recharge-btn'),
+	  $messageTextarea = $("#message-textarea"),
+	  $tipsMask = $("#tips-mask"),
+	  $tipsContent = $("#tips-content");
+	
+	// 初始化页面数据
+	$(function(){
+	   var initMoney = $moneyInput.val();
+	   if(initMoney){
+	       var $items = $rechargeItems.find('li');
+	       $.each($items, function(key, el){
+	            if(initMoney == $(el).data('reality-money')){
+	                var $this = $(el);
+	                $selectBorder = $this.find('img.select-border');
+	                var realityMoney = $this.data('reality-money'), finalMoney = $this.data('final-money');
+	                if($selectBorder.is(":hidden")){
+	                    $selectBorder.show();
+	                    $moneyInput.val(realityMoney);
+	                    $realityMoney.text(realityMoney);
+	                    $finalMoney.text(finalMoney);
+	                }
+	                return false;
+	            }
+	       });
+	   }
+	});
+	
+	$openHelperBtn.on('click', function(){
+	    $helperWindow.show();
+	})
+	$closeHelperBtn.on('click', function(){
+	    $helperWindow.hide();
+	});
+	$confirmBtn.on('click', function(){
+	    $skipservInput.val('yes');
+	    $continueTip.hide();
+	    $rechargeForm.submit();
+	});
+	$cancelBtn.on('click', function(){
+	    $skipservInput.val('no');
+	    $continueTip.hide();
+	});
+	$rechargeItems.on('click', 'li', function(){
+	    $this = $(this);
+	    $selectBorder = $this.find('img.select-border');
+	    var realityMoney = $this.data('reality-money'), finalMoney = $this.data('final-money');
+	    if($selectBorder.is(":hidden")){
+	        $selectBorder.show();
+	        $moneyInput.val(realityMoney);
+	        $realityMoney.text(realityMoney);
+	        $finalMoney.text(finalMoney);
+	    }else{
+	        $moneyInput.val('');
+	        $realityMoney.text(0);
+	        $finalMoney.text(0);
+	        $selectBorder.hide();
+	    }
+	    $selectBorder.parents('li').siblings().find('img.select-border').hide();
+	});
+	$rechargeBtn.on('click', function(){
+	    var 
+	       skipserv = $skipservInput.val(),
+	       money = $.trim($moneyInput.val()),
+	       mobile = $.trim($('#mobile-input').val()),
+	       message = $.trim($('#message-textarea').val()),
+	       username = $.trim($('#username-input').val());
+	
+	     if(message.length == 0 || message == "") {
+	        message = "女人节快乐，洗欢你，宠自己";
+	     }
+	    // JS验证充值数据
+	    var result = checkRechage(money, mobile, message, username);
+	    if(!result.state){
+	        showTip(result.msg);
+	        return;
+	    }
+	
+	    $.ajax({
+	        url: "{$payment_page_url}",
+	        type: "POST",
+	        data: {
+	            fee : money,
+	            mobile : mobile,
+	            message : message,
+	            username : username,
+	            skipserv : skipserv
+	        },
+	        dataType: "json",
+	        success: function (res, ts, xhr) {
+	            if(1 == res.message.state){
+	                $rechargeForm.submit();
+	                return;
+	            }else if(2 == res.message.state){
+	                $continueTip.show();
+	                return;
+	            }else{
+	                alert(res.message.msg);
+	                return;
+	            }
+	        }
+	    });
+	});
+	
+	//获取默认值
+    $messageTextarea.on('focus', function(){
+        $messageTextarea.text("女人节快乐，洗欢你，宠自己");
+    });
+	   
+	// 验证充值数据
+	function checkRechage(money, mobile, message, username){
+	    if(-1 == $.inArray(money, ['200', '500', '1000', '2000'])){
+	        return {state : false, msg : '请选择充值金额'};
+	    }
+	    if(! /^1[3-8]\d{9}$/.test(mobile)){
+	        return {state : false, msg : '请输入正确手机号码'};
+	    }
+	    if(message.length > 30){
+	        return {state : false, msg : '留言长度不能超过30个字符'};
+	    }
+	    if(username.length < 2 || username.length > 10){
+	        return {state : false, msg : '姓名长度为2~10个字符'};
+	    }
+	    return {state : true, msg : ''};
+	}
+	
+	// 操作提示
+	function showTip(msg){
+	    var msg = msg || '输入有误,请重试';
+	    $tipsContent.html(msg);
+	    $tipsMask.show().delay(2000).hide(0);
+	    return;
+	}
+  </script>
+  <?php include template('foot') ?>
+</body>
+</html>

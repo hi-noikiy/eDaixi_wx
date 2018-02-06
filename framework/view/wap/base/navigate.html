@@ -1,0 +1,16 @@
+<!-- 页脚导航-->
+{if $_SESSION['user_info']['user_type'] != 18 }
+<footer id="footer">
+<div class="borderD3"></div>
+  <div class="fix-bottom"></div>
+    <div class="bottomBox">
+        <div class="indexMsg">
+            <div class="indexMenu">
+                    <a href="{php echo create_url('homepage/index', array())}"><span class=" {if $_GPC['do'] == 'wapindex'}home-index-active{elseif  $did == 'index'}home-index-active{else}home-index{/if}">首页</span></a>
+                	<a href="{php echo create_url('order/order_list',array())}"><span class=" {if $_GPC['do'] == 'wapmember' || $did == 'order_list'}Order-index-active{else}Order-index{/if}">订单<!-- <em class="hongdian"></em> --></span></a>
+                	<a href="{php echo create_url('icard/my_icard', array())}"><span class="{if $_GPC['do'] == 'wapicard' || $did == 'myicard'}card-index-active{else}card-index{/if}">我的<!-- <em class="hongdian"></em> --></span></a>
+              </div>
+        </div>
+    </div>
+</footer>
+{/if}

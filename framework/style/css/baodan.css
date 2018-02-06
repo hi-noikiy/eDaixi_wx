@@ -1,0 +1,60 @@
+*{margin:0;padding:0; 
+ -webkit-outline: none;
+  outline: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);}
+img{
+  width: 100%;
+}
+body {
+    padding: 0;
+    margin: 0 auto;
+}
+.baodan {
+  position: relative;  
+}
+.bd_order {
+    position: absolute;
+    top: 41.4%;
+    width: 18%;
+    right: 7%;
+}
+.bd_share {
+    position: absolute;
+    width: 30%;
+    right: 10%;
+    bottom: -2%;
+}
+.shuoming_bg {
+  background: url('../images/baodan_04.jpg') repeat-x center center;
+  background-size: 100% 100%; 
+  padding: 6%;
+}
+.shuoming {
+  border: 2px solid #00dbf5;
+  background: #f4fbff;
+  padding: 5%;
+  border-radius: 12px;
+  margin-top: 5%;
+}
+.shuoming p {
+  color: #3b3c3d;
+  font-size: 13px;
+  padding: 1%;
+}
+.shuoming_title {
+  text-align: center;
+  color: #0093E6;
+  font-size: 16px;
+  display: block;
+  line-height: 34px;
+}
+.baologo {
+    width: 15%;
+    position: absolute;
+    right: 16px;
+    top: 12px;
+}
+.baodan img:first-child {
+  position: absolute;
+}
+

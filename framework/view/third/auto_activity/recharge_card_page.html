@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>兑换活动充值卡</title>
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/wap.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/myOrder.css')}" rel="stylesheet" type="text/css" />
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+</head>
+<body>
+  <div class="channel-nav three-nav" style="margin-bottom:0">
+    <ul>
+      
+      <li><a href="">充值卡</a></li>
+    </ul>
+    <div class="borderD2"></div>
+  </div>
+  <div class="icard_bg text-center">
+    <div class="p5">
+      <table>
+        <tr>
+          <td><img src="{php echo assets_link('/framework/style/images/1icon_money.png')}">
+          </td>
+          <td class="orange_color">
+            <?php if (is_numeric($user_icard_amount)):?>
+              <span>余额：<?php echo $user_icard_amount;?></span>
+            <?php else:?>
+              <span>余额：<small><?php echo $user_icard_amount;?></small></span>
+            <?php endif;?>
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="p5"></div>
+  </div>
+  <div class="icard_bg_b"></div>
+  <div class="p5"></div>
+
+  <!-- 充值卡号充值 start -->
+  <div class="borderD2"></div>
+  <form  action="javascript:;"  method="POST">
+    <input type="tel" name="sncode" style="display:inline" id="cardno" class="px sncode" 
+    placeholder="请输入卡密码" onfocus="this.style.color='#3e3e3e';" style="color: #c1c1c1;" autocomplete="off">
+  </form>
+  <div class="borderD2"></div>
+  <div class="p5"></div>
+  <div class="footReturn p10">
+    <a id="recharge-btn" class="coupon-btn" href="javascript:void(0)">立即充值</a>
+  </div>
+  <!-- 充值卡号充值 end -->
+ 
+<!-- 提示浮层 start -->
+<div id="codFloat" style="display:none" class="cod" style="height:60px">
+  <div class="wx_mask"></div>
+  <div class="wx_confirm ">
+      <div class="wx_confirm_inner" id="wx_confirm_float">
+        <div class="wx_confirm_hd">
+            <div class="wx_confirm_tit" id="show_mes">出错了，请稍后再试！</div>
+        </div>
+      </div>
+  </div>
+</div>
+<!-- 提示浮层 end -->
+
+<script type="text/javascript">
+var $recBtn = $('#recharge-btn');
+/**
+ * jQuery 模拟淘宝控件银行帐号输入
+ */
+(function($) {
+    // 输入框格式化
+    $.fn.bankInput = function(options) {
+        var defaults = {
+            max : 25,           // 最多输入字数
+            deimiter : ' ',     // 账号分隔符
+            onlyNumber : true,  // 只能输入数字
+            copy : true         // 允许复制
+        };
+        var opts = $.extend({}, defaults, options);
+        var el = $(this);
+        var maxLen = parseInt(opts.max) + Math.floor(parseInt(opts.max) / 4);
+        el.css({imeMode : 'Disabled'}).attr('maxlength', maxLen);
+        if (el.val() != ''){
+            el.val(el.val().replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, "$1" + opts.deimiter));
+        }
+        el.on('keyup', function(event) {
+            if (opts.onlyNumber) {
+                if (!(event.keyCode >= 48 && event.keyCode <= 57)) {
+                    this.value = this.value.replace(/\D/g, '');
+                }
+            }
+            this.value = this.value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, "$1" + opts.deimiter);
+        }).on('dragenter', function() {
+            return false;
+        }).on('onpaste', function() {
+            return !clipboardData.getData('text').match(/\D/);
+        });
+    }
+    // 列表显示格式化
+    $.fn.bankList = function(options) {
+        var defaults = {
+            deimiter : ' ' // 分隔符 
+        };
+        var opts = $.extend({}, defaults, options);
+        return this.each(function() {
+            $(this).text($(this).text().replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, "$1" + opts.deimiter));
+        })
+    }
+})(jQuery);
+
+// 格式化充值卡密码输入
+$('#cardno').bankInput({max:29});
+
+var 
+	flag = 1,
+	requestUrl = "<?php echo $icard_charge_url;?>",
+	reloadUrl = "<?php echo $cardno_page_url;?>";
+
+// 提交充值
+$recBtn.click(recharge);
+function recharge() {
+	toggleBtn(false, '正在提交');
+    var sncode = $("#cardno").val().replace(/\s/g, '');
+    if (sncode == "") {
+        alert_1("请输入卡密码");
+        toggleBtn(true, '立即充值');
+        return false;
+    }
+    
+    if (flag == 1) {
+        flag = 2;
+        $.ajax({
+        	type: "POST",
+            url: requestUrl,
+            data: {sncode : sncode},
+            dataType: "json",
+            timeout: 5000
+        }).done(function(data) {
+        	var resp = data.message;
+            if (resp.state == 1) {
+                alertToUrl(resp.msg, resp.success_url);
+            	toggleBtn(false, '充值成功');
+            } else {
+                flag = 1;
+                alert_1(resp.msg);
+            	  toggleBtn(true, '立即充值');
+            }
+        }).fail(function(){
+        	flag = 1;
+        	alertToUrl("网络错误，请稍后重试", reloadUrl);
+        	toggleBtn(true, '立即充值');
+        });
+    }
+}
+
+// 弹窗提示
+function alert_1(title) {
+    if(title){
+        $("#show_mes").html(title);
+    }
+    $("#codFloat").show().delay(2000).hide(0);
+}
+
+// 提示 + 跳转
+function alertToUrl(title, url) {
+    if (title == '') {
+        window.location.href = url;
+    } else {
+        alert_1(title);
+        setTimeout("window.location.href='" + url + "'", 500);
+    }
+}
+
+// 设置提交按钮状态
+function toggleBtn(bool, text){
+    if(bool){
+        $recBtn.text(text).prop('disabled', false).removeClass('gray-btn');
+    }else{
+        $recBtn.text(text).prop('disabled', true).addClass('gray-btn');
+    }
+}
+</script>
+<?php include template('foot') ?>
+</body>
+</html>

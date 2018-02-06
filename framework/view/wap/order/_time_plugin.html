@@ -1,0 +1,418 @@
+
+<link href="{php echo assets_link('/framework/style/css/time_plugin.css')}" rel="stylesheet" type="text/css" />
+<div id="time_plugin_outer" class="timeControl" style="height:0px;">
+    <div class="wx_mask" id="wx_mask" style="display:none;"></div>
+    <div id="time_plugin_inner" class="{if $is_from_eservice}wx_timeControl e_background {else} wx_timeControl{/if}">
+      <div class="time_title">
+       <span class="time_cancel" onclick="cancelPlugin()">取消</span>
+       <span class="{if $is_from_eservice} time_finish e_color {else}time_finish {/if}" onclick="submitPlugin()">完成</span>
+      </div>
+      <ul class="time_date">
+          {loop $service_date $key $date_val}
+              <li class="detail_date tab-current" id="date_li_{$key}" serv_date="{$key}" date_text="{$date_val['date_text']}" 
+              {if $date_val['selectable'] == 1}selectable='selectable'{/if}>
+              <p>{$date_val['weekday']}</p>
+              <p>{$date_val['date_str']}</p>
+              </li>
+          {/loop}
+          <div class="borderD"></div>
+      </ul>
+      <div class="time_change">
+          <!-- 随时可取 start -->
+          <div id="tksoon_wrap" class="anytime_kequ">    
+           <div class="kequ">
+              <input id="tksoon" type="checkbox" value="1" />
+              <label for="tksoon"><b></b></label>    
+            </div>
+            <label for="tksoon" class="take_word">下单后立即上门取件</label>
+          </div>
+          <!-- 随时可取 end -->
+          {loop $service_time_bucket $date_key $time_arr}
+          <ul class="time_hour" id="time_ul_{$date_key}" style="display:none;">
+            {loop $time_arr $time_key $time_val}
+            <li class="detail_hour {if !$time_val['selectable']}baodan{/if} {if $time_val['quick_text']}soon_take{/if}" id="time_li_{$date_key}_{$time_key}" serv_time="{$time_key}" quick_take="{$time_val['quick_take']}"
+            time_text="{$time_val['time_str']}" back_text="{$time_val['back_text']}" {if $time_val['selectable'] == 1}selectable='selectable'{/if} >
+                {if $time_val['quick_text']}
+                  <p>{$time_val['quick_text']}</p>
+                {/if}
+                <p {if $time_val['quick_text']}style="color:#c6c6c6;font-size:.7em;"{/if}>{$time_val['time_str']}</p>
+                {if $time_val['selected']}
+                    <span class="img-corner">
+                        {if $time_val['selectable'] == 1}
+                            <img src="{php echo assets_link('/framework/style/images/img_corner_blue.png')}" />
+                        {else}
+                            <img src="{php echo assets_link('/framework/style/images/img_corner_grey.png')}" />
+                        {/if}
+                    </span>
+                {elseif !$time_val['is_available']}
+                    <span>
+	                    <img src="{php echo assets_link('/framework/style/images/yuemanbg.png')}">
+	                    <small class="yueman">约满</small>
+	                </span>
+                {/if}
+            </li>
+            {/loop}
+          </ul>
+          {/loop}
+      </div>
+      {if $category_id != '13'}
+        <div class="kongbai" id="kongbai"></div>
+      {/if}
+    </div>
+</div>
+
+<!-- 操作提示蒙板 -->
+<div id="tips-mask" style="display: none;">
+    <div class="wx_mask"></div>
+    <div class="wx_confirm ">
+      <div class="wx_confirm_inner" id="wx_confirm_float">
+        <div class="wx_confirm_hd">
+          <div class="wx_confirm_tit" id="tips-content" style="font-size: 14px; line-height: 22px">
+            <!-- 提示信息 -->
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+  
+<script type="text/javascript">
+var jqueryXhr = null;
+// 修改前的订单取件时间
+var OriginalVar = {
+        _qjDate: '',
+        _qjTime: '',
+        _tkSoon: 0
+};
+// 修改后的订单取件时间
+var TimePluginVar = {
+         orderId: 0,
+         cateId: 0,
+         qjCity: 0, 
+         qjArea: '',
+         mCount: 0,
+         mReason: '',
+         qjDate: '',
+         qjTime: '', 
+         tkSoon: 0
+};
+
+var $timePluginOuter = $("#time_plugin_outer");
+var   
+  $timePluginInner = $timePluginOuter.find("#time_plugin_inner"),
+  $wxMask = $timePluginOuter.find("#wx_mask"),
+  $dateUl = $timePluginOuter.find('ul.time_date'),
+  $dateLi = $timePluginOuter.find('li.detail_date'),
+  $timeUl = $timePluginOuter.find('ul.time_hour'),
+  $timeLi = $timePluginOuter.find('li.detail_hour'),
+  $tkSoonWrap = $timePluginOuter.find('#tksoon_wrap'),
+  $tkSoonRedio = $timePluginOuter.find('#tksoon'),
+  $tipsMask = $("#tips-mask"),
+  $tipsContent = $("#tips-content");
+
+$(function(){
+    // 选择服务日期
+    $timePluginOuter.on('click', '.detail_date', function(){
+        selectDate($(this));
+    });
+    // 选择服务时段
+    $timePluginOuter.on('click', '.detail_hour', function(){
+        selectTime($(this));
+    });
+    // 选中/取消 "随时可取"
+    $timePluginOuter.on('click', '#tksoon_wrap', function(){
+        toggleTkSoon();
+    });
+});
+
+
+// AJAX 请求时间控件
+function ajaxTimePlugin(orderid, cateid, qjcity, qjarea, mcount, mreason, qjdate, qjtime, tksoon) {
+    if(mcount <= 0){
+        showTips(mreason);
+        return false;
+    }
+    var ajax_url = "{$ajax_time_plugin_url}";
+    var ajax_data = {
+    		qj_order_id : orderid,
+    		qj_cate_id : cateid,
+    	    qj_city_id : qjcity,
+			qj_area : qjarea,
+			qj_date : qjdate,
+			qj_time : qjtime,
+			qj_soon : tksoon
+    };
+    $.getJSON(ajax_url, ajax_data, function(resp){
+        if(resp.message.state == 1){
+            var html = resp.message.html;
+            if(html.indexOf('<ajax_success_return>') === 0){
+            	html = html.replace(/<ajax_success_return>/gi, '');
+            	// 载入异步请求的时间插件
+            	$timePluginOuter.html(html);
+            	// 重新更新jQuery节点缓存
+           	    $timePluginOuter = $("#time_plugin_outer"),
+           	    $timePluginInner = $timePluginOuter.find("#time_plugin_inner"),
+           	    $wxMask = $timePluginOuter.find("#wx_mask"),
+           	    $dateUl = $timePluginOuter.find('ul.time_date'),
+           	    $dateLi = $timePluginOuter.find('li.detail_date'),
+           	    $timeUl = $timePluginOuter.find('ul.time_hour'),
+           	    $timeLi = $timePluginOuter.find('li.detail_hour'),
+           	    $tkSoonWrap = $timePluginOuter.find('#tksoon_wrap'),
+           	    $tkSoonRedio = $timePluginOuter.find('#tksoon');
+            	// 初始化时间插件
+            	setTimeout(function(){
+            	  openTimePlugin(orderid, cateid, qjcity, qjarea, mcount, mreason, qjdate, qjtime, tksoon);    
+            	}, 1);
+            }else{
+              showTips("请求错误,请重试!");
+              setTimeout(function(){
+                  window.location.reload();
+              }, 1900);
+            }
+        }else{
+           showTips("网络错误,请重试!");
+        }
+    });
+    return false;
+}
+
+// 打开时间控件(初始化参数全局变量)
+function openTimePlugin(orderid, cateid, qjcity, qjarea, mcount, mreason, qjdate, qjtime, tksoon) {
+	if(mcount <= 0){
+	    showTips(mreason);
+	    return false;
+	}
+    OriginalVar = {
+            _qjDate: qjdate,
+            _qjTime: qjtime,
+            _tkSoon: +tksoon
+    };
+    TimePluginVar = {
+                orderId: orderid,
+                cateId: cateid,
+                qjCity: qjcity, 
+                qjArea: qjarea,
+                mCount: mcount,
+                qjDate: qjdate, 
+                qjTime: qjtime, 
+                tkSoon: +tksoon
+    };
+    if(initDateTime(qjdate, qjtime, +tksoon)){
+        $wxMask.show();
+        $timePluginInner.animate({bottom:"0"}, 400);
+        $timePluginOuter.slideDown();
+    }
+    return false;
+}
+
+// 初始化时间插件日期时段
+function initDateTime(qjdate, qjtime, tksoon){
+    var $dateLiSel = $dateLi.filter('#date_li_' + qjdate);
+    if($dateLiSel.length != 1){
+        $dateLiSel = $dateLi.eq(0);
+    }
+    if($dateLiSel.length == 1){
+        selectDate($dateLiSel, 'init');
+        if(qjtime){
+            var $timeLiSel = $(document.getElementById('time_li_' + qjdate + '_' + qjtime));
+            if($timeLiSel.length == 1){
+                selectTime($timeLiSel, 'init');
+                +tksoon ? $tkSoonWrap.addClass('anyBorder') : $tkSoonWrap.removeClass('anyBorder');
+            }
+        }
+        return true;
+    }else{
+        showTips("预约时间有误，请稍后再试");
+        return false;
+    }
+}
+
+// 选择取件日期
+function selectDate(selD, init){
+    if(selD.length != 1){
+        return;
+    }
+    if(init != 'init'){
+        $tkSoonRedio.prop('checked', false);
+        TimePluginVar.tkSoon = 0;
+        TimePluginVar.qjTime = '';
+    }
+    TimePluginVar.qjDate = selD.attr('serv_date');  // 修改取件日期
+    $tkSoonWrap.removeClass('anyBorder');
+    $timeLi.removeClass('select_hour');
+    $timeLi.removeClass('e_canBook');
+    var index = selD.index();
+    {if $is_from_eservice}
+      selD.addClass('e_color').siblings().removeClass('e_color');
+    {else}
+      selD.addClass('date_checked').siblings().removeClass('date_checked');
+    {/if}  
+    selD.addClass('tab-current').siblings().removeClass('tab-current');
+    $timeUl.eq(index).show().siblings().hide();
+    var index = selD.index();
+    var selDWidth = selD.width(); // 选中的日期节点的宽度
+    $dateUl.scrollLeft(selDWidth * (index - 1)); // 设置选中日期节点显示位置
+    if(13 != TimePluginVar.cateId){
+        isShowTakeSoon();
+    }
+}
+
+// 选择取件时段
+function selectTime(selT, init){
+	if(selT.length != 1){
+		return;
+	}
+    if(!selT.attr('selectable') || selT.hasClass('select_hour')){
+        return;
+    }
+    if(init != 'init'){
+        $tkSoonRedio.prop('checked', false);
+        TimePluginVar.tkSoon = 0;
+    }
+    TimePluginVar.qjTime = selT.attr('serv_time'); // 修改取件时段
+    
+    if(init != 'init'){
+        {if $is_from_eservice}
+	        selT.addClass('e_canBook').siblings().removeClass('e_canBook');
+	    {else}
+	        selT.addClass('select_hour').siblings().removeClass('select_hour');
+	    {/if}
+    }
+    if(13 != TimePluginVar.cateId){
+   	  if(isShowTakeSoon(selT)){
+   	    // 选择随时可取
+   	    $tkSoonRedio.prop('checked', TimePluginVar.tkSoon ? true : false);
+   		TimePluginVar.tkSoon ? $tkSoonWrap.addClass('anyBorder') : $tkSoonWrap.removeClass('anyBorder');
+      }
+    }
+}
+
+// 是否显示随时可取
+function isShowTakeSoon(){
+    // 后端判断是否显示“随时可取”
+    var quick_take = + $timeLi.filter('.select_hour').attr('quick_take');
+    if(quick_take){
+        $tkSoonWrap.show();
+        $('#kongbai').hide();
+        return true;
+    }else{
+    	$tkSoonRedio.prop('checked', false);
+        $tkSoonWrap.removeClass('anyBorder');
+        $tkSoonWrap.hide();
+        $('#kongbai').show();
+        return false;
+    }
+}
+
+// 取消并关闭时间控件
+function cancelPlugin() {
+    $tkSoonRedio.prop('checked', false);
+    $tkSoonWrap.removeClass('anyBorder');
+    $timePluginInner.animate({bottom:"-500"}, 400);
+    $wxMask.hide();
+}
+
+// 确认确认提交日期时段
+function submitPlugin(){
+	if($timeLi.filter('.select_hour').length < 1){
+		TimePluginVar.qjTime = '';
+		return false;
+	}
+	if(!TimePluginVar.qjDate || !TimePluginVar.qjTime){
+		return false;
+	}
+    if(13 != TimePluginVar.cateId){
+        if($tkSoonRedio.prop('checked')){
+            TimePluginVar.tkSoon = 1;  // 修改立即可取
+            $tkSoonWrap.addClass('anyBorder');  
+        }else{
+        	TimePluginVar.tkSoon = 0;  // 修改立即可取
+            $tkSoonWrap.removeClass('anyBorder');
+        }
+    }
+    // 关闭时间插件
+    cancelPlugin();
+    if(OriginalVar._qjDate == TimePluginVar.qjDate && OriginalVar._qjTime == TimePluginVar.qjTime && OriginalVar._tkSoon == TimePluginVar.tkSoon){
+    	return false;
+    }
+    // 异步执行订单取件时间修改
+    updateQjTime(TimePluginVar);
+}
+
+// 异步执行订单取件时间修改
+function updateQjTime(){
+	// 终止之前的未结束的ajax请求
+    if(jqueryXhr){
+        jqueryXhr.abort(); 
+    }
+    $.ajax({
+        url: "{$ajax_update_qjtime_url}",
+        type: "POST",
+        timeout: 10000,
+        data: {
+        	order : TimePluginVar.orderId,
+        	date : TimePluginVar.qjDate,
+        	time : TimePluginVar.qjTime,
+        	soon : TimePluginVar.tkSoon
+        },
+        dataType: "json",
+        complete: function (xhr){
+            jqueryXhr = null;
+        },
+        success: function (res) {
+            if(1 == res.message.state){
+            	/*
+            	TimePluginVar.mCount = XXX;
+            	TimePluginVar.mReason = XXX;
+            	// 更新时间
+            	$timeText = $('#qj-time-' + TimePluginVar.orderId);
+            	$timeText.html(TimePluginVar.qjDate + ' ' + TimePluginVar.qjTime);
+            	// 更新备注
+                if(TimePluginVar.tkSoon != OriginalVar._tkSoon){
+                	var $remarkWrap = $('#remark-wrap-' + TimePluginVar.orderId);
+                	var $remark = $('#remark-' + TimePluginVar.orderId);
+                	var oldRemark = $remark.html() || '';
+                	if(OriginalVar._tkSoon){
+                		if(! TimePluginVar.tkSoon){
+                			var newRemark = oldRemark.replace(/立即取件/, '');
+                        }
+                	}else{
+                	    if(TimePluginVar.tkSoon){
+                	    	var newRemark = '立即取件 ' + oldRemark;
+                        }
+                	}
+                    $remark.html(newRemark);
+                	$.trim(newRemark).length ? $remarkWrap.show() : $remarkWrap.hide();
+                }
+                if(TimePluginVar.mCount <= 0){
+                	$('#modify-' + TimePluginVar.orderId).remove();
+                }
+                */
+                
+                showTips("修改成功");
+                setTimeout(function(){
+                	window.location.reload();
+                }, 1900);
+            }else{
+                showTips(res.message.msg);
+            }
+        },
+        error:function (xhr){      
+            showTips("网络错误页,修改失败");
+        }
+    });
+    return false;
+}
+
+// 随时可取边框
+function toggleTkSoon() {
+    $tkSoonRedio.prop('checked', !$tkSoonRedio.prop('checked'));
+    $tkSoonRedio.prop('checked') ? $tkSoonWrap.addClass('anyBorder') : $tkSoonWrap.removeClass('anyBorder');
+}
+
+// 操作提示蒙板
+function showTips(msg){
+   $tipsContent.html(msg);
+   $tipsMask.show().delay(2000).hide(0);
+   return;
+}
+</script>

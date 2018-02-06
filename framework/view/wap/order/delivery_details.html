@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>e袋洗</title>
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/myOrder.css')}" rel="stylesheet" type="text/css" />
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body>
+  <div class="myOrder_list order-detail-con">
+    <p class="m15"></p>
+    <ul>
+      <li class="order_item">
+          <div class="item_list_box p15">
+            <div class="item_list_box">订单编号：{$order['order_sn']}</div>
+            <div class="item_list_box">订单状态：<b style="color:#00dbf5;font-weight:normal">{$order['order_status_text']}</b></div>
+            {if $order['category_id'] == 1} <!-- 洗衣 -->
+              <!--
+              <img src="{php echo assets_link('/framework/style/images/yifu_back.png')}" class="back_info">
+              <p class="jiafang_back">部分家纺7天送回</p>
+              -->
+            {elseif $order['category_id'] == 2} <!-- 洗鞋 -->
+              <!--
+              <img src="{php echo assets_link('/framework/style/images/xixie_back.png')}" class="back_info">
+              -->
+            {elseif $order['category_id'] == 3} <!-- 窗帘 -->
+              <!--
+              <img src="{php echo assets_link('/framework/style/images/chuanglian_back.png')}" class="back_info">
+              -->
+			      {elseif $order['category_id'] == 4} <!-- 高端衣物 -->
+              <!--
+              <img src="{php echo assets_link('/framework/style/images/gaoduan_back.png')}" class="back_info">
+              -->
+			      {elseif $order['category_id'] == 5} <!-- 奢侈品 -->
+              <!--
+              <img src="{php echo assets_link('/framework/style/images/shechi_back.png')}" class="back_info">
+              -->
+            {else} <!-- 默认洗衣送回图标 -->
+              <!-- <img src="{php echo assets_link('/framework/style/images/yifu_back.png')}" class="back_info"> -->
+            {/if}
+          </div>
+        </li>
+	   
+	    <div class="item_list_box p15" style="padding-top:0">物流信息</div>
+	    <li class="order_item">
+	        <div class="myOrder_list order-detail-con">  
+	          <div class="order-logictics">
+	            <span class="high-dottle"></span>
+	            {loop $delivery_list $key $delivery}
+	              <div  {if $key == 0}style="padding-top:16px;"{/if}>
+	                <span></span>
+                      {if $key == 0}<div class="split-position"></div>{/if}
+		         <div class="con-text" {if $key == 0}style="margin-top:0px;"{/if}>
+                             <div class="split-position2"></div>
+		                <em {if $key == 0}style="font-size:14px;color:#00dbf5;"{/if}>{$delivery['text']}</em>
+		                <p class="date_d" {if $key == 0}style="color:#00dbf5;"{/if}>{$delivery['time']}</p>
+                    	   <div class="borderD"></div>
+	               </div>
+                   
+	              </div>
+	            {/loop}
+	          </div>
+	        </div>
+          <div class="borderD"></div>
+	     </li>
+     </ul>
+   </div>
+  <?php include template('foot') ?>
+</body>
+</html>

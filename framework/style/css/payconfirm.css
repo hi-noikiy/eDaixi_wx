@@ -1,0 +1,144 @@
+@charset "utf-8";
+html{min-height:100%; font-size: 14px;}
+
+body{font:14px/1.4 arial;color:#1a1a1a;-webkit-text-size-adjust:none;font-family:"Helvetica Neue","Microsoft Yahei","Hiragino Sans GB","Microsoft Sans Serif","WenQuanYi Micro Hei","sans-serif","Varela Round", "sans-serif" !important;background:#f0f0f0; }
+
+/*确认支付整体*/
+.pay_confirm {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 18%;
+    margin: 0 auto;
+    max-width: 56rem;
+    z-index: 2222222;
+}
+
+/*background*/
+.pay_mask {
+    background-color: rgba(0, 0, 0, 0.7);
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 11111;
+}
+
+.pay_confirm_inner {
+    background-color: #fff;
+    padding: 0%;
+    margin: auto;
+    color: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    width: 70%
+}
+
+.pay_confirm_hd {
+    position: relative;
+    text-align: center;
+    border: 0;
+}
+
+.pay_confirm_tit {
+  line-height: 50px;
+  color: #ffffff;
+  font-size:18px;
+  text-align:center;
+  background-color: #00DBF5;
+}
+.pay_confirm_bd {
+    padding-top: 15px;
+    color: #000000;
+    font-size: 14px;
+    text-align: justify;
+    padding-top:1px;
+}
+
+/*.pay_confirm_btn .okbtn {
+    height: 40px;
+    text-align: center;
+    width: 50%;
+    border: 1px solid #dbdbdb;
+    display: inline-block
+    color: #00DBF5;
+    font-size:17px;
+    padding-top:0px;
+    padding-bottom:2px;
+    padding-right:2px;
+}*/
+
+p{
+    padding: 0px 14px 5px 0;
+}
+.p2{
+    padding-top: 0px;
+}
+
+.pay_confirm_btn {
+    text-align: center;
+    position:relative;
+    line-height: 50px;
+}
+
+.pay_confirm_btn .canclebtn {
+    width: 45%;
+    margin: 11px px;
+    border-radius: 6px;
+    border: 1px;
+    color: #00DBF5;
+    font-size: 17px;
+    text-align: center;
+    padding-left:2px;
+    display: inline-block;
+    line-height: 48px;
+}
+
+.pay_confirm_btn .okbtn {
+    width: 50%;
+    margin: 0px;
+    border-radius: 6px;
+    border: 1px;
+    color: #00DBF5;
+    font-size:17px;
+    padding-top: 0;
+    padding-bottom:2px;
+    display: inline-block;
+    line-height: 40px;
+}
+
+.border-top{
+    border-top: 1px solid #dbdbdb;
+    position:absolute; 
+    width: 100%;
+}
+
+.border-left{
+    border-left: 1px solid #dbdbdb;
+    position:absolute; 
+    left:50%;
+    height: 100%;
+}
+
+/* 洗衣液售卖 */
+.warn-info {
+    background: #FFBA25;
+    color: #ffffff;
+    font-size: 13px;
+    height: 26px;
+    line-height: 26px;
+    width: 302px;
+    text-align: center;
+    border-radius: 10px;
+    position: fixed;
+    bottom: 80px;
+    left: 50%;
+    margin-left: -151px;
+}
+.warn-info img {
+    width: 13px;
+    position: absolute;
+    left: 155px;
+    top: 25px;
+}

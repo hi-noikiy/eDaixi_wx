@@ -1,0 +1,345 @@
+<div id="time_controler_outer" class="timeControl {$skin}" style="height:0px;">
+    <div class="wx_mask" id="wx_mask" style="display:none;"></div>
+      <div class="{if $_SESSION['user_info']['user_type'] == 18 || get_mark() == 'eservice'}wx_timeControl e_background {else} wx_timeControl{/if}" id="time_controler_inner">
+        <div class="time_title">
+	        <span class="time_cancel" onclick="closeControl()">取消</span>
+	        <span class="{if $_SESSION['user_info']['user_type'] == 18 || get_mark() == 'eservice'} time_finish e_color {else}time_finish {/if}" onclick="finishControl()">完成</span>
+        </div>
+        <ul class="time_date">
+            {loop $service_date $key $date_val}
+                <li class="detail_date tab-current" id="date_li_{$key}" serv_date="{$key}" date_text="{$date_val['date_text']}" 
+                {if $date_val['selectable'] == 1}selectable='selectable'{/if}>
+	               <p>{$date_val['weekday']}</p>
+	               <p>{$date_val['date_str']}</p>
+                </li>
+            {/loop}
+            <!-- <li class="bluebar"></li> -->
+            <div class="borderD"></div>
+        </ul>
+        
+        <div class="time_change">
+            <!-- 随时可取 start -->
+            <div id="take_soon_wrap" class="anytime_kequ">    
+             <div class="kequ">
+                <input id="tmp_soon" type="checkbox" value="1" >
+                <label for="tmp_soon"><b></b></label>    
+              </div>
+              <label for="tmp_soon" class="take_word">下单后立即上门取件</label>
+            </div>
+            <!-- 随时可取 end -->
+            
+            {loop $service_time_bucket $date_key $time_arr}
+            <ul class="time_hour" id="time_ul_{$date_key}" style="display:none;">
+              {loop $time_arr $time_key $time_val}
+              <li class="detail_hour {if !$time_val['selectable']}baodan{/if} {if $time_val['quick_text']}soon_take{/if}" id="time_li_{$date_key}_{$time_key} " serv_time="{$time_key}" quick_take="{$time_val['quick_take']}" time_range="{$time_val['time_range']}"  
+              time_text="{$time_val['time_str']}" back_text="{$time_val['back_text']}" {if $time_val['selectable'] == 1}selectable='selectable'{/if} 
+              {if $time_val['quick_text']}{/if}>
+                  {if $time_val['quick_text']}
+                    <p>{$time_val['quick_text']}</p>
+                  {/if}
+                  <p {if $time_val['quick_text']}style="color:#c6c6c6;font-size:.7em;"{/if}>{$time_val['time_str']}</p>
+                  
+                  {if !$time_val['is_available']}
+		              <span>
+		                <img src="{php echo assets_link('/framework/style/images/yuemanbg.png')}">
+		                <small class="yueman">约满</small>
+		              </span>
+	              {/if}
+              </li>
+              {/loop}
+            </ul>
+            {/loop}
+            
+        </div>
+        {if $category_id != '13'}
+          <div class="kongbai" id="kongbai"></div>
+        {/if}
+      </div>
+</div>
+<script type="text/javascript">
+var 
+  service_time_usable = {$service_time_usable},
+  $timeControlerOuter = $("#time_controler_outer"),
+  $timeControlerInner = $("#time_controler_inner"),
+  $wxMask = $("#wx_mask"),
+  
+  $dateUl = $('ul.time_date'),
+  $dateLi = $('ul.time_date li'),
+  $timeUl = $('ul.time_hour'),
+  $timeLi = $('li.detail_hour'),
+  $takeSoonIcon = $('#take_soon_icon');
+  
+  $tmpDate = $('#tmp_date'),
+  $tmpTime = $('#tmp_time'),
+  $tmpRange = $('#tmp_range'),
+  $tmpSoon = $('#tmp_soon'),
+  $tmpBack = $('#tmp_back'),
+
+  $dateText = $('#date_text'),
+  $timeText = $('#time_text'),
+
+  $dateInput = $('#washing_date'),
+  $timeInput = $('#washing_time'),
+  $timeRange = $('#time_range'),
+  $soonInput = $('#take_soon'),
+  $takeSoonWrap = $('#take_soon_wrap');
+    
+$(function(){
+	// 选择服务日期
+	$dateLi.on('click', function(){
+		selectDate($(this));
+	});
+	// 选择服务时段
+	$timeLi.on('click', function(){
+		selectTime($(this));
+    });
+	// 选中/取消 "随时可取"
+    $takeSoonWrap.on('click',function(){
+        takeSoonToggle();
+    });
+});
+
+// 初始化服务日期时段
+function initDateTime(){
+	var flag = false;
+	var date_sel = $dateInput.val();
+    var time_sel = $timeInput.val();
+    if(date_sel){
+        var $dateLiSel = $dateLi.filter('#date_li_' + date_sel);
+        if($dateLiSel.length != 1){
+        	$dateLiSel = $dateLi.eq(0);
+        }
+        if($dateLiSel.length == 1){
+            $dateLiSel.trigger('click');
+            if(time_sel){
+                var $timeLiSel = $(document.getElementById('time_li_' + date_sel + '_' + time_sel));
+                if($timeLiSel.length == 1){
+                    $timeLiSel.trigger('click');
+                    $tmpSoon.prop('checked') ? $takeSoonWrap.addClass('anyBorder') : $takeSoonWrap.removeClass('anyBorder');
+                }
+            }
+            return true;
+        }else{
+        	showTip('预约时间有误，请稍后再试');
+        	return false;
+        }
+    }
+}
+
+// 打开时间控件
+function showServiceTime() {
+	if(!service_time_usable){
+		showTip('预约时间有误，请稍后再试');
+		return;
+	}
+    if(13 == category_id){
+        // 酒店地址
+    	if(! hotel_id){
+    		showTip('请先选择酒店');
+    		return;
+    	}
+    }else{
+        // 个人地址
+        if(! address_id){
+        	showTip('请先添加地址');
+        	return;
+        }
+    }
+	if(initDateTime()){
+	    $wxMask.show();
+	    $timeControlerInner.animate({bottom:"0"}, 400);
+	    $timeControlerOuter.slideDown();
+	}
+}
+
+// 取消并关闭时间控件
+function closeControl() {
+	$tmpDate.val('');
+	$tmpTime.val('');
+  $tmpRange.val('');
+	$tmpSoon.prop('checked', false);
+	$takeSoonWrap.removeClass('anyBorder');
+	$tmpBack.val('');
+	$dateText.val('');
+	$timeText.val('');
+    $timeControlerInner.animate({bottom:"-1500"}, 400);
+    $wxMask.hide();
+}
+
+// 确认选中服务日期时段
+function finishControl(){
+    var date_text = $dateText.val();
+    var time_text = $timeText.val();
+    if(!date_text || !time_text){
+        return;
+    }
+    $dateInput.val($tmpDate.val());
+    $timeInput.val($tmpTime.val());
+    $timeRange.val($tmpRange.val());
+    fillDateTimeText(date_text, time_text);
+    if(category_id == 13){
+        var back_text = $tmpBack.val();
+        fillBackTime(back_text);    
+    }else{
+        if($tmpSoon.prop('checked')){
+            $soonInput.val(1);
+            $takeSoonWrap.addClass('anyBorder')  
+            $takeSoonIcon.css({'display':'block'});
+        }else{
+            $soonInput.val('');
+            $takeSoonWrap.removeClass('anyBorder');
+            $takeSoonIcon.css({'display':'none'});
+        }
+    }
+    closeControl();
+    if(category_id == 13){
+    	setHotelOrderBtn();
+    }else{
+    	setOrderBtn();
+    }
+}
+
+// 选择服务日期
+function selectDate(selD){
+    if(selD.length != 1){
+        return;
+    }
+    $tmpDate.val(selD.attr('serv_date'));
+    $dateText.val(selD.attr('date_text'));
+    $tmpTime.val('');
+    $tmpRange.val('');
+    $tmpSoon.prop('checked', false);
+    $takeSoonWrap.removeClass('anyBorder');
+    $timeText.val('');
+    $timeLi.removeClass('select_hour');
+    $timeLi.removeClass('e_canBook');
+    var index = selD.index();
+     {if $_SESSION['user_info']['user_type'] == 18 || get_mark() == 'eservice'}
+         selD.addClass('e_color').siblings().removeClass('e_color');
+     {else}
+         selD.addClass('date_checked').siblings().removeClass('date_checked');
+     {/if}  
+   
+    selD.addClass('tab-current').siblings().removeClass('tab-current');
+    $timeUl.eq(index).show().siblings().hide();
+    var index = selD.index();
+    var selDWidth = selD.width(); //选中日期节点宽度
+    $dateUl.scrollLeft(selDWidth * (index - 1)); //设置选中日期显示位置
+    if(category_id != 13){
+         isShowTakeSoon();
+    }
+}
+
+// 选择服务时段
+function selectTime(selT){
+	if(selT.length != 1){
+		return;
+	}
+    if(!selT.attr('selectable') || selT.hasClass('select_hour')){
+        return;
+    }
+    $tmpSoon.prop('checked', false);
+    $tmpTime.val(selT.attr('serv_time'));
+    $tmpRange.val(selT.attr('time_range'));
+    $timeText.val(selT.attr('time_text'));
+    {if $_SESSION['user_info']['user_type'] == 18 || get_mark() == 'eservice'}
+        selT.addClass('e_canBook').siblings().removeClass('e_canBook');
+    {else}
+        selT.addClass('select_hour').siblings().removeClass('select_hour');
+    {/if}
+    
+    if(category_id == 13){
+        setBackTime(selT);
+    }else{
+   	  if(isShowTakeSoon(selT)){
+   		  selectSoon();
+      }
+    }
+}
+
+// 填充服务日期时段
+function fillDateTimeText(date_text, time_text){
+	if(!date_text || !time_text){
+		$('#select_datetime').html('请选择取件时间').css({'color':'#c1c1c1'});
+	}else{
+		$('#select_datetime').html(date_text + ' ' + time_text).css({'color':'#3e3e3e'});
+	}
+}
+
+// 是否显示随时可取
+function isShowTakeSoon(){
+	/*
+    var date_value = $tmpDate.val();
+    var time_value = $tmpTime.val();
+    // 前端判断是否显示“随时可取”
+    var first_date =  $dateLi.filter('[selectable]').eq(0).attr('serv_date');
+    var first_time = $timeUl.filter('#time_ul_' + first_date).find('li[selectable]').attr('serv_time');
+    var quick_take = (date_value == first_date && time_value == first_time);
+    */
+    // 后端判断是否显示“随时可取”
+    var quick_take = + $timeLi.filter('.select_hour').attr('quick_take');
+    if(quick_take){
+        $takeSoonWrap.show();
+        $('#kongbai').hide();
+        return true;
+    }else{
+    	$tmpSoon.prop('checked', false);
+        $takeSoonWrap.removeClass('anyBorder');
+        $takeSoonWrap.hide();
+        $('#kongbai').show();
+        return false;
+    }
+}
+    
+// 选择随时可取
+function selectSoon(){
+    var soon_sel = $soonInput.val();
+    $tmpSoon.prop('checked', soon_sel ? true : false);
+    $tmpSoon.prop('checked') ? $takeSoonWrap.addClass('anyBorder')  
+               :  $takeSoonWrap.removeClass('anyBorder');
+    $takeSoonIcon.css({'display': soon_sel ? 'block' : 'none'});
+}
+
+// 设置快洗送回时间
+function setBackTime(selT){
+	var back_text = selT.attr('back_text');
+	if(back_text){
+		$tmpBack.val(back_text);
+	}
+}
+
+// 填充服务日期时段
+function fillBackTime(back_text){
+    if(back_text){
+        $('#back_time_tip').html(back_text);
+    }else{
+    	$('#back_time_tip').html('');
+    }
+}
+
+// 提交按钮状态
+function setOrderBtn(){
+    var date_value = $dateInput.val();
+    var time_value = $timeInput.val();
+    if(date_value && time_value && address_id){
+        {if $_SESSION['user_info']['user_type'] == 18 || get_mark() == 'eservice'}
+         $('#order-btn').prop("disabled", false).removeClass("e_noBook").addClass("e_canBook");
+        {else}
+          $('#order-btn').prop("disabled", false).removeClass("noBook").addClass("canBook");
+        {/if}
+    }else{
+      {if $_SESSION['user_info']['user_type'] == 18 || get_mark() == 'eservice'}
+        $('#order-btn').prop("disabled", true).removeClass("e_canBook").addClass("e_noBook");
+        {else}
+         $('#order-btn').prop("disabled", true).removeClass("canBook").addClass("noBook");
+        {/if}
+    }
+}
+ 
+// 随时可取边框
+function takeSoonToggle() {
+  $tmpSoon.prop('checked', !$tmpSoon.prop('checked'));
+  $tmpSoon.prop('checked') ? $takeSoonWrap.addClass('anyBorder')  
+   :  $takeSoonWrap.removeClass('anyBorder');
+ }
+</script>

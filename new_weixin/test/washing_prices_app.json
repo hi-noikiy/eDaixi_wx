@@ -1,0 +1,1168 @@
+{
+    "ret": true,
+    "ts": 1469172272,
+    "version": "5.0",
+    "data": [
+        {
+            "banners": [
+                {
+                    "banner_id": 370,
+                    "url": "https://www.baidu.com/?city_id=1",
+                    "url_type": "web",
+                    "title": "浠风洰椤�",
+                    "image_url": "http://ops07.edaixi.cn:81//images/banners/370/original/%E4%BB%B7%E7%9B%AE%E9%A1%B5_02.png?1467873123",
+                    "inner_url": "",
+                    "inner_type": "none",
+                    "inner_title": "",
+                    "description": ""
+                }
+            ],
+            "category_id": 1010,
+            "category_name": "娲楄。",
+            "types": [
+                {
+                    "type_id": 1,
+                    "type_name": "涓婅。",
+                    "descriptions": [],
+                    "index_image": null,
+                    "detail_image": [],
+                    "clothes": [
+                        {
+                            "id": 12962,
+                            "clothes_name": "T鎭�",
+                            "price": "0.01",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1468592069757",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 12572,
+                            "clothes_name": "琛～",
+                            "price": "12.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1468592136292",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9896,
+                            "clothes_name": "瑗挎湇涓婅。",
+                            "price": "25.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467712292593",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9898,
+                            "clothes_name": "杩愬姩锛堜紤闂诧級涓婅。",
+                            "price": "29.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467712316133",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9895,
+                            "clothes_name": "鐪熶笣涓婅。",
+                            "price": "39.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711361075",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9887,
+                            "clothes_name": "鑳屽績",
+                            "price": "12.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467708199942",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9888,
+                            "clothes_name": "姣涜儗蹇�(椹敳)",
+                            "price": "25.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467708719053",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 12601,
+                            "clothes_name": "姣涜。",
+                            "price": "29.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1468592161620",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9889,
+                            "clothes_name": "妫�/缇界粧鑳屽績(椹敳)",
+                            "price": "29.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467708884398",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9893,
+                            "clothes_name": "鍞愯",
+                            "price": "45.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711140701",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9938,
+                            "clothes_name": "绉嬭。",
+                            "price": "12.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711055096",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9944,
+                            "clothes_name": "鍗曠潯琛�",
+                            "price": "29.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467708376410",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9890,
+                            "clothes_name": "妫夌潯琛�",
+                            "price": "29.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467708827176",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9892,
+                            "clothes_name": "鐫¤",
+                            "price": "39.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711113926",
+                            "suit_clothes": [],
+                            "comments": []
+                        }
+                    ],
+                    "suit": []
+                },
+                {
+                    "type_id": 2,
+                    "type_name": "澶ц。澶栧",
+                    "descriptions": [],
+                    "index_image": "",
+                    "detail_image": [],
+                    "clothes": [
+                        {
+                            "id": 9900,
+                            "clothes_name": "妫夋湇",
+                            "price": "19.0",
+                            "is_discount": true,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467708773458",
+                            "suit_clothes": [],
+                            "comments": [],
+                            "discount_info": {
+                                "original_price": "39.0",
+                                "deadline": "2016-07-31",
+                                "created_at": 1467863827
+                            }
+                        },
+                        {
+                            "id": 9902,
+                            "clothes_name": "缇界粧鏈�",
+                            "price": "19.0",
+                            "is_discount": true,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711256900",
+                            "suit_clothes": [],
+                            "comments": [],
+                            "discount_info": {
+                                "original_price": "39.0",
+                                "deadline": "2016-07-31",
+                                "created_at": 1467798817
+                            }
+                        },
+                        {
+                            "id": 9903,
+                            "clothes_name": "缇婃瘺锛忕粧澶栧",
+                            "price": "45.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711168016",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9897,
+                            "clothes_name": "椋庤。",
+                            "price": "39.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467708573786",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9901,
+                            "clothes_name": "澶瑰厠",
+                            "price": "39.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467708623606",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9899,
+                            "clothes_name": "鍐查攱琛ｏ紙鏃犲唴鑳嗭級",
+                            "price": "29.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467708349583",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9904,
+                            "clothes_name": "鍐查攱琛�(鍚唴鑳�)",
+                            "price": "39.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467708300764",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9905,
+                            "clothes_name": "pu绫讳笂琛�",
+                            "price": "39.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467707788461",
+                            "suit_clothes": [],
+                            "comments": []
+                        }
+                    ],
+                    "suit": []
+                },
+                {
+                    "type_id": 3,
+                    "type_name": "瑁よ瑁欒",
+                    "descriptions": [],
+                    "index_image": "",
+                    "detail_image": [],
+                    "clothes": [
+                        {
+                            "id": 9907,
+                            "clothes_name": "鍗婅韩瑁欙紙闈炴瘺鍛級",
+                            "price": "12.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711735310",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9908,
+                            "clothes_name": "杩炶。瑁�",
+                            "price": "29.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711885048",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9939,
+                            "clothes_name": "鍗婅韩瑁�(姣涘憿)",
+                            "price": "25.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711758126",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9909,
+                            "clothes_name": "涓濈紟鏃楄",
+                            "price": "45.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711956517",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9906,
+                            "clothes_name": "鐭￥",
+                            "price": "12.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711783861",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9941,
+                            "clothes_name": "瑗胯￥",
+                            "price": "12.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467712040877",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9942,
+                            "clothes_name": "浼戦棽瑁�",
+                            "price": "12.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467712066205",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9943,
+                            "clothes_name": "鐗涗粩瑁�",
+                            "price": "12.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711916557",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9915,
+                            "clothes_name": "鐪熶笣瑁�",
+                            "price": "39.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467712196122",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9910,
+                            "clothes_name": "杩炰綋瑁�",
+                            "price": "29.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711803024",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9913,
+                            "clothes_name": "缇婃瘺瑁�",
+                            "price": "29.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467712101090",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9914,
+                            "clothes_name": "缇界粧瑁�",
+                            "price": "29.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467712125926",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9912,
+                            "clothes_name": "PU绫昏￥瀛�",
+                            "price": "29.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711710087",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9911,
+                            "clothes_name": "绉嬭￥",
+                            "price": "12.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711938942",
+                            "suit_clothes": [],
+                            "comments": []
+                        }
+                    ],
+                    "suit": []
+                },
+                {
+                    "type_id": 4,
+                    "type_name": "閰嶄欢",
+                    "descriptions": [],
+                    "index_image": "",
+                    "detail_image": [],
+                    "clothes": [
+                        {
+                            "id": 9916,
+                            "clothes_name": "棰嗗甫",
+                            "price": "12.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711459340",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9917,
+                            "clothes_name": "甯藉瓙",
+                            "price": "12.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711538730",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9918,
+                            "clothes_name": "鍥村肪",
+                            "price": "25.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711602658",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9919,
+                            "clothes_name": "涓濆肪",
+                            "price": "25.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711578183",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9920,
+                            "clothes_name": "鎶偐",
+                            "price": "25.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711557091",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9921,
+                            "clothes_name": "姣涢",
+                            "price": "29.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467711515916",
+                            "suit_clothes": [],
+                            "comments": []
+                        }
+                    ],
+                    "suit": []
+                },
+                {
+                    "type_id": 40,
+                    "type_name": "鐖嗗搧",
+                    "descriptions": [],
+                    "index_image": "",
+                    "detail_image": [],
+                    "clothes": [
+                        {
+                            "id": 12492,
+                            "clothes_name": "鍥藉畨鐞冭。",
+                            "price": "12.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1468487535001",
+                            "suit_clothes": [],
+                            "comments": []
+                        }
+                    ],
+                    "suit": [
+                        {
+                            "id": 12810,
+                            "clothes_name": "琛～5浠舵礂",
+                            "price": "54.0",
+                            "is_discount": false,
+                            "is_suit": true,
+                            "unit": "濂�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1468593995451",
+                            "suit_clothes": [
+                                {
+                                    "id": 12572,
+                                    "title": "琛～",
+                                    "price": "12.0",
+                                    "count": 5,
+                                    "unit": "浠�",
+                                    "comments": []
+                                }
+                            ],
+                            "comments": [
+                                "姝ゅ瑁呬笉鏀寔浼樻儬鍒�"
+                            ],
+                            "original_price": 60
+                        }
+                    ]
+                }
+            ],
+            "tips": [
+                "缇界粧鏈嶃€佹鏈嶇瓑鍘氶噸琛ｇ墿棰勮3-5澶╅€佸洖 鐨。銆佽琛ｉ璁�7-9澶╅€佸洖"
+            ],
+            "coupon_info": ""
+        },
+        {
+            "banners": [],
+            "category_id": 1020,
+            "category_name": "娲楅瀷",
+            "types": [
+                {
+                    "type_id": 7,
+                    "type_name": "娲楅瀷",
+                    "descriptions": [],
+                    "index_image": "",
+                    "detail_image": [],
+                    "clothes": [
+                        {
+                            "id": 6711,
+                            "clothes_name": "杩愬姩闉�",
+                            "price": "25.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "鍙�",
+                            "limit_time": 120,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467714032819",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 6712,
+                            "clothes_name": "甯嗗竷闉�",
+                            "price": "25.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "鍙�",
+                            "limit_time": 120,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467713790224",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 6717,
+                            "clothes_name": "鍏夐潰鐨瀷",
+                            "price": "29.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "鍙�",
+                            "limit_time": 120,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1468592812535",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 6716,
+                            "clothes_name": "閮ㄥ垎缁掗潰闉�",
+                            "price": "39.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "鍙�",
+                            "limit_time": 120,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467713701533",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 6714,
+                            "clothes_name": "妫夐澊(闉�)",
+                            "price": "39.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "鍙�",
+                            "limit_time": 148,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467713946991",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 6715,
+                            "clothes_name": "鐭闆湴闈�",
+                            "price": "49.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "鍙�",
+                            "limit_time": 148,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467713737991",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 6718,
+                            "clothes_name": "鐭澊",
+                            "price": "49.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "鍙�",
+                            "limit_time": 148,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1468592780694",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 6720,
+                            "clothes_name": "缁掗潰闉�(闈�)",
+                            "price": "49.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "鍙�",
+                            "limit_time": 148,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467713970829",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 6724,
+                            "clothes_name": "涓瓛闈�",
+                            "price": "49.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "鍙�",
+                            "limit_time": 148,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467714169962",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 6721,
+                            "clothes_name": "闀挎闆湴闈�",
+                            "price": "49.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "鍙�",
+                            "limit_time": 148,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467714057504",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 6723,
+                            "clothes_name": "杩囪啙闈�",
+                            "price": "49.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "鍙�",
+                            "limit_time": 148,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467713906630",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 6719,
+                            "clothes_name": "鎷栭瀷",
+                            "price": "29.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "鍙�",
+                            "limit_time": 120,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467714014478",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 6722,
+                            "clothes_name": "鍑夐瀷",
+                            "price": "29.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "鍙�",
+                            "limit_time": 120,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467713927368",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 6713,
+                            "clothes_name": "浼犵粺甯冮瀷",
+                            "price": "25.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "鍙�",
+                            "limit_time": 120,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467713721399",
+                            "suit_clothes": [],
+                            "comments": []
+                        }
+                    ],
+                    "suit": []
+                }
+            ],
+            "tips": [
+                "涓撲笟娲楅瀷鏈嶅姟锛�5-7澶╁唴閫佸洖"
+            ],
+            "coupon_info": ""
+        },
+        {
+            "banners": [
+                {
+                    "banner_id": 370,
+                    "url": "https://www.baidu.com/?city_id=1",
+                    "url_type": "web",
+                    "title": "浠风洰椤�",
+                    "image_url": "http://ops07.edaixi.cn:81//images/banners/370/original/%E4%BB%B7%E7%9B%AE%E9%A1%B5_02.png?1467873123",
+                    "inner_url": "",
+                    "inner_type": "none",
+                    "inner_title": "",
+                    "description": ""
+                }
+            ],
+            "category_id": 1011,
+            "category_name": "娲楀绾�",
+            "types": [
+                {
+                    "type_id": 5,
+                    "type_name": "瀹剁汉",
+                    "descriptions": [],
+                    "index_image": "",
+                    "detail_image": [],
+                    "clothes": [
+                        {
+                            "id": 9923,
+                            "clothes_name": "鏋曞",
+                            "price": "12.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467713236927",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9924,
+                            "clothes_name": "搴婂崟",
+                            "price": "12.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467712622490",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9927,
+                            "clothes_name": "闈犲灚",
+                            "price": "29.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1468600015754",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9929,
+                            "clothes_name": "娌欏彂濂�/浣�",
+                            "price": "39.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 168,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467713120356",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9930,
+                            "clothes_name": "姣涙",
+                            "price": "69.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 168,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467713052046",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9931,
+                            "clothes_name": "澶忓噳琚�",
+                            "price": "69.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 168,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467713193559",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9932,
+                            "clothes_name": "鏄ョ琚�",
+                            "price": "69.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 168,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467712647355",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9936,
+                            "clothes_name": "姹借溅鍧愬灚(妫夈€侀夯锛夛紡浣�",
+                            "price": "39.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 168,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467713076540",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9933,
+                            "clothes_name": "姹借溅鍧愬灚(姣涚毊銆佺毊闈�)锛忎綅",
+                            "price": "99.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 168,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467713101615",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9949,
+                            "clothes_name": "鑳屽寘/鏂滄寧鍖� (闈炵毊璐�)鏈€澶ц竟鈮�40cm",
+                            "price": "39.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1468599485396",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9950,
+                            "clothes_name": "鑳屽寘/鏂滄寧鍖�(闈炵毊璐�)鏈€澶ц竟>40cm",
+                            "price": "39.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1468599421821",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9922,
+                            "clothes_name": "姣涘肪",
+                            "price": "12.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467712687051",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9928,
+                            "clothes_name": "琚僵",
+                            "price": "29.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467712602893",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 9926,
+                            "clothes_name": "鎶辨灂",
+                            "price": "29.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467712504120",
+                            "suit_clothes": [],
+                            "comments": []
+                        },
+                        {
+                            "id": 12847,
+                            "clothes_name": "娴村肪",
+                            "price": "19.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467713216752",
+                            "suit_clothes": [],
+                            "comments": []
+                        }
+                    ],
+                    "suit": [
+                        {
+                            "id": 12384,
+                            "clothes_name": "瀹剁汉鍥涗欢濂�",
+                            "price": "65.0",
+                            "is_discount": false,
+                            "is_suit": true,
+                            "unit": "濂�",
+                            "limit_time": 78,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1468594021216",
+                            "suit_clothes": [
+                                {
+                                    "id": 9923,
+                                    "title": "鏋曞",
+                                    "price": "12.0",
+                                    "count": 2,
+                                    "unit": "浠�",
+                                    "comments": []
+                                },
+                                {
+                                    "id": 9924,
+                                    "title": "搴婂崟",
+                                    "price": "12.0",
+                                    "count": 1,
+                                    "unit": "浠�",
+                                    "comments": []
+                                },
+                                {
+                                    "id": 9928,
+                                    "title": "琚僵",
+                                    "price": "29.0",
+                                    "count": 1,
+                                    "unit": "浠�",
+                                    "comments": []
+                                }
+                            ],
+                            "comments": [],
+                            "original_price": 65
+                        }
+                    ]
+                }
+            ],
+            "tips": [
+                "缇界粧鏈嶃€佹鏈嶇瓑鍘氶噸琛ｇ墿棰勮3-5澶╅€佸洖 鐨。銆佽琛ｉ璁�7-9澶╅€佸洖"
+            ],
+            "coupon_info": ""
+        },
+        {
+            "banners": [],
+            "category_id": 1030,
+            "category_name": "绐楀笜",
+            "types": [
+                {
+                    "type_id": 75,
+                    "type_name": "灏忕獥甯�",
+                    "descriptions": [
+                        "0.33mx0.43m",
+                        "6~8",
+                        "9~12"
+                    ],
+                    "index_image": "",
+                    "detail_image": [],
+                    "clothes": [
+                        {
+                            "id": 11444,
+                            "clothes_name": "灏忚",
+                            "price": "158.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "浠�",
+                            "limit_time": 168,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467714377863",
+                            "suit_clothes": [],
+                            "comments": []
+                        }
+                    ],
+                    "suit": []
+                },
+                {
+                    "type_id": 76,
+                    "type_name": "澶х獥甯�",
+                    "descriptions": [
+                        "0.53mx0.63m",
+                        "20~23",
+                        "30~35"
+                    ],
+                    "index_image": "",
+                    "detail_image": [],
+                    "clothes": [
+                        {
+                            "id": 214,
+                            "clothes_name": "澶ц",
+                            "price": "299.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "琚�",
+                            "limit_time": 168,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467714244327",
+                            "suit_clothes": [],
+                            "comments": []
+                        }
+                    ],
+                    "suit": []
+                }
+            ],
+            "tips": [
+                "涓撲笟绐楀笜娲楁钉锛�5-7澶╁唴閫佸洖"
+            ],
+            "coupon_info": ""
+        },
+        {
+            "banners": [],
+            "category_id": 1070,
+            "category_name": "琚嬫礂",
+            "types": [
+                {
+                    "type_id": 19,
+                    "type_name": "琚嬫礂",
+                    "descriptions": [],
+                    "index_image": "",
+                    "detail_image": [],
+                    "clothes": [
+                        {
+                            "id": 11445,
+                            "clothes_name": "琚嬫礂",
+                            "price": "158.0",
+                            "is_discount": false,
+                            "is_suit": false,
+                            "unit": "琚�",
+                            "limit_time": 168,
+                            "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1467714496776",
+                            "suit_clothes": [],
+                            "comments": []
+                        }
+                    ],
+                    "suit": []
+                }
+            ],
+            "tips": [
+                "瑁呭灏戞礂澶氬皯锛岀粺涓€浠锋牸涓€琚嬫悶瀹�"
+            ],
+            "coupon_info": ""
+        }
+    ]
+}

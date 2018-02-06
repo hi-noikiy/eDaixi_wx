@@ -1,0 +1,117 @@
+<!--手机百度分享图标自定义、搜狗js动态引入-->
+<script type="text/javascript">
+  var userAgent = navigator.userAgent;
+  if(userAgent.indexOf("baiduboxapp") != -1){
+    customshare();
+  }
+  //手机百度分享图标自定义
+  function customshare(){
+    window.BoxShareData = {
+      successcallback: "onSuccess",
+      errorcallback: "onFail",
+      options: {
+        type: "url",
+        content: "洗衣就用e袋洗，幸福生活每一天",
+        iconUrl: "http://apps3.bdimg.com/store/static/kvt/afdedad50e7414a224f7e530698f4d02.png",
+        imageUrl: "http://apps3.bdimg.com/store/static/kvt/afdedad50e7414a224f7e530698f4d02.png",
+        linkUrl: location.href,
+        mediaType: "all",
+        title: "e袋洗"
+      }
+    }
+  }
+  //获取URL参数方法
+  function getQueryString(name) {
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); return null;
+  }
+  //搜狗js动态引入
+  if(getQueryString("mark")=="ae891810-4aef-11e5-ade6-f80f41fd4734") {
+    document.write("<script sogouid=\"054\" src=\"http://fuwu.wap.sogou.com/static/partner.js\"><\/script>");
+    <?php
+    	if(get_mark() == 'ae891810-4aef-11e5-ade6-f80f41fd4734'):
+    		echo "$('body').css({'margin-top': '40px'});";
+    	endif;
+    ?>
+  }
+</script>
+
+<?php if($_W['config']['statistics']['baidu']): ?>
+<!--百度统计-->
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  <?php if($user_type == 1): ?>
+     hm.src = "//hm.baidu.com/hm.js?6eb8d3e8f50829c93d53de9c63a9ebcd";
+  <?php else: ?>
+     hm.src = "//hm.baidu.com/hm.js?c69820aa19563b0688a6d8ea8d21f158";
+  <?php endif; ?>
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+<?php endif; ?>
+
+<?php if($_W['config']['statistics']['piwik']): ?>
+<!-- Piwik -->
+<script type="text/javascript">
+  var _paq = _paq || [];
+  _paq.push(['trackPageView']);
+  _paq.push(['enableLinkTracking']);
+  (function() {
+	<?php if(1 == $_W['config']['piwik']['setting']): ?>
+    var u = "//analysis.edaixi.com/";
+    <?php else: ?>
+    var u = "//analysis10.edaixi.cn/";
+    <?php endif;?>
+    var _u = "<?php echo assets_link('/framework/style/js/'); ?>";
+    _paq.push(['setTrackerUrl', u+'piwik.php']);
+    _paq.push(['setSiteId', 2]);
+    <?php
+        $userId = false;
+        if($_SESSION['user_info']["is_login"] && $_SESSION['user_info']["user_id"]){
+            $userId = $_SESSION['user_info']["user_id"]; 
+        }
+        if($userId){
+            echo sprintf("_paq.push(['setUserId', '%s']);", $userId);
+        }
+    ?>
+    var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+    g.type='text/javascript'; g.async=true; g.defer=true; g.src=_u+'piwik.js'; s.parentNode.insertBefore(g,s);
+  })();
+</script>
+<noscript>
+    <p><img src="//analysis.edaixi.com/piwik.php?idsite=2" style="border:0;" alt="" /></p>
+</noscript>
+<!-- End Piwik Code -->
+<?php endif; ?>
+<?php if($_SESSION['user_info']['user_type'] == '14'): ?>
+<!-- <script type="text/javascript" src="https://u.nuomi.com/skeleton.js?appId=10160"></script>
+<script type="text/javascript">
+function myJQueryCode() {
+  $("a").click(function(event){
+    event.preventDefault();
+    var site_domain = '<?php echo $_W['config']['site']['root'];?>';
+    var _href = $(this).attr('href');
+    if(_href.indexOf('http')>-1) {
+      _href = site_domain + _href;
+      NMJS.page.start(_href);
+    }
+  });
+}
+if(typeof jQuery=='undefined')
+{
+  var headTag = document.getElementsByTagName("head")[0];
+  var jqTag = document.createElement('script');
+  jqTag.type = 'text/javascript';
+  jqTag.src = '//cdn.bootcss.com/jquery/1.11.1/jquery.min.js';
+  jqTag.onload = myJQueryCode;
+  headTag.appendChild(jqTag);
+} else {
+     myJQueryCode();
+}
+
+</script> -->
+<?php endif; ?>

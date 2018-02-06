@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta content="email=no" name="format-detection">
+  <meta content="" name="pgv">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <title>扫码下单</title>
+  <link href="{php echo assets_link('/framework/style/css/order.css')}" rel="stylesheet" type="text/css" />
+  <link href="{php echo assets_link('/framework/style/css/myOrder.css')}" rel="stylesheet" type="text/css" />
+  <link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css" />
+  <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+  <script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+ </head>
+ <body> 
+   <div class="order_info">
+       <div class="order_item ">
+        <div class="item_list_box">
+         <div class="item_list_title">
+          <img src="{php echo assets_link('/framework/style/images/order_detail2.png')}">
+          订单信息
+          <span class="code_status status_color">已取件</span>
+         </div>
+        <div class="borderD" style="margin-top:4px;margin-left:14px"></div>
+       </div>
+       <div class="prelative item_list_con p5">
+        <div class="prelative">取件时间：{$qrcode_order['washing_date']} {$qrcode_order['washing_time']}</div>
+        <div class="prelative">服务项目：{$qrcode_order['category_desc']}
+        <span class="code_status">{$qrcode_order['amount_desc']}</span>
+        </div>
+       </div>
+       <div class="borderD2"></div>
+     </div>
+   </div>
+   
+   <div class="wrap_index">  
+        <div class="add_bg"></div>
+        <section id="form-section" class="kuaixi-info">
+         <ul class="hotel-info">
+           <li id="hotel-item">
+               <div id="locate-btn" class="addr_icon icon_position"></div>
+               <div class="info_input">
+                 <input placeholder="请选择您所在的酒店" type="text" id="hotel" value="{$hotel_name}" readonly="readonly" class="hotel_input" />
+               </div>
+           </li>
+           <div class="borderD"></div>
+           <li>
+             <div class="icon_position room_icon"></div>
+             <div class="info_input">
+                <input placeholder="房间号(必填)" id="room" name="room" type="text" form="hotel-form" value="{$room}" maxlength="30" class="room_input" />  
+             </div>
+           </li>
+           <div class="borderD"></div>
+           <li>
+              <div class="icon_position name_icon"></div>
+               <div class="info_input">
+                  <input placeholder="您的姓名" id="uname" name="uname" type="text" form="hotel-form" value="{$uname}" maxlength="30" class="name_input" />     
+              </div>
+           </li>
+           <div class="borderD"></div>
+           <li>
+              <div class="icon_position tel_icon"></div>
+              <div class="info_input">
+                  <input placeholder="手机号码" id="mobile" name="mobile" type='tel' form="hotel-form" value="{$mobile}" maxlength="11"  
+                 onkeyup="value=value.replace(/[^\d]/g,'')"
+                 onbeforepaste="clipboardData.setData('text',clipboardData.getData('text').replace(/[^\d]/g,''))"
+                 class="num_input" />
+                 <span id="mobile-clear" class="clearInput clearCommon clearPosition" {if !$mobile}style="display:none;"{/if} onclick="clearInput(this, 'mobile');"></span>
+             </div>
+           </li>
+         </ul> 
+         </section>
+         <div class="add_bg"></div>
+    </div>
+
+    <div class="bottom_pay">
+      <form id="hotel-form" action="{$qrcode_order_url}" method="POST">
+        <input type="hidden" name="qrid" id="qrid" value="{$qrid}" />
+        <input type="hidden" name="hotel_id" id="hotel_id" value="{$qrcode_order['hotel_id']}" />
+        <input type="hidden" name="washing_date" id="washing_date" value="{$qrcode_order['washing_date']}" />
+        <input type="hidden" name="washing_time" id="washing_time" value="{$qrcode_order['washing_time_pass']}" />
+        <input type="hidden" name="category_id" id="category_id" value="{$category_id}" />
+        <span class="bottom_font">订单总额: {$qrcode_order['price_desc']}</span>
+        <div class="go_pay">
+           <button type="button" id="order-btn" class="qr_order {$btn_style}" {$btn_status}> 去支付</button>
+        </div>
+      </form>
+    </div>
+    
+    <!-- 操作提示 start -->
+    <div id="tip-box" style="display:none" class="cod" style="height:60px">
+      <div class="wx_mask"></div>
+      <div class="wx_confirm ">
+          <div class="wx_confirm_inner" id="wx_confirm_float">
+             <div class="wx_confirm_hd">
+                <div class="wx_confirm_tit" id="show_mes"><!-- 提示信息 --></div>
+             </div>
+          </div>
+       </div>
+    </div>
+    <!-- 操作提示 end -->
+
+  <script type="text/javascript">
+     var 
+      qrid = "{$qrid}",
+      $formSection = $('#form-section'),
+      $hotelForm = $('#hotel-form'),
+      $locateBtn = $('#locate-btn'),
+      $hotelLi = $('#hotel-item'),
+      $hotelInput = $('#hotel'),
+      $hotelEdit = $('#edit'),
+      $hotelidInput = $('#hotel_id'),
+      $roomInput = $('#room'),
+      $unameInput = $('#uname'),
+      $mobileInput = $('#mobile'),
+      $mclearBtn = $('#mobile-clear'),
+      $orderBtn = $('#order-btn'),
+      orderEnable = "{$order_enable}";
+     
+     // 检验是否已生成订单
+     checkOrder();
+     // 设置手机号清除按钮显示状态
+     $mobileInput.on('focus input blur', setMobileBtn);
+     // 设置“去支付”按钮显示状态
+     $formSection.on('focus input blur', '#room,#uname,#mobile', setOrderBtn);
+     // 点击“去支付”按钮
+     $orderBtn.on('click', sumitOrder);
+     
+     // 检验是否已生成订单
+     function checkOrder(){
+         if(qrid.length > 2 && sessionStorage.getItem('qrcode_' + qrid)){
+             $orderBtn.prop("disabled",true).removeClass("canBook").addClass("noBook");
+             showTip('已生成订单', "{php echo create_url('order/order_list')}");
+         }
+     }
+     
+     // 校验提交表单，提交订单预约
+     function sumitOrder(){
+         if ("0" == orderEnable) {
+              showTip('我们爆单了哦');
+              return;
+         }
+         $orderBtn.text('提交中').prop("disabled",true).removeClass('canBook').addClass("noBook");
+         var submit_url = $hotelForm.attr('action');
+         var submit_data = $hotelForm.serializeArray();
+         $.post(submit_url, submit_data, function(data){
+             if(data.message.state == 1){ // 订单生成成功
+                  if(qrid.length > 2){
+                      sessionStorage.setItem('qrcode_' + qrid, data.message.timestamp);
+                  }
+                  window.location.href = data.message.url;
+             }else{ // 订单生成失败
+                  showTip(data.message.msg);
+                  setBtnStatus(true);
+                  $orderBtn.text(" 去支付");
+             }
+         },"json"); 
+     }
+     
+      // 设置手机号清除按钮显示状态
+      function setMobileBtn(){
+          var mobile = $mobileInput.val();
+          if($.trim(mobile).length > 0 ){
+        	  $mclearBtn.show();
+          }else{
+        	  $mclearBtn.hide();
+          }
+      }
+      
+      // 清空输入内容
+      function clearInput(o, id){
+           $('#' + id).val('');
+           $(o).hide();
+           if('uname' != id ){
+               setBtnStatus(false);
+           }
+      }
+      
+      // 设置“去支付”按钮显示状态
+      function setOrderBtn(){
+          var 
+            hotelFlag = $hotelidInput.val() && $hotelInput.val(),
+            roomFlag = $.trim($roomInput.val()),
+            unameFlag = $.trim($unameInput.val()),
+            mobileFlag = /^1[3-8]\d{9}$/.test($.trim($mobileInput.val()));
+            
+          //console.log(hotelFlag + '|' + roomFlag  + '|' + mobileFlag);
+          if(hotelFlag && roomFlag && unameFlag && mobileFlag){
+              setBtnStatus(true);
+          }else{
+              setBtnStatus(false);
+          }
+      }
+      
+      // 设置提交按钮状态
+      function setBtnStatus(bool){
+          if(bool){
+              $orderBtn.prop('disabled', false).removeClass("noBook").addClass("canBook");
+          }else{
+              $orderBtn.prop('disabled', true).removeClass("canBook").addClass("noBook");
+          }
+      }
+      
+      // 显示提示信息
+      function showTip(msg, url){
+          if(!msg){
+              return;
+          }
+          $('#show_mes').html(msg);
+          if(url){
+              $('#tip-box').show();
+              setTimeout(function(){
+                  window.location.href = url;
+              }, 1500);
+          }else{
+              $('#tip-box').show().delay(2000).hide(0);
+          }
+      }
+  </script>
+ </body>
+</html>

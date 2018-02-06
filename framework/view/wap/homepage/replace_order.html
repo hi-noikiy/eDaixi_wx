@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	 <meta charset="utf-8" />
+    	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" />
+    	<meta content="yes" name="apple-mobile-web-app-capable" />
+    	<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    	<meta content="telephone=no" name="format-detection" />
+   	<meta content="email=no" name="format-detection" />
+   	<meta content="" name="pgv" />
+	<title>{$page_conf['title']}</title>
+	<link href="{php echo assets_link('/framework/style/css/women_day.css')}" rel="stylesheet" type="text/css">
+	<link href="{php echo assets_link('/framework/style/css/time_plugin.css')}" rel="stylesheet" type="text/css">
+	<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+	<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body>
+	<header>
+		<!-- <img src="{php echo assets_link('/framework/style/images/activity_banner.png')}" alt="" class="img-width"> -->
+		<img src="{$page_conf['banner_url']}" alt="" class="img-width">
+        <a href="{$_W['config']['site']['static']['html']}washing_prices/price_word?city_id={$city_id}" class="look-price"> 查看价目</a>
+	</header>
+	<article class="article">
+		<!-- <img src="{php echo assets_link('/framework/style/images/img_bg.png')}" alt=""> -->
+		<div class="info-img">
+			<img src="{php echo assets_link('/framework/style/images/title_sun2.png')}" alt="">
+			<img src="{php echo assets_link('/framework/style/images/img_01.png')}" alt="">
+		</div>
+		<div class="info-content">
+			<div class="address-info">
+				<img src="{php echo assets_link('/framework/style/images/img_line.png')}" alt="">
+				<img src="{php echo assets_link('/framework/style/images/img_line.png')}" alt="" class="img-top">
+				<!-- 无地址填充 -->
+				{if !$addr_info}				
+					<p id = "select_address" class="no-address color-efdac4">请添加Ta的地址信息</p>
+		   		<!-- 有地址填充 -->
+		   		{else}
+		   		<div id = "select_address">
+		   			<p class="color-28 people-info">
+		   				<span class="people">{$addr_info['username']}</span>
+		   				<span class="phone">{$addr_info['tel']}</span>
+		   			</p>
+		   			<p class="people-info color-28 address">{$addr_info['address']}</p>
+		   		</div>
+		   		{/if}
+		   		<p class="right-arrow"></p>
+	   		</div>
+			<div class="time-info">
+				<img src="{php echo assets_link('/framework/style/images/img_line.png')}" alt="" style="margin-left: 2px">
+				<!-- 无时间填充 -->
+					<p class="color-efdac4" id= "select_datetime">{if $select_datetime}{$select_datetime}{else}请选择取件时间{/if}</p>
+				<!-- 有地址填充 -->
+					
+				<p class="right-arrow"></p>
+			</div>
+		</div>
+		<div class="info-img">
+			<img src="{php echo assets_link('/framework/style/images/title_sun1.png')}" alt="" class="sun2">
+			<img src="{php echo assets_link('/framework/style/images/img_02.png')}" alt="">
+		</div>
+		<div>
+			<div class="tip-content">留下您的祝福和姓名，我们会通过短信转达给Ta哦～</div>
+			<form action="" method="post">
+				<input type="hidden" name="washing_date" id="washing_date" value="{$washing_date}" />
+				<input type="hidden" name="washing_time" id="washing_time" value="{$washing_time}" />
+				<input type="hidden" name="time_range" id="time_range" value="{$time_range}" />
+				<input type="hidden" name="address_id" id="address_id" value="{$address_id}" />
+				<input type="hidden" id="tmp_date" value="{$washing_date}" />
+				<input type="hidden" id="tmp_time" value="{$washing_time}" />
+				<input type="hidden" id="tmp_range" value="{$time_range}" />
+ 				<input type="hidden" id="date_text" value="{$date_text}" />
+	      		<input type="hidden" id="time_text" value="{$washing_time}" />
+	      		<input type="hidden" name="take_soon" id="take_soon" value="{$take_soon}" />
+				<div class="liuyan pos-relative">
+					<img src="{php echo assets_link('/framework/style/images/frame_text.png')}" alt="" class="img-width ">
+						<textarea id="message-textarea" name="message" class="liuyan-content" placeholder="{$page_conf['default_message']}" maxlength="30"></textarea>		
+				</div>
+				<div class="pos-relative text-right liuyan sun2">
+					<img src="{php echo assets_link('/framework/style/images/frame_name.png')}" alt="" class="frame_name">
+					<input id="username-input" class="name nvwang xingming" type="text" name="username" placeholder="您的姓名" value="" maxlength="30" />
+				</div>
+			</form>
+
+		</div>
+	</article>
+	<img src="{php echo assets_link('/framework/style/images/img_bian.png')}" alt="" class="img-width ">
+
+	<section class="bottom-content">
+		<div class="button-yuyue" id = "order-btn">立即为Ta预约</div>
+		<div class="yaoqing_record">
+		      <div class="border_left"><div class="borderD"></div></div>
+		      <div class="record">活动说明</div>
+		      <div class="border_right"><div class="borderD"></div></div>
+		</div>
+		<div class="shuoming">
+			<ul class="shuoming-list">
+				<!-- <li>预约成功后，小e上门取件、计价，请保持手机畅通以便您及时支付订单</li>
+				<li>您有可用优惠券，5月25日期支付最高可减10元</li>
+				<li>洗衣订单满40元，免收10元运费</li>
+				<li>洗鞋订单满20元，免收10元运费</li> -->
+				{loop $help_conf $items}
+				<li>{$items}</li>
+				{/loop}
+			</ul>
+		</div>
+	</section>
+
+	<div id="codFloat" style="display: none" class="cod" style="height:60px">
+		<div class="wx_mask"></div>
+		<div class="wx_confirm ">
+					<div class="wx_confirm_tit" id="show_mes" style="font-size: 14px; line-height: 22px">
+						<!-- 提示信息 -->
+					</div>		
+		</div>
+	</div>
+
+<!-- 时间控件 start -->
+		{php include template('_time_control', 'wap', 'homepage');}
+<!-- 时间控件 end -->
+<!-- wx_JS控件 start -->
+        {php include template('wx_js', 'wap', 'base');}
+<!-- wx_JS控件 end -->
+<!-- piwik start-->
+<?php include template('foot') ?>
+<!-- piwik end -->
+<script>
+	var user_type = "{$user_type}";
+	var category_id = 1;
+	var address_id = $("#address_id").val();
+    var on_off = 0;
+	$messageTextarea = $("#message-textarea");
+	//获取默认值
+    	$messageTextarea.on('focus', function(){
+        	$messageTextarea.text("{$page_conf['default_message']}");
+    	});
+
+    $(".time-info").on('click', showServiceTime);
+    $("#select_address").click(function(){
+    	var select_url = "{$select_addr_url}"+'&replace_order='+"{$replace_order}";
+    	var date_val = $('#washing_date').val(), time_val = $('#washing_time').val(), range_val = $('#time_range').val();
+    	if(date_val){
+    		select_url = select_url + "&washing_date=" + date_val + "&washing_time=" + time_val + "&time_range=" + range_val;
+    	}
+    	window.location.href = select_url;
+    });
+    $("#order-btn").click(function(){
+    	var 
+      	address_id = $('#address_id').val(),
+      	date_val = $('#washing_date').val(), 
+      	time_val = $('#washing_time').val(),
+      	range_val = $('#time_range').val();
+      	soon_val = $('#take_soon').val(),
+      	message = $('#message-textarea').val(),
+        user_name = $('#username-input').val(),
+		submit_url = "{$submit_url}";
+		if(!address_id){
+	        showTip('请添加/选择地址');
+	        return;
+	    }
+	    if(!date_val){
+	        showTip('请选择服务日期');
+	        return;
+	    }
+	    if(!time_val || !time_range){
+	        showTip('请选择服务时段');
+	        return;
+	    }
+        if(!user_name){
+            showTip('请填写你的姓名');
+            return;
+        }
+        if(on_off){
+            return ;
+        }
+        on_off = 1;
+
+        $("#order-btn").html('正在提交');
+    	var submit_data = {
+            category_id : 1,
+            address_id : address_id,
+            washing_date : date_val,
+            washing_time : time_val,
+            time_range : range_val,
+            take_soon : soon_val,
+            replace_order : "{$replace_order}",
+            user_name : user_name,
+            message : message
+        	};
+   		$.post(
+	    	submit_url,
+	    	submit_data,
+	    	function(data){
+                on_off = 0;
+	    		if(data.message.state == 1){
+                    $("#order-btn").html('预约成功');
+                    <?php if($user_type == 1){ ?>
+	                	sessionStorage.setItem('order_' + data.message.order_id, true);
+	                	sessionStorage.setItem('replace_order', true);
+	          		<?php } ?>
+	          		alertToUrl(data.message.url, '预约成功');
+	          }else{
+                $("#order-btn").html('立即为Ta预约');
+	            showTip(data.message.msg);
+	          }
+	    	},
+	    	'json'
+    	);
+    });
+
+    function showTip(msg){
+	    $('#show_mes').html(msg);
+	    $('#codFloat').show().delay(2000).hide(0);
+	    return;
+	}
+
+	function alertToUrl(url,title) {
+   		setTimeout("window.location.href='" + url + "'", 0);
+    	return;
+	}
+    </script>
+</body>
+
+</html>
+

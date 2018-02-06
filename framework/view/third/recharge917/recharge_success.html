@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>充值成功</title>
+<link href="{php echo assets_link('/framework/style/css/recharge-gift.css?v=time')}" rel="stylesheet" type="text/css" />
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+</head>
+<body>
+<div class="recharge-success">
+  <p><img src="<?php  echo assets_link('/framework/style/images/chongzhichenggong.png')?>" alt=""></p>
+  <p class="blue-color">充值成功</p>
+  <p class="gray-color des"><?php echo $recharge_item;?></p>
+  <div class="spance-height"></div>
+  
+  <?php if($fee != 100){ ?>
+    
+    <span class="defalt btn"><a href="<?php echo create_url('recharge917/recharge_page',array(),"third");?>">暂不领取</a></span>
+    <span class="btn go-btn">马上领取</span>
+    <div class="clear"></div>
+  <?php } else{ ?>
+    <a href="<?php echo create_url('recharge917/recharge_page',array(),"third");?>"><span class="btn sure-btn">确 定</span></a>
+  <?php } ?>
+</div>
+
+<?php include template('foot') ?>
+ <script type="text/javascript">
+ $(".go-btn").click(function() {
+
+    var request_url = "{$request_url}";
+    var flag = true;
+
+      while(flag){
+        
+        $.ajax({
+          url: request_url,
+          async: false,
+          type: 'GET',
+          dataType: 'json'
+          
+        })
+
+        .done(function(data){
+          
+          if (data.message.state == 1) {
+
+            location.href = data.message.url;
+            flag = false;
+            
+
+          }else{
+            sleep(100);
+          }
+        })
+
+        .fail(function(){
+          alert("网络错误，请稍后再试")
+        })
+      }
+
+      
+ });
+ 
+ </script>
+</body>
+</html>

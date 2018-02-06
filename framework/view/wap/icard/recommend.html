@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>推荐有奖</title>
+<script type="text/javascript" src="{php echo assets_link('/framework/style/js/qrcode.min.js')}"></script>
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+<link href="{php echo assets_link('/framework/style/css/tuijian.css')}" rel="stylesheet" type="text/css">
+<script type='text/javascript'>
+var rcmd_url = "{$rcmd_url}", title = "{$title}", desc = "{$desc}", img_url = "{$img_url}", callback_url = "{$callback_url}";
+
+wx.ready(function(){
+  // “分享到朋友圈”
+  wx.onMenuShareTimeline({
+      title: title,
+      link: rcmd_url,
+      imgUrl: img_url,
+      success: function (res) {
+          $('#share-box').hide();
+          $.post(callback_url, {fad : "{$active_id}"}, function(){}, "json");
+      },
+      cancel: function(res){
+          $.post(callback_url, {is_fail : 1, fad : "{$active_id}"}, function(){}, "json");
+          return;
+      },
+      fail: function (res) {
+          $.post(callback_url, {is_fail : 2, fad : "{$active_id}"}, function(){}, "json");
+    	  //alert('wx.onMenuShareTimeline:fail: ' + JSON.stringify(res));
+      }
+  });
+  
+  // “分享给朋友”
+  wx.onMenuShareAppMessage({
+       title: title,
+       desc: desc,
+       link: rcmd_url,
+       imgUrl: img_url,
+       success: function () { 
+          $('#share-box').hide();
+          $.post(callback_url, {fad : "{$active_id}"}, function(){}, "json");
+       },
+       cancel: function () { 
+          $.post(callback_url, {is_fail : 1, fad : "{$active_id}"}, function(){}, "json");
+          return;
+       },
+       fail: function (res) {
+          $.post(callback_url, {is_fail : 2, fad : "{$active_id}"}, function(){}, "json");
+    	  //alert('wx.onMenuShareAppMessage:fail: ' + JSON.stringify(res));
+       }
+  });
+  
+  wx.error(function(res){
+      // config信息验证失败会执行error函数
+	  //alert('wx.error: ' + JSON.stringify(res));
+  });
+});
+</script>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body id="card" ondragstart="return false;" onselectstart="return false;">
+<section  id="show-tip">
+    <div class="header">
+      <img class="invite_bg" src="{php echo assets_link('/framework/style/images/yaoqinghaoyou.jpg')}" alt=" " class="preload">
+    </div>
+    <div class="invite_detail">
+          <div class="">
+            <img src="{php echo assets_link('/framework/style/images/envelope.png')}" alt=" " class=" yaoqing_bag">
+            <div class="invite_tip"><p>您是e袋洗的老朋友了，已为您备好专属邀请链接，即刻邀请新朋友，每成功邀请一位，即获<span class="price">20元</span>洗衣券，多邀多得哦。</p></div>
+          </div>
+          <div class="yaoqing_text content">
+            <span id="share-btn" class="yaoqing_btn">邀请好友</span>      
+            <div><span id="rule-btn" class="color_text">优惠券&活动规则</span></div>
+          </div>          
+      </div>
+</section>
+
+
+  <div class="yaoqing-detail">
+    <div class="yaoqing_record">
+      <div class="border_left"><div class="borderD"></div></div>
+      <div class="record">邀请好友记录</div>
+      <div class="border_right"><div class="borderD"></div></div>
+    </div>
+    {if $rcmd_records}
+        <div class="yaoqing-phone">
+        {loop $rcmd_records $key $value}
+          <div class="phone-list">
+            <div class="phone_left ">{$value['tel']}</div>
+            <div class="middle-line"><div class="borderX"></div></div>
+            {if !$value['status']}
+                <div class="phone_right yaoqing">已邀请</div>
+            {else}
+                <div class="phone_right liangquan">已返券</div>
+            {/if}
+          </div>
+        {/loop}
+        </div>
+    {/if}
+  </div>
+
+
+<div id="share-box" class="rule_float" style="display:none">
+  <div class="wx_mask"></div>
+  <img src="{php echo assets_link('/framework/style/images/share_friend.png')}" alt=" " class="preload share_logo">
+  <div class="wx_confirm">
+    <p>点击右上角分享给好友或朋友圈</p>
+    <div class="borderLinear"></div>
+    <div id="qrcode" class="QRcode"><!-- 生成二维码 --></div>
+    <p>邀请好友扫描二维码各得20元优惠券</p>
+  </div>
+</div>
+
+<div id="rule_float" class="rule_float" style="display:none">
+  <div class="wx_mask"></div>
+  <div class="wx_content">
+    <div class="rule">优惠券及活动规则</div>
+    <br/>
+    <p>1.好友首次下单使用e袋洗服务，成功支付完成24小时内，您将获得20元无限制优惠券一张；</p>
+    <p>2.好友必须是从未注册且未使用过e袋洗服务的用户；</p>
+    <p>3.本优惠券可抵扣所有e袋洗项目；</p>
+    <p>4.优惠券有效期为领取日30天内；</p>
+    <p>5.本活动最终解释权归e袋洗所有。</p> 
+    <br/>
+    <div class="rule_know" id="know-btn">我知道了</div>
+  </div>
+  <img src="{php echo assets_link('/framework/style/images/wenz.png')}" alt=" " class="preload share_title" style="display:none">
+</div>
+  
+<script type='text/javascript'>
+$('#rule-btn, #know-btn').on('click', toggleRule);
+$("#show-tip, #share-btn, #share-box").on('click', toggleShare);
+
+// 优惠券活动规则弹窗
+function toggleRule(){
+    $('#rule_float').toggle(10);
+    return false;
+}
+
+// 邀请好友弹窗
+function toggleShare(){
+    if(! $("#share-box").is(":visible")){
+        // 生成二维码
+        makeQRcode(rcmd_url);
+    }
+    $("#share-box").toggle(10);
+    return false;
+}
+
+// 生成二维码
+var qrcode = new QRCode(document.getElementById("qrcode"), {
+    width : 300,
+    height : 300,
+    useSVG: true
+});
+function makeQRcode(text){        
+    if(qrcode && rcmd_url){
+        qrcode.makeCode(text);
+        return;
+    }
+}
+</script>
+<?php include template('foot') ?>
+</body>
+</html>

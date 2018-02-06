@@ -1,0 +1,52 @@
+{
+  "ret": true,
+  "ts": 1470033128,
+  "version": "1.0",
+  "data": [
+  		{
+  			"id": 1,
+			"created_date": "2016.01.01",
+			"type": "RechargeSncode111",
+			"title": "充值卡",
+			"sn_code": "123213213123213123",
+			"fee_info": {
+				"name": "充值金额",
+				"fee": "220"
+			},
+			"invoice_fee_info":  { 
+				"name": "实付金额", 
+				"fee": "200"
+			}
+  		},
+  		{
+  			"id": 2,
+			"created_date": "2016.01.01",
+			"type": "RechargeSncode222",
+			"title": "充值卡",
+			"sn_code": "123213213123213123",
+			"fee_info": {
+				"name": "充值金额",
+				"fee": "220"
+			},
+			"invoice_fee_info":  { 
+				"name": "实付金额", 
+				"fee": "200"
+			}
+  		},
+  		{
+  			"id": 3,
+			"created_date": "2016.01.01",
+			"type": "RechargeSncode3333",
+			"title": "充值卡",
+			"sn_code": "123213213123213123",
+			"fee_info": {
+				"name": "充值金额",
+				"fee": "220"
+			},
+			"invoice_fee_info":  { 
+				"name": "实付金额", 
+				"fee": "200"
+			}
+  		}
+  ]
+}

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>充值确认</title>
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/payment38.css')}" rel="stylesheet" type="text/css">
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body>
+ <div class="recharge_list">
+     <p class="recharge_font">充值金额</p>
+     <p class="recharge_money">
+      <p><img class="pay-icon" src="{php echo assets_link('/framework/style/images/pay_money.png')}"><span class="pay-money">{$fee}</span></p>
+    </p>
+    <p class="recharge_send">
+      <span class="send">赠送金额</span>
+      <span class="money">￥<em>{if $git_money}{$git_money}{else}0.00{/if} </em></span>
+    </p>
+ </div>
+ <div  class="pay_font">
+   <span >支付方式</span>
+   <div class="clearBoth"></div> 
+ </div>
+ <div class="pay_manner white_bg">
+    <form action="{php echo create_url('recharge38/build_tradeno', array('t'=>time()), 'third')}" method="post">
+        {if $user_type == 1}
+        <div class="item_list_box" >
+         <label for="weixin_pay" class="label_checked">
+            <img src="{php echo assets_link('/framework/style/images/wechat_pay.png')}"/>
+            微信支付
+            <span class="pull-right orange_color">
+              <input id="weixin_pay" type="radio" name="paytype" value="2" {if $user_type == 1}checked="checked"{/if} />
+              <label for="weixin_pay"><b></b></label>
+            </span>
+         </label>
+        </div>
+        {/if}
+    
+        {if in_array($user_type, array('6','11','12','15','16','19','20'))}
+        <div class="item_list_box" >
+          <label for="ali_pay" class="label_checked">
+            <img src="{php echo assets_link('/framework/style/images/zhifubao_pay.png')}" />
+            支付宝支付
+            <span class="pull-right orange_color">
+              <input id="ali_pay" type="radio" name="paytype" value="6" {if in_array($user_type, array('6','11','12','15','19','20'))}checked="checked"{/if} />
+              <label for="ali_pay"><b></b></label>
+             </span>
+           </label>
+        </div>
+        {/if}
+     
+        {if $user_type == 1 || $user_type == 13}
+	    <div class="item_list_box" >
+               <label for="baidu_pay" class="label_checked">
+        	        <img src="{php echo assets_link('/framework/style/images/baidu.png')}" />
+        	        百度支付
+        	        <span class="pull-right orange_color">
+        	          <input id="baidu_pay" type="radio" name="paytype" value="11" {if $user_type == 13}checked="checked"{/if} />
+        	          <label for="baidu_pay"><b></b></label>
+        	        </span>
+              </label>
+	    </div>
+        {/if}
+    
+	    <div class="borderD"></div>
+	    <div class="clear"></div>
+	    <div class="item_list_btn">
+	      <div class="chongzhi_btns" style="padding-right:0">
+             <input type="hidden" name="username" value="{$username}" />
+             <input type="hidden" name="mobile" value="{$mobile}" />
+             <input type="hidden" name="message" value="{$message}" />
+	         <input type="hidden" name="fee" value="{$fee}" />
+             <input type="hidden" name="skipserv" value="{$skipserv}" />
+	         <button type="submit" id="submit_pay" class="pay_btn link-btn-all" onclick="submitting(this)">需支付{$fee}元</button>
+	      </div>
+	    </div>
+    </form>
+ </div>
+<script type="text/javascript">
+var flag = true;
+function submitting(el){
+	if(flag){
+		flag = false;
+		el.innerHTML='正在提交';
+	    el.style.backgroundColor = '#dadada';
+	    el.style.border = '#dadada';
+	}
+	setTimeout(function(){
+		flag = true;
+	    el.innerHTML='正在提交';
+	    el.style.backgroundColor = '#1db7fe';
+	    el.style.border = '#1db7fe';
+	}, 7000);
+}
+</script>
+</body>
+</html>

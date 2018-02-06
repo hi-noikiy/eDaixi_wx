@@ -1,0 +1,90 @@
+<div id="rule_float" class="rule_float" style="display:block">
+  <div class="wx_mask"></div>
+  <div class="lottery_content" id="rule">
+    <!-- 轮播banner -->
+  <div id="lotterySlider" class="swipe swipe2">
+    
+      <div class="lottery-wrap" id="lottery_wrap">
+
+        {if $lottery}
+        <div class="lottery">
+          <div class="outer">
+            
+            <div class="inner">
+              <div class="lottery_main">
+                <img src="{php echo assets_link('/framework/style/images/lottery_bg.jpg')}"/>
+              </div>
+              <div class="quan_text1">
+                <img src="{php echo assets_link('/framework/style/images/lottery_content_bg.png')}"/>
+                <?php if($lottery['species']==0){ ?>
+                 <p class="tip">恭喜您获得<span class="red-color">{$lottery['pieces']}份</span>1%双色球必中包，第<span class="red-color">{$lottery['issue_no']}</span>期</p>
+                <?php }else if($lottery['species']==1){ ?>
+                 <p class="tip">恭喜您获得<span class="red-color">一注</span>3D福彩彩票，第<span class="red-color">{$lottery['issue_no']}</span>期</p>
+                <?php } ?>
+
+                  <?php foreach($lottery['balls'] as $ball_line){ ?> 
+                  <div class="ball">
+                    <p>
+                      <?php foreach($ball_line as $k => $ball){ ?>
+                        <?php if($k==6){ ?>
+                          <span class="num6 bg_2463e2">{$ball}</span>
+                        <?php }else{ ?> 
+                          <span class="num6 bg_e55151">{$ball}</span>
+                        <?php } ?>
+                      <?php } ?>
+                    </p>                                                   
+                  </div>
+                  <?php } ?>                   
+
+                  <span class="more" id="share_btn">点击查看更多</span>
+                  <p class="tip_time">开奖时间:<span class="red-color">{$lottery['prize_time']}</span></p>
+                </div>
+                <div id="surprise_share" class="lottery_share bg1">
+                  <span >分享惊喜</span>
+                </div>
+              <div class="btn_bg"></div>
+            </div>
+          </div>
+        </div>
+        {/if}
+      
+        
+        <div class="lottery">
+          <div class="outer">
+            <div class="inner">
+              
+              <div class="lottery_main2">
+                <img src="{php echo assets_link('/framework/style/images/dingbu.jpg')}"/>
+              </div>
+              <p class="quan_text">恭喜您替朋友获得 {$share_coupon_total} 张优惠券，分享<br>您也能得到1张</p>
+              <div class="btn_bg"></div>
+              <div id="quan_share" class="lottery_share bg2">
+                <span>立即分享</span>
+              </div>
+              <div class="btn_bg"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+  </div>
+  <div class="bgboxgo">
+    <div class="botton-box mBxCm" id="sbsd"></div>
+  </div>
+  
+
+  <div class="close_btn" id="close_btn" >        
+    <img src="{php echo assets_link('/framework/style/images/guanbi.png')}"/>
+  </div>
+</div> 
+
+  <div id="guide_share" class="guide-share" style="display: none;">
+    <img src="{php echo assets_link('/framework/style/images/guideshare.png')}"/>
+  </div>
+
+  <?php include template('navigate') ?>
+</div>
+    
+<script type="text/javascript">
+  lotterySlider(5000);
+</script>

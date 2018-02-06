@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no, email=no" name="format-detection">
+	<title>专业清洗</title>
+    <link rel="stylesheet" type="text/css" href="../css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../css/edaixi_prices.css">
+    <script type="text/javascript" src="../js/zepto.js"></script>
+    <script type="text/javascript" src="../js/template.js"></script>
+    <script type="text/javascript" src="../js/webviewjsbridge_prices.js"></script>
+</head>
+<body>
+	<header>
+        <div class="menu"></div>
+    </header>
+    <section id="category-content-part">
+        <section class="prices-content-wrap"></section>            
+    </section>
+    <section id="server-wrap"></section>
+    <section id="tips-wrap"></section>
+    <article id="forecast-wrap"></article>
+    <footer></footer>
+    <!-- 菜单 -->
+    <script id="menu" type="text/html">
+        <ul>
+            {{each data as item}}
+                {{if item.active}}
+                    <li class="active" data-id="{{item.type_id}}" >{{item.type_name}}</li>
+                {{else}}
+                    <li data-id="{{item.type_id}}">{{item.type_name}}</li>
+                {{/if}}
+            {{/each}}
+        </ul>
+    </script>
+    <!-- 价目列表 -->
+    <script id="price-content" type="text/html">
+        <div class="price-content clearfix">
+            {{each clothes as item}}
+                {{if (!item.is_discount) }}
+                    <div class="price-box" data-id="{{item.id}}">
+                        <div class="pic-box">
+                            <img src="{{item.image}}" alt="{{item.clothes_name}}">
+                        </div>
+                        <div class="desp-box">
+                            <p class="washing-name">{{item.clothes_name}}</p>
+                            <p class="washing-prices">
+                                <span>￥</span>
+                                <span class="price">{{item.price}}</span>
+                            </p>
+                        </div>
+                        <div class="buy-number"></div>
+                    </div>
+                {{else}}
+                    <div class="price-box" data-id="{{item.id}}">
+                        <div class="pic-box">
+                            <img src="{{item.image}}" alt="{{item.clothes_name}}">
+                        </div>
+                        <div class="desp-box">
+                            <p class="washing-name">{{item.clothes_name}}</p>
+                            <p class="washing-prices">
+                                <span class="coupon-price">
+                                    <span>￥</span>
+                                    <span class="price">{{item.price}}</span>
+                                </span>
+                                <span class="origin-price">
+                                    ￥{{item.discount_info.original_price}}
+                                </span>
+                            </p>
+                            <p class="deadline">需在<span>{{item.discount_info.deadline_format}}</span>支付</p>
+                        </div>
+                        <img src="../images/tejia.png">
+                        <div class="buy-number"></div>
+                    </div>
+                {{/if}}
+            {{/each}}
+        </div>
+    </script>
+	
+	<!-- 服务展示（三个）-->
+    <script id="server" type="text/html">
+        <div>
+            <img src="../images/server.png"><br/>
+            <span>高效服务</span>
+        </div>
+        <div>
+            <img src="../images/baoxian.png"><br/>
+            <span>每单投保</span>
+        </div>
+        <div>
+            <img src="../images/shangmen.png"><br/>
+            <span>上门取件</span>
+        </div>
+    </script>
+    <!-- 提示信息 -->
+    <script id="tips" type="text/html">
+        <div class="tips-content">
+            <div class="tips">
+                {{each tips as item}}
+                    <p>{{item}}</p>
+                {{/each}}
+                <p>点击查看<a href="javascript:void(0)" class="locationUrl">《e袋洗清洗说明及不能提供清洗服务衣物列表》</a></p>
+            </div>
+        </div>
+    </script>
+    <!-- 预约取件按钮，包括优惠券 -->
+    <script id="order" type="text/html">
+        <div class="order">
+            {{if coupon_info}}
+                <div class="coupon-info">
+                    {{coupon_info}}
+                    <img src="../images/huanjiao.png">
+                </div>
+            {{/if}}
+            <div class="order-btn">预约取件</div>
+        </div>
+    </script>
+
+    <script type="text/javascript">
+        // 开发联调控制 
+        window.debug = false;
+        var api = {};
+        var preLocation;
+        if (window.debug) {
+            api.price_list = "/offices_fast_prices";
+            preLocation = "";
+        }
+        else {
+            api.price_list = "/api.php?m=wap&act=homepage&do=show_office_price";
+            preLocation = "/new_weixin";
+        }
+    </script>
+
+    <script type="text/javascript">
+        var open_common_params = getCookie("open_common_params");
+        var params;
+
+        if (open_common_params) {
+            api.data = JSON.parse(open_common_params);
+            api.data.is_web_request = true;
+            api.washingprices = api.data.base_url + "/client/v5/get_price_by_category_id";
+            api.data.category_id = 17;
+            // user_type: 3 android, 2 ios, 1 web
+            if (+api.data.user_type === 3) {
+                if (window.WebViewJavascriptBridge) {
+                    main();
+                }
+                else {
+                    document.addEventListener("WebViewJavascriptBridgeReady", main, false);
+                }
+            }
+            else {
+                main();
+            }
+        }
+        else {
+            params = getSearchParams();
+            var searchParam = {};
+            searchParam.category_id = params.category_id;
+            searchParam.city_id = params.city_id;
+
+            api.data = searchParam;
+            main();
+        }
+
+        function main() {
+            $.ajax({
+                type: "GET",
+                url: api.price_list,
+                data: api.data,
+                dataType: "json",
+                success: function(data) {
+                    if (data.ret) {
+                        // 渲染数据
+                        renderTemplate(data);
+                        // 绑定事件
+                        bindEvent(data);
+                        $(".locationUrl").click(function(){
+          
+                          var params = getSearchParams();
+                            var city_id = params.city_id;
+                            location.href = "http://www.edaixi.com/washing_prices/washing_description?" + "&city_id=" + city_id
+                        })
+                    }
+                },
+                error: function(xhr, type) {
+                    alert("出错了，请重新进入试试");
+                }
+            })
+        }
+
+
+        function renderTemplate(data) {
+        	// 将第一项标记为选中
+        	data.data.types[0].active = true;
+        	// 渲染品类菜单
+            var menuHtml = template("menu", {data: data.data.types});
+            $("header .menu").html(menuHtml);
+
+            // 渲染价格列表
+            renderPriceList(data, data.data.types[0]["type_id"]);
+            coupon_padding_bottom(data.data.types[0].clothes);
+
+            // 服务展示区
+            renderServer();
+
+            // 提示信息展示
+            var tips = data.data["tips"];
+            renderTips(tips);
+
+            // 预约取件,包括优惠券
+            var coupon_info = data.data["coupon_info"];
+            renderOrder(coupon_info);
+        }
+
+        /**
+         * 绑定事件
+         */
+        function bindEvent(data) {
+        	// 激活的品类菜单的序号
+            var index = 0; 
+
+        	// 菜单
+            $("header").on("click", "li", function(e) {
+                // 如果已经是选中的，return 
+                if ($(this).hasClass("active")) {
+                    return;
+                }
+
+                $(this).addClass("active").siblings().removeClass("active");
+                index = $(this).index();
+                type_id = $(this).data("id");
+
+                var len = data.data.types.length;
+                for (var i = 0; i < len; i++) {
+                    data.data.types[i].active = false;
+                }
+                data.data.types[index].active = true;
+
+                renderPriceList(data, data.data.types[index]['type_id']);
+                coupon_padding_bottom(data.data.types[index]["clothes"]);
+            })
+
+            // 跳转下单页
+            $(".order-btn").click(function() {
+                // app环境和app通讯
+                if (open_common_params) {
+                    var category_id = 17; 
+                    goShoppingPage(category_id);
+                }
+                else {
+                    window.location.href = preLocation + "/view/offices_fast_place_order.html?category_id=17&price_read=1&city_id=" + searchParam.city_id + "&v=20160920";
+                }
+            })
+        }
+        /**
+         * 渲染 价目表
+         * @param {object} data 后端返回的data
+         * @param  {number} id 激活的子菜单id
+         */
+        function renderPriceList(data, id) {
+            var len = data.data.types.length;
+            for (var i = 0; i < len; i++) {
+                if ( id === +data.data.types[i]["type_id"]) {
+                    // 生成符合要求的deadline
+                    formatDeadline(data.data.types[i]);
+                    var priceListHtml = template("price-content", data.data.types[i]);
+                    $(".prices-content-wrap").html(priceListHtml);
+                    break;
+                }
+            }
+
+            //价目表上边线取消，以免和主菜单的下边线冲突
+            $(".price-content").css("border-top", "0");
+            
+        }
+
+        /**
+         * 将types数组中的某个json中的日期格式化
+         * 并增加属性
+         * @param  {object} types 
+         */
+        function formatDeadline(types) {
+            var len = types.clothes.length;
+            for (var i = 0; i < len; i++) {
+                var a = types.clothes[i]["is_discount"];
+                console.log(types, "bbbbb");
+                console.log(types.clothes[i], "aaaaa");
+                if (types.clothes[i]["is_discount"] && !types.clothes[i]["discount_info"]["deadline_format"]) {
+                    var deadline = types.clothes[i]["discount_info"]["deadline"];
+                    var date = deadline.split("-");
+                    var deadline_format = date[1] + "月" + date[2] + "日前";
+                    types.clothes[i]["discount_info"]["deadline_format"] = deadline_format;
+                }
+            }
+        }
+
+        /**
+         * 特价时padding-bottom：17px，非特价时为32px
+         * @param  {array} clothes  衣物数组
+         */
+        function coupon_padding_bottom(clothes) {
+            var len = clothes.length;
+            for (var i = 0; i < len; i++) {
+                if (clothes[i].is_discount) {
+                    $(".price-content .price-box").addClass("coupon");
+                    break;
+                }
+            }
+        }
+
+        /**
+         * 渲染服务展示
+         */
+        function renderServer() {
+            var serverHtml = template("server", {});
+            $("#server-wrap").html(serverHtml);
+        }
+
+        /**
+         * 渲染提示信息
+         * @param {array} tips 提示信息数组
+         */
+        function renderTips(tips) {
+            var tipsHtml = template("tips", {"tips": tips});
+            $("#tips-wrap").html(tipsHtml);
+        }
+
+        /**
+         * 渲染预约取件按钮，包括优惠券
+         * @param  {string} coupon_info 优惠券信息
+         */
+        function renderOrder(coupon_info) {
+            var orderHtml = template("order", {"coupon_info": coupon_info});
+            $("footer").html(orderHtml);
+        }
+
+        // 获取url中参数
+        function getSearchParams() {
+            var params = {};
+            var chunks = location.search.substr(1).split(/&/g);
+            for (var i = 0; i < chunks.length; i++) {
+                try {
+                    var items = chunks[i].split('=', 2);
+                    var key = items[0];
+                    var value = decodeURIComponent(items[1]);
+                    params[key] = value;
+                }
+                catch (ex) {
+                }
+            }
+            return params;
+        }
+
+        /**
+         * 获取cookie
+         * @param  {string} name cookie名
+         * @return {string}   cookie值
+         */
+        function getCookie(name) 
+        {
+            var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+            if(arr=document.cookie.match(reg))
+                return unescape(arr[2]); 
+            else 
+                return null; 
+        }
+    </script>
+</body>
+</html>

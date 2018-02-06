@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta content="email=no" name="format-detection">
+  <meta content="" name="pgv">
+    <title>选择服务时间</title>
+    
+    <script src="/new_weixin/js/jquery-1.8.2.min.js" type="text/javascript"></script>
+    
+    <script src="/new_weixin/js/template.js"></script>
+    <link rel="stylesheet" type="text/css" href="/new_weixin/css/newbase.css">
+    <link rel="stylesheet" type="text/css" href="/new_weixin/css/time.css">
+    <script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body style="background:#fff;">
+
+    <div class="main" style="padding-bottom:6rem;">
+        
+        <section id="time_controler" class="">
+                
+        </section>
+        <div class="borderDD"></div>
+        <section id="time_range" class="">
+                
+        </section>
+        <section id="quota-info"></section>
+        <div class="fix-bottom">
+            <button class="order-btn" id="order-btn" >
+            确定选择</button>
+        </div>
+    </div>
+
+    <script id="data-text" type="text/html">
+        <ul class="time_date">
+            {{each data as t}}
+                <li class="detail_date {{if t.selected}}selected{{/if}}" id="date_li_{{t.date}}" serv_date="{{t.date}}" date_text="{{t.date_str}}{{t.weekday}}">
+                    <p>
+                        {{t.weekday}}
+                    </p>
+                    <p>{{t.date_str}}</p>
+                    <em class="trigger-ico">
+                        <img src="./images/trigger.png"/>
+                    </em>
+                    
+                </li>
+            {{/each}}
+        </ul>
+        
+    </script>
+
+    <script id="date-range" type="text/html">
+        {{each data as r}}
+        <ul class="time_hour">           
+                {{each r.service_times as ra}}
+            <li class="detail_hour {{if !ra.is_available || ra.is_passed}}baodan{{/if}} {{if ra.selected}}selected {{/if}}" id="time_li_{{r.date}}_{{ra.text}}" serv_time="{{ra.text}}" time_range="[{{ra.time_range[0]}},{{ra.time_range[1]}}]" quick_take="{{ra.quick_take}}" time_text="{{r.date_str}}" date_ser="{{r.date}}" text = "{{ra.text}}">
+                        <div class="service_times_div">
+                                                       
+                            {{if ra.quick_text}}
+                                <p>{{ra.quick_text}}</p>
+                            {{/if}}
+                            {{if ra.view_text}}
+                                <p class="view_text">{{ra.view_text}}</p>
+                            {{/if}}
+                            
+                            {{if ra.special_delivery_fee}}
+                                <p>{{ra.special_delivery_fee}}</p>
+                            {{/if}}
+
+                            {{if !ra.is_available}}
+                                <p>约满</p>
+                            {{/if}}
+                            
+                            
+                        <div class="borderCu"></div>
+                        </div>
+                        
+                        {{if ra.special_delivery_fee}}
+                            <div id="special_delivery_fee" style="display:none;" class="cod special_delivery_fee">
+                                <div class="wx_mask"></div>
+                                <div class="wx_confirm">
+                                <img src="./images/tip.png">
+                                  <div class="wx_confirm_inner">
+                                    
+                                    <p><span class="color-ff7c3c">{{ra.view_text}}</span>为特殊时段，如您需要此时段上门取件，需要额外支付<span class="color-ff7c3c">{{ra.special_delivery_fee}}</span>。特殊时段运费不参与满免运费活动。</p>
+                                    
+                                  </div>
+                                   <div class="wx_confirm_btn manage-btn">
+                                          <div class="borderR2"></div>
+                                          <div class="borderT"></div>
+                                          <button type="button" class="okbtn close-btn">取消</button>
+                                          <button type="button" class="blue-btn sure-btn">同意增加运费</button>
+                                      </div>
+                                </div>
+
+                              </div>
+                          {{/if}}
+                          
+                    </li>
+                        
+                {{/each}}
+            
+        </ul>
+        {{/each}}
+    </script>
+
+    <script type="text/html" id="quotainfo">
+        {{each data_handled.quota_info as tex}}
+            <div class="quota_info">
+                {{tex}}
+            </div>
+        {{/each}}
+    </script>
+
+<!-- 操作提示 start -->
+    <div id="tip-box" style="display:none" class="cod2" style="height:60px">
+      
+        <div class="wx_confirm_tit2" id = "show_mes"><!-- 提示信息 --></div>
+      
+    </div>
+<!-- 操作提示 end -->
+
+<script type="text/javascript">
+    // 开发联调控制 ！！！！！！！！！！！！！！！！！！！！！！！
+    window.debug = false;
+    var api = {};
+    var preLocation;
+    if (window.debug) {
+        api.pagejson = "./test/time.json";
+        preLocation = "";
+        
+    }
+    else {
+        api.pagejson = "/api.php?m=wap&act=washtime&do=select_time";
+        // api.pagejson = "./test/time.json";
+        preLocation = "/new_weixin";
+    }
+</script>
+<script type="text/javascript">
+    // 获取url中参数
+    function getSearchParams() {
+        var params = {};
+        var chunks = location.search.substr(1).split(/&/g);
+        for (var i = 0; i < chunks.length; i++) {
+            try {
+                var items = chunks[i].split('=', 2);
+                var key = items[0];
+                var value = decodeURIComponent(items[1]);
+                params[key] = value;
+            }
+            catch (ex) {
+            }
+        }
+        return params;
+    }
+
+</script>
+
+<script>
+    var param = getSearchParams();
+    var order = param.order;
+    var back = param.back;
+    var category_id = param.category_id;
+    var city_id = param.city_id;
+    var area = param.area;
+    var area_id = param.area_id;
+    var order_id = param.order_id;
+    var price_read = param.price_read;
+    var address_id = param.address_id;
+    var select_address = param.select_address;
+
+    var comment = param.comment;
+    var order_id = param.order_id;
+    var date_ser = param.date_ser;
+    var text = param.text;
+
+    var offices_fast = param.offices_fast;
+    var office_building_id = param.office_building_id;
+    var office_name = param.office_name;
+    var room = param.room;
+    var user_name = param.user_name;
+    var tel = param.tel;
+
+
+    var url = api.pagejson;
+    var searchData = {};
+
+    if(category_id != undefined && category_id != ''){
+      // url += '&category_id='+category_id;
+      searchData.category_id = category_id;
+    }
+
+    if(city_id != undefined && city_id != ''){
+      // url += '&city_id='+city_id;
+      searchData.city_id = city_id;
+    }
+
+    if (area != undefined && area != '') {
+      // url += '&area='+area;  
+      searchData.area = area;
+    }
+    if (area_id != undefined && area_id != '') {
+      // url += '&area_id='+area_id;  
+      searchData.area_id = area_id;
+    }
+
+    if (price_read != undefined && price_read !='') {
+        // url += '&price_read=' +price_read;
+        searchData.price_read = price_read;
+    }
+
+    if (select_address != undefined && select_address !='') {
+        // url += '&select_address=' +select_address;
+        searchData.select_address = select_address;
+    }
+
+    if (address_id != undefined && address_id !='') {
+        // url += '&address_id=' +address_id;
+        searchData.address_id = address_id;
+    }
+
+    if (order_id != undefined && order_id != '') {
+        searchData.order_id = order_id;
+    }
+
+    if (date_ser != undefined && date_ser != '') {
+        searchData.date_ser = date_ser;
+    };
+    if (text != undefined && text != '') {
+        searchData.quick_text = text;
+    };
+
+    if (offices_fast != undefined && offices_fast != '') {
+        searchData.offices_fast = offices_fast;  
+    };
+
+ 
+    $.ajax({
+            url: url,
+            // url: '/api.php?m=wap&act=washtime&do=select_time',
+          // url: 'test/time.json',
+          type: 'GET',
+          data: searchData,
+          dataType: 'json'
+        })
+
+    .done(function(data) {  
+        if (data.ret) {
+            time_info (data);
+            time2_info (data,0);
+            click_tab (data);
+            range_tab ();
+            selected_time ();
+            // goToplaceorder ()
+            // closeShow ();
+            // SetOrderBtn ();
+        }else{
+            location.href = data.error.url;
+        };
+        
+
+
+    })
+
+    .fail(function() {
+        alert("网络错误，请稍后再试")
+    })
+
+    // 数据模板
+    function time_info (data) {
+
+        var date_time = data;  
+        
+        var data_info = template('data-text',date_time);
+        var range_info = template('date-range',date_time);
+        
+        
+        document.getElementById('time_controler').innerHTML = data_info;
+        document.getElementById('time_range').innerHTML = range_info;
+        
+
+    }
+
+    // 时间段
+
+    function time2_info (data,index) {
+
+        var data_handled = data.data[index];
+
+        var quotainfo = template("quotainfo",{"data_handled" :data_handled});
+        document.getElementById('quota-info').innerHTML = quotainfo;
+
+        console.log(data_handled.quota_info);
+        console.log(quotainfo);
+    }
+
+    // 日期点击事件
+
+    function click_tab (data) {
+         $("#time_controler li").addClass("tab-current").siblings().removeClass("tab-current");
+            $("#time_range > .time_hour").first().show().siblings().hide();
+            $("#time_controler li").click(function(){
+                $(".time_hour li").removeClass('selected');
+                $(".time_hour li").removeClass('select_hour');
+                $("#time_controler li").removeClass("selected")
+                var index = $("#time_controler li").index(this);
+                
+                $(this).addClass("tab-current").siblings().removeClass("tab-current");
+
+                time2_info (data,index);
+                
+                $("#time_range > .time_hour").eq(index).show().siblings().hide();
+
+                if (!$(".time_hour li").hasClass('select_hour') || !$(".time_hour li").hasClass('selected')) {
+                    $('#order-btn').prop('disabled', true).css({'opacity':'.5'});
+                };
+          　　});
+
+    }
+
+    // 初始化默认选中
+    function selected_time () {
+        if ($(".time_hour li").hasClass('selected')) {
+            $('#order-btn').prop('disabled', false).css({'opacity':'1'});
+            click_btn ();
+        }
+    }
+
+    // 时间段点击事件
+    function range_tab () {
+
+        $('#order-btn').prop('disabled', true).css({'opacity':'.5'});
+
+         $(".time_hour li").click(function() {
+             $(".time_hour li").removeClass('selected');
+            if (!$(this).hasClass('baodan')) {
+
+                $(this).find('.special_delivery_fee').show();
+                $(this).addClass('select_hour').siblings().removeClass('select_hour');
+                $(".time_hour li").removeClass('selected');
+
+                if ($(this).hasClass('select_hour')) {
+
+                    $('#order-btn').prop('disabled', false).css({'opacity':'1'});
+                    click_btn();
+
+                }
+
+
+
+                // 点击取消，关闭运费提醒弹窗
+                $('.close-btn').click(function(event) {
+                    $(".special_delivery_fee").hide();
+                    $(".time_hour li").removeClass('select_hour');
+                    $('#order-btn').prop('disabled', true).css({'opacity':'.5'});
+                    // return false; 
+                    event.stopPropagation();
+                
+                });
+
+                // 确认添加运费
+                $('.sure-btn').click(function(event) {
+                    $(".special_delivery_fee").hide();
+                    // $(".time_hour li").addClass('select_hour');
+                    // return false; 
+                    event.stopPropagation();
+                
+                });
+                
+            }else{
+                return;
+            };
+
+        });
+
+    }
+
+    // 确定选择按钮
+    function click_btn() {
+        $("#order-btn").click(function() {
+            var date_text = $(".tab-current,.selected").attr('date_text');
+            var select_time = $(".time_hour .select_hour,.time_hour .selected").attr('serv_time');
+            var time_range = $(".time_hour .select_hour,.time_hour .selected").attr('time_range');
+            var date_info = $(".tab-current,.selected").attr('serv_date');
+            var date_ser = $(".time_hour .select_hour,.time_hour .selected").attr('date_ser');
+            var text = $(".time_hour .select_hour,.time_hour .selected").attr('text');
+
+            var view_text = $(".time_hour .select_hour .view_text").text();
+
+            if (order && back){
+                $.ajax({
+                    url: "/mobile.php?m=wap&act=order&do=update_qjtime&city_id=1",
+                    type: "POST",
+                    timeout: 10000,
+                    data: {
+                        order : order,
+                        date : date_ser,
+                        time : select_time,
+                    },
+                    dataType: "json",
+                    success: function(res){
+                        if(1 == res.message.state){
+                            showTip("修改成功");
+                            setTimeout(function(){
+                                window.location.href = back;
+                            }, 1900);
+                        }else{
+                            showTip(res.message.msg);
+                        }
+                    },
+                    error:function (xhr){      
+                        showTip("网络错误页,修改失败");
+                    }
+                });
+                return false;
+            }
+
+            if (offices_fast) {
+                location.href = preLocation + '/view/offices_fast_place_order.html?washing_date_text=' + date_text + "&washing_date=" +date_info +"&washing_time=" + text + "&time_range=" + time_range + "&category_id=" + category_id + "&city_id=" + city_id + "&price_read=" + price_read + "&office_building_id=" +office_building_id + "&office_name=" + office_name + "&comment=" + comment +"&order_id=" + order_id + "&date_ser=" + date_ser + "&view_text=" + view_text +"&room=" + room + "&user_name=" +user_name +"&tel=" + tel;
+                return;
+            };
+
+            if (select_address) {
+                location.href = preLocation + '/view/order_place.html?washing_date_text=' + date_text + "&washing_date=" +date_info +"&washing_time=" + text + "&time_range=" + time_range + "&category_id=" + category_id + "&city_id=" + city_id + "&price_read=" + price_read + "&select_address=" +encodeURIComponent(encodeURIComponent(select_address)) + "&address_id=" + address_id + "&comment=" + comment +"&order_id=" + order_id + "&date_ser=" + date_ser + "&view_text=" + view_text;
+            }else{
+                location.href = preLocation + '/view/order_place.html?washing_date_text=' + date_text + "&washing_date=" +date_info +"&washing_time=" + text + "&time_range=" + time_range + "&category_id=" + category_id + "&city_id=" + city_id + "&price_read=" + price_read +
+                    "&comment=" + comment+"&order_id=" + order_id + "&date_ser=" + date_ser + "&view_text=" + view_text;
+            };
+            
+        });
+    }
+
+    // 显示提示信息
+    function showTip(msg, url, persistent){
+        $('#show_mes').html(msg);
+        if(url){
+            $('#tip-box').show().delay(2000).hide(function(){
+                window.location.href = url;
+            });
+        }else{
+            if (persistent) {
+              $('#tip-box').show()
+            } else {
+              $('#tip-box').show().delay(2000).hide(0);
+            }
+        }
+    }
+
+
+   </script>
+
+    
+
+</body>
+
+
+</html>

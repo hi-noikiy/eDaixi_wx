@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<link href="{php echo assets_link('/framework/style/css/footer.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<title>更多</title>
+<link rel="stylesheet" type="text/css" href="{php echo assets_link('/framework/style/css/card.css')}" media="all">
+<script type="text/javascript" src="{php echo assets_link('/framework/style/js/jquery-1.8.2.min.js')}"></script>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body id="card" ondragstart="return false;" onselectstart="return false;">
+<div class="cardexplain show_more">
+	<ul class="round operate navlist" style="border-radius:0 0 10px 10px;border-top:0">
+		<li class="mobile-font">
+				
+
+			<table class="icardTable">
+        <tr>
+          <td style="border:0;width:42px;">
+            <img alt=" " src="{php echo assets_link('/framework/style/images/question_icon2.png')}">
+          </td>
+          <td>
+            <a href = "{$_W['config']['site']['static']['html']}pages/normal_question">
+							<div class = "list-titel no-img">
+								常见问题
+								<img alt="" src="{php echo assets_link('/framework/style/images/rignt_icon.png')}" class="icon-right-card">
+							</div>
+						</a>
+            <div class="borderD"></div>
+          </td>
+          
+        </tr>
+        {if !in_array($_SESSION['user_info']['user_type'], array(14, 34)) && !is_from_psdzbt_pingan()}
+        <tr>
+          <td style="border:0;width:42px;">
+            <img alt=" " src="{php echo assets_link('/framework/style/images/sina_icon2.png')}" >
+          </td>
+          <td>
+            <a href = "http://weibo.com/ewashing"  target = "_black">
+							<div class = "list-titel no-img">
+								e袋洗微博
+								<img alt="" src="{php echo assets_link('/framework/style/images/rignt_icon.png')}" class="icon-right-card">
+							</div>
+						</a>
+            <div class="borderD"></div>
+          </td>
+          
+        </tr>
+        {/if}
+        <tr>
+          <td style="border:0;width:42px;">
+            <img alt=" " src="{php echo assets_link('/framework/style/images/hotline_icon2.png')}">
+          </td>
+          <td>
+            <a href = "tel:400-818-7171">
+							<div class = "list-titel no-img">
+									<a href="tel:400-818-7171">服务热线<b style="padding-left:20px">400-818-7171</b></a>
+							</div>
+						</a>
+            <div class="borderD"></div>
+          </td>
+          
+        </tr>
+        <tr>
+          <td style="border:0;width:42px;">
+            <img alt=" " src="{php echo assets_link('/framework/style/images/user_xieyi2.png')}">
+          </td>
+          <td>
+            <a href = "{$_W['config']['site']['static']['html']}pages/user_agreement">
+							<div class = "list-titel no-img">
+								用户协议
+								<img alt="" src="{php echo assets_link('/framework/style/images/rignt_icon.png')}" class="icon-right-card">
+							</div>
+						</a>
+            
+          </td>
+          
+        </tr>
+      </table>
+		
+    </li> 
+
+	</ul>
+  <div class="borderD"></div>
+</div>
+  
+    <!-- ／我的订单 -->
+ 
+    <!-- 展开与收缩 -->
+    <?php include template('foot') ?>
+  </body>
+  
+  </html>

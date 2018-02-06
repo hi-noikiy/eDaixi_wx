@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>e卡</title>
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="{php echo assets_link('/framework/style/css/wap.css')}">
+<link rel="stylesheet" type="text/css" href="{php echo assets_link('/framework/style/css/card.css')}" media="all">
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body>
+  <div class="coupon-btn-long">
+    <div id="coupon-btn-style" class="coupon-btn-style">
+      <div class="borderD2"></div>
+      <img src="/framework/style/images/icon_add.png">
+      <span>兑换e卡</span>
+      <div class="borderD2"></div>
+    </div>
+  </div>
+  <?php if ($data_info['is_pay']):?>
+    <div class='card-content choose-tip'>
+      <p>同时选择多张卡时扣款顺序按照<span>1</span><span>2</span>的顺序扣除</p>
+    </div>
+  <?php endif;?>
+
+  <!--e卡列表 -->
+  <div class="card-list">
+    <div class="card-check-list">
+      <?php foreach ($data_info['ecard_list'] as $index => $ecard_info):?>
+        <div class="card-content">
+          <div class="pos-relative font0">
+            <?php if ($ecard_info['is_useable'] == 0):?>
+              <img src="/framework/style/images/card-gray.png" alt="" >
+            <?php elseif ($ecard_info['card_type'] == 1):?>
+              <img src="/framework/style/images/card-blue.png" alt="" >
+            <?php else:?>
+              <img src="/framework/style/images/card-pink.png" alt="" >
+            <?php endif;?>
+            <p class="card-title">余额  ￥<span class="card-money"><?php echo $ecard_info['balance'];?></span></p>
+            <?php if ($data_info['is_pay'] &&
+                     ($ecard_info['is_useable'] == 1)):?>
+              <div class="card-checkout">
+                  <input type="checkbox" id="card-check-<?php echo $ecard_info['id'];?>" value="<?php echo $ecard_info['id'];?>" money="<?php echo $ecard_info['balance'];?>" coupon="<?php echo $ecard_info['allow_coupon'];?>" autocomplete="off">
+                  <label for="card-check-<?php echo $ecard_info['id'];?>" class="card-check <?php if($ecard_info['card_type'] == 2) echo "red-bg";?>"><b class="<?php if($ecard_info['card_type'] == 2) echo 'red-duigou';?>"></b></label>
+                  <p class="checked-num" style="display:none;" data-num></p>
+              </div>
+            <?php endif;?>
+          </div>
+          <div class="card-des pos-relative">
+            <?php if ($ecard_info['card_type'] == 2):?>
+              <p class="card-date">
+                <img src="/framework/style/images/company.png" alt="" class="company">
+                <?php if(!empty($ecard_info['corprate'])):?>
+                  <span><?php echo $ecard_info['corprate'];?></span>
+                <?php endif;?>
+              </p>
+            <?php endif;?>
+            <p class="card-date">卡号: <?php echo $ecard_info['sncode'];?></p>
+            <p class="card-date">
+              <span><?php echo $ecard_info['support'];?></span>
+              <span class = "des-close"></span>
+            </p>
+            <p>
+              <span><?php echo $ecard_info['validate_range'];?></span>
+              <span class = "des-open"></span>
+            </p>
+            <div class="sec-des">
+              <p><?php echo $ecard_info['price'];?></p>
+              <?php if(!empty($ecard_info['warning'])):?>
+                <p><?php echo $ecard_info['warning'];?></p>
+              <?php endif;?>
+            </div>
+          </div>
+        </div>
+      <?php endforeach;?>
+    </div>
+  </div>
+  <?php if ($data_info['is_pay']):?>
+    <!-- 确定按钮 -->
+    <div class="ok-bottom">
+       <div class="borderD"></div>
+      <div class="ok-btn" id="ok-btn">
+       确定
+      </div>
+    </div>
+    
+  <?php endif;?>
+
+  <!-- end of e卡列表 -->
+  <div class="cardexplain white_bg" style="margin: 0px;display:none;" id="cardExplain">
+    <div class="cod">
+      <div class="wx_mask"></div>
+      <div class="wx_confirm ">
+        <div class="wx_confirm_inner" id="wx_confirm_coupon">
+          <div class="wx_confirm_hd" style="margin-bottom:0;padding-top:10px">
+              <div class="wx_confirm_tit" id="ump_color_gray">兑换e卡</div>
+              <form id="card-form" action="javascript:;" method="POST" url="<?php echo $data_info['exchange_url'];?>">
+                <div class="inputbox">
+                  <input id="coupon_sn" name="sncode" type="text" placeholder="输入卡密" class="bind_sn_coupon #coupon_sn" autocomplete="off">
+                </div>
+                <div id="card-tip" class="coupon-tip"><!-- 兑换提示 --></div>
+                <div class="floatBorder floatbox">
+                   <a id="cancel" class="cancel single_input2">取消</a>
+                   <a id="exchange" class="single_input2" href="javascript:void(0);">兑换</a>
+                </div>
+              </form>
+              <div class="clearBoth"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 提示浮层 start -->
+  <div id="codFloat" style="display:none;" class="cod" style="height:60px">
+    <div class="wx_mask"></div>
+    <div class="wx_confirm ">
+        <div class="wx_confirm_inner" id="wx_confirm_float" style="background:black">
+          <div class="wx_confirm_hd">
+              <div class="wx_confirm_tit" id="show_mes">出错了，请稍后再试！</div>
+          </div>
+        </div>
+    </div>
+  </div>
+  <!-- 提示浮层 end -->
+
+  <!-- e卡与优惠券不匹配弹窗 start -->
+    <div id="choose-tip" style="display: none;">
+        <div class="wx_mask"></div>
+        <div class="wx_confirm">
+          <div class="wx_confirm_inner" style="padding:6% 0 0 0;width:100%">
+            <div class="wx_confirm_hd bigfont p30">
+              您选择的e卡不支持使用优惠券，您可以继续使用此卡放弃使用优惠券或者选择其他e卡
+           </div>
+            <div class="wx_confirm_bd">
+              <div class="borderD"></div>
+              <div class="wx_confirm_btns" style="position:relative">                        
+                  <button type="button" id="choose-tip-false" class="blue-color">返回修改</button>
+                  <button type="button" id="choose-tip-true" class="blue-color">继续使用</button>
+                  <div class="borderL"></div>
+              </div>
+            </div>
+            </div>
+        </div>
+    </div>
+  <!-- e卡与优惠券不匹配弹窗 end -->
+
+  <script>
+    //未兑换状态
+    var ex_status = 0;
+    var total_number = 0;
+    var check_money = 0;
+    var clicked_ecard = null;
+
+    <?php if ($data_info['is_pay']):?>
+    var total_money = <?php echo $data_info['total_money'];?>;
+    var after_coupon_money = <?php echo $data_info['after_coupon_money'];?>;
+    var sum_money = after_coupon_money;
+    var coupon_id = <?php echo $data_info['coupon_id'];?>;
+    <?php endif;?>
+    
+    //点击兑换e卡弹框
+    $("#coupon-btn-style").click(function(){
+      $("#cardExplain").show();
+      $('#coupon_sn').val('');
+      showTip("");
+      setButton(true);
+    })
+
+    //取消兑换
+    $('#cancel').click(function() {
+      if (ex_status != 1) {
+        $("#cardExplain").hide();
+      }
+      return false;
+    });
+
+    //清除输入
+    $("#coupon_sn").on('focus', function(){
+      showTip("");
+    });
+
+    //e卡兑换
+    $('#exchange').click(function() {
+      if (ex_status != 1) {
+        var check = checkForm();
+        if (check) {
+          var form = $("#card-form");
+          var url = form.attr('url');
+          var data = form.serialize();
+          ecardExchange(url, data);
+        }
+      }
+      return false;
+    });
+
+    //e卡详情展开
+    $('.des-open').click(function() {
+      $(this).parent().siblings('.sec-des').show();
+      $(this).hide();
+      $(this).parent().siblings().children('.des-close').show();
+    });
+
+    //e卡详情关闭
+    $('.des-close').click(function() {
+      $(this).parent().siblings('.sec-des').hide();
+      $(this).hide();
+      $(this).parent().siblings().children('.des-open').show();
+    });
+
+
+    //点击e卡继续使用
+    $("#choose-tip-true").click(function(){
+      $("#choose-tip").hide();
+      //不使用优惠券
+      coupon_id = 0;
+      //总金额改为使用优惠券前的金额
+      sum_money = total_money;
+      clicked_ecard.trigger("click");
+      clicked_ecard = null;
+    });
+
+    //点击e卡返回修改
+    $("#choose-tip-false").click(function(){
+      $("#choose-tip").hide();
+      //取消本次选择，停在本页面
+    });
+
+    //e卡点选
+    $(".card-checkout input").click(function(){
+      clicked_ecard = $(this);
+      //如果e卡不支持优惠券，弹框
+      var allow_coupon = $(this).attr('coupon') == '1';
+      //用了优惠券， 但e卡不支持使用优惠券
+      if (!allow_coupon &&
+          coupon_id > 0) {
+        $("#choose-tip").show();
+        return false;
+      } else {
+        var checked = $(this).prop('checked');
+        var checked_num = $(this).siblings(".checked-num");
+        if (checked) {
+          //总计数加1
+          total_number++;
+          check_money += parseFloat($(this).attr('money'));
+          checked_num.html(total_number).show();
+        } else {
+          var cur_num = parseInt(checked_num.html());
+          //总计数-1
+          total_number--;
+          check_money -= parseFloat($(this).attr('money'));
+          //所有大于当前num的减1
+          $(".card-checkout input:checked").each(function(){
+            var checked_num = $(this).siblings(".checked-num");
+            var num = parseInt(checked_num.html());
+            if (num > cur_num) {
+              num--;
+              checked_num.html(num);
+            }
+          });
+          checked_num.html(total_number).hide();
+        }
+        //如果已选金额大于订单金额，取消其他e卡可选状态
+        if (check_money > sum_money) {
+          $(".card-checkout input").each(function(){
+            if (!$(this).prop('checked')) {
+              $(this).parent().hide();
+            }
+          });
+        } else {
+          $(".card-checkout input").each(function(){
+            if (!$(this).prop('checked')) {
+              $(this).parent().show();
+            }
+          });
+        }
+      }
+    });
+
+    //确认选择e卡
+    $("#ok-btn").click(function(){
+      var ecard_array = new Array();
+      $(".card-checkout input:checked").each(function(){
+        var checked_num = $(this).siblings(".checked-num");
+        var num = parseInt(checked_num.html());
+        num = num - 1;
+        var ecard_id = parseInt($(this).val());
+        ecard_array[num] = ecard_id;
+      });
+      var jump_url = "<?php echo $data_info['jump_url'];?>";
+      var back_url = "<?php echo $data_info['back_url']?>";
+      if (coupon_id > 0) {
+        url = jump_url;
+      } else {
+        url = back_url;
+      }
+      var ecard_str = JSON.stringify(ecard_array);
+      url = url + "&ecard_list=" + encodeURI(ecard_str);
+      window.location.href = url;
+    });
+
+    //e卡兑换
+    function ecardExchange(url, send_data)
+    {
+      showTip('兑换中...');
+      ex_status = 1;
+      setButton(false);
+      has_resp = false;
+      time_count = setTimeout(function(){
+        if (ex_status == 1) {
+          ajax.abort();
+          ex_status = 2;
+          showTip('出错啦，请稍后再试！');
+          setButton(true);
+        }
+      }, 8000);
+      ajax = $.ajax({
+              type : "POST",
+              async:true,
+              url : url,
+              data: send_data,
+              dataType : "json",
+              timeout: 5000,
+              success : function(ret){
+                clearTimeout(time_count);
+                ex_status = 2;
+                setButton(true);
+                if (ret.state == 1) {
+                  //兑换成功
+                  showTip(ret.msg);
+                  jumpUrl('reload', 2000);
+                } else {
+                  showTip(ret.msg);
+                }
+              },
+              error:function(XMLHttpRequest, textStatus, errorThrown){
+                clearTimeout(time_count);
+                setButton(true);
+                ex_status = 2;
+                if (textStatus == 'timeout') {
+                  showTip('网络超时, 请稍后再试!');
+                } else {
+                  showTip('出错了，请稍后再试！');
+                }
+              }
+
+      });
+    }
+
+    /**
+     * 校验表单数据
+     */
+    function checkForm()
+    {
+      var check = true;
+      var sncode = $("#coupon_sn").val().replace(/\s/g, '');
+      if (sncode == '') {
+        showTip('请输入卡密');
+        check = false;
+      }
+      return check;
+    }
+
+    // 弹窗提示
+    function show_mes(title, delay_time) {
+        if(title){
+            $("#show_mes").html(title);
+        }
+        if (delay_time) {
+          setTimeout(function(){
+            $("#codFloat").hide();
+          }, delay_time);
+        }
+        $("#codFloat").show();
+    }
+
+    function showTip(text)
+    {
+      $("#card-tip").html(text);
+    }
+
+    //跳转url
+    function jumpUrl(url, delay_time) {
+      if (url == 'reload') {
+        if (delay_time) {
+          setTimeout("location.reload()", delay_time);
+        } else {
+          location.reload(true);
+        }
+      } else if (url) {
+        if (delay_time) {
+          setTimeout("location.href='" + url + "'", delay_time);
+        } else {
+          location.href = url;
+        }
+      }
+    }
+
+    //设置‘兑换/取消’颜色
+    function setButton(status) {
+      if (!status) {
+        $("#cancel").addClass('gray');
+        $("#exchange").addClass('gray');
+      } else {
+        $("#cancel").removeClass('gray');
+        $("#exchange").removeClass('gray');
+      }
+    }
+    <?php if (!empty($ecard_list)):?>
+      //复原e卡的已选择情况
+      var ecard_list = <?php echo json_encode($ecard_list);?>;
+      var length = ecard_list.length;
+      for(var i=0; i < length; i++){
+        $("#card-check-" + ecard_list[i]).trigger("click");
+      }
+    <?php endif;?>
+</script>
+</body>
+</html>

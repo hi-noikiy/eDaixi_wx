@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no, email=no" name="format-detection">
+ <!--    <script type="text/javascript">
+        !function(){var a="@charset \"utf-8\";html{color:#000;background:#fff;overflow-y:scroll;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}html *{outline:0;-webkit-text-size-adjust:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}html,body{font-family:sans-serif}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0}input,select,textarea{font-size:100%}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}abbr,acronym{border:0;font-variant:normal}del{text-decoration:line-through}address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:500}ol,ul{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:500}q:before,q:after{content:''}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}a:hover{text-decoration:underline}ins,a{text-decoration:none}",b=document.createElement("style");if(document.getElementsByTagName("head")[0].appendChild(b),b.styleSheet)b.styleSheet.disabled||(b.styleSheet.cssText=a);else try{b.innerHTML=a}catch(c){b.innerText=a}}();!function(a,b){function c(){var b=f.getBoundingClientRect().width;b/i>540&&(b=540*i);var c=b/10;f.style.fontSize=c+"px",k.rem=a.rem=c}var d,e=a.document,f=e.documentElement,g=e.querySelector('meta[name="viewport"]'),h=e.querySelector('meta[name="flexible"]'),i=0,j=0,k=b.flexible||(b.flexible={});if(g){console.warn("将根据已有的meta标签来设置缩放比例");var l=g.getAttribute("content").match(/initial\-scale=([\d\.]+)/);l&&(j=parseFloat(l[1]),i=parseInt(1/j))}else if(h){var m=h.getAttribute("content");if(m){var n=m.match(/initial\-dpr=([\d\.]+)/),o=m.match(/maximum\-dpr=([\d\.]+)/);n&&(i=parseFloat(n[1]),j=parseFloat((1/i).toFixed(2))),o&&(i=parseFloat(o[1]),j=parseFloat((1/i).toFixed(2)))}}if(!i&&!j){var p=(a.navigator.appVersion.match(/android/gi),a.navigator.appVersion.match(/iphone/gi)),q=a.devicePixelRatio;i=p?q>=3&&(!i||i>=3)?3:q>=2&&(!i||i>=2)?2:1:1,j=1/i}if(f.setAttribute("data-dpr",i),!g)if(g=e.createElement("meta"),g.setAttribute("name","viewport"),g.setAttribute("content","initial-scale="+j+", maximum-scale="+j+", minimum-scale="+j+", user-scalable=no"),f.firstElementChild)f.firstElementChild.appendChild(g);else{var r=e.createElement("div");r.appendChild(g),e.write(r.innerHTML)}a.addEventListener("resize",function(){clearTimeout(d),d=setTimeout(c,300)},!1),a.addEventListener("pageshow",function(a){a.persisted&&(clearTimeout(d),d=setTimeout(c,300))},!1),"complete"===e.readyState?e.body.style.fontSize=12*i+"px":e.addEventListener("DOMContentLoaded",function(){e.body.style.fontSize=12*i+"px"},!1),c(),k.dpr=a.dpr=i,k.refreshRem=c,k.rem2px=function(a){var b=parseFloat(a)*this.rem;return"string"==typeof a&&a.match(/rem$/)&&(b+="px"),b},k.px2rem=function(a){var b=parseFloat(a)/this.rem;return"string"==typeof a&&a.match(/px$/)&&(b+="rem"),b}}(window,window.lib||(window.lib={}));
+    </script> -->
+	<title>开具发票</title>
+	<link rel="stylesheet" type="text/css" href="../css/invoice.css?v=20170602">
+	<link rel="stylesheet" type="text/css" href="../css/weui.min.css">
+	<link rel="stylesheet" type="text/css" href="../css/jquery-weui.min.css">
+    
+   
+    <link rel="stylesheet" href="http://code.jQuery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
+
+    <!-- <link rel="stylesheet" type="text/css" href="../css/jquery-weui.css"> -->
+    <script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body>
+	<div class="menu-make-invoice">
+        <span class="invoice-record">开票记录</span><span class="invoice-declare">开票说明</span>
+    </div>
+    <div id="invoice-part">
+    	<p>
+    		<label>发票金额</label><input type="text" class="weui_input total" readonly/>
+    	</p>
+        <p>
+            <label>发票类型</label><span class="personal checked" data-type="personal">个人</span><span class="company" data-type="company">企业</span>
+        </p>
+    	<p>
+    		<label>发票抬头</label><input type="text" id="in_tax_name" class="weui_input company_name" placeholder="请输入公司全称或个人真实姓名" />
+    	</p>
+        <p class="tax_info hide" style="position: relative;">
+            <label style="line-height: 1.2;padding: .3rem 0;">纳税人识别号</label>
+            <input type="text" id="in_tax_id" class="weui_input tax_id" style="position: absolute;top: 25%;left: 25%;" />
+        </p>
+    	<p class="last">
+    		<label>发票内容</label>
+    	</p>
+    </div>
+    <div id="user-address">
+    	<p>
+    		<label>收件人</label><input type="text" class="weui_input receiver_name"/>
+    	</p>
+    	<p>
+    		<label>联系电话</label><input type="text" class="weui_input receiver_tel"/>
+    	</p>
+    	<p>
+    		<label>收件地址</label><input type="text" class="weui_input" id="city-picker" readonly/>
+    	</p>
+    	<p class="end">
+    		<label>详细地址</label><input type="text" class="weui_input address"/> 
+    	</p>
+    </div>
+    <div id="tip">
+    	<div class="content">
+    		<p class="title">快递及运费说明</p>
+    	</div>
+    </div>
+    <div id="submit" class="disabled">提交</div>
+    <div id="explain" class="hide">
+        <div class="content"></div>
+        <img src="../images/close.png">
+    </div>
+
+    <script type="text/javascript" src="../js/jquery-1.8.3.js"></script>
+    <script type="text/javascript" src="../js/jquery-ui.js"></script>
+	<script type="text/javascript" src="../js/zepto.js"></script>
+	<script src="../js/jquery-weui.min.js"></script>
+	<script src="../js/city-picker.min.js"></script>
+    
+    <!-- <script src="../js/jquery-weui.js"></script> -->
+    <!-- <script src="../js/city-picker.js"></script> -->
+
+    <script type="text/javascript">
+        // 开发联调控制 
+        window.debug = false;
+        var api = {};
+        if (window.debug) {
+            api.make_invoice = "/make_invoice";
+            api.make_invoice_render = "/make_invoice_render";
+        }
+        else {
+            api.make_invoice = "/api.php?m=wap&act=invoice&do=create_invoice";
+            api.make_invoice_render = "/api.php?m=wap&act=invoice&do=get_invoice_page";
+        }
+    </script>
+	<script type="text/javascript">
+
+        // 存放发票内容
+        var invoiceInfo = {};
+        //企业发票列表
+        var taxs_list = [];
+
+        // 渲染页面
+        $.ajax({
+            type: "GET",
+            url: api.make_invoice_render,
+            dataType: "json",
+            success: function(data) {
+                if (data.ret) {
+                   
+                   //企业发票列表
+                    var taxlen = data.data.tax_history.length;
+                    for (var i = 0; i < taxlen; i++) {                   
+                        taxs_list[i] = new Object();
+                        taxs_list[i].value = data.data.tax_history[i]['company_name'];
+                        taxs_list[i].tax_id = data.data.tax_history[i]['tax_id'];
+                    }
+                    
+                    // 发票内容
+                    var len = data.data.invoice_content.length;
+                    for (var i = 0; i < len; i++) {
+                        var html;
+                        if (data.data.invoice_content[i] === "清洗费") {
+                            html = "<span class='checked'>" + data.data.invoice_content[i] + "</span>";
+                        }
+                        else {
+                            html = "<span>" + data.data.invoice_content[i] + "</span>";
+                        }
+                        $("#invoice-part p.last").append(html);
+                    }
+                    // tip 内容
+                    var n = data.data.delivery_fee_info.length;
+                    for (var i = 0; i < n; i++) {
+                        var html = "<p>" + data.data.delivery_fee_info[i] + "</p>";
+                        $("#tip .content").append(html);
+                    }
+
+                    // 发票说明
+                    var tempStr = data.data.invoice_description.replace(/(\n|\r|(\r\n)|(\u0085)|(\u2028)|(\u2029)|↵)/g, "");
+                    var arr = tempStr.split("；");
+                    var invoice_description = arr.join("；<br/>");
+                    $("#explain .content").html(invoice_description);
+                }
+                else {
+                    if (data.error && data.error.message) {
+                        $.alert(data.error.message);
+                    }
+                }
+            },
+            error: function(xhr, type) {
+                $.alert("出错了，请重新进入试试");
+            }
+        })
+		// 填充价格
+		var storage = window.sessionStorage;
+		var total = storage.getItem("total");
+		$(".total").val("￥" + formatCurrency(total));
+
+        // 发票类型选择
+        invoiceInfo.invoice_type = "personal";
+        $(".personal, .company").click(function() {
+            $(".personal, .company").removeClass("checked");
+            $(this).addClass("checked");
+            invoiceInfo.invoice_type = $(this).data("type");
+            if(invoiceInfo.invoice_type == 'company'){
+                $(".tax_info").removeClass("hide");
+
+                //企业发票 自动补全
+                $("#in_tax_name").val('');                
+                $( "#in_tax_name" ).autocomplete({
+                   source: taxs_list
+                 });
+                $("#in_tax_name").bind("autocompleteselect", function(e, ui) {
+                    var selectedid = ui.item.tax_id;
+                    $("#in_tax_id").val(selectedid);               
+                });
+                    
+            }else{
+                $(".tax_info").addClass("hide");
+                //移除自动补全
+                var personal_tax = [];
+                $("#in_tax_name").val(''); 
+                $( "#in_tax_name" ).autocomplete({
+                   source: personal_tax
+                 });
+
+                $("#in_tax_id").val(''); 
+            }
+            submitDisabled();
+        })
+
+        // 发票抬头，检测是否为空
+        $("#invoice-part .company_name").on("input propertychange", function() {
+            submitDisabled();
+        })
+
+        // 发票内容选择
+        $("#invoice-part p.last").on("click", "span", function() {
+            $("#invoice-part p.last span").removeClass("checked");
+            invoiceInfo.invoice_content = $(this).text();
+            $(this).addClass("checked");
+        })
+        
+        // 收件人和电话，检测是否为空
+        $("#user-address .receiver_name, #user-address .receiver_tel, #user-address .address, .tax_id").on("input propertychange", function() {
+            submitDisabled();
+        })
+        // 选择城市
+        $("#city-picker").cityPicker({
+            title: "请选择收件地址",
+            onChange: function(picker, values, displayValues) {
+                var temp = $("#city-picker").val();
+                var arr = temp.split(" ");
+                var province = arr[0];
+                var city = arr[1];
+                var area = arr[2] ? arr[2] : "";
+                invoiceInfo.province = province;
+                invoiceInfo.city = city;
+                invoiceInfo.area = area;
+            }
+        })
+
+
+        // 提交
+        $("#submit").click(function() {
+            if ($("#submit").hasClass("disabled")) {
+                return;
+            }
+            // 收集发票信息
+            var details = storage.getItem("details");
+            invoiceInfo.details = JSON.parse(details); 
+            invoiceInfo.company_name = $(".company_name").val();
+            if (!invoiceInfo.invoice_content) {
+                invoiceInfo.invoice_content = $("#invoice-part .last .checked").text(); 
+            }
+            if($(".tax_id").val()){
+                invoiceInfo.tax_id = $(".tax_id").val();
+            }else{
+                invoiceInfo.tax_id = '';
+            }
+            invoiceInfo.receiver_name = $(".receiver_name").val();
+            invoiceInfo.receiver_tel = $(".receiver_tel").val();
+            invoiceInfo.address = $(".address").val();
+            // 如果没有选择操作，则使用默认value的省市区
+            if (!invoiceInfo.province) {
+                var temp = $("#city-picker").val();
+                var arr = temp.split(" ");
+                var province = arr[0];
+                var city = arr[1];
+                var area = arr[2] ? arr[2] : "";
+                invoiceInfo.province = province;
+                invoiceInfo.city = city;
+                invoiceInfo.area = area;
+            }
+            if (!$("#city-picker").val()) {
+                $.alert("请选择收件地址")
+                return;
+            }
+            $.ajax({
+                type: "POST",
+                url: api.make_invoice,
+                data: invoiceInfo,
+                dataType: "json",
+                success: function(data) {
+                    if (data.ret) {
+                        $.alert("提交成功", function() {
+                            window.location.href = "./invoice_record_list.html";
+                        })
+                    }
+                    else {
+                        if (data.error && data.error.message) {
+                            $.alert("提交失败，" + data.error.message, function() {
+                                window.location.reload();
+                            })
+                        }
+                    }
+                },
+                error: function(xhr, type) {
+                    $.alert("出错了，请重新提交试试");
+                }
+            })
+
+            $("#submit").addClass("disabled");
+        })
+
+        /**
+         * 判断发票信息是否有填写完
+         */
+        function submitDisabled() {
+            var num = 0;
+            // if (invoiceInfo.invoice_type) {
+            //     num++;
+            // }
+
+            if ($("#invoice-part .company_name").val()) {
+                num++;
+            }
+            if ($("#user-address .receiver_name").val()) {
+                num++;
+            }
+            var phonePattern = /^1[34578]\d{9}$/;
+            if (phonePattern.test(+$("#user-address .receiver_tel").val())) {
+                num++;
+            }
+
+            if (($(".tax_id").val()&&invoiceInfo.invoice_type=="company") || invoiceInfo.invoice_type=="personal") {
+                num++;
+            }
+           
+            if ($(".address").val()) {
+                num++;
+            }
+
+            if (num < 5) {
+                $("#submit").addClass("disabled");
+            }
+            else {
+                $("#submit").removeClass("disabled");
+            }
+        }
+        // 开票记录链接
+        $(".menu-make-invoice .invoice-record").click(function() {
+            window.location.href = "./invoice_record_list.html";
+        })
+        // 开票说明链接
+        $(".menu-make-invoice .invoice-declare").click(function() {
+            $("#explain").removeClass("hide").addClass("show"); 
+            $("#explain img").click(function() {
+                $("#explain").removeClass("show").addClass("hide");
+            })
+        })
+
+        // 隐藏提交按钮（唤起输入法时）。注：会引起其他问题：当再次编辑输入框后，焦点在input，提交按钮一直隐藏
+        // $("#invoice-part .company_name, #user-address .receiver_name, #user-address .receiver_tel").focus(function() {
+        //     $("#submit").hide();
+        // }).blur(function() {
+        //     $("#submit").show();
+        // })
+
+        // 点击城市区域控件时，使其他input失去焦点
+        $("#city-picker").click(function() {
+            $("#city-picker").focus();
+        })
+		/**
+         * 货币样式格式化
+         * @param  {number, string} num 货币数字
+         * @return {string}    例：28,989.00
+         */
+        function formatCurrency(num) {
+            if (num) {
+                num = +num.toString().replace(/\$|\,/g,'');
+                if(isNaN(num))
+                    num = "0";
+                sign = (num == (num = Math.abs(num)));
+                num = Math.floor(num*100+0.50000000001);
+                cents = num%100;
+                num = Math.floor(num/100).toString();
+                if(cents<10)
+                cents = "0" + cents;
+                for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+                num = num.substring(0,num.length-(4*i+3))+','+
+                num.substring(num.length-(4*i+3));
+                return (((sign)?'':'-') + num + '.' + cents);
+            }
+        }
+	</script>
+</body>
+</html>

@@ -1,0 +1,247 @@
+body {
+  background: #fff;
+  padding: 0;
+  margin: 0 auto;
+}
+html{ font-size:120px;}
+@media screen and (max-width:640px){html{font-size:120px;}}
+@media screen and (max-width:580px){html{font-size:90px;}}
+@media screen and (max-width:540px){html{font-size:84px;}}
+@media screen and (max-width:480px){html{font-size:75px;}}
+@media screen and (max-width:428px){html{font-size:62px;}}
+@media screen and (max-width:360px){html{font-size:56px;}}
+@media screen and (max-width:320px){html{font-size:48px;}}
+a,input,button {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-outline: none;
+  -webkit-touch-callout:none;
+  outline: none;
+}
+p {
+  margin: 0;
+  padding: 0;
+}
+.content {
+  text-align: center;
+  margin: 0 12%;
+}
+.yaoqing_bag {
+  width: 16%;
+  margin-bottom: 3px;
+  float: left;
+}
+.yaoqing_text {
+  padding-top: 44%;
+}
+.yaoqing_text img {
+  width: 100%;
+}
+.yaoqing_btn {
+  display: block;
+  font-size: 0.3rem;
+  width: 100%;
+  margin: 0px auto 10px auto;
+  box-shadow: 0px 4px 0 1px #00b3b5;
+  padding: 0.18rem 0;
+  border-radius: 8px;
+  text-decoration: none;
+  background: #04cdbf;
+  text-align: center;
+  color: #fff;
+  border: 0;
+}
+.yaoqing_text div {
+  font-size: 20px;
+}
+.color_text {
+  color: #00b3b5;
+  font-size: 0.2rem;
+  text-decoration: underline;
+
+}
+.wx_mask {
+  background: #000;
+  opacity: 0.6;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+  left: 0;
+  z-index: 1;
+  right: 0;
+}
+.wx_content p{
+  line-height: 0.5rem;
+}
+.wx_content {
+  position: absolute;
+  background: #fff;
+  border-radius: 14px;
+  color: #300000;
+  margin: auto 9%;
+  z-index: 1;
+  top: 14%;
+  font-size: 0.26rem;
+  padding: 30px;
+}
+.rule_title {
+  width: 44%;
+  margin: 0 auto;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -14px
+} 
+.share_title {
+  width: 74%;
+  z-index: 22;
+  position: absolute;
+  top: 10px;
+  right: 20px;
+}
+.yaoqing-detail {
+  padding-bottom: 20px;
+}
+.yaoqing_record {
+  display: -webkit-box;
+  padding: 30px 20px 20px;
+}
+.record {
+  width: 120px;
+  font-size: 14px;
+  color: #BCBCBC;
+  text-align: center;
+}
+.border_left, .border_right{
+  -webkit-box-flex: 1;
+}
+.borderD{border-bottom:1px solid #BCBCBC;transform: scaleY(0.5);-webkit-transform: scaleY(0.5);margin-top: 10px;}
+.yaoqing-phone {
+  width: 100%;
+}
+.phone-list {
+  display: -webkit-box;
+  padding: 20px 40px 0px 40px;
+}
+.borderX {
+  border-bottom:1px  dashed #BCBCBC;
+  height: 10px;
+}
+.phone_left {
+  font-size: 16px;
+  color: #BCBCBC;
+  width: 100px;
+}
+.phone_right {
+  font-size: 14px;
+  margin-left: 12px;
+}
+.middle-line {
+   -webkit-box-flex: 1;
+}
+.yaoqing {
+  color: #0dcbcd;
+}
+.liangquan {
+  color: #BCBCBC;
+}
+.wx_confirm{
+  position:fixed;
+  left:0;right:0;
+  top: 19%;
+  z-index:2; 
+  margin: 0 14%;
+  background: #fff;
+  border-radius: 4px;
+}
+.wx_confirm p {
+  font-size: 0.23rem;
+  color: #222;
+  text-align: center;
+  margin-bottom: 0.22rem;
+}
+.wx_confirm p:first-child {
+  padding: 0.6rem 0.32rem 0 0.32rem;
+}
+.borderLinear {
+  background:url(../images/share_line.png) no-repeat left center;
+  background-size: 100% 100%;
+  height: 13px;
+}
+.QRcode {
+    font-size: 0.32rem;
+    width: 80%;
+    padding: 0.22rem 10%;
+}
+.QRcode img {
+    width: 100%;
+}
+
+.share_logo {
+    position: fixed;
+    top: 0;
+    z-index: 3;
+    right: 0;
+    width: 40%;
+}
+.invite_bg {
+  width: 100%;
+}
+.pos_relative {
+  position: relative;
+}
+.pos_absolute {
+  position: absolute;
+}
+.invite_detail {
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.invite_detail {
+  background: #bdc4cd;
+  padding: 30px;
+}
+.invite_tip {
+  font-size: 13px;
+  font-size: #3D3d3d;
+  width: 84%;
+  float: left;
+  margin-top: 10px;
+}
+.invite_tip p {
+    margin-left: 20px;
+    background: rgba(255,255,255,.9);
+    padding: 8px;
+    border-radius: 4px;
+    line-height: 20px;
+}
+.price {
+  font-size: 18px;
+  color: #04cdbf;
+}
+.rule {
+  background: #0dcbcd;
+  color: #fff;
+  font-size: 17px;
+  border-radius: 4px;
+  width: 80%;
+  text-align: center;
+  line-height: 44px;
+  margin: 0 auto;
+  margin-top: -40px;
+}
+.rule_know {
+  background: #0dcbcd;
+  color: #fff;
+  font-size: 0.24rem;
+  border-radius: 4px;
+  width: 50%;
+  text-align: center;
+  line-height: 38px;
+  margin: 0 auto;
+}
+.bg_bdc4cd {
+  background: rgba(189, 196, 205, 0.07);
+}

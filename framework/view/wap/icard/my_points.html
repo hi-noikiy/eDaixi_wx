@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<link href="{php echo assets_link('/framework/style/css/jifen.css')}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="{php echo assets_link('/framework/style/js/jquery-1.8.2.min.js')}"></script>
+<title>我的积分</title>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body id="card" ondragstart="return false;" onselectstart="return false;">
+  <section class="my_jifen">
+
+    <div class="white-bg radius_block">
+     <div class="huoqu_jifen">
+        <a href = "{php echo create_url('icard/point_des',array())}" >
+          <img src="{php echo assets_link('/framework/style/images/jifen_huoqu.png')}" >获得积分     
+        </a>
+      </div>
+      <div class="jifen_box">
+        积分  
+        <div class="font16">{$total}</div>
+      </div>
+	  <div class="jifen_shc" onclick="javascript:location='{$points_mall_url}'">
+	  	<img src="{php echo assets_link('/framework/style/images/jifen_xiaoche.png')}" >积分商城
+	  </div>
+      <div class="jifen_mingxi">
+        <div class="borderD2"></div>
+        <span>积分明细</span>
+      </div>
+    </div>
+  </section>
+  
+  <section class="jifen_list white-bg">
+    <div class="jifen_itle feature_block" {if count($login_points) > 1}onclick="openShutManager('box1')"{/if}>每日登录
+      <div class="add_jifen">+{$login_points[0]['extcredits1']}
+        <div class="time">{$login_points[0]['create_date']}</div>
+      </div>
+      {if count($login_points) > 1}
+      <em class="toggle_down" id="box1_toggle_down" style="display:none;"></em>
+      <em class="toggle_up" id="box1_toggle_up"></em>
+      {/if}
+
+    </div>
+
+    {if count($login_points) > 1}
+	    <ul id="box1" style="display:none">
+	      <div class="borderD"></div>
+	      {loop $login_points $key $points}
+	      	{if $key > 0}
+		      <li>
+		        {$points['create_date']}
+		        <span class="add_jifen">+{$points['extcredits1']}</span>
+		        <div class="borderD"></div>
+          </li>
+          
+		    {/if}
+	      {/loop}
+	     <p class="space-split"></p>
+      </ul>
+
+    {/if}
+
+  </section>
+  <div class="borderD2"></div>
+  
+  <section class="jifen_list white-bg">
+    <div class="jifen_itle feature_block" {if count($icard_pay_points) > 1}onclick="openShutManager('box2')"{/if}>余额支付
+      <div class="add_jifen">+{$icard_pay_points[0]['extcredits1']}
+        <div class="time">{$icard_pay_points[0]['create_date']}</div>
+      </div>
+      {if count($icard_pay_points) > 1}
+      <em class="toggle_down" id="box2_toggle_down" style="display:none;"></em>
+      <em class="toggle_up" id="box2_toggle_up"></em>
+      {/if}
+    </div>
+    {if count($icard_pay_points) > 1}
+	    <ul id="box2" style="display:none">
+	      <div class="borderD"></div>
+	      {loop $icard_pay_points $key $points}
+	      	{if $key > 0}
+		      <li>
+		        {$points['create_date']}
+		        <span class="add_jifen">+{$points['extcredits1']}</span>
+		        <div class="borderD"></div>
+          </li>
+          
+		    {/if}
+	      {/loop}
+        <p class="space-split"></p>
+	    </ul>
+    {/if}
+  </section>
+  <div class="borderD"></div>
+    
+  <section class="jifen_list white-bg">
+   <div class="jifen_itle feature_block" {if count($other_pay_points) > 1}onclick="openShutManager('box3')"{/if}>非余额支付
+     <div class="add_jifen">+{$other_pay_points[0]['extcredits1']}
+        <div class="time">{$other_pay_points[0]['create_date']}</div>
+     </div>
+     {if count($other_pay_points) > 1}
+     <em class="toggle_down" id="box3_toggle_down"  style="display:none;"></em>
+     <em class="toggle_up" id="box3_toggle_up"></em>
+     {/if}
+   </div>
+   {if count($other_pay_points) > 1}
+	    <ul id="box3" style="display:none">
+	      <div class="borderD"></div>
+	      {loop $other_pay_points $key $points}
+	      	{if $key > 0}
+		      <li>
+		        {$points['create_date']}
+		        <span class="add_jifen">+{$points['extcredits1']}</span>
+		        <div class="borderD"></div>
+          </li>
+          
+		    {/if}
+	      {/loop}
+        <p class="space-split"></p>
+	    </ul>
+   {/if}
+  </section>
+  <div class="borderD"></div>
+  
+  <section class="jifen_list white-bg"> 
+   <div class="jifen_itle feature_block" {if count($exchange) > 1}onclick="openShutManager('box4')"{/if}>商城兑换
+     <div class="add_jifen green_color">-{$exchange[0]['extcredits1']}
+        <div class="time">{$exchange[0]['create_date']}</div>
+     </div>
+     {if count($exchange) > 1}
+     <em class="toggle_down" id="box4_toggle_down"  style="display:none;"></em>
+     <em class="toggle_up" id="box4_toggle_up" ></em>
+     {/if}
+   </div>
+   {if count($exchange) > 1}
+	    <ul id="box4" style="display:none">
+	      <div class="borderD"></div>
+	      {loop $exchange $key $points}
+	      	{if $key > 0}
+		      <li>
+		        {$points['create_date']}
+		        <span class="add_jifen green_color">-{$points['extcredits1']}</span>
+		        <div class="borderD"></div>
+          </li>
+          
+		    {/if}
+	      {/loop}
+        <p class="space-split"></p>
+	    </ul>
+    {/if}
+  </section>
+  <div class="borderD"></div>
+  
+  <section class="jifen_list white-bg">  
+   <div class="jifen_itle feature_block" {if count($comment_points) > 1}onclick="openShutManager('box5')"{/if}>评价
+     <div class="add_jifen">+{$comment_points[0]['extcredits1']}
+        <div class="time">{$comment_points[0]['create_date']}</div>
+     </div>
+     {if count($comment_points) > 1}
+     <em class="toggle_down" id="box5_toggle_down"  style="display:none;"></em>
+     <em class="toggle_up" id="box5_toggle_up" ></em>
+     {/if}
+   </div>
+   {if count($comment_points) > 1}
+	    <ul id="box5" style="display:none">
+	      <div class="borderD"></div>
+	      {loop $comment_points $key $points}
+	      	{if $key > 0}
+		      <li>
+		        {$points['create_date']}
+		        <span class="add_jifen">+{$points['extcredits1']}</span>
+		        <div class="borderD"></div>
+          </li>
+          
+		    {/if}
+	      {/loop}
+        <p class="space-split"></p>
+	    </ul>
+    {/if}
+  </section>
+  <div class="borderD"></div>
+<script type="text/javascript">
+function openShutManager(box){
+	$('#' + box).toggle();
+	$('#' + box + '_toggle_down').toggle();
+	$('#' + box + '_toggle_up').toggle();
+}
+</script>
+<?php include template('foot') ?>
+</body>
+
+</html>

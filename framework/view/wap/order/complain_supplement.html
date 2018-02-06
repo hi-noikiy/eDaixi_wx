@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+	<meta content="" name="pgv">
+	<meta charset="UTF-8">
+	<link href="{php echo assets_link('/framework/style/css/complaint.css')}" rel="stylesheet" type="text/css">
+	<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+	<title>投诉</title>
+	<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body class="gray-bg">
+<header class="text-center header-complaint">
+	<p class="check-icon"><img src="{php echo assets_link('/framework/style/images/ic_complaints_success.png')}" /></p>
+</header>
+<p class="titleText">您是否还需要详细描述问题，请在这里填写</p>
+<form id="supplement-form">
+<div class="complain-form">
+	<textarea class="textarea" id="complain-textarea" maxlength="200" name="supplement"></textarea>
+	<div class="textarea_word"><span id="word" style="color:#1db7fe;">0</span>/200</div>
+</div>
+<button class="sure-btn" id="complain_submit" type="submit">提交</button>
+</form>
+
+<!-- 操作提示 start -->
+
+	<div id="tip-box" class="order_success" style="display:none;width:80%;">
+    <span id="show_mes" style="padding-left:10px"></span>
+  </div>
+<!-- 操作提示 end -->
+
+<?php include template('foot') ?>
+</body>
+
+<script type="text/javascript">
+	// 监听输入 -- 投诉内容
+	$('#complain_submit').prop('disabled', true).css({'opacity':'0.6'});
+	$("#complain-textarea").on('keydown keyup', function(){
+	   var len = $(this).val().length;
+	   if(len > 200){
+	      $(this).val($(this).val().substring(0,200));
+	   }
+	   $("#word").text(len);
+	   if(len > 0 && len <= 200){
+	     $('#complain_submit').prop('disabled', false).css({'opacity':'1'});
+	   }else{
+	     $('#complain_submit').prop('disabled', true).css({'opacity':'0.6'});
+	   }
+	});
+
+	//提交表单
+	$("#supplement-form").submit(function(){
+		var robot = <?php echo $is_robot; ?>;
+		$.ajax({
+			type:'post',
+			url:"<?php echo create_url('order/submit_complain_supplement',array('complain_id' => $complain_id, 'order_id'=>$order_id));?>",
+			data:$("#supplement-form").serialize(),
+			dataType:'json',
+			success:function(ret){
+				console.log(ret);
+				if(ret.message.state == 1){
+					if(robot){
+						showTip('您的投诉我们已经收到，会尽快处理');
+						wx.closeWindow();
+					}else{
+						showTip(ret.message.msg,ret.message.url);
+					}
+				}else{
+					showTip(ret.message.msg);
+				}
+			}
+		});
+		return false;
+	});
+
+	// 显示提示信息
+	function showTip(msg, url){
+		$('#show_mes').html(msg);
+		if(url){
+			$('#tip-box').show().delay(2000).hide(function(){
+				window.location.href = url;
+			});
+		}else{
+			$('#tip-box').show().delay(2000).hide(0);
+		}
+	}
+</script>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>支付确认</title>
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/buy.css')}" rel="stylesheet" type="text/css">
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body>
+<div class="goods_titel">￥{$real_sum} </div>
+<div class="goods_main">
+	<p>订单编号<em>{$params[ordersn]}</em></p>
+	<p>商品名称<em>{$params[goods_name]}</em></p>
+	<p>商品金额<em>￥{$params[totalprice]}</em></p>
+	<p>优惠券<em>{if $params[coupon_paid]}-￥{$params[coupon_paid]} {else}-￥0.00{/if}</em></p>
+	{if $activity_desc}<p>优惠活动<em>{$activity_desc}</em></p>{/if}
+	<p>应付总额<em>￥{$real_sum} </em></p>
+</div>
+	
+<!--支付方式 按钮-->
+<div id="buyBtns">
+    {if $paytype == 2}
+        <div class="mobile-li" style="padding:5px;">
+            <form action="{php echo create_url('payment/pay');}" method="post">
+                <input type="hidden" name="paytype" value="2" />
+                <input type="hidden" name="params" value="{php echo base64_encode(json_encode($params));}" />
+                <button class="btn_buy btn_buy_Wechat" type="submit" id="wBtn" value="wechat">微信支付</button>
+            </form>
+        </div>
+        <script type="text/javascript">
+            document.addEventListener('WeixinJSBridgeReady', function onBridgeReady() {
+                $('#wBtn').removeAttr('disabled');
+                $('#wBtn').html('微信支付');
+            });
+        </script>
+    {elseif $paytype == 6}
+		<div class="mobile-li">
+			<form action="{php echo create_url('payment/pay');}" method="post">
+			    <input type="hidden" name="paytype" value="6" />
+				<input type="hidden" name="params" value="{php echo base64_encode(json_encode($params));}" />
+				<button class="btn_buy btn_buy_Wechat" type="submit" name="wBtn">支付宝支付</button>
+			</form>
+		</div>
+	{elseif $paytype == 11}
+		<div class="mobile-li">
+			<form action="{php echo create_url('payment/pay');}" method="post">
+				<input type="hidden" name="paytype" value="11" />
+				<input type="hidden" name="params" value="{php echo base64_encode(json_encode($params));}" />
+				<button class="btn_buy btn_buy_Wechat" type="submit" name="wBtn">百度支付</button>
+			</form>
+		</div>
+	 {/if}
+</div>
+</body>
+</html>

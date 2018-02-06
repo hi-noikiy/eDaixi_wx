@@ -1,0 +1,42 @@
+
+<div id='order_cpm' style='display:none' >
+    <div class='wx_mask'></div>
+    <div class='wx_confirm cpm_list'>
+        <div class='wx_confirm_inner cpm_list_inner'>
+            <div class='close-cpm' onclick='closecpm()'></div>
+            <div class='order-home' >
+                <!-- ajax 填充 --> 
+            </div>
+        </div>
+    </div>
+</div>
+<!--继续下单弹窗 end-->
+
+<script type='text/javascript'>
+ function continue_order(order_id, c_category_id, c_city_id, c_address_id){
+	var home_url = "{php echo create_url('homepage/index')}";
+ 	if(!order_id){
+ 		window.location = home_url;
+ 	}
+    var ajax_url = "{php echo create_url('order/_ajax_category_popup');}" + "&order_id=" + order_id 
+        + "&c_category_id=" + c_category_id + '&c_city_id=' + c_city_id + '&c_address_id=' + c_address_id;
+    $.getJSON(ajax_url, function(resp){
+     	if(resp.message.state == 1){
+     		var html = resp.message.html;
+     		if(html.indexOf('<ajax_success_return>') === 0){
+     			html = html.replace(/<ajax_success_return>/gi, '');
+                $('#order_cpm div.order-home').html(html);
+                $('#order_cpm').show();
+     		}else{
+     			window.location = home_url;
+     		}
+     	}else{
+     		window.location = home_url;
+     	}
+    });
+ }
+
+function closecpm(){
+    $("#order_cpm").hide();
+}
+</script>

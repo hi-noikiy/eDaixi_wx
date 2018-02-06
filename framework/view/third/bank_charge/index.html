@@ -1,0 +1,183 @@
+<!DOCTYPE html >
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="description" content="{$act_title}" />
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>{$act_title}</title>
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css" />
+<link href="{php echo assets_link('/framework/style/css/recharge-gift.css?v=601')}" rel="stylesheet" type="text/css" />
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+<?php if($is_from_weixin):?>
+<script type='text/javascript'>
+wx.ready(function(){
+  // “分享到朋友圈”
+  wx.onMenuShareTimeline({
+      title: "{$title}",
+      link: "{$share_url}",
+      imgUrl: "{$img_url}",
+      success: function (res) {
+          // $.post("{$callback_url}", {}, function(){}, "json");
+        return;
+      },
+      cancel: function(res){
+          return;
+      },
+      fail: function (res) {
+          // alert('wx.onMenuShareTimeline:fail: ' + JSON.stringify(res));
+        return;
+      }
+  });
+  
+  // “分享给朋友”
+  wx.onMenuShareAppMessage({
+       title: "{$title}",
+       desc: "{$desc}",
+       link: "{$share_url}",
+       imgUrl: "{$img_url}",
+       success: function () { 
+          // $.post("{$callback_url}", {}, function(){}, "json");
+        return;
+       },
+       cancel: function () { 
+          return;
+       },
+       fail: function (res) {
+          // alert('wx.onMenuShareAppMessage:fail: ' + JSON.stringify(res));
+        return;
+       }
+  });
+  
+  wx.error(function(res){
+      // config信息验证失败会执行error函数
+      // alert('wx.error: ' + JSON.stringify(res));
+    return;
+  });
+});
+</script>
+<?php endif; ?>
+</head>
+<body>
+<div class="gdMain">
+  <div class="topImg">
+    <img src="{$banner}" >
+  </div>
+  <div class="rechangeOuter">
+    <div class="rechangeDiv">
+      <!-- 1/2/3/4四个充值项 当为1个时添加类名为 width86 的样式 start-->
+      <?php foreach($setting as $item){ ?>
+      <div class="recharge234 <?php if(count($setting)==1){echo 'width86 current';} ?>">
+        <?php if($item['hot']==1){ ?>
+        <div class="hot-cake">
+          <img src="{php echo assets_link('/framework/style/images/activeHot.png')}" />
+        </div> 
+        <?php } ?>
+        <span data-money="{$item['fee']}">充{$item['fee']}返{$item['award_balance']}</span>
+      </div> 
+      <?php } ?>
+      <!-- 1/2/3/4四个充值项 end-->
+    </div>
+    
+    <!-- 表单提交 start -->
+    <form id="rechargeForm" method="post" onsubmit="return check(this)" action="{$payment_url}">
+      <input type="hidden" name="fee" value="" id="fee" />
+      <input type="submit" value="马上充值" class="rechargeSubmit"/>
+    </form>   
+    <!-- 表单提交 end -->
+
+    <!-- 规则详情 start -->
+    <div class="ruleDiv">
+      <p>活动细则：</p>
+      <div id="wrap"> 
+        {$rule}
+      </div>
+      <div id="read-more"></div>
+    </div>
+    <!-- <div id="container">
+      <div id="wrap"> 
+        {$rule}
+      </div>
+      <div id="read-more"></div>
+    </div> -->
+    <!-- 规则详情 end -->
+  </div>
+</div>
+
+<script type="text/javascript">
+$(function(){
+ var slideHeight = 100; // px
+ var defHeight = $('#wrap').height();
+ //如果大于设定的高度  将容器高度设置为自定义高度 并增加展开按钮
+ if(defHeight >= slideHeight){
+  $('#wrap').css('height' , slideHeight + 'px');
+  $('#read-more').append('<p class="desOpen"></p>');
+  $('#read-more').click(function(){
+   var curHeight = $('#wrap').height();
+   //如果当前高度  是和自定义高度相等的 那就动画展开到内容完整的高度 并将箭头改为向上收起的样式
+   if(curHeight == slideHeight){
+    // $('#wrap').animate({
+    //  height: defHeight
+    // }, "normal");
+    $('#wrap').height(defHeight);
+    $('#read-more').html('<p class="desClose"></p>');
+    $('#gradient').fadeOut();
+   }else{
+    //否则  容器的高度保持自定义的高度
+    // $('#wrap').animate({
+    //  height: slideHeight
+    // }, "normal");
+    $('#wrap').height(slideHeight);
+
+    $('#read-more').html('<p class="desOpen"></p>');
+    $('#gradient').fadeIn();
+   }
+   return false;
+  });  
+ }
+});
+
+</script>
+
+
+<!-- 表单提交 -->
+<script>
+
+ function check(form) {
+  var fee2 = $(".recharge234.current span").data('money');
+  $("#fee").val(fee2);
+
+  if(form.fee.value=='') {
+      console.log("fee kong!");
+      return false;
+   }
+   else {
+     return true;
+   }
+ }
+  //   $("#rechargeForm").submit(function(){
+  //   var fee2 = $(".recharge234.current span").data('money');
+  //   $("#fee").val(fee2);
+  // });
+  // alert('submit')
+</script>
+
+<!-- 某一充值项被选中的样式 -->
+<script>
+
+  $(".recharge234").click(function(){
+    $(this).addClass('current').siblings().removeClass('current');      
+　});
+  
+</script>
+
+<?php include template('foot') ?>
+<div class="p60"></div>
+</body>
+</html>

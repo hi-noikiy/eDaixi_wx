@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta content="email=no" name="format-detection">
+  <meta content="" name="pgv">
+  <title>{$title}</title>
+  <link href="{php echo assets_link('/framework/style/css/homepage.min.css')}" rel="stylesheet" type="text/css">
+  <script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body >
+<div class="gloalbackground"></div>
+<!-- 首页城市 start -->
+<div class="address_tab">
+  <a class="cityName" href="{php echo create_url('homepage/city_list', array('state'=>'userSw', 'city_id'=>$city_id))}" >
+    <span>{$city_name} </span>
+    <em class="arrow-left"></em>
+  </a>
+  <a id="feedback" data-href="{$feedback_url}" href="javascript:void(0);" class="feed_index">反馈</a>
+</div>
+<div class="borderD"></div>
+<!-- 首页城市 end -->
+
+<div id="wrap" class="wrap-home">
+  <!-- 头部 banner：轮转广告 start-->
+  <div id="banner-list" class="banner">
+    <section id='slider' class='swipe'>
+      <div class='swipe-wrap'>
+        {loop $banner $row}
+			<div class='wrap goods_img'>
+			  {if $row['image_url']}
+			       <img data-banner-link="{$row['url']}" data-banner-id="{$row['banner_id']}" data-banner-title="{$row['title']}"
+			        width="100%" src="{$row['image_url']}" class="banner-img" />
+			  {/if}
+			</div>
+        {/loop}
+      </div>
+      <div class="bgboxgo">
+        <div class="botton-box mBxCm" id="sbsd"></div>
+      </div>
+    </section>
+  </div>
+  <div class="clearBoth"></div>
+  <!-- 头部 banner：轮转广告 end-->
+  
+  <!-- 主体：品类 start -->
+  <div id="menu-home" class="menu-home">
+  {if !empty($common_category)}
+      <!-- 一般品类 start -->
+      <div class="borderLinear" >
+          <img src="{php echo assets_link('/framework/style/images/dividingLine.png')}">
+          <span>{$common_category_title}</span>
+      </div>
+     <div class="commonWashing">
+          {loop $common_category $row}
+	          <div class="category-btn menu-list" data-link="{$row['url']}">
+	              <img class="img-icon" src="{$row['image_url']}" />
+	              <div class="list-right">
+	                 <p class="list-type">{$row['title']}</p>
+	                 <p class="list-price">{$row['description']}</p>
+	              </div>
+                  {if $row['tips_name']}
+	                 <div class="newIcon"><small>{$row['tips_name']}</small></div>
+	              {/if} 
+	          </div>
+          {/loop}
+      </div>
+      <div class="clearBoth"></div>
+      <!-- 一般品类 end -->
+  {/if}
+      
+  {if $other_banner['put_under'] && $other_banner['image_url']}
+     <!-- 页面中间活动 banner start -->
+     <div id="xiyiye" class="xiyiye">
+        <img id="xiyiyeimg" style="width: 100%" data-banner-link="{$other_banner['url']}" data-banner-id="{$other_banner['banner_id']}" 
+        data-banner-title="{$other_banner['title']}" src="{$other_banner['image_url']}"/>
+     </div>
+     <!-- 页面中间活动 banner end -->
+  {/if}
+     
+  {if !empty($luxury_category)}
+      <!-- 奢侈品类 start -->
+      <div class="borderLinear" >
+          <img src="{php echo assets_link('/framework/style/images/dividingLine.png')}">
+          <span>{$luxury_category_title}</span>
+      </div>
+      
+      <div>
+	      {loop $luxury_category $row}
+	      <div class="category-btn menu-list {if 1 == count($luxury_category)}single-luxury{/if}" data-link="{$row['url']}">
+	      		<div class="luxury_img"><img src="{$row['image_url']}" alt=""></div>
+	      		<div class="luxury_detail" >
+	      		    <p class="luxury-type">{$row['title']}</p>
+		            <p class="luxury-detail">{$row['description']}</p>
+	      		</div>
+	   		    {if $row['tips_name']}
+	               <div class="newIcon"><small>{$row['tips_name']}</small></div>
+	            {/if} 
+	      </div>
+	      {/loop}
+      </div>
+      <div class="clearBoth"></div>
+      <!-- 奢侈品类 end -->
+  {/if}
+
+  {if !empty($tailor_category)}
+      <!-- 改衣品类 start -->
+      <div class="borderLinear" >
+          <img src="{php echo assets_link('/framework/style/images/dividingLine.png')}">
+          <span>{$tailor_category_title}</span>
+      </div>
+      <div class="highPoint">
+          {loop $tailor_category $row}
+              <div class="category-btn highList" data-link="{$row['url']}">
+                  <img class="img-icon" src="{$row['image_url']}" />
+                  <div class="highlist-right">
+                       <p class="list-type">{$row['title']}</p>
+                       <p class="list-price">{$row['description']}</p>
+                  </div>
+                  {if $row['tips_name']}
+                    <div class="newIcon"><small>{$row['tips_name']}</small></div>
+                  {/if} 
+              </div>
+          {/loop}
+      </div>
+      <div class="clearBoth"></div>
+      <!-- 改衣品类 end -->
+  {/if}
+  <!-- 主体：品类 end -->
+  
+  <!-- 页底：功能按钮 start -->
+  {if !empty($bottom_button)}
+  <div class="borderLinear">
+      <img src="{php echo assets_link('/framework/style/images/dividingLine.png')}">
+      <span>了解e袋洗</span>
+  </div>
+  <div class="menu-service" >
+   {loop $bottom_button $key $row}
+      <div class="service-list" align="center">
+         <a href="{$row['url']}">
+            <p class="ser-font">{$row['title']}</p>
+         </a>
+      </div> 
+    {/loop}
+    <div class="clearBoth"></div>
+  {/if}
+  </div>
+  <!-- 页底：功能按钮 end -->
+  
+	<!-- 用户使用评价 start -->
+	{if $favourable_comments}
+	<section class="user_use">
+	  <div class="borderLinear">
+	      <img src="{php echo assets_link('/framework/style/images/dividingLine.png')}">
+	      <span>用户评价</span>
+	  </div>
+	  <div class="user_appraise">
+	      {loop $favourable_comments $key $row}
+	      <div class="user_list">
+		      <div class="appraise_list">
+		         <div class="area_phone"><span class="nbsp">{$row['user']}</span><span>{$row['tel']}</span></div>
+		         <div class="borderD"></div>
+		         <div class="appraise_detail">
+		           <span><img class="front_quote" src="{php echo assets_link('/framework/style/images/front_quote.png')}" alt=""></span>
+		           <span class="control_line">{$row['comment']}</span>
+		           <span  class="back_quote"><img src="{php echo assets_link('/framework/style/images/back_quote.png')}" alt=""></span>
+		         </div>
+		         <div class="borderD"></div>
+		         <div class="service_date"><span class="nbsp">{$row['category']}</span><span>{$row['date']}</span></div>
+		      </div>
+		      {if 2 == $key}
+		      <div id="more-comments" class="look_more" data-link="{$favourable_comments_url}" onClick="moreComments(this);">查看更多</div>
+	          {/if}
+	     </div>
+	     {/loop}
+	  </div>
+	</section>
+	{/if}
+	<!-- 用户使用评价 end -->
+  </div>
+  <!-- 主体：品类 start -->
+
+<!-- 切换城市弹窗 start -->
+  <div id="sw_city_win" style="display:none;" class="cod">
+    <div class="wx_mask"></div>
+    <div class="wx_confirm">
+      <div class="wx_confirm_inner">
+        <div class="wx_confirm_hd">
+          <div class="wx_confirm_tit" id="tip_div"></div>
+        </div>
+        <div class="wx_confirm_bd">
+          <div class="wx_confirm_btn manage-btn">
+              <input type="hidden" name="sw_city_id" />
+              <input type="hidden" name="sw_city_name" />
+              <button type="button" onclick="closeShow();" class="okbtn">取消</button>
+              <button type="button" onclick="switchCity();" class="okbtn blue-btn">确定</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- 切换城市弹窗 end -->
+
+{if !$is_from_eservice}
+<!-- 每日积分动画 start -->
+	<div id="points-ball" style="display:none;  position: fixed; top: 0;width: 100%;height: 100%;z-index: 1111;pointer-events: none;">
+	  <div class="jifen_box flipOutY">
+	    <div class="jifen bounceInUp">
+	      <span class="jifen_text bounceIn">
+	        <div style="text-indent:20px;padding-top:16px"><em>+</em>1</div>
+	        <p><img src="{php echo assets_link('/framework/style/images/jifen_icon.png')}" /> 登录积分</p>
+	      </span>
+	    </div>
+	  </div>
+	</div>
+<!-- 每日积分动画 end -->
+{/if}
+  
+<!-- 安心保障 start -->
+  <div id="guarantee" style="display:none;">
+   <div class="wx_mask "></div>
+   <div class="wx_confirm guarantee">
+     <div>
+       <img class="guarantee_top" src="{php echo assets_link('/framework/style/images/guarantee_top.png')}" alt="">
+     </div>
+     <div class="guarantee_tip">
+       <p id="insured-desc" class="anxin_detail">为每个用户提供更贴心和更安心的服务，是e袋洗不变的追求。我们联合“中国平安财产保险”为您的每件衣物进行单独投保，让您后顾无忧。</p>
+       <section id="insured-amount">
+	       <p class="guarantee_money">专业清洗：衣物投保投保金额5000元/件</p>
+	       <p class="guarantee_money">高端洗护：衣物投保投保金额10000元/件</p>
+       </section>
+       <p class="anxin_img"><img class="anxin_xi" src="{php echo assets_link('/framework/style/images/guarantee_slogan.png')}" alt=""></p>
+       <p id="i-know-btn" class="I_know">我知道了</p>
+     </div>
+   </div>
+  </div>
+<!-- 安心保障 end -->
+</div>
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+<script type="text/javascript" src="{php echo assets_link('/framework/style/js/Swipe.min.js')}"></script>
+<?php if($user_type == 13):?>
+  <script type="text/javascript" name="baidu-tc-cerfication" data-appid="5899836" src="http://apps.bdimg.com/cloudaapi/lightapp.js"></script>
+<?php endif;?>
+<?php if($user_type == 16):?>
+  <iframe id="geoPage" width=0 height=0 frameborder=0  style="display:none;" scrolling="no"
+    src="http://apis.map.qq.com/tools/geolocation?key=MCZBZ-ZDHWJ-KAZFR-FYYTQ-74NNV-HBB52&referer=myapp">
+  </iframe>
+<?php endif;?>
+<script type="text/javascript">
+var 
+  $pageMain = $('#menu-home'),
+  $guaranteeCpm = $('#guarantee'),
+  $iKnowBtn = $('#i-know-btn'),
+  eservice = !!"{$is_from_eservice}",
+  cityListUrl = "{php echo create_url('homepage/city_list')}",
+  homeCityId = "{$city_id}",
+  homeCity = "{$city_name}",
+  userType = "{$user_type}",
+  pointsKey = "{$points_key}",
+  knowInsurance = + "{$know_insurance}",
+  locFlag = "{$loc_flag}",
+  flag = true,
+  timer = null,     // 计时器
+  jqueryXhr = null; //jquery-ajax 对象
+ 
+// banner 轮播图
+slider(5000);
+// 显示百度直达号菜单栏
+baiduBoxappSmartBar();
+// 定位当前城市
+locateHomeCity();
+if(!eservice){
+	// 异步请求积分动画
+	showDailyPoints();
+}
+// 点击品类--(提示下单投保)跳转下单页
+$pageMain.on('click', '.category-btn', placeOrder);
+
+// 关闭下单投保弹窗
+$iKnowBtn.on("click",function(){
+    $guaranteeCpm.hide();
+    window.location.href = $(this).data('link');
+});
+
+// 记录意见反馈返回路径
+$('#feedback').on('click', function(){
+    sessionStorage.setItem('feedbook_from', window.location.href);
+    window.location.href = $(this).data('href');
+});
+
+// 定位首页城市
+function locateHomeCity(){
+	if(locFlag != 'do'){
+	    sessionStorage.setItem('positioned', true);
+	}
+    if(locFlag == 'do' && ! sessionStorage.getItem('positioned')){
+        switch(+userType){  
+		    case 1: // 微信公众号
+				html5Location();
+				break;  
+		    case 13: // 百度直达号
+				baiduBoxappLocation();
+				break;  
+		    case 16: // 手机QQ
+				qqLocation();
+				break;
+		    default:
+				html5Location();
+				break;
+	    } 
+    }
+}
+
+// 原生html5获取地理坐标
+function html5Location(){
+    navigator.geolocation.getCurrentPosition(
+        getPositionSuccess,
+        getPositionError, 
+        {enableHighAcuracy: false, timeout: 10000, maximumAge: 0}
+    );
+}
+
+// 百度直达号获取地理坐标
+function baiduBoxappLocation(){
+    //输入轻应用的ak
+    clouda.lightInit({
+        ak:"Dcvl2zzvu1y12w3jqY28EH2u",
+        module:["geolocation"]
+    },function(){
+        //
+    });
+    clouda.device.geolocation.get({
+        onsuccess : function(data){
+            var baiduPosition = {
+              "coords" : {
+                "latitude" : data.latitude,
+                "longitude": data.longitude,
+                "city": ""
+              }
+            };
+            getPositionSuccess(baiduPosition);
+        },
+        onfail : function(err){
+        	getPositionError();
+            return;
+        }
+    });
+}
+
+// 手机QQ获取地理坐标
+function qqLocation(){
+    // 监听定位组件的message事件
+    window.addEventListener('message', function(event) {
+        // 接收位置信息
+        var loc = event.data;
+        if(loc) { //定位成功
+       	    var qqPosition = {
+                     "coords" : {
+                       "latitude" : loc.lat,
+                       "longitude": loc.lng,
+                       "city": loc.city
+                     }
+                   };
+            getPositionSuccess(qqPosition);
+        } else { //定位失败
+        	getPositionError();
+        	return;
+        }
+    }, false);
+    setTimeout(function() {
+        if(!loc) {
+        	getPositionError();
+            return;
+        }
+    }, 6000);
+}
+
+// 定位成功回调
+function getPositionSuccess(position){  
+  var 
+    lat = position.coords.latitude,
+    lng = position.coords.longitude,
+    city = position.coords.city || "",
+    locateCityUrl = "{php echo create_url('homepage/ajax_locate_city')}";
+  $.post(locateCityUrl, {latitude: lat, longitude: lng, city: city}, function (data){
+	  var 
+	    state = data.message.state,
+        city_id = data.message.city_id,
+        city_name = data.message.city_name;
+      sessionStorage.setItem('positioned', true);
+      if (state == 'unServ' && city_name) { // 定位城市不在服务范围，自动跳转城市列表页
+    	  window.location.href = (cityListUrl + '&state=unServ&city_id=' + city_id);
+      } else if ((state == 'inServ') && city_id && city_name) { // 定位城市在服务范围，经用户确认跳转城市列表页
+          if(city_id == homeCityId){
+              return;
+          }else{
+              $('#tip_div').html('是否跳转当前定位城市：' +　city_name);
+              $(":hidden[name='sw_city_id']").val(city_id);
+              $(":hidden[name='sw_city_name']").val(city_name);
+              $('#sw_city_win').show();
+          }
+      } else { // 根据经纬度获取城市失败
+          window.location.href = (cityListUrl += '&state=failed&city_id=' + homeCityId);
+      }
+  }, "json");
+}
+
+// 定位失败回调
+function getPositionError(error){
+    /*
+    switch(error.code){  
+        case error.TIMEOUT :  
+            alert("连接超时，请重试");  
+            break;  
+        case error.PERMISSION_DENIED :  
+            alert("您拒绝了使用位置共享服务，查询已取消");  
+            break;  
+        case error.POSITION_UNAVAILABLE :  
+            alert("暂时无法提供位置服务");  
+            break;  
+    }
+   */
+   // 定位失败，自动跳转城市列表页面
+   window.location.href = (cityListUrl += '&state=failed&city_id=' + homeCityId);
+}  
+
+// 重定向首页城市
+function switchCity(){
+   var sw_city_id = $(":hidden[name='sw_city_id']").val();
+   var sw_city_name =$(":hidden[name='sw_city_name']").val();
+   var homeUrl = "{php echo create_url('homepage/index')}";
+   window.location.href = (homeUrl + '&city_id=' + sw_city_id);
+}
+
+// 保持异地城市
+function closeShow(){
+	var keepCityUrl = "{php echo create_url('homepage/ajax_keep_city')}";
+	$.post(keepCityUrl, {"kcity_id":homeCityId, "kcity_name":homeCity}, function(data){
+	    $('#sw_city_win').hide();
+	}, "json");
+}
+
+// 百度直达号菜单栏
+function baiduBoxappSmartBar(){
+	if(userType == 13){
+	    //输入轻应用的ak
+	    clouda.lightInit({
+	        ak:"Dcvl2zzvu1y12w3jqY28EH2u",
+	        module:["smartBar"]
+	    },function(){
+	        clouda.lego.smartBar.show();
+	        clouda.lego.smartBar.adjustPanel({"selector":"#footer"});
+	        $('#wrap').css({'margin-bottom':'60px'});
+	    });
+	}
+}
+
+// 异步请求积分动画
+function showDailyPoints(){
+   if(pointsKey.length > 0 && ! localStorage.getItem(pointsKey)){
+	   $.ajax({
+	       url: "{$points_url}&stamp=" + new Date().getTime(),
+	       type: "GET",
+	       dataType: "json",
+	       success: function (data) {
+	    	  var flag = + data.message.state;
+	    	  if(flag > 0){
+	    		  localStorage.setItem(pointsKey, true);
+	    		  if(1 == flag){
+	                  $('#points-ball').show();
+	    		  }
+	    	  }
+	       }
+	   });
+   }
+}
+
+// (提示下单投保)跳转下单页
+function placeOrder(){
+   var orderUrl = $(this).data('link');
+   if(localStorage.getItem('insurance-' + homeCityId) || knowInsurance){
+	   window.location.href = orderUrl;
+	   return;
+   }
+   $.ajax({
+       url: "{$insurance_url}",
+       type: "GET",
+       dataType: "json",
+       success: function (data) {
+   	      try{
+	  	      if(data.message.state > 0){
+	              var insuredDesc = data.message.description;
+	              var insuredAmount = '<p class="guarantee_money">' + data.message.insured_amount.join('</p><p class="guarantee_money">') + '</p>';
+	              $guaranteeCpm.find('#insured-desc').text(insuredDesc);
+	              $guaranteeCpm.find('#insured-amount').html(insuredAmount);
+	              $iKnowBtn.data('link', orderUrl);
+	              $guaranteeCpm.show();
+	              localStorage.setItem('insurance-' + homeCityId, true);
+	          }else{
+	              window.location.href = orderUrl;
+	          }
+          }catch(e){
+              window.location.href = orderUrl;
+          }
+       },
+       error: function (xhr, ts, err) {
+    	   window.location.href = orderUrl;
+       }
+   });
+}
+
+// 更多评论
+function moreComments(o){
+	var $this = $(o);
+	if($this.length > 0){
+	    var u = $this.data('link');
+	}
+	if(u){
+		window.location = u;
+	}
+}
+
+// 幻灯片
+function slider(time) {
+  var spans = "";
+  var T = 0;
+  var timeout = time;
+  for (var i = 0; i < $(".swipe-wrap div").length; i++) {
+    spans += "<span></span>";
+  }
+  var setIntervals = function() {
+    if (T < $(".swipe-wrap div").length) {
+      T++;
+    } else {
+      T = 0;
+    }
+    ;
+    return $("#sbsd span").eq(T).trigger("click");
+  };
+
+  var setauto = setInterval(setIntervals, timeout);
+  $(".swipe-wrap div").hover(function() {
+    clearInterval(setauto);
+  }, function() {
+    setauto = setInterval(setIntervals, timeout);
+  });
+  $("#sbsd").html(spans);
+  $("#sbsd span").eq(0).addClass("on");
+  $("#sbsd span").bind('click', function() {
+    var numb = $("#sbsd span").index(this);
+    slider.slide(numb);
+  });
+  var slider = Swipe(document.getElementById('slider'), {
+    continuous: true,
+    callback: function(pos) {
+      var i = $("#sbsd span").length;
+      while (i--) {
+        $("#sbsd span").removeClass("selects");
+      }
+      $("#sbsd span").eq(pos).addClass("on").siblings("span").removeClass("on");
+    }
+  });
+
+  if (time === undefined) {
+    clearInterval(setauto);
+  }
+};
+
+</script>
+<?php include template('navigate') ?>
+<?php include template('foot') ?>
+
+<script type="text/javascript">
+// banner 跳转(埋点统计)
+$('#banner-list,#xiyiye').on('click', 'img', function() {
+    if(flag){
+        flag = false;
+        clearTimeout(timer);   // 关闭定时器
+        
+        <?php if($_W['config']['statistics']['piwik']): ?>
+        // Piwik 埋点
+        var bannerId = $(this).data('banner-id'), bannerTitle = $(this).data('banner-title');        
+        // category  event_action  event_action_name event_action_value
+        _paq && _paq.push(['trackEvent', 'banner', 'click', bannerTitle, bannerId, {dimension1: bannerTitle}]);
+        <?php endif; ?>
+        
+        var bannerLink = $(this).data('banner-link');
+        if(bannerLink){
+            window.location.href = bannerLink;
+        }
+        timer = setTimeout(function(){
+            flag = true;
+        }, 1000);
+    }
+});
+</script>
+</body>
+</html>

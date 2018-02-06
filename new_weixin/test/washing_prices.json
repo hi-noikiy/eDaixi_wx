@@ -1,0 +1,961 @@
+{
+  "ret": true,
+  "data": [
+    {
+      "category_id": 2,
+      "category_name": "洗衣",
+      "banners": [
+        {
+          "banner_id": 353,
+          "url": "aaaaa.aa.aa",
+          "title": "快乐大本营",
+          "image_url": "/images/price_banner01.png"
+        }
+      ],
+      "types": [
+        {
+          "type_id": 1,
+          "type_name": "上衣",
+          "suit": [
+            {
+              "id": 12384,
+              "clothes_name": "家纺四件套",
+              "price": "65.0",
+              "original_price": "99.00",
+              "is_discount": false,
+              "is_suit": true,
+              "unit": "套",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1464838150170",
+              "suit_clothes": [
+                {
+                  "id": 9923,
+                  "title": "枕套",
+                  "price": "12.0",
+                  "count": 2,
+                  "unit": "件",
+                  "comments": [
+                    
+                  ]
+                },
+                {
+                  "id": 9924,
+                  "title": "床单",
+                  "price": "12.0",
+                  "count": 1,
+                  "unit": "件",
+                  "comments": [
+                    
+                  ]
+                },
+                {
+                  "id": 9928,
+                  "title": "被罩",
+                  "price": "29.0",
+                  "count": 1,
+                  "unit": "件",
+                  "comments": [
+                    
+                  ]
+                }
+              ]
+            }
+          ],
+          "clothes": [
+            {
+              "id": 9030,
+              "clothes_name": "半身T恤a",
+              "price": "0.01",
+              "is_discount": true,
+              "is_suit": false,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941493018",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ],
+              "discount_info": {
+                "original_price": "12.0",
+                "deadline": "2016-08-31"
+              }
+            },
+            {
+              "id": 9029,
+              "clothes_name": "长T恤",
+              "price": "1.0",
+              "is_discount": true,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941465437",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ],
+              "discount_info": {
+                "original_price": "12.0",
+                "deadline": "2016-08-31",
+                "created_at": 1464770314
+              }
+            },
+            {
+              "id": 9031,
+              "clothes_name": "衬衫",
+              "price": "0.0",
+              "is_discount": false,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941522729",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ],
+              "discount_info": {
+                "original_price": "6.0",
+                "deadline": "2016-08-31",
+                "created_at": 1464770237
+              }
+            },
+            {
+              "id": 9032,
+              "clothes_name": "背心",
+              "price": "12.0",
+              "is_discount": false,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941696493",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ]
+            },
+            {
+              "id": 9041,
+              "clothes_name": "秋衣",
+              "price": "12.0",
+              "is_discount": false,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457950770101",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ]
+            },
+            {
+              "id": 9291,
+              "clothes_name": "夏日套装",
+              "price": "15.0",
+              "is_discount": false,
+              "is_suit": true,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1465023943225",
+              "suit_clothes": [
+                {
+                  "id": 9040,
+                  "title": "真丝衫",
+                  "price": "39.0",
+                  "count": 1,
+                  "unit": "件",
+                  "comments": [
+                    
+                  ]
+                },
+                {
+                  "id": 9041,
+                  "title": "秋衣",
+                  "price": "12.0",
+                  "count": 1,
+                  "unit": "件",
+                  "comments": [
+                    
+                  ]
+                }
+              ],
+              "comments": [
+                
+              ]
+            },
+            {
+              "id": 9033,
+              "clothes_name": "羊毛/羊绒背心",
+              "price": "25.0",
+              "is_discount": false,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941768980",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ]
+            },
+            {
+              "id": 9034,
+              "clothes_name": "羽绒马甲/背心",
+              "price": "29.0",
+              "is_discount": false,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941867133",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ]
+            }
+          ]
+        },
+        {
+          "type_id": 2,
+          "type_name": "大衣外套",
+          "clothes": [
+            {
+              "id": 9030,
+              "clothes_name": "半身T恤b",
+              "price": "0.01",
+              "is_discount": true,
+              "is_suit": false,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941493018",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ],
+              "discount_info": {
+                "original_price": "12.0",
+                "deadline": "2016-08-31"
+              }
+            },
+            {
+              "id": 9029,
+              "clothes_name": "长T恤",
+              "price": "1.0",
+              "is_discount": true,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941465437",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ],
+              "discount_info": {
+                "original_price": "12.0",
+                "deadline": "2016-08-31",
+                "created_at": 1464770314
+              }
+            },
+            {
+              "id": 9031,
+              "clothes_name": "衬衫",
+              "price": "0.0",
+              "is_discount": true,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941522729",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ],
+              "discount_info": {
+                "original_price": "6.0",
+                "deadline": "2016-08-31",
+                "created_at": 1464770237
+              }
+            },
+            {
+              "id": 9032,
+              "clothes_name": "背心",
+              "price": "12.0",
+              "is_discount": false,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941696493",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ]
+            },
+            {
+              "id": 9041,
+              "clothes_name": "秋衣",
+              "price": "12.0",
+              "is_discount": false,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457950770101",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ]
+            },
+            {
+              "id": 9291,
+              "clothes_name": "夏日套装",
+              "price": "15.0",
+              "is_discount": false,
+              "is_suit": true,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1465023943225",
+              "suit_clothes": [
+                {
+                  "id": 9040,
+                  "title": "真丝衫",
+                  "price": "39.0",
+                  "count": 1,
+                  "unit": "件",
+                  "comments": [
+                    
+                  ]
+                },
+                {
+                  "id": 9041,
+                  "title": "秋衣",
+                  "price": "12.0",
+                  "count": 1,
+                  "unit": "件",
+                  "comments": [
+                    
+                  ]
+                }
+              ],
+              "comments": [
+                
+              ]
+            },
+            {
+              "id": 9033,
+              "clothes_name": "羊毛/羊绒背心",
+              "price": "25.0",
+              "is_discount": false,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941768980",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ]
+            },
+            {
+              "id": 9034,
+              "clothes_name": "羽绒马甲/背心",
+              "price": "29.0",
+              "is_discount": false,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941867133",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ]
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "tips1",
+        "tips2"
+      ],
+      "coupon_info": "您有一张优惠券a"
+    },
+    {
+      "category_id": 1,
+      "category_name": "洗鞋",
+      "banners": [
+        {
+          "banner_id": 353,
+          "url": "aaaaa.aa.aa",
+          "title": "快乐大本营",
+          "image_url": "/images/price_banner01.png"
+        }
+      ],
+      "types": [
+        {
+          "type_id": 1,
+          "type_name": "上衣",
+          "suit": [
+            {
+              "id": 12384,
+              "clothes_name": "家纺四件套",
+              "price": "65.0",
+              "original_price": "100.00",
+              "is_discount": false,
+              "is_suit": true,
+              "unit": "套",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1464838150170",
+              "suit_clothes": [
+                {
+                  "id": 9923,
+                  "title": "枕套",
+                  "price": "12.0",
+                  "count": 2,
+                  "unit": "件",
+                  "comments": [
+                    
+                  ]
+                },
+                {
+                  "id": 9924,
+                  "title": "床单",
+                  "price": "12.0",
+                  "count": 1,
+                  "unit": "件",
+                  "comments": [
+                    
+                  ]
+                },
+                {
+                  "id": 9928,
+                  "title": "被罩",
+                  "price": "29.0",
+                  "count": 1,
+                  "unit": "件",
+                  "comments": [
+                    
+                  ]
+                }
+              ]
+            }
+          ],
+          "clothes": [
+            {
+              "id": 9030,
+              "clothes_name": "半身T恤b",
+              "price": "0.01",
+              "is_discount": true,
+              "is_suit": false,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941493018",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ],
+              "discount_info": {
+                "original_price": "12.0",
+                "deadline": "2016-08-31"
+              }
+            },
+            {
+              "id": 9029,
+              "clothes_name": "长T恤",
+              "price": "1.0",
+              "is_discount": true,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941465437",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ],
+              "discount_info": {
+                "original_price": "12.0",
+                "deadline": "2016-08-31",
+                "created_at": 1464770314
+              }
+            },
+            {
+              "id": 9031,
+              "clothes_name": "衬衫",
+              "price": "0.0",
+              "is_discount": true,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941522729",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ],
+              "discount_info": {
+                "original_price": "6.0",
+                "deadline": "2016-08-31",
+                "created_at": 1464770237
+              }
+            },
+            {
+              "id": 9032,
+              "clothes_name": "背心",
+              "price": "12.0",
+              "is_discount": false,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941696493",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ]
+            },
+            {
+              "id": 9041,
+              "clothes_name": "秋衣",
+              "price": "12.0",
+              "is_discount": false,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457950770101",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ]
+            },
+            {
+              "id": 9291,
+              "clothes_name": "夏日套装",
+              "price": "15.0",
+              "is_discount": false,
+              "is_suit": true,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1465023943225",
+              "suit_clothes": [
+                {
+                  "id": 9040,
+                  "title": "真丝衫",
+                  "price": "39.0",
+                  "count": 1,
+                  "unit": "件",
+                  "comments": [
+                    
+                  ]
+                },
+                {
+                  "id": 9041,
+                  "title": "秋衣",
+                  "price": "12.0",
+                  "count": 1,
+                  "unit": "件",
+                  "comments": [
+                    
+                  ]
+                }
+              ],
+              "comments": [
+                
+              ]
+            },
+            {
+              "id": 9033,
+              "clothes_name": "羊毛/羊绒背心",
+              "price": "25.0",
+              "is_discount": false,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941768980",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ]
+            },
+            {
+              "id": 9034,
+              "clothes_name": "羽绒马甲/背心",
+              "price": "29.0",
+              "is_discount": false,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941867133",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ]
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "tips1",
+        "tips2"
+      ],
+      "coupon_info": "您有一张优惠券b"
+    },
+    {
+      "category_id": 1,
+      "category_name": "洗家纺",
+      "banners": [
+        {
+          "banner_id": 353,
+          "url": "aaaaa.aa.aa",
+          "title": "快乐大本营",
+          "image_url": "/images/price_banner01.png"
+        }
+      ],
+      "types": [
+        {
+          "type_id": 1,
+          "type_name": "上衣",
+          "suit": [
+            {
+              "id": 12384,
+              "clothes_name": "家纺四件套",
+              "price": "65.0",
+              "original_price": "100.00",
+              "is_discount": false,
+              "is_suit": true,
+              "unit": "套",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1464838150170",
+              "suit_clothes": [
+                {
+                  "id": 9923,
+                  "title": "枕套",
+                  "price": "12.0",
+                  "count": 2,
+                  "unit": "件",
+                  "comments": [
+                    
+                  ]
+                },
+                {
+                  "id": 9924,
+                  "title": "床单",
+                  "price": "12.0",
+                  "count": 1,
+                  "unit": "件",
+                  "comments": [
+                    
+                  ]
+                },
+                {
+                  "id": 9928,
+                  "title": "被罩",
+                  "price": "29.0",
+                  "count": 1,
+                  "unit": "件",
+                  "comments": [
+                    
+                  ]
+                }
+              ]
+            }
+          ],
+          "clothes": [
+            {
+              "id": 9030,
+              "clothes_name": "半身T恤b",
+              "price": "0.01",
+              "is_discount": true,
+              "is_suit": false,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941493018",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ],
+              "discount_info": {
+                "original_price": "12.0",
+                "deadline": "2016-08-31"
+              }
+            },
+            {
+              "id": 9029,
+              "clothes_name": "长T恤",
+              "price": "1.0",
+              "is_discount": true,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941465437",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ],
+              "discount_info": {
+                "original_price": "12.0",
+                "deadline": "2016-08-31",
+                "created_at": 1464770314
+              }
+            },
+            {
+              "id": 9031,
+              "clothes_name": "衬衫",
+              "price": "0.0",
+              "is_discount": true,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941522729",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ],
+              "discount_info": {
+                "original_price": "6.0",
+                "deadline": "2016-08-31",
+                "created_at": 1464770237
+              }
+            },
+            {
+              "id": 9032,
+              "clothes_name": "背心",
+              "price": "12.0",
+              "is_discount": false,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941696493",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ]
+            },
+            {
+              "id": 9041,
+              "clothes_name": "秋衣",
+              "price": "12.0",
+              "is_discount": false,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457950770101",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ]
+            },
+            {
+              "id": 9291,
+              "clothes_name": "夏日套装",
+              "price": "15.0",
+              "is_discount": false,
+              "is_suit": true,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1465023943225",
+              "suit_clothes": [
+                {
+                  "id": 9040,
+                  "title": "真丝衫",
+                  "price": "39.0",
+                  "count": 1,
+                  "unit": "件",
+                  "comments": [
+                    
+                  ]
+                },
+                {
+                  "id": 9041,
+                  "title": "秋衣",
+                  "price": "12.0",
+                  "count": 1,
+                  "unit": "件",
+                  "comments": [
+                    
+                  ]
+                }
+              ],
+              "comments": [
+                
+              ]
+            },
+            {
+              "id": 9033,
+              "clothes_name": "羊毛/羊绒背心",
+              "price": "25.0",
+              "is_discount": false,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941768980",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ]
+            },
+            {
+              "id": 9034,
+              "clothes_name": "羽绒马甲/背心",
+              "price": "29.0",
+              "is_discount": false,
+              "is_suit": false,
+              "unit": "件",
+              "limit_time": 78,
+              "image": "http://opsgoods-10004522.image.myqcloud.com/clothes-1457941867133",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ]
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "tips1",
+        "tips2"
+      ],
+      "coupon_info": "您有一张优惠券b"
+    },
+    {
+      "category_id": 1060,
+      "category_name": "洗窗帘",
+      "banners": [
+        {
+          "banner_id": 353,
+          "url": "aaaaa.aa.aa",
+          "title": "快乐大本营",
+          "image_url": "/images/price_banner01.png"
+        }
+      ],
+      "types": [
+        {
+          "type_id": 1,
+          "type_name": "上衣",
+          "clothes": [
+            {
+              "id": 9030,
+              "clothes_name": "33cm X 43cm",
+              "price": "158",
+              "is_discount": true,
+              "is_suit": false,
+              "image": "../images/bdz.png",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ],
+              "discount_info": {
+                "original_price": "12.0",
+                "deadline": "2016-08-31"
+              }
+            },
+            {
+              "id": 9040,
+              "clothes_name": "53cm X 63cm",
+              "price": "299",
+              "is_discount": true,
+              "is_suit": false,
+              "image": "../images/ldz.png",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ],
+              "discount_info": {
+                "original_price": "12.0",
+                "deadline": "2016-08-31"
+              }
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "tips1",
+        "tips2"
+      ],
+      "coupon_info": "您有一张优惠券b"
+    },
+    {
+      "category_id": 1070,
+      "category_name": "按袋洗",
+      "banners": [
+        {
+          "banner_id": 353,
+          "url": "aaaaa.aa.aa",
+          "title": "快乐大本营",
+          "image_url": "/images/price_banner01.png"
+        }
+      ],
+      "types": [
+        {
+          "type_id": 1,
+          "type_name": "上衣",
+          "clothes": [
+            {
+              "id": 1070,
+              "clothes_name": "半身T恤b",
+              "price": "0.01",
+              "is_discount": false,
+              "is_suit": false,
+              "image": "../images/bdz.png",
+              "suit_clothes": [
+                
+              ],
+              "comments": [
+                
+              ],
+              "discount_info": {
+                "original_price": "12.0",
+                "deadline": "2016-08-31"
+              }
+            }
+          ]
+        }
+      ],
+      "tips": [
+        "tips1",
+        "tips2"
+      ],
+      "coupon_info": "您有一张优惠券b"
+    }
+  ]
+}

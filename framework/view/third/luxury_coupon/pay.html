@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>e袋洗</title>
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/apply.css')}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="{php echo assets_link('/framework/style/js/jquery-1.8.2.min.js')}"></script>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body style="background:#fff;">
+<div class="success">
+  <div class="pay_con">
+    <div class="header">
+      <img src="{php echo assets_link('/framework/style/images/header_78_2.jpg')}" />
+    </div>
+    <img src="{php echo assets_link('/framework/style/images/pay_2.jpg')}" />
+    <img src="{php echo assets_link('/framework/style/images/shuaige_1.jpg')}" />
+    <img src="{php echo assets_link('/framework/style/images/shuaige_2.jpg')}" />
+    <img src="{php echo assets_link('/framework/style/images/shuaige_3.jpg')}" />
+    <img src="{php echo assets_link('/framework/style/images/shuaige_4.jpg')}" />
+    <!-- 代金券购买按钮状态 start -->
+    <div class="btn_info">
+     {if $coupon_status == 'preheat'}
+        <div class="begin-pay">
+          <img src="{php echo assets_link('/framework/style/images/pay_btn_2.jpg')}" />
+          <div class="pay_btn">
+            <img src="{php echo assets_link('/framework/style/images/preheat_78.png')}" />
+          </div>
+        </div>
+    {else if $coupon_status == 'selling'}
+        <div class="begin-pay">
+          <img src="{php echo assets_link('/framework/style/images/pay_btn_2.jpg')}" />
+          <div class="pay_btn">
+            <a href="{php echo create_url('luxury_coupon/buy_page', array(), 'third')}">
+              <img src="{php echo assets_link('/framework/style/images/buying_78.png')}" />
+            </a>
+          </div>
+        </div>
+      {else if $coupon_status == 'end'}
+        <div class="begin-pay">
+          <img src="{php echo assets_link('/framework/style/images/pay_btn_2.jpg')}" />
+          <div class="pay_btn">
+            <img src="{php echo assets_link('/framework/style/images/end_btn_78.png')}" />
+          </div>
+        </div>
+    {else}
+        <div>
+          <img src="{php echo assets_link('/framework/style/images/shouqin3.jpg')}" />
+        </div>
+    {/if}      
+    </div>
+    <!-- 代金券购买按钮状态 end -->
+    
+    <img src="{php echo assets_link('/framework/style/images/pay_3.jpg')}" />
+    <img src="{php echo assets_link('/framework/style/images/footer_78.jpg')}" />
+  </div>
+</div>
+</body>
+
+</html>

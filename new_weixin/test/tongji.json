@@ -1,0 +1,15 @@
+{
+    "ret": true, 
+    "ts": 1467012813, 
+    "version": "1.0", 
+    "data": {
+        "user_type": "1", 
+        "statistics": {
+            "baidu": false, 
+            "piwik": false
+        }, 
+        "piwik": 0, 
+        "userId": 6674202, 
+        "mark": ""
+    }
+}

@@ -1,0 +1,125 @@
+body{background-color:#fff;font-size:14px;color:#aaa;-webkit-text-size-adjust:100%;min-width:320px;max-width:1024px;margin:0 auto;font-family:"\5FAE\8F6F\96C5\9ED1"}
+table,td, {
+  padding: 0;
+  margin: 0;
+  vertical-align: top;
+}
+.p20 {
+  padding: 20px;
+}
+.p24 {
+  padding: 24px;
+}
+.f14 {
+  font-size: 14px;
+}
+.f16 {
+  font-size: 16px;
+}
+.fontnormal {
+  font-size: 12px;
+}
+.text-left {
+  text-align: left;
+}
+.box-text {
+  padding: 0 10%;
+}
+.bg_white {
+  background: #fff;
+  padding: 6px;
+}
+.text-center {
+  text-align: center;
+}
+.co_red{color:#d50900}
+.co_gray{color:#aaa!important}
+.success_txt {
+  color: rgb(101,160,71);
+  font-size: 18px;
+  
+  line-height: 30px;
+}
+.fontnormal a,.fontnormal a:hover,.fontnormal a:active,.fontnormal a:visited {
+  
+  border-bottom: 1px solid #4b7fd0;
+  color: #aaa;
+  
+}
+.line26 {
+  line-height: 26px;
+
+}
+.mar {
+  margin: 0 3%;
+}
+.success_page img {
+  margin: 4% auto 2% auto;
+  height: 30px;
+}
+.sure_link,.sure_link:hover,.sure_link:active,.sure_link:visited {
+  color: #aaa;
+}
+.sure_link {
+  display: block;
+  
+  border-radius: 20px;
+  background: #fff;
+  line-height: 36px;
+  text-align: center;
+  border: 1px solid #ddd;
+  margin: 8% auto;
+  width: 34%;
+  font-size: 16px;
+}
+
+.update_success img {
+  height: 24px;
+
+}
+.update_success {
+  text-align: center;
+}
+.cod {
+  background: #fef8f1;
+  border: 1px solid #fdebda;
+}
+
+.bottomFooter {
+  position: fixed;
+  bottom: 0;
+  text-align: center;
+  padding: 24px;
+  background: #f0f0f0;
+  right: 0;
+  left: 0;
+
+}
+.error_page {
+  text-align: center;
+}
+.erroe_img {
+  width: 50%;
+  margin: 30px 0;
+}
+.wx_confirm_btns a{border-radius: 20px;border: 1px solid #ddd;color:#999;line-height:40px;height:40px;text-align:center;font-size:16px;width:46%;float:left; background: #fff;}
+.wx_confirm_btns a.back_index{
+  border: 1px solid #FCCF48;
+  background: #ffcc33; color: #999; float: right;}
+.wx_confirm_btns a.back_pre{
+  border: 1px solid #ddd;
+  color: #999; 
+  background: #fff;
+}
+
+.wx_confirm_btns a.back_pre:hover,.wx_confirm_btns a.back_pre:active,.wx_confirm_btns a.back_pre:visited 
+{
+  color: #999;
+ 
+}
+.download_slogan {
+  margin: 0 15px;
+}
+.download_slogan img {
+  width: 100%;
+}

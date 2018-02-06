@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<link href="{php echo assets_link('/framework/style/css/animation.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/waiting_pay.css?version=2')}" rel="stylesheet" type="text/css">
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+<title>待付款订单</title>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body>
+    <?php foreach ($pay_list['group'] as $group_info):?>
+        <!--一组订单 -->
+        <section class="order-box">
+            <div class="p10"></div>
+            <div class="borderD"></div>
+            <div class="order-name"><?php echo $group_info['group_title'];?></div>
+            <div class="borderD"></div>
+            <!--订单 -->
+            <form id="order-form" action="javascript::void();" method="GET" >
+            <?php foreach ($group_info['orders'] as $order_info):?>
+                <div class="order-list" id="<?php echo $order_info['order_id'];?>">
+                  <label for="order_<?php echo $order_info['order_id'];?>">
+                    <div class="order-title">
+                        <div class="checked">
+                            <input type="checkbox" id="order_<?php echo $order_info['order_id'];?>" name="<?php echo 'order[' . $group_info['category_group_id'] . '][]';?>" value="<?php echo $order_info['order_id'];?>" checked="checked" price="<?php echo $order_info['money_without_delivery_fee'];?>"   insurance_fee="<?php echo $order_info['insurance_fee'];?>" autocomplete="off">
+                            <label for="order_<?php echo $order_info['order_id'];?>"><b></b></label>
+                        </div>
+                        <img src="<?php echo assets_link($order_info['img_url']);?>" alt="">
+                        <span class="order-type"><?php echo $order_info['category_name'];?></span>
+                        <p class="order-num">订单编号：<?php echo $order_info['order_sn_show'];?></p>
+                    </div>
+                    </label>
+                    <div class="borderD"></div>
+                    <!--订单衣物 -->
+                    <?php foreach ($order_info['clothes'] as $cloth_info):?>
+                        <div class="num-list">
+                            <p class="name">
+                                <span class="cloth_name"><?php echo $cloth_info['name'];?></span>
+                                {if $cloth_info['has_insurance']}<img class="has_insurance" src="{php echo assets_link('/framework/style/images/has_insurance.png')}">{/if}
+                            </p>
+                            <p class="price"><?php echo $cloth_info['price'];?>元</p>
+                            <p class="number">x<?php echo $cloth_info['count'];?></p>
+                        </div>
+                    <?php endforeach;?>
+                    <div class="num-list">
+                    
+                        <p class="name">订单金额</p>
+                        <p class="number"></p>
+                        <p class="price money-color"><?php echo $order_info['money_without_delivery_fee'];?>元</p>
+                        
+                    </div>
+                    <?php if(!$order_info['is_last']):?>
+                        <div class="borderD"></div>
+                    <?php endif;?>
+                </div>
+            <?php endforeach;?>
+            
+            <input type="hidden" name="<?php echo 'order[' . $group_info['category_group_id'] . '][]';?>" value="0" autocomplete="off">
+
+            <div id="<?php echo 'yunfei-tip_' . $group_info['category_group_id'];?>" <?php echo $group_info['tip-display'];?> class="yunfei-tip-box">
+                <div class="borderD"></div>
+                <div class="order-name">
+                    <span class="mian" type="tip-tag"><?php echo $group_info['delivery_fee_info']['tips']['tag']?></span>
+                    <span type="tip-text"><?php echo $group_info['delivery_fee_info']['tips']['text']?></span>
+                </div>
+            </div>
+
+            <div class="borderD"></div>
+            <div class="order-name yunfei" id="<?php echo 'yunfei-show_' . $group_info['category_group_id'];?>">
+                <span><?php echo $group_info['delivery_fee_info']['group_title'];?></span>
+                <div class="yunfei-tip">
+                    <img src="{php echo assets_link('/framework/style/images/tip.png')}" alt="">
+                    <span class="price money-color tip" type="fee-text"><?php echo $group_info['delivery_fee_info']['delivery_fee_text']; echo $group_info['delivery_fee_info']['special_fee'] ? "(" . $group_info['delivery_fee_info']['special_fee'] . ")" : '';?></span>
+                </div>
+                <div class="borderD"></div>
+            </div>
+        </section> 
+    <?php endforeach;?>
+    </form>
+    <footer class="footer">
+        <div class="borderD"></div>
+        <div class="total money-color"><span style="color: #5a5a5a">总计:</span><span id="total_money"><?php echo $pay_list['total_money'];?>元</span></div>    
+        <div class="jiesuan" id="jiesuan" status="1">结算</div>
+    </footer>
+
+    <!-- 运费弹窗 start -->
+    <?php if (!empty($delivery_fee_info)):?>
+    <section id="cost" class="cost">
+    <div class="wx-mask"></div>
+    <div class="wx-content" style="overflow-y:auto;overflow-x:hidden;height:80%">
+        <p class="wx-title"><span><?php echo $delivery_fee_info['title'];?></span></p>
+        <?php if(isset($delivery_fee_info['delivery_group'][0])):?>
+        <div class="borderD"></div>
+        <div class="single-cost">
+            <div class="cost-title"><img src="{php echo assets_link('/framework/style/images/total.png')}" class="cost-img"><?php echo $delivery_fee_info['delivery_group'][0]['title']?></div>
+            <?php foreach ($delivery_fee_info['delivery_group'][0]['details'] as $info):?>
+            <p><?php echo $info;?></p>
+        <?php endforeach;?>
+        </div>
+        <?php endif;?>
+        <?php if(isset($delivery_fee_info['delivery_group'][1])):?>
+        <div class="borderD"></div>
+        <div class="total-cost">
+            <div class="cost-title"><img src="{php echo assets_link('/framework/style/images/single.png')}" class="cost-img"><?php echo $delivery_fee_info['delivery_group'][1]['title']?></div>
+            <?php foreach ($delivery_fee_info['delivery_group'][1]['details'] as $info):?>
+            <p><?php echo $info;?></p>
+            <?php endforeach;?>
+        </div>
+        <?php endif;?>
+    </div>
+    <div class="cost-close" id="cost-close" ></div>
+    </section>
+    <?php endif;?>
+    <!-- 运费弹窗 end -->
+
+    <!-- 加载中 -->
+    <div class="loader" style="display:none;"><span class="mask"></span>加载中...</div>
+    <!-- end of 加载中-->
+
+    <!-- 提示浮层 start -->
+    <div id="codFloat" style="display:none;" class="cod" style="height:60px">
+    <div class="wx_mask"></div>
+    <div class="wx_confirm">
+        <div class="wx_confirm_inner" id="wx_confirm_float" style="background:black">
+          <div class="wx_confirm_hd">
+              <div class="wx_confirm_tit" id="show_mes">出错了，请稍后再试！</div>
+          </div>
+        </div>
+    </div>
+    </div>
+    <!-- 提示浮层 end -->
+
+    <script type="text/javascript">
+        //ajax未发起状态
+        var ajax_status = 0;
+        //订单点选事件
+        $('.order-list input').click(function() {
+            var form = $("#order-form");
+            var order_data = form.serialize();
+            var url = "<?php echo $delivery_url;?>";
+            //查询运费
+            getDelivery(url, order_data, $(this));
+            //设置结算状态
+            setJiesuan();
+        });
+        //获取运费
+        function getDelivery(url, send_data, checked_order)
+        {
+            order_status = !checked_order.prop('checked');
+            if (!send_data) {
+                clearDelivery();
+                return false;
+            }
+            showLoading(true);
+            ajax_status = 1;
+            has_resp = false;
+            time_count = setTimeout(function(){
+              if (ajax_status == 1) {
+                ajax.abort();
+                ajax_status = 2;
+                showLoading(false);
+                show_mes('出错啦，请稍后再试！', 2000);
+                checked_order.prop('checked', order_status);
+                setJiesuan();
+              }
+            }, 8000);
+            ajax = $.ajax({
+                    type : "GET",
+                    async:true,
+                    url : url,
+                    data: send_data,
+                    dataType : "json",
+                    timeout: 5000,
+                    success : function(ret){
+                      clearTimeout(time_count);
+                      showLoading(false);
+                      ajax_status = 2;
+                      if (ret.status) {
+                        clearDelivery();
+                        //兑换成功
+                        var deliverys = ret.data;
+                        var total_delivery = 0;
+                        for(var i=0; i < deliverys.length; i++){
+                            var info = deliverys[i];
+                            var group_id = info.category_group_id;
+                            var delivery_show = $("#yunfei-show_" + group_id);
+                            var delivery_tip = $("#yunfei-tip_" + group_id);
+                            //更新订单组的运费
+                            if (info.special_fee){
+                                delivery_show.find("span[type='fee-text']").html(info.delivery_fee_text + "(" + info.special_fee + ")");
+                            }else{
+                                delivery_show.find("span[type='fee-text']").html(info.delivery_fee_text);
+                            }
+                            total_delivery = total_delivery + parseFloat(info.delivery_fee);
+                            if (info.tips.hasOwnProperty('tag')) {
+                                delivery_tip.find("span[type='tip-tag']").html(info.tips.tag);
+                                delivery_tip.find("span[type='tip-text']").html(info.tips.text);
+                                delivery_tip.show();
+                            } else {
+                                delivery_tip.hide();
+                            }
+                        }
+                        var total_money = total_delivery;
+                        //更新订单总金额
+                        $(".order-list input:checked").each(function(){
+                            var order_price = $(this).attr('price');
+                            total_money = total_money + parseFloat(order_price);
+                        });
+                        total_money = total_money.toFixed(2);
+                        $("#total_money").html(total_money + "元");
+                      } else {
+                        show_mes(ret.msg, 2000);
+                        checked_order.prop('checked', order_status);
+                        setJiesuan();
+                      }
+                    },
+                    error:function(XMLHttpRequest, textStatus, errorThrown){
+                      clearTimeout(time_count);
+                      ajax_status = 2;
+                      showLoading(false);
+                      checked_order.prop('checked', order_status);
+                      setJiesuan();
+                      if (textStatus == 'timeout') {
+                        show_mes('网络超时, 请稍后再试!', 2000);
+                      } else {
+                        show_mes('出错了，请稍后再试！', 2000);
+                      }
+                    }
+            });
+        } //end of function getDelivery
+
+        //去结算
+        $("#jiesuan").click(function(){
+            var status = $(this).attr('status');
+            if (status == 1) {
+                var  order_list = new Array();
+                $(".order-list input:checked").each(function(){
+                    order_list.push(parseInt($(this).val()));
+                });
+                var url = "<?php echo $pay_url;?>";
+                var order_str = JSON.stringify(order_list);
+                url = url + "&order_list=" + order_str;
+                url = encodeURI(url);
+                window.location.href = url;
+            }
+        });
+
+        //检查并设置结算状态
+        function setJiesuan()
+        {
+            var order_count = $(".order-list input:checked").length;
+            var jiesuan_bt = $("#jiesuan");
+            if (order_count > 0) {
+                jiesuan_bt.removeClass('bg-gray');
+                jiesuan_bt.attr('status', 1);
+            } else {
+                jiesuan_bt.addClass('bg-gray');
+                jiesuan_bt.attr('status', 0);
+            }
+        }
+
+        //清除运费信息
+        function clearDelivery()
+        {
+            //清除运费
+            $("span[type='fee-text']").html("0.00元");
+            //隐藏提示
+            $(".yunfei-tip-box").hide();
+            //清除结算费用
+            $("#total_money").html("0.00元");
+        }
+
+        // 弹窗提示
+        function show_mes(title, delay_time) {
+          if(title){
+              $("#show_mes").html(title);
+          }
+          if (delay_time) {
+            setTimeout(function(){
+              $("#codFloat").hide();
+            }, delay_time);
+          }
+          $("#codFloat").show();
+        }
+
+        function showLoading(show)
+        {
+            if (show) {
+               $(".loader").show(); 
+            } else {
+                $(".loader").hide(); 
+            } 
+        }
+
+    //运费说明弹窗提示
+    $(".yunfei-tip img").on('click',function () {
+         $(".cost").show();
+    })
+    //运费说明弹窗隐藏
+    $('#cost-close').on('click',function () {
+        $(".cost").hide();
+    })
+
+    </script>
+</body>
+</html

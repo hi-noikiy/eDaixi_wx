@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="description" content="{$ret['active_name']}" />
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>{$ret['active_name']}</title>
+
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+<style type="text/css">
+    body {
+      padding: 0;
+      margin: 0;
+      max-width: 750px;
+      margin: 0 auto;
+
+    }
+
+    .main {
+      position: relative;
+    }
+
+    .mes {
+      position: absolute;
+      z-index: 2;
+      top: 1.2rem;
+      left: 10%;
+      right: 10%;
+      border: 1px dotted #666;
+      padding: 15px 15px;
+      font-size: 14px;
+      border-radius: 8px;
+      line-height: 1.7;
+      text-align: justify;
+      color: #666;
+    }
+
+    a {
+      position: absolute;
+      width: 50%;
+      height: 200px;
+      right: 0;
+      bottom: 10%;
+      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+      display: block;
+    }
+</style>
+</head>
+<body> 
+  <div class="main">
+    <div class="mes">{$msg}</div>
+
+    <img src="{php echo assets_link('/framework/style/images/auto_activity_end.jpg')}" style="width:100%;position:absolute;z-index:1;top: 0" usemap="#newuri" />
+    <map name="newuri">
+      <area shape="rect" coords="250,430,425,665" href="{$new_page}" />
+    </map>
+  </div>
+<?php include template('foot') ?>
+<div class="p60"></div>
+</body>
+</html>

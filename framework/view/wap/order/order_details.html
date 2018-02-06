@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>订单详情</title>
+<link href="{php echo assets_link('/framework/style/css/footer.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/myOrder.css')}" rel="stylesheet" type="text/css" />
+<link href="{php echo assets_link('/framework/style/css/index.css')}" rel="stylesheet" type="text/css">
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+<script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+</head>
+<body style="padding-bottom:80px">
+<div class="myOrder_list order-detail-con">
+<ul>
+<!-- 订单信息 start -->
+    <li class="order_flow">
+      <img src="{$order['progress']}">
+    </li>
+    <li class="order_item ">
+      <div class="item_list_box">
+        <div class="item_list_title">
+          <img src="{php echo assets_link('/framework/style/images/order_info.png')}">
+          订单信息
+        </div>
+        <div class="borderD" style="margin-top:4px;margin-left:14px"></div>
+      </div>
+      <div class="item_list_box item_list_con p5">
+        <div class="item_list_box">订单编号：<b class="blackFont">{$order['order_sn']}</b></div>
+        {if $order['is_fanxidan']}
+          <div class="item_list_box">原始订单编号：<b class="blackFont">{$order['yuandingdan_sn']}</b></div>
+        {/if}
+        
+        <?php
+            $ord_id = $order['order_id'];
+            $cate_id = $order['category_id'];
+            $qj_city = $order['city_id'];
+            $qj_area = $order['area'];
+            $m_count = $order['can_change_qu_delivery_time_count'];
+            $m_reason = $order['cannot_change_qu_time_reason'] ?: '同一订单只能修改三次';
+            $qj_date = $selected_data ?: $order['qj_date'];
+            $qj_time = $selected_time ?: $order['qj_time'];
+            $tk_soon = $order['asap'];
+        ?>
+        <div class="item_list_box">
+           <span>取件时间：<font id="qj-time-{$ord_id}">{$order['pickup_time']} {$order['take_soon']}</font></span>
+	       {if $order['can_change_qu_delivery_time'] > 0}
+
+	       <p id="modify-{$ord_id}" class="modify_time" onClick="modifyTime('{$ord_id}','{$cate_id}','{$qj_city}','{$qj_area}');">
+              <img class="modify_img" src="{php echo assets_link('/framework/style/images/edit.png')}" alt="" />修改
+           </p>
+	       {/if}
+        </div>
+        <div class="item_list_box">服务项目：{$order['good']}</div>
+        <!-- 是否为第三方预付款单 -->
+        {if $order['is_prepaid']}
+        <div class="item_list_box">备注：预付款</div>
+        {/if}
+        <div id="remark-wrap-{$ord_id}" class="item_list_box" {if !$order['remark']}style="display:none;"{/if}>
+            备注信息：<font id="remark-{$ord_id}">{$order['remark']}</font>
+        </div>
+      </div>
+      <div class="borderD2"></div>
+    </li>
+<!-- 订单信息 end -->
+
+<!-- 物流信息  start-->
+<li class="order_item ">
+      <div class="item_list_box">
+        <div class="item_list_title">
+          <img src="{php echo assets_link('/framework/style/images/wuliu_info.png')}">
+          物流信息
+          
+          {if $order['washing_duration']}
+          <span style="color:#00dbf5;float:right;margin-right:14px">预计{$order['washing_duration']}送回</span>
+          {/if}
+          
+        </div>
+        <div class="borderD" style="margin-top:4px;margin-left:14px"></div>
+      </div>
+      <div class="order-logictics" onclick="javascript:location='{php echo create_url('order/delivery_details',array('order_id' => $order_id))}';">
+          <span class="high-dottle"></span>
+          <a href="{php echo create_url('order/delivery_details',array('order_id' => $order_id))}" >        
+            <img src="{php echo assets_link('/framework/style/images/arrow-2.png')}" class="position-img">
+            <div class="con-text" style="padding-top:8px;">             
+              {if $order['order_status'] == 7 && $order['delivery_status'] == 3}
+              <div class="wuliu-left">
+                <div class="split-position"></div>
+                <p style="padding-bottom:10px" class="color097de7">客户已签收，欢迎您再一次光临</p>
+              </div>
+              {else}           
+                <div  {if $key == 0}class="wuliu-left"{/if}>
+                    <div class="split-position"></div>
+                    <em {if $key == 0}class="color097de7"{/if}>{$delivery_list[0]['text']}</em>
+                    <p class="color097de7 marginT">{$delivery_list[0]['time']}</p>
+                </div>            
+              {/if}
+              {if !empty($delivery_list[1])}
+                <span></span>
+                <div class="split-position2"></div>
+                <div {if $key == 0}class="wuliu-left"{/if}>
+                    <em {if $key == 0}style="color:#555;"{/if}>{$delivery_list[1]['text']}</em>
+                    <p class="marginT">{$delivery_list[1]['time']}</p>
+                </div>
+              {/if}
+            </div>
+          </a>
+      </div>
+      <div class="borderD2"></div>
+    </li>
+<!-- 物流信息  end-->
+
+<!-- 物品信息 start -->
+	{if $show_clothing_info}
+     <li class="order_item">
+	      <div class="item_list_box item_list_title">
+	        <img src="{php echo assets_link('/framework/style/images/good_info.png')}">
+	        物品信息{if $order['amount_text']}<span style="color:#00dbf5;float:right;margin-right:14px">共{$order['amount_text']}</span>{/if}
+	      </div>
+	      <div class="borderD" style="margin-top:4px;margin-left:4px"></div>
+	      <div class="item_list_box item_list_con"></div>
+          <table id="clothes-table" cellpadding="0" cellspacing="0" class="detail-text">
+            <tr>
+              <th width="34%">名称</th>
+              <th width="22%">颜色</th>
+              <th width="28%">瑕疵</th>
+              {if $order['has_images']}
+              <th width="18%">图片</th>
+              {/if}
+            </tr>
+            {if $count}
+	            {loop $clothing $key $clothes}
+		            <tr {if $key > 3}style="display:none;" class="more_clothes"{/if}>
+		                <td>{$clothes['cloth_title']}</td>
+		                <td>{$clothes['color']}</td>
+		                {if $clothes['can_wash']}
+		                   <!-- 瑕疵描述 start -->
+		                   {if $clothes['cloth_condition']}
+	                           <td class="view-blemish-desc color097de7" text="{$clothes['cloth_condition']}">查看</td>
+	                       {else}
+	                           <td>无</td>
+	                       {/if}
+	                       <!-- 瑕疵描述 end -->
+	                       
+	                       {if $order['has_images']}
+		                       <!-- 瑕疵图片 start -->
+		                       {if count($clothes['xiaci_images'])}
+	                               <td class="view-blemish-photo color097de7" data-link="{$clothes['blemish_photos_url']}">查看</td>
+	                           {else}
+	                               <td>无</td>
+	                           {/if}
+	                           <!-- 瑕疵图片 end -->
+                           {/if}
+	                    {else}
+	                       <td>不能洗需退回</td>
+	                       {if $order['has_images']}
+	                           <td>无</td>
+	                       {/if}
+		                {/if}
+		            </tr>
+	            {/loop}
+	            
+	            {if $more_count}
+		            <tr>
+		              <td class="toggle-more-clothes" colspan="4">
+		                  <span id="toggle_down">
+		                    展开其他{$more_count}件衣物详情
+		                    <img src="{php echo assets_link('/framework/style/images/direction_down.png')}" style="width:8px;float:none;margin-bottom: 3px" />
+		                  </span>
+		                  <span id="toggle_up" style="display:none;">
+		                    收起其他{$more_count}件衣物详情
+		                    <img src="{php echo assets_link('/framework/style/images/direction_up.png')}" style="width:8px;float:none;margin-bottom: 3px" />
+		                  </span>
+		              </td>
+		            </tr>
+	            {/if}
+            {else}
+           	   <tr>
+	              <td colspan="4">
+	                  <span>
+	                  	暂无衣物详情，待分拣后查看
+	                  </span>
+	              </td>
+	            </tr>
+            {/if}
+          </table>
+          <div class="borderD2"></div>
+      </li>
+     {/if}
+<!-- 衣物信息 end -->
+
+<!-- 支付信息 start -->
+   {if $show_pay_info}
+      <li class="order_item ">
+        <div class="item_list_box  {if $order['pay_status']==0 && $order['totalprice'] > 0}list-titel{/if}">
+          <div class="item_list_title">
+            <img src="{php echo assets_link('/framework/style/images/pay_info.png')}">
+            支付信息
+          </div> 
+            <div class="borderD" style="margin-top:4px;margin-left:12px"></div>
+            <div>
+              <p class="order_total"><?php echo $pay_detail['order']['text'];?></p>
+              <span class="pull-right color097de7 money-list" style="margin-top: 6px;font-size: 15px;">
+              <?php echo $pay_detail['order']['price'];?>元
+              </span>
+            </div>
+   
+        </div>
+        <div class="item_list_box item_list_con">
+              
+          <div>
+              <ul class="order-manner">
+                  <?php foreach ($pay_detail['order']['detail'] as $pay_info):?>
+                    <li class="pos-relative">
+                      <name><?php echo $pay_info['text'];?>:</name>
+                      <span class="pull-right money-list"><?php echo $pay_info['price'];?>元</span>
+                      <?php if (!empty($pay_info['detail'])):?>
+                        <img  id="list-img" src="{php echo assets_link('/framework/style/images/arrow-2.png')}" class="list-img">
+                      <?php endif;?>
+                    </li>
+                    <?php foreach ($pay_info['detail'] as $real_pay):?>
+                      <p class="money-detial">
+                        <span><?php echo $real_pay['text'];?></span>
+                        <span class="pull-right money-list "><?php echo $real_pay['price'];?>元</span>
+                      </p>
+                    <?php endforeach;?>
+                  <?php endforeach;?>
+                  <div class="borderD" ></div>
+                  <div class="qingdan">
+                    <p>实付款费用清单<img id="tip-cloth" src="{php echo assets_link('/framework/style/images/tip.png')}" alt=""></p>
+                    <?php foreach ($pay_cloth_detail['clothes_paid_info'] as $cloth_paid):?>
+                      <div class="num-list">
+                        <p class="name"><?php echo $cloth_paid['cloth_name'];?></p>
+                        <p class="price"><?php echo $cloth_paid['price'];?></p>
+                        <p class="number"><?php echo $cloth_paid['cloth_num'];?></p>
+                      </div>
+                    <?php endforeach;?>
+                    
+                  </div>
+              </ul>
+          </div>
+        </div>
+        <div class="borderD2"></div>
+      </li>
+      {/if}
+<!-- 支付信息 end -->
+
+<!-- 增保信息 start -->
+      {if $insurance_info}
+      <li class="order_item ">
+        <div class="item_list_box">
+          <div class="item_list_title">
+            <img src="{php echo assets_link('/framework/style/images/insurance_info.png')}">
+            增保信息
+          </div>
+          <div class="borderD" style="margin-top:4px;margin-left:14px"></div> 
+        </div>
+        <div class="item_list_box item_list_con p5">
+            <ul class="order-manner">
+                <?php foreach ($insurance_info as $item):?>
+                  <li class="pos-relative">
+                    <name><?php echo $item['name'];?>:</name>
+                    <span class="pull-right money-list"><?php echo $item['fee'];?></span>
+                    <p class="insurance_font">{$item['description']}</p>
+                  </li>
+                <?php endforeach;?>
+            </ul>
+        </div>
+        <div class="borderD2"></div>
+      </li>
+      {/if}
+<!-- 增保信息 end -->
+
+<!-- 地址信息 start -->   
+    <li class="order_item ">
+      <div class="item_list_box">
+        {if $order['is_self_pickup']}
+            <div class="ziti-tip" style="margin-left: 14px;font-size: 13px; padding-bottom: 2px;"><p>自提</p>已选择自提服务，请凭短信或微信通知自提</div>
+            <div class="borderD" style="margin-top:4px;margin-left:14px"></div>
+        {/if}
+        <div class="item_list_title">
+          <img src="{php echo assets_link('/framework/style/images/address_info.png')}">
+          地址信息
+        </div>
+         <div class="borderD" style="margin-top:4px;margin-left:14px"></div>
+      </div>
+      {if $order['is_self_pickup']}
+	      <div class="item_list_box item_list_con p5">
+	        <b class="blackFont">{$order['dak_title']} </b>
+	        <span class="pull-right"><b class="blackFont">{$order['dak_tel']}</b></span>
+	        <div>{$order['dak_address']}</div>
+	      </div>
+      {else}
+	      <div class="item_list_box item_list_con p5">
+	        <b class="blackFont">{$order['order_username']} </b>
+	        <span class="pull-right"><b class="blackFont">{$order['order_tel']}</b></span>
+	        <div>{$order['city']}{$order['area_qu']}{$order['address_qu']}</div>
+	      </div>
+      {/if}
+      <div class="borderD2"></div>
+    </li>
+<!-- 地址信息 end -->
+</ul>
+  
+<!-- 取消订单/催单/分享领券/投诉 按钮 start -->
+{if $reminder || $show_pay || $can_cancel || $order_share || $show_complain || $show_comment}
+	<div class="white_bg cancel_detail">
+    <!-- 取消分享按钮显示 2017-09-01 -->
+	  {if $order_share && !$is_robot && 1==2}
+	 	 <a class="order_link order_blue" href="###" onclick="shareGuide();">分享领券</a>
+	  {/if}
+	  {if $reminder && !$is_robot}
+	  	{$reminder}<!-- 催单 -->
+	  {/if}
+	  {if $show_pay && !$is_robot}
+        <?php if($order['pay_in_process']):?>
+          <a href="{$pay_url}" class="order_link order_red">继续支付</a>
+        <?php else:?>
+          <a href="{$pay_url}" class="order_link order_red" id="pay-order">支付</a>
+        <?php endif;?>
+    {/if}
+	  {if $can_cancel && !$is_robot}
+      	<a class="public_order bordergray" onclick="cancelOrder();">取消订单</a>
+	  {/if}
+	  {if $show_complain}
+      	<button id="complain_btn" class="public_order order_blue " onclick="complain();">{$complain_status}</button>
+    {/if}
+    {if $show_comment && !$is_robot}
+        {if $order['already_commented']}
+      	 <a href="{$comment_url}" class="order_link comment-btn-over">已评价</a>
+      	{else}
+      	 <a href="{$comment_url}" class="order_link order_red">评价</a>
+      	{/if}
+    {/if}
+    <?php if($order['pay_in_process']):?>
+      <a class="public_order bordergray" id="cancel-pay">取消支付</a>
+    <?php endif;?>
+	  <div class="clearBoth"></div>
+	</div>
+{/if}
+<!-- 取消订单/催单/分享领券/投诉 按钮 end --> 
+
+<!-- “取消订单”弹窗 start --> 
+	<div id="codFloat" style="display:none;padding:1%" class="cod">
+	  <div class="wx_mask"></div>
+	  <div class="codCancelOrder">
+	    <div class="wx_float">
+	      <div class="wx_confirm_hd white_bg" style="border-radius: 4px">
+	        <br/>
+	        <div class="wx_confirm_tit">请选择订单取消原因</div>
+	        {if $order['delivery_status'] == '2'}
+	           <div class="red">您的订单已经派单，多次取消会影响信誉哟</div>
+	        {/if}
+	        <br/>
+	        {loop $cancel_order_reason $key $reason}
+	           <a class="cancel-order" href="javascript:void(0);" onclick="doCancel('{$reason}');" >{$reason}</a>
+	        {/loop} 
+	      </div>
+	      <p class="white_bg cancelBtn"><button type="cancel" onclick="closeCancel();" >不想取消了</button></p>
+	    </div>
+	    <input type="hidden" id="orderid" name="orderid" value="{$order_id}">
+	  </div>
+	</div>
+<!-- 取消订单”弹窗 end -->
+
+<!-- “投诉”弹窗 start --> 
+<!--
+  <div id="codFloat2" style="display:none;" class="cod">
+    <div class="wx_mask" onclick="closeComplain();"></div>
+    <div class="wx_float2">
+      <div class="wx_confirm_hd white_bg">
+        <div class="wx_confirm_tit">投诉
+        <p>客服处理投诉时间为08:30-22:00</p>
+        </div>
+        <div class="borderD"></div>
+            <div class="complain-form"> 
+              <textarea class="textarea" id="complain-textarea" name="appraise_detail" maxlength="200" 
+              placeholder = "请问您遇到什么问题？我们的客服会尽快帮您解决" onfocus="this.style.color='#3e3e3e';" style="color: #c1c1c1;"></textarea>
+              <div class="textarea_word"><span id="word" style="color:#1db7fe;">0</span>/200</div>
+            </div>
+            <button class="link-btn-all" id="complain_submit" style="width:60%;opacity:0.6" disabled="disabled">确认</button>
+      </div>
+    </div>
+  </div>-->
+<!-- “投诉”弹窗 end -->
+   
+<!-- 投诉处理中 弹窗 start --> 
+  <div id="complain_success" class="order_success" style="display:none;width:70%;">
+    <em><span></span></em>
+    <span id="success_tip" style="padding-left:10px">投诉处理中</span>
+    <p class="complain_text p10">您的投诉我们已收到，正在处理中请耐心等待</p>
+  </div>
+<!-- 投诉处理中 弹窗 end --> 
+  
+<!-- 操作提示 start -->
+	<div id="tip-box" style="display:none" class="cod" style="height:60px">
+	  
+	  <div class="wx_confirm ">
+	      <div class="wx_confirm_inner" id="wx_confirm_float">
+	         <div class="wx_confirm_hd">
+	        	<div class="wx_confirm_tit" id = "show_mes"><!-- 提示信息 --></div>
+	         </div>
+	   	  </div>
+	   </div>
+	</div>
+<!-- 操作提示 end -->
+
+<!-- 分享引导蒙板 start -->
+	<div id="share_layer" style="display:none;background:#000;opacity:0.8;z-index:111;position:fixed;top:0;width:100%;height:100%;" onclick="javascript:$(this).hide();">
+		<img src="{php echo assets_link('/framework/style/images/share_img2.png')}" style="position:absolute;top:0;z-index:111111;width:80%;left:10%;" >
+    </div>
+<!-- 分享引导蒙板 end -->
+
+<!-- wx_JS控件 start -->
+        {php include template('wx_js', 'wap', 'base');}
+<!-- wx_JS控件 end -->
+
+<!-- 取消支付  start-->
+<div id="cod-cancel-pay" style="display:none">
+      <div class="wx_mask"></div>
+      <div class="wx_confirm ">
+        <div class="wx_confirm_inner padding-top width100" id="wx_confirm_coupon">
+          <div class="wx_confirm_hd">
+              <div class="wx_confirm_tit blue-color">取消支付</div>
+              <div class="cot_content">取消支付后将重新选择支付方式</div>
+              <div class="floatBorder floatbox ">
+                   <a id="exchange" class="single_input2" href="javascript:void(0);">不取消了</a>
+                   <a id="cancel-pay-true" class="cancel single_input2 ">确认取消</a>
+              </div>
+              <div class="clearBoth"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+<!-- 取消支付 弹窗 end-->
+
+<!-- 衣物实付款tip  start-->
+    <?php if (!empty($pay_cloth_detail['clothes_paid_tips'])):?>
+    <section id="cod-cloth-tip" class="cost">
+    <div class="wx-mask"></div>
+    <div class="wx-content" style="overflow-y:auto;overflow-x:hidden;height:80%">
+        <p class="wx-title"><span><?php echo $pay_cloth_detail['clothes_paid_tips']['title'];?></span></p>
+        <?php foreach ($pay_cloth_detail['clothes_paid_tips']['tips_group'] as $tip_group): ?>
+          <div class="borderD"></div>
+          <div class="single-cost">
+              <div class="cost-title">
+                <name><?php echo $tip_group['title']?></name>
+              </div>
+              <?php foreach ($tip_group['details'] as $tip_info):?>
+                <p><?php echo $tip_info;?></p>
+              <?php endforeach;?>
+          </div>
+        <?php endforeach;?>
+    </div>
+    <div class="cost-close" id="cloth-tip-close" ></div>
+    </section>
+    <?php endif;?>
+<!-- 衣物实付款tip 弹窗 end-->
+
+<!-- 合单支付提示  start-->
+  <div id="cod-pay-warn" style="display:none">
+    <div class="wx_mask"></div>
+    <div class="wx_confirm ">
+      <div class="wx_confirm_inner padding-top">
+        <div class="wx_confirm_hd">
+            <!--  
+            <div class="wx_confirm_tit blue-color"></div>
+            -->
+            <div class="cot_content" id="pay-content"></div>
+            <div class="floatBorder floatbox ">
+                 <a id="confirm-pay-false" class="single_input2" href="javascript:void(0);">取消</a>
+                 <a id="confirm-pay-true" class="cancel single_input2 ">确认</a>
+            </div>
+            <div class="clearBoth"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- 合单支付提示 弹窗 end-->
+
+<script type="text/javascript">
+var order_id = "{$order_id}";		// 订单ID
+var $clothesTable = $('#clothes-table');
+
+// 查看瑕疵文字描述
+$clothesTable.on('click', '.view-blemish-desc', function(){
+    $(this).html($(this).attr('text')).removeClass('color097de7').css({'color':'#3e3e3e','text-align':'left'});
+});
+
+// 查看瑕疵图片相册
+$clothesTable.on('click', '.view-blemish-photo', function(){
+	var blemish_photo_url = $(this).data('link');
+    if(blemish_photo_url){
+    	window.location.href = blemish_photo_url;
+    } 
+});
+
+// 展开/收起更多衣物
+$clothesTable.on('click', '.toggle-more-clothes', function(){
+    $('.more_clothes, #toggle_up, #toggle_down').toggle();
+});
+
+// 监听输入 -- 投诉内容
+$("#complain-textarea").on('keydown change keyup', function(){
+   var len = $(this).val().length;
+   if(len > 200){
+      $(this).val($(this).val().substring(0,200));
+   }
+   $("#word").text(len);
+   if(len > 0 && len <= 200){
+     $('#complain_submit').prop('disabled', false).css({'opacity':'1'});
+   }else{
+     $('#complain_submit').prop('disabled', true).css({'opacity':'0.6'});
+   }
+});
+
+// 获取/提交投诉
+$('#complain_submit').on('click', function(){
+    setComplain();
+});
+
+//显示衣物付款提示
+$("#tip-cloth").click(function(){
+  $("#cod-cloth-tip").show();
+});
+
+//隐藏衣物付款提示
+$("#cloth-tip-close").click(function(){
+  $("#cod-cloth-tip").hide();
+});
+
+// 修改订单取件时间
+function modifyTime(orderid, category_id, city_id, area){
+  window.location.href = "/new_weixin/time_control.html?order="+orderid+"&category_id="+category_id+"&city_id="+city_id+"&area="+area+"&back="+"{$back_url}";
+  return false;
+}
+
+// 打开“取消订单”弹窗
+function cancelOrder(){
+	$(".wx_float").animate({bottom:"10"}, 400);
+  	$("#codFloat").slideDown();
+}
+
+// 关闭“取消订单”操作窗
+function closeCancel(){
+	$("#codFloat").hide();
+	$(".cancel-order").css("pointer-events", "auto");
+ 	return false;
+}
+
+// 提交“取消订单”
+function doCancel(reason){
+   	$('.cancel-order').css({"pointer-events":"none"});
+ 	var cancel_url = "{php echo create_url('order/cancel_order')}";
+   	var submit_data = {reason : reason, order_id : order_id};
+   	$.post(cancel_url, submit_data, function(data){
+     	closeCancel();
+     	var jump_url = "{$cancel_order_next}";
+     	showTip(data.message.msg, jump_url);
+   	},"json");
+}
+
+// 更新投诉状态 && 打开“投诉”确认窗
+function complain(){
+	$('#complain_btn').prop('disabled', true);
+ 	var url = "{php echo create_url('order/get_order_complain')}";
+ 	var reload_url = "{php echo create_url('order/order_details', array('order_id' => $order_id))}";
+   	var submit_data = {order_id : order_id};
+   	$.post(url, submit_data, function(data){
+    	if(data.message.state == 1){
+    		if(data.message.complain_status == 1){	//可以投诉
+        		if('处理中' == $('#complain_btn').text()){
+        			showTip("您的投诉已受理完成", reload_url);
+        			return;
+        		}else{
+                    //此处应该跳转到投诉细类
+                    window.location.href="{php echo create_url('order/enter_complain',array('order_id' => $order_id, 'robot' => $is_robot))}";
+        		}
+    		}else if(data.message.complain_status == -1){	//投诉超时
+    			showTip("您的订单已超出投诉时限", reload_url);
+    			return;
+    		}else if(data.message.complain_status == 0){	//正在处理
+              	$('#complain_success').show().delay(2000).hide(0, function(){
+              		$('#complain_btn').prop('disabled', false);
+              	});
+              	$('#complain_btn').text('处理中');
+    		}
+       	}else{
+       		showTip(data.message.msg, data.message.url);
+       	}
+   	},"json");
+}
+
+// 显示提示信息
+function showTip(msg, url, persistent){
+	$('#show_mes').html(msg);
+	if(url){
+		$('#tip-box').show().delay(2000).hide(function(){
+			window.location.href = url;
+		});
+	}else{
+    if (persistent) {
+      $('#tip-box').show()
+    } else {
+      $('#tip-box').show().delay(2000).hide(0);
+    }
+	}
+}
+
+// 分享引导
+function shareGuide(){
+	$('#share_layer').show();
+}
+
+$("#list-img").click(function() {
+  $(".money-detial").toggle();
+  ;
+});
+
+//点击取消支付事件
+$("#cancel-pay").click(function(){
+  $('#cod-cancel-pay').show();
+});
+//不取消了
+$('#exchange').click(function () {
+   $('#cod-cancel-pay').hide(); 
+});
+//确认取消支付事件
+$('#cancel-pay-true').click(function () {
+   //隐藏弹框
+   $('#cod-cancel-pay').hide();
+   //订单取消支付
+   var url = "<?php echo $cancel_pay_url;?>";
+   var order_id = <?php echo $order_id;?>;
+   var order_data = {order_id : order_id};
+   cancel_pay(url, order_data);
+});
+
+//点击支付提示合单文案
+$("#pay-order").click(function(){
+  var warn_msg = "<?php echo $order['pay_warn_message'];?>";
+  var warn = <?php echo $order['is_pay_warn'] ? "true" : "false";?>;
+  if (warn && warn_msg) {
+    //合单弹框提示
+    $("#pay-content").html(warn_msg);
+    $("#cod-pay-warn").show();
+    return false;
+  }
+  return true;
+});
+
+//提示框点击取消去支付
+$("#confirm-pay-false").click(function(){
+  $("#cod-pay-warn").hide();
+});
+
+//提示框点击确定去支付
+$("#confirm-pay-true").click(function(){
+  var url = $("#pay-order").attr("href");
+  window.location.href = url;
+  $("#cod-pay-warn").hide();
+});
+
+//订单取消支付
+function cancel_pay(url, send_data) {
+  //显示取消支付中
+  showTip('取消支付中...', null, true);
+  //ajax订单取消支付发起状态
+  ajax_cancel_pay_status = 1;
+  cancel_pay_time_count = setTimeout(function(){
+    if (ajax_cancel_pay_status == 1) {
+      cancel_pay_ajax.abort();
+      //ajax订单取消支付返回状态
+      ajax_cancel_pay_status = 2;
+      showTip('出错啦，请稍后再试！');
+    }
+  }, 8000);
+  cancel_pay_ajax = $.ajax({
+          type : "POST",
+          async:true,
+          url : url,
+          data: send_data,
+          dataType : "json",
+          timeout: 5000,
+          success : function(ret){
+            clearTimeout(cancel_pay_time_count);
+            ajax_cancel_pay_status = 2;
+            if (ret.status) {
+              showTip('取消支付成功');
+              setTimeout("location.reload()", 2000);
+            } else {
+              if (ret.msg) {
+                showTip(ret.msg);
+              } else {
+                showTip('取消支付失败啦');
+              }
+            }
+          },
+          error:function(XMLHttpRequest, textStatus, errorThrown){
+            clearTimeout(cancel_pay_time_count);
+            ajax_cancel_pay_status = 2;
+            if (textStatus == 'timeout') {
+              showTip('网络超时, 请稍后再试!');
+            } else {
+              showTip('出错了，请稍后再试！');
+            }
+          }
+  });
+
+}
+
+</script>
+
+<?php include template('foot') ?>
+</body>
+</html>

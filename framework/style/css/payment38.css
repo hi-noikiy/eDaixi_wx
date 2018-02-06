@@ -1,0 +1,134 @@
+.recharge_list {
+	text-align: center;
+	background: #fff;
+	padding-top: 18px;
+	height: 112px;
+}
+
+.recharge_font {
+	font-size: 14px;
+	color: #222;
+}
+
+.recharge_money {
+	font-size: 20px;
+	color: #3b9af2;
+}
+
+.recharge_send .send {
+	font-size: 10px;
+	color: #999;
+}
+
+.recharge_send .money {
+	color: #ffad1d;
+	font-size: 12px;
+}
+
+.recharge_money em {
+	font-size: 2em;
+}
+
+.pay_manner {
+	line-height: 22px;
+	margin-bottom: 15px
+}
+
+.pay_font {
+	padding: 25px 0 10px 15px;
+}
+
+.item_list_box {
+	margin-left: 15px;
+	line-height: 52px;
+	padding: 0px 0;
+	position: relative;
+}
+
+.item_list_box img {
+	float: left;
+	margin-right: 10px;
+	width: 30px;
+	margin-top: 10px;
+	margin-left: -2px;
+}
+
+.item_list_box span {
+	float: right;
+	margin-right: 6px;
+	position: absolute;
+	top: 0px;
+	right: 10px;
+	border-radius: 100%;
+	background-clip: border-box;
+}
+
+.orange_color {
+	color: #f66627;
+	font-weight: 500;
+}
+
+.item_list_box span label {
+	cursor: pointer;
+	position: absolute;
+	width: 30px;
+	height: 30px;
+	top: 14px;
+	left: -6px;
+	background: #fff;
+	-webkit-outline: none;
+	outline: none;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+	border-radius: 100%;
+}
+
+.item_list_box span input[type=radio]:checked+label {
+	outline: 0;
+	-webkit-outline: 0;
+	-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+.item_list_box span input[type=radio]:checked+label b {
+	position: absolute;
+	left: 10px;
+	top: 1px;
+	border-right: 2px solid #00dbf5;
+	border-bottom: 2px solid #00dbf5;
+	float: left;
+	width: 6px;
+	height: 12px;
+	-webkit-transform: rotate(40deg);
+	transform: rotate(40deg);
+}
+
+.chongzhi_btns {
+	margin-top: 36px;
+	width: 100%;
+	color: #fff;
+}
+
+.chongzhi_btns button {
+	position: absolute;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	height: 40px !important;
+	line-height: 40px !important;
+	border-radius: 8px !important;
+	width: 90% !important;
+	background: #1db7fe;
+	border: 1px solid #1db7fe;
+	color: #fff;
+	text-align: center;
+	font-size: 1.148em;
+}
+
+.item_list_box .manjian {
+	color: red;
+	position: absolute;
+	left: 38px;
+	text-align: left;
+	top: 36px;
+	line-height: 16px;
+	font-size: 0.7em;
+}

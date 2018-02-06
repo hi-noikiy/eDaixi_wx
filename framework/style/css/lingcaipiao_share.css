@@ -1,0 +1,91 @@
+
+html, body, div,  p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    font-family: 微软雅黑 !important;
+    font-weight:normal;
+    
+}
+
+body {
+    line-height: 1;
+    background: #fff;
+}
+
+img{border:0}
+
+a{text-decoration:none;}
+
+.headdiv {
+    height: 2.5rem;
+    line-height: 2.5rem;
+    background-color: #00dbf5;
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    z-index: 1;
+    text-align: center;
+    color: #333333;
+    font-size: 1rem;
+}
+
+.img11 {
+    display: block;
+    width: 100%;
+    margin-top: 2.25rem;
+}
+.ordertikdiv1 {
+    padding: 1rem 0 16rem 0;
+    text-align: center;
+    color: #189ff1;
+    font-size: 1rem;
+    background-color: #ffffff;
+}
+
+.ordertikdiv1 p {
+    margin-bottom: 0.375rem;
+}
+
+.numline {
+    width: 100%;
+    height: .7rem;
+}
+
+.sharea.longa {
+    display: block;
+    float: none;
+    width: 18.6rem;
+    height: 2.7rem;
+    line-height: 2.7rem;
+    text-align: center;
+    color: #333333;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #ffde00;
+    margin: 0 auto;
+    padding: .18rem 0;
+}
+.fix {
+    position: fixed;
+    width: 100%;
+    height: 3.7rem;
+    background: #eee;
+    bottom: 0;
+    padding: 1.18rem 0;
+}

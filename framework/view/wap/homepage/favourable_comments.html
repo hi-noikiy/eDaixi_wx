@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <meta charset="utf-8" />
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <meta content="email=no" name="format-detection" />
+    <meta content="" name="pgv" />
+    <title>用户评价</title>
+    <link href="{php echo assets_link('/framework/style/css/index.css')}" rel="stylesheet" type="text/css" />
+    <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+    <script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body>
+<section id="comment-list" class="user_commont" data-total-pages="{$total_pages}" data-page="{$page}">
+  {loop $favourable_comments $key $row}
+  <div class="comment-item user_appraise">  
+      <div class="user_list">
+          <div class="appraise_list">
+             <div class="area_phone"><span class="nbsp">{$row['user']}</span><span>{$row['tel']}</span></div>
+             <div class="borderD"></div>
+             <div class="appraise_detail">
+               <span><img class="front_quote" src="{php echo assets_link('/framework/style/images/front_quote.png')}" alt=""></span>
+               <span>{$row['comment']}</span>
+               <span  class="back_quote"><img src="{php echo assets_link('/framework/style/images/back_quote.png')}" alt=""></span>
+             </div>
+             <div class="borderD"></div>
+             <div class="service_date"><span class="nbsp">{$row['category']}</span><span>{$row['date']}</span></div>
+          </div>
+     </div>                  
+  </div>
+  {/loop}
+</section>
+<section id="loading" style="text-align:center;color:#A1A1A1;height:32px;line-height:32px;margin-bottom:16px;display:none;">
+    加载中 ...
+</section>
+<script type="text/javascript">
+var
+  $loading = $('#loading'),
+  $commentList = $('#comment-list'),
+  totalHeight = 0,  // 滚动距离 + 窗口高度
+  jqueryXhr = null; // jquery-ajax 对象
+  
+// 向下滑动屏幕加载下一页
+(function(){
+    $(window).scroll(function() {
+  	    totalHeight = parseFloat($(window).height()) + parseFloat($(window).scrollTop());
+  	    var totalPages = parseInt($commentList.data('total-pages'));
+        var page = parseInt($commentList.data('page')) + 1;
+        if (totalHeight + 50 >= $(document).height()) {
+            if(page <= totalPages){
+            	$loading.show();
+            	setTimeout(function(){
+                    nextPageFavourableComments(page);
+            	}, 0);
+            }
+        }
+    });
+})();
+function nextPageFavourableComments(page){
+    if(jqueryXhr){
+        // 终止之前的未结束的ajax请求，重新开始新的请求
+        jqueryXhr.abort();
+    }
+    jqueryXhr = $.ajax({
+        url: "{php echo create_url('homepage/ajax_next_favourable_comments', array('city_id' => $city_id, 'per_page' => $per_page));}&page=" + page,
+        type: "GET",
+        async: true,        // 异步请求 
+        timeout: 3000,      // 超时时间
+        dataType: "json",
+        complete: function (){
+            // 请求完成
+            jqueryXhr = null;
+        },
+        success: function (resp) {
+        	$commentList.data('total-pages', resp.message.total_pages);
+            $commentList.data('page', page);
+        	setTimeout(function(){
+                if(resp.message.rows_count > 0){
+                    $commentList.append(resp.message.html);
+                }
+                $loading.hide();
+        	}, 500);
+        },
+        error:function (xhr, ts, err){
+            // ...
+            setTimeout(function(){
+            	$loading.hide();
+            }, 500);
+        }
+    });
+}
+</script>
+</body>
+</html>

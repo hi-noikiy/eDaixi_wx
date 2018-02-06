@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+	<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+	<meta content="yes" name="apple-mobile-web-app-capable">
+	<meta content="black" name="apple-mobile-web-app-status-bar-style">
+	<meta content="telephone=no" name="format-detection">
+	<meta content="email=no" name="format-detection">
+	<meta content="" name="pgv">
+	<meta charset="UTF-8">
+	<link rel="stylesheet" type="text/css" href="{php echo assets_link('/framework/style/css/lingcaipiao_share.css?v=20161212')}" media="all">	
+	
+	<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+	<title>“洗晦气，送运气” e袋洗下单送彩票</title>
+	<script src="http://sdk.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body>
+    <div class="headdiv"><a href="javascript:window.history.back()"></a>下单送彩票</div>
+    <img class="img11" src="{php echo assets_link('/framework/style/images/img11.jpg')}">
+    <div class="ordertikdiv1">
+    	<?php foreach($show_msg as $item){ ?>
+        <p>{$item}</p>
+        <?php } ?>
+    </div>
+
+    <div class="numline"></div>
+    <div class="fix">
+    <a class="sharea longa" href="{$order_url}">立即下单</a>
+	</div>
+</body>
+</html>

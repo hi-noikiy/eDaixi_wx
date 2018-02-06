@@ -1,0 +1,8 @@
+{
+  "ret": true,
+  "data": {
+      "price": 19.9,
+      "stock_count": 3000,  
+      "sale_count": 0   
+  }
+}

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta charset="utf-8">
+  <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+  <meta content="yes" name="apple-mobile-web-app-capable">
+  <meta content="black" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <meta content="email=no" name="format-detection">
+  <meta content="" name="pgv">
+    <title>充值卡充值</title>
+    
+    <script src="../js/jquery-1.8.2.min.js" type="text/javascript"></script>
+    
+    <script src="../js/template.js"></script>
+    <link rel="stylesheet" type="text/css" href="/new_weixin/css/newbase.css">
+    <link rel="stylesheet" type="text/css" href="/new_weixin/css/recharge.css">
+    <script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+    
+</head>
+<body>
+    <div class="channel-nav">
+        <ul>
+          <li class="active">充值卡充值</li>
+          <li class="normal_tab"><a href="javascript:void(0)" onclick="rechargeOnline();">在线充值</a></li>
+          
+        </ul>
+    </div>
+    <div class="white-bg yue_block">
+        <span>余额</span><span id="rechatgeblock" class="money"></span>
+    </div>
+    <div class="hide_div">
+        <div class="borderD"></div>
+        <div class="p10"></div>
+        <div class="p5"></div>
+    </div>
+    <div class="borderD"></div>
+    <div class="white-bg recharge-block">
+        <form  action="javascript:;"  method="POST">
+            <!-- start 为他人充值 -->
+                <div class="white-bg p10 mobile-other" style="display:none">
+                  <input type="tel" value="" name="mobile" class="px" placeholder="请输入对方手机号" id="other-recharge" maxlength="11" autocomplete="off" oninput="value=value.replace(/[^\d.]/g, '');">
+                </div>
+            <input type="tel" placeholder="请输入充值卡密码" class="px" id="cardno">
+        </form>
+    </div>
+    <div class="p10"></div>
+    <div class="p10">
+        <input type="hidden" name="recharge_discount" value="" id="recharge_discount" />
+        <input type="hidden" name="recharge_callback" value="" id="recharge_callback"/>
+        <button id="recharge-btn" class="chongzhi-btn" href="javascript:void(0)">立即充值</button>
+    </div>
+    <div class="p5"></div>
+    <p class="other-people"><img src="/new_weixin/images/chongzhi_icon_heart.png" class="heart-img"><a href="javascript:void(0)"  class="rechargeother">为他人充值</a><a href="javascript:void(0)"  class="rechargeother2" style="display:none">为他人充值历史</a></p>
+    <div class="p5"></div>
+    <p class="other-people"  id="isduihuan2" style="display:none;"><img src="/new_weixin/images/chongzhi_icon_heart2.png" class="heart-img"><a href="#"  id="duihuanurl" class="rechargeother">兑换活动充值码</a>
+    <div class="p10"></div>
+    
+    <!-- 提示浮层 start -->
+    <div id="codFloat" style="display:none">
+      <div class="wx_confirm_tit" id="show_mes"><!-- 提示信息 --></div>
+    </div>
+
+    <!-- 提示浮层验证手机 start -->
+    <div id="rechargeCheck"></div>
+    <!-- 提示浮层验证手机 end -->
+
+    <!-- 提示浮层 end -->
+    <script id="rechargebox" type="text/html">
+        ￥{{user_icard_amount}}
+    </script>
+    
+    <!-- 提示浮层验证手机 start -->
+    <script type="text/html" id="recharge-checkout-mobile">
+  
+        <div id="recharge-checkout-mobile2" style="display:none;" class="check-mobile">
+          <div class="wx_mask"></div>
+          <div class="wx_confirm2">
+          
+            <div class="wx_confirm_inner">
+              <p style="color:#8a8a8a;padding: 1rem;font-size:1rem">{{tip}}</p>
+            
+             <div class="logout-btn">
+                    
+                    <div class="borderT"></div>
+                    {{if can_recharge == true}}
+                      <div class="borderR2"></div>
+                      <button type="button" class="okbtn close-btn" id="close-btn">取消</button>
+                      <button type="button" class="blue-btn sure-btn" id="sure-btn2">确认</button>
+                    {{else}}
+                      <button type="button" class="blue-btn sure-btn" id="sure-btn">确认</button>
+                    {{/if}}
+                    
+                </div>
+            </div>
+          </div>
+
+        </div>
+     
+    </script>
+
+    <script type="text/javascript">
+    // 获取url中参数
+    function getSearchParams() {
+        var params = {};
+        var chunks = location.search.substr(1).split(/&/g);
+        for (var i = 0; i < chunks.length; i++) {
+            try {
+                var items = chunks[i].split('=', 2);
+                var key = items[0];
+                var value = decodeURIComponent(items[1]);
+                params[key] = value;
+            }
+            catch (ex) {
+            }
+        }
+        return params;
+    }
+
+</script>
+    <script type="text/javascript">
+        var urlC = "/new_weixin/view/recharge_online.html?state=1";
+        var url = "/api.php?m=wap&act=icard&do=recharge_icard_api";
+        var param = getSearchParams();
+        var recharge_discount = param.recharge_discount;
+        var recharge_callback = param.recharge_callback;
+        var city_id = param.city_id;
+        var state = param.state;
+        var searchData = {};
+
+        if (recharge_discount != undefined && recharge_discount != '') {
+            searchData.recharge_discount = recharge_discount;
+            urlC += '&recharge_discount='+encodeURIComponent(recharge_discount);
+        };
+
+        if (recharge_callback != undefined && recharge_callback != '') {
+            searchData.recharge_callback = recharge_callback;
+            urlC += '&recharge_callback='+encodeURIComponent(recharge_callback);
+        };
+
+        if (city_id != undefined && city_id != '') {
+            searchData.city_id = city_id;
+            urlC += '&city_id='+city_id;
+        };
+
+        if (recharge_discount != undefined) {
+            $("#recharge_discount").val(recharge_discount);    
+        };
+
+        if (recharge_callback != undefined) {
+            $("#recharge_callback").val(recharge_callback);    
+        }
+
+    </script>
+
+    <script type="text/javascript">
+        function rechargeOnline(){ 
+          location.href = urlC;
+        // $(".normal_tab").attr("href",urlC);
+      }
+    </script>
+
+    <script type="text/javascript">
+        (function($) {
+        // 输入框格式化
+        $.fn.bankInput = function(options) {
+            var defaults = {
+                max : 25,           // 最多输入字数
+                deimiter : ' ',     // 账号分隔符
+                onlyNumber : true,  // 只能输入数字
+                copy : true         // 允许复制
+            };
+            var opts = $.extend({}, defaults, options);
+            var el = $(this);
+            var maxLen = parseInt(opts.max) + Math.floor(parseInt(opts.max) / 4);
+            el.css({imeMode : 'Disabled'}).attr('maxlength', maxLen);
+            if (el.val() != ''){
+                el.val(el.val().replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, "$1" + opts.deimiter));
+            }
+            el.on('keyup', function(event) {
+                if (opts.onlyNumber) {
+                    if (!(event.keyCode >= 48 && event.keyCode <= 57)) {
+                        this.value = this.value.replace(/\D/g, '');
+                    }
+                }
+                this.value = this.value.replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, "$1" + opts.deimiter);
+            }).on('dragenter', function() {
+                return false;
+            }).on('onpaste', function() {
+                return !clipboardData.getData('text').match(/\D/);
+            });
+        }
+        // 列表显示格式化
+        $.fn.bankList = function(options) {
+            var defaults = {
+                deimiter : ' ' // 分隔符 
+            };
+            var opts = $.extend({}, defaults, options);
+            return this.each(function() {
+                $(this).text($(this).text().replace(/\s/g, '').replace(/(\d{4})(?=\d)/g, "$1" + opts.deimiter));
+            })
+        }
+    })(jQuery);
+
+    // 格式化充值卡密码输入
+    $('#cardno').bankInput({max:29});
+
+    </script>
+    <script type="text/javascript">
+
+        $.ajax({
+                url: url,
+                // url: '../test/recharge_icard.json',
+                type: 'GET',
+                data: searchData,
+                dataType: 'json'
+            })
+
+        .done(function(data) { 
+
+            rechargeCardNo (data);
+            cardno = $("#cardno").val();
+            requestUrl = data.data.icard_charge_url;
+            callbackUrl = data.data.charge_callback_url;
+            reloadUrl = "/new_weixin/view/recharge_cardno.html";
+
+         })
+
+        .fail(function() {
+            alert("网络错误，请稍后再试")
+        })
+
+        // 模板取数据
+        function rechargeCardNo (data) {
+            var cardInfo = data.data;
+
+            if(data.data.recommend_url){
+              $("#isduihuan2").show();
+              $("#duihuanurl").attr("href",data.data.recommend_url); 
+              $("#duihuanurl").text(data.data.recommend_name); 
+            }
+            var rechargeMoney = template('rechargebox',cardInfo);
+            document.getElementById('rechatgeblock').innerHTML = rechargeMoney;
+        }
+
+        // 返回连接
+        var flag = 1;
+        
+        $recBtn = $('#recharge-btn');
+        // 提交充值
+        $recBtn.click(recharge);
+        $('#recharge-btn').prop('disabled', true).addClass("gray-btn");
+        
+        function recharge() {
+
+            toggleBtn(false, '正在提交');
+              var sncode = $("#cardno").val().replace(/\s/g, '');
+              var tel = $("#other-recharge").val().replace(/\s/g, '');
+              var mobile = $("#other-recharge").val();
+              
+              var display =$('.yue_block').css('display');
+              $("#recharge-checkout-mobile2").hide();
+
+
+
+            // 检查手机是否为新注册
+            if (display == 'block') {
+              successUrl();
+
+              return;
+            }else{
+              $.ajax({
+                url: '/api.php?m=wap&act=icard&do=check_user_by_tel&mobile='+mobile,
+                // url: '../test/mobile.json',
+                type: 'GET',
+                dataType: 'json'
+                
+              })
+
+              .done(function(data) {
+                if (data.ret) {
+                  rechargeMobile2(data);
+
+                  if (data.data.can_recharge == true && (data.data.tip == "" || data.data.tip == null)) {
+                    
+                      $("#recharge-checkout-mobile2").hide();
+                      $("#recharge-btn").prop("disabled", false);
+                      successUrl();
+                    
+                  }else{
+                    $("#recharge-checkout-mobile2").show();
+                    
+                    $("#close-btn").click(function(event) {
+
+                      $("#recharge-checkout-mobile2").hide();
+                      toggleBtn(false, '立即充值');            
+                      event.stopPropagation();
+                    });
+                    
+                    $("#sure-btn2").click(function(event) {
+                      $("#recharge-checkout-mobile2").hide();                      
+                      
+                      $("#recharge-btn").prop("disabled", false);
+                      event.stopPropagation();
+                      successUrl();
+                    });
+
+                     // 确认为自己手机号
+                    $("#sure-btn").click(function(event) {
+
+                      $("#other-recharge").val('')
+                      $("#recharge-checkout-mobile2").hide();
+                      
+                      
+                      // $('#recharge-btn').prop('disabled', true).addClass("gray-btn");
+                      // $(this).text('立即充值');
+                      toggleBtn(false, '立即充值');
+                      event.stopPropagation();
+                      
+                    });
+                  };
+                  
+                }
+              })
+
+              .fail(function() {
+                alert("网络繁忙，请稍后再试")
+              })
+              
+              function rechargeMobile2(data) {
+                var rechargePhone = data.data;
+                
+                var rechargeMobile = template('recharge-checkout-mobile',rechargePhone);
+
+                document.getElementById('rechargeCheck').innerHTML = rechargeMobile;
+                
+              }    
+            };                     
+
+            // if (mobile && sncode) {};
+
+            function successUrl() {
+              
+              if (flag == 1) {
+                flag = 2;
+                $.ajax({
+                    type: "POST",
+                    url: requestUrl,
+                    data: {
+                        sncode : sncode,
+                        tel : tel,
+                    },
+                    dataType: "json",
+                    timeout: 5000
+                })
+
+                .done(function(data) {
+                    var resp = data.message;
+                    if (resp.state == 1) {
+                        alertToUrl(resp.msg, callbackUrl);
+                        toggleBtn(false, '充值成功');
+                    } else {
+                        flag = 1;
+                        alert_1(resp.msg);
+                          toggleBtn(true, '立即充值');
+                    }
+                })
+
+                .fail(function(){
+                    flag = 1;
+                    alertToUrl("网络错误，请稍后重试", reloadUrl);
+                    toggleBtn(true, '立即充值');
+                });
+            }
+        }
+        
+      }
+
+            
+
+</script>
+<script type="text/javascript">
+    
+    // 弹窗提示
+    function alert_1(title) {
+        if(title){
+            $("#show_mes").html(title);
+        }
+        $("#codFloat").show().delay(2000).hide(0);
+    }
+
+    // 提示 + 跳转
+    function alertToUrl(title, url) {
+        if (title == '') {
+            location.href = url;
+        } else {
+            alert_1(title);
+            location.href = url;
+        }
+    }
+    
+    // 设置提交按钮状态
+    
+    
+    $("#cardno").keyup(function(){
+        if (!$("#cardno").val() == '') {
+            
+            toggleBtn(true, '立即充值');
+        }else {
+            
+            toggleBtn(false, '立即充值');
+        };
+    })
+
+    $("#other-recharge").keyup(function(){
+        if (!$("#other-recharge").val() == '' && !$("#cardno").val() == '' ) {
+            
+            toggleBtn(true, '立即充值');
+        }else {
+            
+            toggleBtn(false, '立即充值');
+        };
+    })
+    
+    function toggleBtn(bool, text){
+
+        if(bool){
+            $recBtn.text(text).prop('disabled', false).removeClass('gray-btn');
+        }else{
+            $recBtn.text(text).prop('disabled', true).addClass('gray-btn');
+        }
+    }
+    
+</script>
+<script type="text/javascript">
+  // 为他人充值输入框
+
+  var $rechargeother = $(".rechargeother");
+  var $rechargeother2 = $(".rechargeother2");
+  
+  var $mobile = $("#other-recharge");
+  
+  $(".rechargeother").click(function() {
+        $('#recharge-btn').prop('disabled', true).addClass("gray-btn");
+        $("#cardno").val('')
+        $(".yue_block").hide();
+        $(".hide_div").hide();
+        $(".mobile-other").show();    
+        $(this).hide();
+        $rechargeother2.show();
+        $rechargeother2.attr("href",'/new_weixin/view/recharge_history.html');  
+        
+        $("#cardno").keyup(function(){
+          if (!$("#other-recharge").val() == '') {              
+              toggleBtn(true, '立即充值');
+          }else {
+              toggleBtn(false, '立即充值');
+          };
+      })
+  });
+
+
+</script>
+
+<script src="/new_weixin/js/foot.js" type="text/javascript"></script> 
+</body>
+
+</html>

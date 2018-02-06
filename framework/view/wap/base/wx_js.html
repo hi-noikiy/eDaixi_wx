@@ -1,0 +1,64 @@
+<script type="text/javascript">
+
+var  is_weixin = {$share_data['is_weixin']};
+
+function sendShareDate(is_fail)
+{
+  $.post(
+      "{$share_data['call_back_url']}", 
+      {
+        fud : "{$share_data['from_user_id']}",
+          fad : "{$share_data['from_active_id']}",
+          ud : "{$share_data['share_user_id']}",
+          ad : "{$share_data['share_active_id']}", 
+          depth : "{$share_data['depth']}",
+          is_fail : is_fail,
+          active_type : "{$share_data['active_type']}",
+          host : "<?php echo $_SERVER['HTTP_HOST'];?>"
+      }, 
+      function(){}, 
+      "json"
+  );
+}
+if(is_weixin){
+  wx.ready(function(){
+        var share_url =  "{$share_data['url']}";
+        var share_img_url = "{$share_data['img']}";
+        var title = "{$share_data['title']}";
+        var data_des = "{$share_data['desc']}";
+         wx.onMenuShareAppMessage({
+              title: title,
+              desc: data_des,
+              link:  share_url,
+              imgUrl: share_img_url,
+              trigger: function (res) {
+              },
+              success: function (res) {
+                  sendShareDate(0);
+              },
+              cancel: function (res) {
+                  sendShareDate(1);
+              },
+              fail: function (res) {
+                  sendShareDate(2);
+              }
+        });
+          wx.onMenuShareTimeline({
+              title: title,
+              link: share_url,
+              imgUrl: share_img_url,
+              trigger: function (res) {
+              },
+              success: function (res) {
+                  sendShareDate(0);
+              },
+              cancel: function (res) {
+                  sendShareDate(1);
+              },
+              fail: function (res) {
+                  sendShareDate(2);
+              }
+          });
+     });
+}
+</script>

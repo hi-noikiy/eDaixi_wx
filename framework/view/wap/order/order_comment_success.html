@@ -1,0 +1,55 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>e袋洗</title>
+
+<link href="{php echo assets_link('/framework/style/css/footer.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/animation.css')}" rel="stylesheet" type="text/css">
+
+<link href="{php echo assets_link('/framework/style/css/appraise.css')}" rel="stylesheet" type="text/css" />
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body style="padding-bottom:54px;">
+<div class="jifen_box flipOutY">
+  <div class="jifen bounceInUp">
+    <span class="jifen_text bounceIn">
+      <div style="text-indent:20px;padding-top:16px"><em>+</em>5</div>
+      <p><img src="{php echo assets_link('/framework/style/images/jifen_icon.png')}" > 评价积分</p>
+    </span>
+  </div>
+</div>
+<div class="p10 comment_success">
+  <img src="{php echo assets_link('/framework/style/images/success_ appraise.png')}" >
+  <br>
+  <p class="p10 ">评价成功，获得<span class=""> {$money}</span>元余额</p>
+</div>
+<div class="appraise_success white_bg">   
+  <ul>
+    <div class="borderD2"></div>
+    <li>
+      订单编号
+      <span class="pull-right">{$ordersn}</span>
+    </li>
+    <div class="borderD"></div>
+    <li>
+      整体评价
+      <span class="pull-right">
+        {loop $general_comment_src $value}
+          <img src="{$value}">
+        {/loop}
+    </li>
+    <div class="borderD2"></div>
+  </ul>
+</div>
+<a href="{$url}" class = "link-btn-all">完成</a>
+<?php include template('foot') ?>
+</body>
+</html>

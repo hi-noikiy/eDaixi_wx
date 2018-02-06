@@ -1,0 +1,827 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>匿名评价</title>
+<link href="{php echo assets_link('/framework/style/css/footer.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/appraise.css')}" rel="stylesheet" type="text/css" />
+
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+<script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+
+{if $comment == 'appraise'} 
+<script type="text/javascript" src="{php echo assets_link('/framework/style/js/localresizeimg/lrz.bundle.js')}"></script>
+{else}
+<link href="{php echo assets_link('/framework/style/css/photoswipe/photoswipe.css')}" rel="stylesheet" type="text/css" /> 
+<link href="{php echo assets_link('/framework/style/css/photoswipe/photoswipe-skin/custom-skin.css')}" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="{php echo assets_link('/framework/style/js/photoswipe/photoswipe.min.js')}"></script>
+<script type="text/javascript" src="{php echo assets_link('/framework/style/js/photoswipe/photoswipe-ui-custom.js')}"></script>
+{/if}
+</head>
+<body>
+
+{if $comment == 'appraise'} 
+<form method = "POST" action="{php echo  create_url('order/order_comment',array('comment' => 'insert'))}" onsubmit = "return check_form();" id="form-comment">
+
+    <div class="appraise_box white_bg">   
+        <div class="appraise-top p10">
+          <div class="appraise-type"><span >整体评价</span></div>
+          <div class="appraise_middle">
+            <div class="star_appraise">
+              <img src ="{php echo assets_link('/framework/style/images/icon_star.png')}"  id ="commentall_1" onclick = "total_appraise('commentall',1)">
+              <img src ="{php echo assets_link('/framework/style/images/icon_star.png')}"  id ="commentall_2" onclick = "total_appraise('commentall',2)">
+              <img src ="{php echo assets_link('/framework/style/images/icon_star.png')}"  id ="commentall_3" onclick = "total_appraise('commentall',3)">
+              <img src ="{php echo assets_link('/framework/style/images/icon_star.png')}"  id ="commentall_4" onclick = "total_appraise('commentall',4)">
+              <img src ="{php echo assets_link('/framework/style/images/icon_star.png')}"  id ="commentall_5" onclick = "total_appraise('commentall',5)">
+              <input type = "hidden"  id = "commentall"  name = "commentall" value = "0">   
+             <!-- <input type="text" value="匿名保护" class="attitude" id="all">  -->   
+            </div>
+          </div>
+          <div class="attitude"><p id="all">匿名保护</p></div>
+        </div>   
+    </div>
+    <div class="borderD"></div>
+    <div class="space-split10"></div>
+    <div  class="pingjia_bg appraise_box" id="appraise_box" style="display:none">
+          
+          <div class="borderD"></div>
+            <div class="appraise-top p10">
+                  <div class="appraise-type"><span >洗衣质量</span></div>
+                  <div class="appraise_middle">
+                    <div class="star_appraise">
+                      <img src ="{php echo assets_link('/framework/style/images/face_grey.png')}"  id ="quality_1" onclick = "show_appraise('quality',1)">
+                      <img src ="{php echo assets_link('/framework/style/images/face_grey.png')}"  id ="quality_2" onclick = "show_appraise('quality',2)">
+                      <img src ="{php echo assets_link('/framework/style/images/face_grey.png')}"  id ="quality_3" onclick = "show_appraise('quality',3)">
+                      <img src ="{php echo assets_link('/framework/style/images/face_grey.png')}"  id ="quality_4" onclick = "show_appraise('quality',4)">
+                      <img src ="{php echo assets_link('/framework/style/images/face_grey.png')}"  id ="quality_5" onclick = "show_appraise('quality',5)">
+                      <input type = "hidden"  id = "quality"  name = "washing_quality" value = "0">
+                      <!-- <span class="attitude ">很满意</span> --> 
+                    </div>
+                  </div>
+                  <div class="attitude"><p id="washing"></p></div>
+            </div>
+            <div class="appraise-top p10">
+                  <div class="appraise-type"><span >取件人员</span></div>
+                  <div class="appraise_middle">
+                  <div class="star_appraise">
+                        <img src ="{php echo assets_link('/framework/style/images/face_grey.png')}"  id ="delivary_1" onclick = "show_appraise('delivary',1)">
+                        <img src ="{php echo assets_link('/framework/style/images/face_grey.png')}"  id ="delivary_2" onclick = "show_appraise('delivary',2)">
+                        <img src ="{php echo assets_link('/framework/style/images/face_grey.png')}"  id ="delivary_3" onclick = "show_appraise('delivary',3)">
+                        <img src ="{php echo assets_link('/framework/style/images/face_grey.png')}"  id ="delivary_4" onclick = "show_appraise('delivary',4)">
+                        <img src ="{php echo assets_link('/framework/style/images/face_grey.png')}"  id ="delivary_5" onclick = "show_appraise('delivary',5)">
+                        <input type = "hidden"   id = "delivary" name = "delivery_speed" value = "0">
+                        <!-- <span class="attitude">很满意</span> -->
+                </div>
+                </div>
+                <div class="attitude"><p id="take"></p></div>
+            </div>
+            <div  class="appraise_box appraise_margin" id="appraise_box1"  style="display:none">
+                          <div style="padding-right:0; diplay: none"> 
+                          <div class="bad_info" id = "takebad" style="padding:0;">
+                           <span  class = "comment_1 comment-span" onclick = "set_comment('comment_1','{$comment_text_list['1']}')">
+                              <div><em></em></div><span>{$comment_text_list['1']}</span>
+                            </span>
+                            <span  class = "comment_2 comment-span" onclick = "set_comment('comment_2','{$comment_text_list['2']}')">
+                              <div><em></em></div><span>{$comment_text_list['2']}</span>
+                            </span>
+                            <span  class = "comment_3 comment-span" onclick = "set_comment('comment_3','{$comment_text_list['3']}')">
+                              <div><em></em></div><span>{$comment_text_list['3']}</span>
+                            </span>
+                            <span  class = "comment_4 comment-span" onclick = "set_comment('comment_4','{$comment_text_list['4']}')">
+                              <div><em></em></div><span>{$comment_text_list['4']}</span>
+                            </span>
+                            <input type = "hidden" value = '' id = "comment_1" name = "comment_1">
+                             <input type = "hidden" value = '' id = "comment_2" name = "comment_2">
+                            <input type = "hidden" value = '' id = "comment_3" name = "comment_3">
+                            <input type = "hidden" value = '' id = "comment_4" name = "comment_4">
+
+                        </div> 
+                          <div class="clearBoth"></div> 
+                       </div>  
+              </div>                 
+              <div class="appraise-top p10">
+                  <div class="child appraise-type"><span>送件人员</span></div>
+                  <div class="appraise_middle">
+                      <div class="child star_appraise">
+                        <img src ="{php echo assets_link('/framework/style/images/face_grey.png')}"  id ="server_1" onclick = "show_appraise('server',1)">
+                        <img src ="{php echo assets_link('/framework/style/images/face_grey.png')}"  id ="server_2" onclick = "show_appraise('server',2)">
+                        <img src ="{php echo assets_link('/framework/style/images/face_grey.png')}"  id ="server_3" onclick = "show_appraise('server',3)">
+                        <img src ="{php echo assets_link('/framework/style/images/face_grey.png')}"  id ="server_4" onclick = "show_appraise('server',4)">
+                        <img src ="{php echo assets_link('/framework/style/images/face_grey.png')}"  id ="server_5" onclick = "show_appraise('server',5)">
+                        <input type = "hidden"  id = "server"  name = "sever_attitude"  value = "0">
+                        <!-- <span class="attitude">感觉一般</span> -->
+                      </div>
+                  </div>
+                  <div class="attitude"><p id="send"></p></div>
+                </div>
+             
+              <div  class="appraise_box appraise_margin" id="appraise_box2"  style="display:none">
+                      <div style="padding-right:0;"> 
+                          <div class="bad_info" id = "sendbad" style="padding:0;">
+                           <span  class = "comment_5 comment-span" onclick = "set_comment('comment_5','{$comment_text_list['5']}')">
+                              <div><em></em></div><span>{$comment_text_list['5']}</span>
+                            </span>
+                            <span  class = "comment_6 comment-span" onclick = "set_comment('comment_6','{$comment_text_list['6']}')">
+                              <div><em></em></div><span>{$comment_text_list['6']}</span>
+                            </span>
+                            <span  class = "comment_7 comment-span" onclick = "set_comment('comment_7','{$comment_text_list['7']}')">
+                              <div><em></em></div><span>{$comment_text_list['7']}</span>
+                            </span>
+                            <span  class = "comment_8 comment-span" onclick = "set_comment('comment_8','{$comment_text_list['8']}')">
+                              <div><em></em></div><span>{$comment_text_list['8']}</span>
+                            </span>
+                              <input type = "hidden" value = '' id = "comment_5" name = "comment_5">
+                             <input type = "hidden" value = '' id = "comment_6" name = "comment_6">
+                            <input type = "hidden" value = '' id = "comment_7" name = "comment_7">
+                            <input type = "hidden" value = '' id = "comment_8" name = "comment_8">
+
+                        </div> 
+                        <div class="clearBoth"></div> 
+                       </div>  
+              </div>     
+            <div class="borderD2"></div>
+    </div>
+    
+    <div>
+            <div>
+              
+              <div class="order-comment white_bg">
+                <textarea class="textarea" id="comment-textarea" name="appraise_detail" maxlength="200" placeholder="对e袋洗的服务有什么建议？我们将积极改进" style="color:#000;"></textarea>
+                <div class="textarea_word"><span id="word" style="color:#1db7fe;">0</span>/200</div>
+              </div>
+              <!--上传图片区域 begin-->
+              <div class="p5"></div>
+              <div class="white_bg comment-img">
+                
+                <div id="imgFile">
+                  <!-- <div class="space-img">上传中..</div> -->
+                </div>
+                <a href="javascript:void(0);" class="upload-file">
+                  <input type="file" id="fileupload" name="FileContent" accept="image/*" capture="camera" />
+                </a>
+                
+                <div class="clearBoth"></div>
+                <!-- <div class="p5"></div> -->
+              <!--上传图片区域  end -->
+                <p class="comment-title">评价时，上传前后对比图片更配哦 ( 最多可上传10张 )</p>
+                </div>
+
+              </div>
+            <input name = "order_id" type ="hidden"  value = "{$order_id}">
+            <button class = "sure-btn" id ="appraise_submit"> 发布
+    </div>
+</form>
+
+<div id="confirm_tip" style="display:none" class="cod" rel=''>
+  <div class="wx_confirm2">
+    <div class="wx_confirm_inneri">
+      <div class="warm-tip">
+        <p>确定要删除照片吗？</p>
+      </div>
+      <div class="borderD"></div>
+      
+      <div class="logout-btn">
+          <div class="borderL"></div>
+          <button type="button" id="confirm-false" class="btn-cancel">取消</button>
+          <button type="button" id="confirm-true" class="btn-ok" rel=''>确定</button>
+      </div>
+        
+    </div>
+  </div>
+</div>
+
+  
+{else}
+
+<div class="appraise_box white_bg">
+  <div class="p10">
+    <div class="appraise-top">
+      <div class="appraise-type"><span >整体评价</span></div>
+      <div class="appraise_middle">
+        <div class="star_appraise">
+          {loop $comment_src[0] $value}
+          <img src="{$value}" id = 'quality' >
+          {/loop}
+         </div>
+      </div>
+       <div><p class="attitude " id="all">{$total_score_text}</p></div>
+    </div>
+  </div>    
+</div>
+<div class="borderD"></div>
+<div class="space-split10"></div>
+<div  class="pingjia_bg appraise_box" id="appraise_box">
+<div class="appraise-top p10">
+  <div class="appraise-type"><span >洗衣质量</span></div>
+  <div class="appraise_middle">
+    <div class="star_appraise">
+            {loop $comment_src[1] $value}
+              <img src="{$value}" id = 'quality' >
+            {/loop}    
+    </div> 
+  </div>
+  <p class="attitude " id="washing">{$washing_score_text}</p>
+</div>
+ <div class="appraise-top p10">
+   <div class="appraise-type"><span >取件人员</span></div>
+   <div class="appraise_middle">
+      <div class="star_appraise">        
+       {loop $comment_src[2] $value}
+        <img src="{$value}" id = 'quality' >
+        {/loop}      
+      </div>
+    </div>
+    <p class="attitude " id="take">{$logistics_score_text}</p>
+</div>
+    
+<div  class="appraise_bg appraise_margin" {if !(isset($comment_fetch_option['1'])||isset($comment_fetch_option['2'])||isset($comment_fetch_option['3'])||isset($comment_fetch_option['4']))}style="display:none"{/if} id="appraise_box1"  >
+    <div style="padding-right:0; diplay: none;"> 
+        <div  class="bad_info" id = "bad" style="padding:0;">
+         <span  class = "comment_1 comment-span {if isset($comment_fetch_option['1'])}select{/if}" >
+            <div><em></em></div><span>{$comment_text_list['1']}</span>
+          </span>
+          <span  class = "comment_2 comment-span {if isset($comment_fetch_option['2'])}select{/if}" >
+            <div><em></em></div><span>{$comment_text_list['2']}</span>
+          </span>
+          <span  class = "comment_3  comment-span {if isset($comment_fetch_option['3'])}select{/if}">
+            <div><em></em></div><span>{$comment_text_list['3']}</span>
+          </span>
+          <span  class = "comment_4 comment-span {if isset($comment_fetch_option['4'])}select{/if}" >
+            <div><em></em></div><span>{$comment_text_list['4']}</span>
+          </span>
+
+      </div>         
+     </div>  
+    <div class="clearBoth"></div> 
+</div>
+
+<div  class="appraise-top p10">
+            <div class="appraise-type"><span>送件人员</span></div>
+            <div class="appraise_middle">
+            <div class="star_appraise">
+              {loop $comment_src[3] $value}
+                    <img src="{$value}" id = 'quality' >
+              {/loop}
+             
+              <!-- <span class="attitude">感觉一般</span> -->
+            </div>
+            </div>
+             <div  class="attitude "><p id="send">{$service_score_text}</p></div>
+</div>
+<div  class=" appraise_margin appraise_bg" {if !(isset($comment_carry_option['5'])||isset($comment_carry_option['6'])||isset($comment_carry_option['7'])||isset($comment_carry_option['8']))}style="display:none"{/if} id="appraise_box2" >
+            <div style="padding-right:0;"> 
+                <div  class="bad_info" id = "bad" style="padding:0;">
+                 <span  class = "comment_5 comment-span {if isset($comment_carry_option['5'])}select{/if}" >
+                    <div><em></em></div><span>{$comment_text_list['5']}</span>
+                  </span>
+                  <span  class = "comment_6 comment-span {if isset($comment_carry_option['6'])}select{/if}" >
+                    <div><em></em></div><span>{$comment_text_list['6']}</span>
+                  </span>
+                  <span  class = "comment_7 comment-span {if isset($comment_carry_option['7'])}select{/if}" >
+                    <div><em></em></div><span>{$comment_text_list['7']}</span>
+                  </span>
+                  <span  class = "comment_8 comment-span {if isset($comment_carry_option['8'])}select{/if}" >
+                    <div><em></em></div><span>{$comment_text_list['8']}</span>
+                  </span>
+              </div> 
+             </div>  
+      <div class="clearBoth"></div> 
+</div>
+
+<div>
+  <div class="space-split10"></div> 
+  <div class="borderD2"></div>
+  <div  class="white_bg" {if !$order_comments}style="display: none"{/if}>
+        <div class="order-comment">
+          <textarea class="textarea" id="appraise_detail" name="appraise_detail" maxlength="200"
+          readonly="readonly" style="color:#000;">{$order_comments}</textarea>
+        </div>
+  </div>
+  <div  class="white_bg my-gallery" style="padding-top:10px" {if !$comment_imgs}style="display: none"{/if}>
+    {loop $comment_imgs $key $img}
+      <figure class="imgDiv">
+        <a class="smallImg" href="{$img}" data-size="{$imgs_wh[$key]}">
+          <img src="{$img}" class="small-img" />
+        </a>
+      </figure>
+    {/loop}
+  </div>
+  <div class="clearBoth"></div>
+  <div class="borderD2"></div>
+
+
+  <!-- Root element of PhotoSwipe. Must have class pswp. -->
+  <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe.  It's a separate element, as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+      <!-- Container that holds slides. PhotoSwipe keeps only 3 slides in DOM to save memory. -->
+      <!-- don't modify these 3 pswp__item elements, data is added later on. -->
+      <div class="pswp__container">
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+        <div class="pswp__item"></div>
+      </div>
+
+      <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+      <div class="pswp__ui pswp__ui--hidden">
+        <div class="pswp__top-bar">
+          <!--  Controls are self-explanatory. Order can be changed. -->
+          <div class="pswp__counter"></div>
+            <!-- element will get class pswp__preloader--active when preloader is running -->
+          <div class="pswp__preloader">
+            <div class="pswp__preloader__icn">
+              <div class="pswp__preloader__cut">
+                <div class="pswp__preloader__donut"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+          <div class="pswp__share-tooltip"></div> 
+        </div>
+        <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)"></button>
+        <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)"></button>
+        <div class="pswp__caption">
+          <div class="pswp__caption__center"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{/if}
+<!-- <div id="hint"></div> -->
+<script type="text/javascript">
+$("#word") == 0;
+$("#comment-textarea").keyup(function(){
+var len = $(this).val().length;
+   if(len > 200){
+       $(this).val($(this).val().substring(0,200));
+   }
+   var num = len;
+   $("#word").text(num)
+});
+var comment = "{$comment}";
+
+if(comment == 'appraise'){
+function total_appraise(appraise_id,key){
+   var q =" {php echo assets_link('/framework/style/images/star_hover.png')}";
+   var p =" {php echo assets_link('/framework/style/images/icon_star.png')}";
+   var i = 1;
+   if(key == 1) {
+     $("#all").text("非常差劲");
+   } else if (key == 2) {
+    $("#all").text("有点差劲");
+   } else if (key == 3) {
+    $("#all").text("感觉一般");
+  }else if (key == 4) {
+     $("#all").text("满意");
+  } else if (key == 5) {
+    $("#all").text("超赞");
+  }
+  $("#"+appraise_id).val(key);
+  for(; i<=key; i++){
+    $("#"+appraise_id+"_"+i).attr("src",q);
+  }
+  for(; i<=5; i++){
+    $("#"+appraise_id+"_"+i).attr("src",p);
+  }
+  if(key == 5){
+         show_appraise('quality',5);
+         show_appraise('delivary',5);
+         show_appraise('server',5);  
+  }else{
+         show_appraise('quality',0);
+         show_appraise('delivary',0);
+         show_appraise('server',0);  
+  }
+  $('#appraise_box').show();
+}
+     
+function show_appraise(appraise_id,key){
+   var img_1 = "{php echo assets_link('/framework/style/images/face_grey.png')}";
+   var img_1_1 = "{php echo assets_link('/framework/style/images/sad_hover.png')}";
+   var img_2 = "{php echo assets_link('/framework/style/images/face_grey.png')}";
+   var img_2_2 = "{php echo assets_link('/framework/style/images/unhappy_hover.png')}";
+   var img_3 = "{php echo assets_link('/framework/style/images/face_grey.png')}";
+   var img_3_3 = "{php echo assets_link('/framework/style/images/smile_hover.png')}";
+   var img_4 = "{php echo assets_link('/framework/style/images/face_grey.png')}";
+   var img_4_4 = "{php echo assets_link('/framework/style/images/happy_hover.png')}";
+   var img_5 = "{php echo assets_link('/framework/style/images/face_grey.png')}";
+   var img_5_5 = "{php echo assets_link('/framework/style/images/laugh_hover.png')}";
+   if( appraise_id == 'quality'){
+          if(key == 1) {
+            $("#washing").text("非常差劲");
+          } else if (key == 2) {
+            $("#washing").text("有点差劲");
+          } else if (key == 3) {
+            $("#washing").text("感觉一般");
+          }else if (key == 4) {
+            $("#washing").text("满意");
+          } else if(key == 5){
+            $("#washing").text("超赞");
+          }else {
+             $("#washing").text("");
+          }
+    }else  if( appraise_id == 'delivary'){
+           if(key == 1) {
+             $("#take").text("非常差劲");
+           } else if (key == 2) {
+            $("#take").text("有点差劲");
+           } else if (key == 3) {
+            $("#take").text("感觉一般");
+          }else if (key == 4) {
+             $("#take").text("满意");
+          } else if(key == 5){
+            $("#take").text("超赞");
+          }else{
+            $("#take").text("");
+          }
+   }else if ( appraise_id == 'server'){
+         if(key == 1) {
+          $("#send").text("非常差劲");
+        } else if (key == 2) {
+         $("#send").text("有点差劲");
+        } else if (key == 3) {
+         $("#send").text("感觉一般");
+       }else if (key == 4) {
+          $("#send").text("满意");
+       } else if(key == 5){
+         $("#send").text("超赞");
+       }else{
+          $("#send").text("");
+       }
+
+   }
+   $("#"+appraise_id).val(key);
+   
+   switch(key){
+     case 0:
+             $("#"+appraise_id+"_"+1).attr("src",img_1);
+             $("#"+appraise_id+"_"+2).attr("src",img_2);
+             $("#"+appraise_id+"_"+3).attr("src",img_3);
+             $("#"+appraise_id+"_"+4).attr("src",img_4);
+             $("#"+appraise_id+"_"+5).attr("src",img_5);  
+             break;
+     case 1:
+             $("#"+appraise_id+"_"+1).attr("src",img_1_1);
+             $("#"+appraise_id+"_"+2).attr("src",img_2);
+             $("#"+appraise_id+"_"+3).attr("src",img_3);
+             $("#"+appraise_id+"_"+4).attr("src",img_4);
+             $("#"+appraise_id+"_"+5).attr("src",img_5);               
+             break;
+     case 2:
+             $("#"+appraise_id+"_"+1).attr("src",img_2_2);
+             $("#"+appraise_id+"_"+2).attr("src",img_2_2);
+             $("#"+appraise_id+"_"+3).attr("src",img_3);
+             $("#"+appraise_id+"_"+4).attr("src",img_4);
+             $("#"+appraise_id+"_"+5).attr("src",img_5);
+             break;
+     case 3:
+             $("#"+appraise_id+"_"+1).attr("src",img_3_3);
+             $("#"+appraise_id+"_"+2).attr("src",img_3_3);
+             $("#"+appraise_id+"_"+3).attr("src",img_3_3);
+             $("#"+appraise_id+"_"+4).attr("src",img_4);
+             $("#"+appraise_id+"_"+5).attr("src",img_5);
+             break;
+     case 4:
+             $("#"+appraise_id+"_"+1).attr("src",img_4_4);
+             $("#"+appraise_id+"_"+2).attr("src",img_4_4);
+             $("#"+appraise_id+"_"+3).attr("src",img_4_4);
+             $("#"+appraise_id+"_"+4).attr("src",img_4_4);
+             $("#"+appraise_id+"_"+5).attr("src",img_5);
+             break;
+     case 5:
+             $("#"+appraise_id+"_"+1).attr("src",img_5_5);
+             $("#"+appraise_id+"_"+2).attr("src",img_5_5);
+             $("#"+appraise_id+"_"+3).attr("src",img_5_5);
+             $("#"+appraise_id+"_"+4).attr("src",img_5_5);
+             $("#"+appraise_id+"_"+5).attr("src",img_5_5);
+             break;
+   }
+   if(($("#quality").val() != '0') && ($("#delivary").val() != '0') && ($("#server").val() != '0') ){
+        
+        $(".sure-btn").prop('disabled', false).css({'opacity':'1'});
+   }else{
+        
+        $(".sure-btn").prop('disabled', true).css({'opacity':'0.6'});
+   }
+   if(key<4){
+   $('#washing_quality').show();}
+
+   if( appraise_id == 'delivary'){
+       if (key > 0 && key < 4 ){
+           $('#appraise_box1').show();
+       }else{
+           $('#appraise_box1').hide();
+       }
+   }else if(  appraise_id == 'server'){
+        if (key > 0 && key < 4 ){
+           $('#appraise_box2').show();
+        }else{
+           $('#appraise_box2').hide();
+       }
+   }
+}  
+     
+function set_comment(key,val){
+  if($("#"+key).val() == ''){
+    $("#"+key).val(val);
+    $("."+key).attr("class",key+" comment-span select");
+  }else{
+    $("#"+key).val('');
+    $("."+key).attr("class",key+" comment-span");
+  }
+} 
+
+function check_form(){
+  $("#appraise_submit").attr("disabled",true);
+  return true;   
+}
+
+//输入框提交按钮变化
+$(".sure-btn").prop('disabled', true).css({'opacity':'0.6'});
+
+//图片上传begin
+var ii = 1;
+var flag = 0;
+var uri = '<?php echo $upload_url; ?>';
+var imgLen = 0;
+
+document.querySelector('#fileupload').addEventListener('change',function(){
+        
+        lrz(this.files[0],
+        {width:600}
+        ).then(function(rst){
+          rst.formData.append('FileContent',rst.base64);         
+          $("#imgFile").append('<div class="uploading" id="imgDD_'+ii+'"><div class="space-img" >上传中..</div></div>');
+          $.ajax({
+            url:uri,
+            data:rst.formData,
+            processData:false,
+            contentType:false,
+            type:'post',
+            dataType:'json',
+            success:function(ret){
+                
+                if(ret.code == 0){
+                  
+
+                  $("#imgDD_" +ii).html('<div class="imgDiv" id="imgID_' +ii+'" rel="'+ii+'"><div class="codBigImg" style="display:none;"><img src = "' + rst.base64 + '" class="bigClose"><span class="deleteImg"></span></div><div class="smallImg" rel="'+ii+'"><img src = "' + rst.base64 + '" class="small-img"><input type="hidden" name="images[]" id="imgInput_' +ii+'"/><input type="hidden" name="wh[]" id="wh_' +ii+'"/></div></div>');
+
+
+                  $("#imgInput_" + ii).val(ret.data.download_url);
+                  $("#wh_" + ii).val(ret.data.info[0][0].width + 'x' + ret.data.info[0][0].height);
+
+                  var imgLen = $("#imgFile img.small-img").length;                  
+                  ii++;
+
+                  // 大于等于9张隐藏上传照片入口
+                  if(imgLen >= 10) {
+                    $(".upload-file,.space-img").hide();
+                  }
+
+                  // 弹出大图
+                  $(".smallImg").on('click',function() {
+                    flag = $(this).attr('rel');
+                    $(this).parent().find('div').show();
+                  });
+
+                  // 小图标删除事件
+                  $(".deleteImg").on('click', function() {
+                    $(".cod").show();    
+                  });
+
+                  // 二次弹窗确认删除
+                  $(".btn-ok").on('click', function() {
+                      $("#confirm_tip").hide();
+                      $("#imgID_"+flag).remove();
+                      
+                      imgLen = $("#imgFile img.small-img").length;
+                      
+                      if(imgLen < 10 ){
+                        $(".upload-file").show();
+                      }
+                  });
+
+                  // 取消删除
+                  $("#confirm-false,.bigClose").on('click',function(){
+                      $("#confirm_tip,.codBigImg").hide();
+                  });
+
+                  if (imgLen == 1 ) {
+                    $(".comment-img").css("padding-bottom","0");
+                    
+                  }
+                }else{
+                  alert('操作失败，请刷新页面重试~');
+                }
+            },
+            error:function(data){
+              alert('操作失败，请刷新页面重试~');
+            }
+          });
+        }).catch(function(error){
+          alert('upload-error:'+error);
+        });
+    });
+//just show comment
+}else{
+
+  var initPhotoSwipeFromDOM = function(gallerySelector) {
+    // parse slide data (url, title, size ...) from DOM elements 
+    // (children of gallerySelector)
+    var parseThumbnailElements = function(el) {
+        var thumbElements = el.childNodes,
+                numNodes = thumbElements.length,
+                items = [],
+                figureEl,
+                linkEl,
+                size,
+                item;
+
+        for (var i = 0; i < numNodes; i++) {
+            figureEl = thumbElements[i]; // <figure> element
+            // include only element nodes 
+            if (figureEl.nodeType !== 1) {
+                continue;
+            }
+            linkEl = figureEl.children[0]; // <a> element
+            size = linkEl.getAttribute('data-size').split('x');
+            // create slide object
+            item = {
+                src: linkEl.getAttribute('href'),
+                w: parseInt(size[0], 10),
+                h: parseInt(size[1], 10)
+            };
+            if (figureEl.children.length > 1) {
+                // <figcaption> content
+                item.title = figureEl.children[1].innerHTML;
+            }
+            if (linkEl.children.length > 0) {
+                // <img> thumbnail element, retrieving thumbnail url
+                item.msrc = linkEl.children[0].getAttribute('src');
+            }
+            item.el = figureEl; // save link to element for getThumbBoundsFn
+            items.push(item);
+        }
+        return items;
+    };
+
+    // find nearest parent element
+    var closest = function closest(el, fn) {
+        return el && (fn(el) ? el : closest(el.parentNode, fn));
+    };
+
+    // triggers when user clicks on thumbnail
+    var onThumbnailsClick = function(e) {
+        e = e || window.event;
+        e.preventDefault ? e.preventDefault() : e.returnValue = false;
+        var eTarget = e.target || e.srcElement;
+        // find root element of slide
+        var clickedListItem = closest(eTarget, function(el) {
+            return (el.tagName && el.tagName.toUpperCase() === 'FIGURE');
+        });
+        if (!clickedListItem) {
+            return;
+        }
+        // find index of clicked item by looping through all child nodes
+        // alternatively, you may define index via data- attribute
+        var clickedGallery = clickedListItem.parentNode,
+                childNodes = clickedListItem.parentNode.childNodes,
+                numChildNodes = childNodes.length,
+                nodeIndex = 0,
+                index;
+
+        for (var i = 0; i < numChildNodes; i++) {
+            if (childNodes[i].nodeType !== 1) {
+                continue;
+            }
+            if (childNodes[i] === clickedListItem) {
+                index = nodeIndex;
+                break;
+            }
+            nodeIndex++;
+        }
+        if (index >= 0) {
+            // open PhotoSwipe if valid index found
+            openPhotoSwipe(index, clickedGallery);
+        }
+        return false;
+    };
+    // parse picture index and gallery index from URL (#&pid=1&gid=2)
+    var photoswipeParseHash = function() {
+        var hash = window.location.hash.substring(1),
+                params = {};
+
+        if (hash.length < 5) {
+            return params;
+        }
+        var vars = hash.split('&');
+        for (var i = 0; i < vars.length; i++) {
+            if (!vars[i]) {
+                continue;
+            }
+            var pair = vars[i].split('=');
+            if (pair.length < 2) {
+                continue;
+            }
+            params[pair[0]] = pair[1];
+        }
+        if (params.gid) {
+            params.gid = parseInt(params.gid, 10);
+        }
+        return params;
+    };
+
+    var openPhotoSwipe = function(index, galleryElement, disableAnimation, fromURL) {
+        var pswpElement = document.querySelectorAll('.pswp')[0],
+                gallery,
+                options,
+                items;
+
+        items = parseThumbnailElements(galleryElement);
+
+        // define options (if needed)
+        options = {
+            // define gallery index (for URL)
+            galleryUID: galleryElement.getAttribute('data-pswp-uid'),
+            getThumbBoundsFn: function(index) {
+                // See Options -> getThumbBoundsFn section of documentation for more info
+                var thumbnail = items[index].el.getElementsByTagName('img')[0], // find thumbnail
+                        pageYScroll = window.pageYOffset || document.documentElement.scrollTop,
+                        rect = thumbnail.getBoundingClientRect();
+
+                return {x: rect.left, y: rect.top + pageYScroll, w: rect.width};
+            }
+
+        };
+
+        // PhotoSwipe opened from URL
+        if (fromURL) {
+            if (options.galleryPIDs) {
+                // parse real index when custom PIDs are used 
+                for (var j = 0; j < items.length; j++) {
+                    if (items[j].pid == index) {
+                        options.index = j;
+                        break;
+                    }
+                }
+            } else {
+                // in URL indexes start from 1
+                options.index = parseInt(index, 10) - 1;
+            }
+        } else {
+            options.index = parseInt(index, 10);
+        }
+
+        // exit if index not found
+        if (isNaN(options.index)) {
+            return;
+        }
+
+        if (disableAnimation) {
+            options.showAnimationDuration = 0;
+        }
+
+        // Pass data to PhotoSwipe and initialize it
+        gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, options);
+        gallery.init();
+    };
+
+    // loop through all gallery elements and bind events
+    var galleryElements = document.querySelectorAll(gallerySelector);
+    for (var i = 0, l = galleryElements.length; i < l; i++) {
+        galleryElements[i].setAttribute('data-pswp-uid', i + 1);
+        galleryElements[i].onclick = onThumbnailsClick;
+    }
+
+    // Parse URL and open gallery if it contains #&pid=3&gid=1
+    var hashData = photoswipeParseHash();
+    if (hashData.pid && hashData.gid) {
+        openPhotoSwipe(hashData.pid, galleryElements[ hashData.gid - 1 ], true, true);
+    }
+};
+
+// execute above function
+initPhotoSwipeFromDOM('.my-gallery');
+}
+
+$(".codBigImg").height($(window).height);
+</script>
+
+<?php include template('foot') ?>
+</body>
+</html>
+
+  

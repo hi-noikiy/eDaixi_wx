@@ -1,0 +1,247 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no, email=no" name="format-detection">
+    <script type="text/javascript">
+        !function(){var a="@charset \"utf-8\";html{color:#000;background:#fff;overflow-y:scroll;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}html *{outline:0;-webkit-text-size-adjust:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}html,body{font-family:sans-serif}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0}input,select,textarea{font-size:100%}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}abbr,acronym{border:0;font-variant:normal}del{text-decoration:line-through}address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:500}ol,ul{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:500}q:before,q:after{content:''}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}a:hover{text-decoration:underline}ins,a{text-decoration:none}",b=document.createElement("style");if(document.getElementsByTagName("head")[0].appendChild(b),b.styleSheet)b.styleSheet.disabled||(b.styleSheet.cssText=a);else try{b.innerHTML=a}catch(c){b.innerText=a}}();!function(a,b){function c(){var b=f.getBoundingClientRect().width;b/i>540&&(b=540*i);var c=b/10;f.style.fontSize=c+"px",k.rem=a.rem=c}var d,e=a.document,f=e.documentElement,g=e.querySelector('meta[name="viewport"]'),h=e.querySelector('meta[name="flexible"]'),i=0,j=0,k=b.flexible||(b.flexible={});if(g){console.warn("将根据已有的meta标签来设置缩放比例");var l=g.getAttribute("content").match(/initial\-scale=([\d\.]+)/);l&&(j=parseFloat(l[1]),i=parseInt(1/j))}else if(h){var m=h.getAttribute("content");if(m){var n=m.match(/initial\-dpr=([\d\.]+)/),o=m.match(/maximum\-dpr=([\d\.]+)/);n&&(i=parseFloat(n[1]),j=parseFloat((1/i).toFixed(2))),o&&(i=parseFloat(o[1]),j=parseFloat((1/i).toFixed(2)))}}if(!i&&!j){var p=(a.navigator.appVersion.match(/android/gi),a.navigator.appVersion.match(/iphone/gi)),q=a.devicePixelRatio;i=p?q>=3&&(!i||i>=3)?3:q>=2&&(!i||i>=2)?2:1:1,j=1/i}if(f.setAttribute("data-dpr",i),!g)if(g=e.createElement("meta"),g.setAttribute("name","viewport"),g.setAttribute("content","initial-scale="+j+", maximum-scale="+j+", minimum-scale="+j+", user-scalable=no"),f.firstElementChild)f.firstElementChild.appendChild(g);else{var r=e.createElement("div");r.appendChild(g),e.write(r.innerHTML)}a.addEventListener("resize",function(){clearTimeout(d),d=setTimeout(c,300)},!1),a.addEventListener("pageshow",function(a){a.persisted&&(clearTimeout(d),d=setTimeout(c,300))},!1),"complete"===e.readyState?e.body.style.fontSize=12*i+"px":e.addEventListener("DOMContentLoaded",function(){e.body.style.fontSize=12*i+"px"},!1),c(),k.dpr=a.dpr=i,k.refreshRem=c,k.rem2px=function(a){var b=parseFloat(a)*this.rem;return"string"==typeof a&&a.match(/rem$/)&&(b+="px"),b},k.px2rem=function(a){var b=parseFloat(a)/this.rem;return"string"==typeof a&&a.match(/px$/)&&(b+="rem"),b}}(window,window.lib||(window.lib={}));
+    </script>
+    <title>下单</title>
+    <link rel="stylesheet" type="text/css" href="../css/detergent.css?v=20170119">
+    <script type="text/javascript" src="../js/zepto.js"></script>
+    <script src="https://jic.talkingdata.com/app/h5/v1?appid=55976D304F9841989C0498828E2877CA&vn=微信版洗衣液售卖1.0&vc=1.0.0"></script>
+</head>
+<body>
+    <img class="detergent_banner_img" data-webp="../images/detergent_banner.webp" data-jpg="../images/detergent_banner.jpg"/>
+    <div id="price-wrap">
+        <div class="price">
+            <p>e袋洗洁净洗衣液3kg</p>
+            <p>
+                <span class="price_num"><span class="dollat">￥</span><span class="num"></span></span>
+                <span class="saled_num">瓶已售</span>
+            </p>
+        </div>
+        <div class="tips">
+            <span><img src="../images/detergent_gou.png">1瓶包邮</span>
+            <span><img src="../images/detergent_gou.png">在线支付</span>
+            <span><img src="../images/detergent_gou.png">品质保证</span>
+        </div>
+    </div>
+    <div id="space"></div>
+    <div id="information">
+        <div class="title">
+            <span class="line"></span>
+            <span class="title_text">图文详情</span>
+            <span class="line"></span>
+        </div>   
+        <img data-webp="../images/1.webp" data-jpg="../images/1.jpg"/>
+        <img data-webp="../images/2.webp" data-jpg="../images/2.jpg"/>
+        <img data-webp="../images/3.webp" data-jpg="../images/3.jpg"/>
+        <img data-webp="../images/4.webp" data-jpg="../images/4.jpg" class="lastimg"/>
+    </div>
+    <div id="buynum">
+        <div class="numwrap">
+            <span class="title">购买数量</span>
+            <span class="numoperation">
+                <span class="reduce"><img src="../images/minus.png"/></span>
+                <span class="num">1</span>
+                <span class="add"><img src="../images/plus.png"/></span>
+            </span>
+        </div>
+        <div class="totalwrap">
+            <span class="title">总价</span>
+            <span class="total">
+                <span class="dollat">￥</span>
+                <span class="price">19.90</span>
+            </span>
+        </div>
+    </div>
+    <div id="mark"></div>
+    <div id="footer" class="disabled">立即购买</div>
+
+    <script type="text/javascript">
+        window.debug = false;
+        var api = {};
+        api.data = {};
+        if (window.debug) {
+            api.homepage = "/detergent_homepage";
+            preLocation = "";
+        }
+        else {
+            api.homepage = "/api.php?m=wap&act=mall&do=detergent_price";
+            preLocation = "/new_weixin";
+        }
+
+        // 填充数据
+        $(function() {
+            renterTemplate();
+        })
+
+        function renterTemplate() {
+            $.ajax({
+                type: "GET",
+                url: api.homepage,
+                dataType: "json",
+                success: function(data) {
+                    if (data.ret) {
+                        var storage = window.sessionStorage;
+                        storage.setItem("price", data.data.price);
+
+                        $("#price-wrap .num").text(data.data.price);
+                        $("#buynum .price").text(data.data.price);
+                        $("#price-wrap .saled_num").text(data.data.saled_count + "瓶已售");
+                        if (data.data.stock_count === 0) {
+                            $("#footer").text("售罄").addClass("disabled");
+                        }
+                        else {
+                            $("#footer").text("立即购买").removeClass("disabled");
+                        }
+
+                        // 初始购买数量1, 清空留言
+                        var storage = window.sessionStorage;
+                        storage.setItem("count", 1);
+                        storage.setItem("comment", "");
+                    }
+                    else {
+                        alert("服务器错误，请稍后再试");
+                    }
+                },
+                error: function(xhr, type) {
+                    alert("网络错误，请稍后再试");
+                }
+            })
+            setTimeout(renterTemplate, 180000);
+        }
+
+        // 购买事件
+        $("#footer").on("click", function() {
+            if ($("#footer").hasClass("disabled")) {
+                return;
+            }
+            if ($("#footer").text() == "确定" && !$("#footer").hasClass("disabled")) {
+                TDAPP.onEvent("点击确定");
+                window.location.href = preLocation + "/view/detergent_order.html";
+            }
+            if ($("#footer").text() == "立即购买") {
+                TDAPP.onEvent("点击立即购买");
+                $("#footer").text("确定");
+                $("#mark").show();
+                $("#buynum").animate({
+                    bottom: "1.28rem"
+                })
+
+                // 当购买数量之前减为0时，此时按钮需要置灰
+                var storage = window.sessionStorage;
+                if (storage.getItem("count") === "0") {
+                    $("#footer").addClass("disabled");
+                }
+            }
+        });
+
+        // 购买数量增减事件
+        $("#buynum .reduce").click(function() {
+            var num = parseInt($("#buynum .num").text());
+            var price = parseFloat($("#price-wrap .num").text());
+            var total;
+            if (num > 0) {
+                num--;
+                $("#buynum .num").text(num);
+                total = num * price;
+                $("#buynum .price").text(total.toFixed(2));
+            }
+            if (num === 0) {
+                $("#footer").addClass("disabled");
+            }
+            var storage = window.sessionStorage;
+            storage.setItem("count", num);
+        });
+
+        $("#buynum .add").click(function() {
+            var num = parseInt($("#buynum .num").text());
+            var price = parseFloat($("#price-wrap .num").text());
+            var total;
+            num++;
+            $("#buynum .num").text(num);
+            total = num * price;
+            $("#buynum .price").text(total.toFixed(2));
+
+            if (num > 0) {
+                $("#footer").removeClass("disabled");
+            }
+            var storage = window.sessionStorage;
+            storage.setItem("count", num);
+        });
+
+        $("#mark").on("click", function() {
+            $("#mark").hide();
+            $("#buynum").css({
+                bottom: "-1.346667rem"
+            });
+            $("#footer").text("立即购买");
+            $("#footer").removeClass("disabled");
+        });
+
+        // 如果是iphone，改为使用jpg
+        // var isIos = isIos();
+        // if (isIos) {
+        //     var images = $("img");
+        //     var pat = new RegExp("\.webp$");
+        //     for (var i = 0; i < images.length; i++) {
+        //         if (pat.test(images[i].src)) {
+        //             var imgSrc = images[i].src;
+        //             var imgSrcJpg = imgSrc.replace(/webp/, "jpg");
+        //             images[i].src = imgSrcJpg; 
+        //         }
+        //     }
+        // }
+        // function isIos() {
+        //     var ua = window.navigator.userAgent.toLowerCase();
+        //     return (/ip(hone|od|ad)/.test(ua)) ? true : false;
+        // }
+        
+        /**
+         * 判断是否支持webp
+         * @param  {Function} callback 
+         */
+        function checkWebp(callback) {
+            var WebP = new Image();
+            WebP.onload = WebP.onerror = function() {
+                if (WebP.height != 2) {
+                    callback(false);
+                }
+                else {
+                    callback(true);
+                }
+            };
+            WebP.src = 'data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA';
+        };
+
+        /**
+         * 获取webp或jpg图片
+         * @param  {boolean} supportWebp  false：不支持webp， true：支持webp
+         */
+        function getImg(supportWebp) {
+            var imgArr = $("#information img");
+            for (var i = 0, len = imgArr.length; i < len; i++) {
+                if (supportWebp) {
+                    imgArr[i].src = imgArr.eq(i).data("webp");
+                }
+                else {
+                    imgArr[i].src = imgArr.eq(i).data("jpg");
+                }
+            }
+            if (supportWebp) {
+                $(".detergent_banner_img").prop("src", $(".detergent_banner_img").data("webp"));
+            }
+            else {
+                $(".detergent_banner_img").prop("src", $(".detergent_banner_img").data("jpg"));
+            }
+        }
+
+        checkWebp(getImg);
+    </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+  <div class="ump-coupon-wrap">
+       <ul class="ump-coupon-list ">
+       {loop $coupon_list $key $item}
+          <li class="ump-coupon-item {if $item['coupon_type'] ==0}coupon-style-0{elseif $item['coupon_type'] ==2}coupon-style-2{else}coupon-style-1{/if}" id="li_{$key}">
+                    
+                      {if $item['coupon_type'] =='0'}
+                        <img src="{php echo assets_link('/framework/style/images/light-gray-logo.png')}" class="gray-img">
+                        
+                      {elseif $item['coupon_type'] =='2'}
+                        <img src="{php echo assets_link('/framework/style/images/violet-logo.png')}" class="gray-img">
+                      {else}
+                        <img src="{php echo assets_link('/framework/style/images/blue-logo.png')}" class="gray-img">                    
+                      
+                      {/if}
+
+                      <!-- 品类 -->
+                      <p class="category_display">{$item['category_display']}</p>
+
+                      <!-- 折扣 -->
+                      <div class="ump-coupon-value {if $item['coupon_type'] ==0}color-gray {elseif $item['coupon_type'] == 2}color-shechipin{else}color-blue{/if}">
+                          <p>
+                              {if 2 == $item['discount_type']}
+                              <i>{$item['coupon_price']}</i><span>折</span> {else}
+                              <span>￥</span><i>{$item['coupon_price']}</i> {/if}
+                          </p>
+                      </div>
+
+                      <!-- 券名 -->
+                      <p class="coupon-title">{$item['coupon_title']}</p>
+
+                      <!-- 满减&最多折扣 -->
+                      <p class="limit-font {if $item['coupon_type'] ==0}color-gray {elseif $item['coupon_type'] == 2}color-shechipin{else}color-blue{/if}">{$item['coupon_price_limit']} {$item['exclusive_channels_display']}</p>
+                      
+                      <p style="height:5px"></p>
+                      
+                      {if $item['coupon_validity_time']}
+                        <p class="limit-font {if $item['coupon_will_expire']}hight-red{/if}">{$item['coupon_validity_time']}</p>
+                      {/if}
+                    
+                    <div class="coupon_limit">
+                      {loop $item['coupon_limit'] $v}
+                        {if $v['partial_content']}
+                          <p>· {$v['partial_content']} {if $v['has_fold']}<span class="color-blue open_fold">点击查看详情{/if}</span></p>
+                        {/if}
+                        {if $v['has_fold']}
+                          <p class="has_flod" style="display:none">· {$v['fold_content']}</p>
+                        {/if}
+                      {/loop}
+                    </div>
+                </li>
+       {/loop}
+       </ul>
+    </div>

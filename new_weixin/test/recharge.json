@@ -1,0 +1,105 @@
+{
+    "ret": true,
+    "ts": 1476690100,
+    "version": "1.0",
+    "data": {
+        "wx_share": {
+            "appId": "wx1defeb5ede48566f",
+            "timestamp": 1476690090,
+            "nonceStr": "9WmRGx2RhHa0QZqQ",
+            "signature": "f4eb6d12d2e8548686d8e53a3a6fbfaa7eb66c61",
+            "share_url": "http://wx.rongchain.com/mobile.php?m=third&act=recharge917&do=recharge_page",
+            "title": "充值送电视手机，金秋大洗礼",
+            "desc": "多档充值好礼免费拿，电视、手机送不停，充值e袋洗，让生活多份自在",
+            "img_url": "/resource/image/baofengtv917.jpg?1476690090",
+            "callback_url": "/mobile.php?m=third&act=activity&do=share_success&city_id=1"
+        },
+        "exchange_items": {
+            "5000": {
+                "title": "45吋暴风超体电视一台",
+                "money": "5000",
+                "url": "http://www.duiba.com.cn/autoLogin/autologin?timestamp=1476690088000&uid=6674202&credits=2950000&appKey=3JdahN78n62xuEemEBmDSA1fKEKr&redirect=http%3A%2F%2Fwww.duiba.com.cn%2Fmobile%2FappItemDetail%3FappItemId%3D489133&vip=6&sign=5660d81a319b63d11907dd11793c831b"
+            }
+        },
+        "exchange_history": {
+            "url": "http://www.duiba.com.cn/autoLogin/autologin?timestamp=1476690093000&uid=6674202&credits=0&appKey=3JdahN78n62xuEemEBmDSA1fKEKr&redirect=http%3A%2F%2Fwww.duiba.com.cn%2Fcrecord%2Frecord&vip=&sign=40021cce180efb6e8793803f45198e8a"
+        },
+        "recharge_items": {
+            "100": {
+                "money": "100",
+                "img": "/framework/style/images/charge100.png?1476690079",
+                "points": "420000",
+                "size": "",
+                "title": "余额10元",
+                "piece": "",
+                "url": ""
+            },
+            "200": {
+                "money": "200",
+                "img": "/framework/style/images/charge200.png?1476690079",
+                "points": "840000",
+                "size": "",
+                "title": "e袋洗洗衣液",
+                "piece": "一瓶",
+                "url": "http://www.duiba.com.cn/autoLogin/autologin?timestamp=1476690100000&uid=not_login&credits=0&appKey=3JdahN78n62xuEemEBmDSA1fKEKr&redirect=http%3A%2F%2Fwww.duiba.com.cn%2Fmobile%2FappItemDetail%3FappItemId%3D493373&sign=f15772333760cddef76e7640530360a3"
+            },
+            "500": {
+                "money": "500",
+                "img": "/framework/style/images/charge500.png?1476690079",
+                "points": "1260000",
+                "size": "",
+                "title": "小米蓝牙音响",
+                "piece": "一部",
+                "url": "http://www.duiba.com.cn/autoLogin/autologin?timestamp=1476690100000&uid=not_login&credits=0&appKey=3JdahN78n62xuEemEBmDSA1fKEKr&redirect=http%3A%2F%2Fwww.duiba.com.cn%2Fmobile%2FappItemDetail%3FappItemId%3D493273&sign=bf86264d553a1fada4889a9b5dc3e03e"
+            },
+            "1000": {
+                "money": "1000",
+                "img": "/framework/style/images/charge1000.png?1476690079",
+                "points": "1680000",
+                "size": "",
+                "title": "小米旅行箱",
+                "piece": "一个",
+                "url": "http://www.duiba.com.cn/autoLogin/autologin?timestamp=1476690100000&uid=not_login&credits=0&appKey=3JdahN78n62xuEemEBmDSA1fKEKr&redirect=http%3A%2F%2Fwww.duiba.com.cn%2Fmobile%2FappItemDetail%3FappItemId%3D493368&sign=3d0ccaf5e0033747bb1c5374858bd71d"
+            },
+            "2000": {
+                "money": "2000",
+                "img": "/framework/style/images/charge2000.png?1476690079",
+                "points": "2100000",
+                "size": "",
+                "title": "红米3S手机",
+                "piece": "一部",
+                "url": "http://www.duiba.com.cn/autoLogin/autologin?timestamp=1476690100000&uid=not_login&credits=0&appKey=3JdahN78n62xuEemEBmDSA1fKEKr&redirect=http%3A%2F%2Fwww.duiba.com.cn%2Fmobile%2FappItemDetail%3FappItemId%3D493378&sign=1a0f7d1c2178be9b3363633da9aa6f2f"
+            },
+            "3500": {
+                "money": "3500",
+                "img": "/framework/style/images/charge3500.png?1476690079",
+                "points": "2500000",
+                "size": "40吋",
+                "title": "暴风超体电视",
+                "piece": "一台",
+                "url": "http://www.duiba.com.cn/autoLogin/autologin?timestamp=1476690100000&uid=not_login&credits=0&appKey=3JdahN78n62xuEemEBmDSA1fKEKr&redirect=http%3A%2F%2Fwww.duiba.com.cn%2Fmobile%2FappItemDetail%3FappItemId%3D489127&sign=38437b993835479d969cd033600f670d"
+            },
+            "5000": {
+                "money": "5000",
+                "img": "/framework/style/images/charge5000.png?1476690079",
+                "points": "2950000",
+                "size": "45吋",
+                "title": "暴风超体电视",
+                "piece": "一台",
+                "url": "http://www.duiba.com.cn/autoLogin/autologin?timestamp=1476690100000&uid=not_login&credits=0&appKey=3JdahN78n62xuEemEBmDSA1fKEKr&redirect=http%3A%2F%2Fwww.duiba.com.cn%2Fmobile%2FappItemDetail%3FappItemId%3D489133&sign=9c364a92289503def286409e3625e792"
+            },
+            "7500": {
+                "money": "7500",
+                "img": "/framework/style/images/charge7500.png?1476690079",
+                "points": "3360000",
+                "size": "55吋",
+                "title": "暴风超体电视",
+                "piece": "一台",
+                "url": "http://www.duiba.com.cn/autoLogin/autologin?timestamp=1476690100000&uid=not_login&credits=0&appKey=3JdahN78n62xuEemEBmDSA1fKEKr&redirect=http%3A%2F%2Fwww.duiba.com.cn%2Fmobile%2FappItemDetail%3FappItemId%3D489172&sign=581c2ed1ff8b752dde27f4d62c17bb62"
+            }
+        },
+        "mark_source": "其他",
+        "cardno_page": "/mobile.php?m=third&act=activity&do=recharge_card_page&city_id=1",
+        "payment_page": "/mobile.php?m=third&act=activity&do=payment_page&city_id=1"
+    }
+}

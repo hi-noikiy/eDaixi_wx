@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>e袋洗</title>
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/apply.css')}" rel="stylesheet" type="text/css">
+<script type="text/javascript" src="{php echo assets_link('/framework/style/js/jquery-1.8.2.min.js')}"></script>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body class="apply">
+ <div class="banner">
+  <img src="{php echo assets_link('/framework/style/images/baoming_banner2.jpg')}">
+ </div>
+ <div class="clearBoth"></div>
+
+ <div class="apply-con">
+ <!-- <form action = "{php echo create_url('luxury/pay',array(),'third')}" onsubmit="return checkform(this)" method="post"> -->
+  <div class="apply-div">
+    <div class="text-block">
+      <span>姓&nbsp&nbsp&nbsp&nbsp&nbsp名：</span>
+      <input type="text" name="name" class="px" id = 'name'>
+    </div>
+    <div class="clearBoth"></div>
+    <div class="borderC"></div>
+    <div class="text-block">
+      <span>手&nbsp机&nbsp号：</span>
+      <input type="text" name="tel" class="px" id = 'tel'>
+      <a href="javascript:void(0)"  id = 'get_sms_code' class="hover-a send">发送验证码</a>
+    </div>
+    <div class="clearBoth"></div>
+    <div class="borderC"></div>
+    <div class="text-block">
+      <span>验&nbsp证&nbsp码：</span>
+      <input type="text" name="code" id = 'code' class="px">
+    </div>
+    <div class="clearBoth"></div>
+    <div class="borderC"></div>
+    <div class="text-block">
+      <span>支付方式：</span>
+      <div class="zhifu">
+      {if $wx_pay}
+        <div class="label-radio">
+            微信支付
+            <div>
+              <input id = "weixin_pay" type = "radio" name = "paytype" value = "2"></input>
+              <label  name = "weixin_pay" for="weixin_pay"><b></b></label>
+            </div>
+        </div>
+
+        <div class="clearBoth"></div>
+        <div class="borderC"></div>
+        {/if}
+        <div class="label-radio">
+            支付宝支付
+            <div>
+              <input id = "ali_pay" type = "radio" name = "paytype" value = "6"></input>
+              <label  name = "ali_pay" for="ali_pay"><b></b></label>
+            </div>
+        </div>
+        
+        <div class="clearBoth"></div>
+        <div class="borderC"></div>
+      </div>
+      <p class="text-center"><button id = 'luxury_create_pay' type = 'submit' class="kaitong-btn">开通奢护年卡</button></p>
+    </div>
+  </div>
+<!-- </form> -->
+ </div>
+ <div id="codFloat" style="display:none;" class="cod apply-float">
+    
+      <div class="wx_confirm">
+          <div class="wx_confirm_inner" id="wx_confirm_float">
+            <div class="wx_confirm_hd">
+                <div class="wx_confirm_tit" id = "show_mes">fsfdsrfsdrf</div>
+            </div>
+          </div>
+      </div>
+    </div>
+<a href = "tel:4008-52-7178" class="call">VIP专线：4008－52（我爱）－7178（洗衣洗包）</a>
+</body>
+
+<script type="text/javascript"> 
+  var InterValObj; //timer变量，控制时间  
+  var count = 60; //间隔函数，1秒执行  
+  var curCount;//当前剩余秒数 
+  var sw = 1;
+  var re = /^1[3-8]\d{9}$/;
+  var default_pay_type = "{$wx_pay}";
+function SetRemainTime() {  
+    if (curCount == 0) {  
+        sw = 1;               
+        window.clearInterval(InterValObj);//停止计时器  
+        $("#get_sms_code").removeAttr("disabled");//启用按钮  
+        $("#get_sms_code").html("重新发送验证码");   
+    }  
+    else {  
+        curCount--;  
+        $("#get_sms_code").html("重新发送(" + curCount+")" );  
+    }  
+  }  
+  function verification_code(){
+    $("#get_sms_code").html("重新发送(" + curCount + ")");  
+    InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次  
+  }
+
+ function hide_res(){
+      $("#codFloat").hide();
+    }
+  function show_res(){
+    setTimeout("hide_res()",2000);
+  }
+  function alert_1(title) {
+    $("#show_mes").html(title);
+      $("#codFloat").show();
+      show_res();
+  }
+ $(document).ready(
+    function (){
+      $("#get_sms_code").click(
+        function(){
+          var tel = $("#tel").val();
+          if(tel == ''){
+            alert_1("请输入手机号");
+            return false;
+          }
+          if (!re.test(tel)) {
+            alert_1("请正确填写手机号");
+            return false;
+          };
+          var submit_data = {tel : $("#tel").val().trim() };
+        if(sw == 1){
+          sw = 0;
+          curCount = count; 
+          //$("#get_sms_code").attr("disabled",true);  
+          $.post("{php echo create_url('luxury/verification_code', array(),'third')}",submit_data,function (data){
+              if(data.message.state == 1){
+                verification_code();
+              }else if (data.message.state == 0) {
+                sw = 1;
+                alert_1(data.message.msg);
+              };
+            },"json");
+        }
+        });
+
+        if(default_pay_type == 2){
+          $('#weixin_pay').attr('checked',true);
+        }else{
+          $('#ali_pay').attr('checked',true); 
+        }
+
+        $('#luxury_create_pay').click(function(){
+              var tel = $("#tel").val();
+              var name = $('#name').val();
+              var code = $('#code').val();
+               if(tel == ''){
+                  alert_1("请输入手机号");
+                  return false;
+                }
+              if(name == ''){
+                alert_1("请输入姓名");
+                return false;
+              }
+              if(code == ''){
+                  alert_1("请输入验证码");
+                  return false;
+                }
+              if (!re.test(tel)) {
+                alert_1("请正确填写手机号");
+                return false;
+              }
+              var chkObjs = document.getElementsByName("paytype");
+              for(var i=0;i<chkObjs.length;i++){
+                  if(chkObjs[i].checked){
+                    var paytype = chkObjs[i].value;
+                  }
+              }
+              var submit_data = {tel : tel,name : name,code : code,paytype : paytype};
+                $('#luxury_create_pay').attr('disabled',true);
+               $.post("{php echo create_url('luxury/Luxury_create_pay', array(),'third')}",submit_data,function (data){
+                    if(data.message.state == 1){
+                       window.location.href= data.message.url;
+                    }else if (data.message.state == 2) {
+                      $('#luxury_create_pay').attr('disabled',false);
+                      alert_1(data.message.msg);
+                    };
+                  },"json");
+       });
+  });
+</script>
+</html>

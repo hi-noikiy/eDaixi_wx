@@ -1,0 +1,25 @@
+<div id="coupon_tip" style="display: none" class="cod">
+	<div class="wx_mask"></div>
+	<div class="wx_confirm">
+		<div class="wx_confirm_inner" style="padding: 6% 0 0 0; width: 100%">
+			<div class="wx_confirm_hd bigfont p30">该券仅限APP使用，是否去下载</div>
+			<div class="wx_confirm_bd">
+				<div class="borderD"></div>
+				<div class="wx_confirm_btns" style="position: relative">
+					<button type="cancel" id="close_coupon_tip">取消</button>
+					<button type="submit" id="download_app">去下载</button>
+					<div class="borderL"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+	$("#close_coupon_tip").on('click', function() {
+		$("#coupon_tip").hide();
+	});
+	$("#download_app").on('click', function() {
+		$("#coupon_tip").hide();
+		window.location = 'http://a.app.qq.com/o/simple.jsp?pkgname=com.edaixi.activity';
+	});
+</script>

@@ -1,0 +1,28 @@
+{
+    "ret": true, 
+    "ts": 1477478316, 
+    "version": "1.0", 
+    "data": {
+        "title": "填写订单", 
+        "default_address": {
+            "address_id": 668005, 
+            "username": "张三", 
+            "tel": "18500643880", 
+            "city": "北京", 
+            "city_id": 1, 
+            "area": "朝阳区", 
+            "area_id": 1, 
+            "address": "798艺术区798剧场 111", 
+            "address_line_1": "798艺术区798剧场", 
+            "address_line_2": "111"
+        }, 
+        "order_tips": {
+            "background_image": "http://localhost:8080/images/tips_background.jpg", 
+            "details": [
+                "abc",
+                "efg"
+            ]
+        },
+        "select_addr_url": "/mobile.php?m=wap&act=address&do=order_address_list&category_id=1&link_from=comm_order_place&back=%252Fmobile.php%253Fm%253Dwap%2526act%253Dhomepage%2526do%253Dcomm_order_place%2526city_id%253D1%2526category_id%253D1%2526price_read%253D1&city_id=1"
+    }
+}

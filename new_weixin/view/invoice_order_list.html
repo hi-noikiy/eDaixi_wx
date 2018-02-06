@@ -1,0 +1,291 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no, email=no" name="format-detection">
+    <script type="text/javascript">
+        !function(){var a="@charset \"utf-8\";html{color:#000;background:#fff;overflow-y:scroll;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}html *{outline:0;-webkit-text-size-adjust:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}html,body{font-family:sans-serif}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0}input,select,textarea{font-size:100%}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}abbr,acronym{border:0;font-variant:normal}del{text-decoration:line-through}address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:500}ol,ul{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:500}q:before,q:after{content:''}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}a:hover{text-decoration:underline}ins,a{text-decoration:none}",b=document.createElement("style");if(document.getElementsByTagName("head")[0].appendChild(b),b.styleSheet)b.styleSheet.disabled||(b.styleSheet.cssText=a);else try{b.innerHTML=a}catch(c){b.innerText=a}}();!function(a,b){function c(){var b=f.getBoundingClientRect().width;b/i>540&&(b=540*i);var c=b/10;f.style.fontSize=c+"px",k.rem=a.rem=c}var d,e=a.document,f=e.documentElement,g=e.querySelector('meta[name="viewport"]'),h=e.querySelector('meta[name="flexible"]'),i=0,j=0,k=b.flexible||(b.flexible={});if(g){console.warn("将根据已有的meta标签来设置缩放比例");var l=g.getAttribute("content").match(/initial\-scale=([\d\.]+)/);l&&(j=parseFloat(l[1]),i=parseInt(1/j))}else if(h){var m=h.getAttribute("content");if(m){var n=m.match(/initial\-dpr=([\d\.]+)/),o=m.match(/maximum\-dpr=([\d\.]+)/);n&&(i=parseFloat(n[1]),j=parseFloat((1/i).toFixed(2))),o&&(i=parseFloat(o[1]),j=parseFloat((1/i).toFixed(2)))}}if(!i&&!j){var p=(a.navigator.appVersion.match(/android/gi),a.navigator.appVersion.match(/iphone/gi)),q=a.devicePixelRatio;i=p?q>=3&&(!i||i>=3)?3:q>=2&&(!i||i>=2)?2:1:1,j=1/i}if(f.setAttribute("data-dpr",i),!g)if(g=e.createElement("meta"),g.setAttribute("name","viewport"),g.setAttribute("content","initial-scale="+j+", maximum-scale="+j+", minimum-scale="+j+", user-scalable=no"),f.firstElementChild)f.firstElementChild.appendChild(g);else{var r=e.createElement("div");r.appendChild(g),e.write(r.innerHTML)}a.addEventListener("resize",function(){clearTimeout(d),d=setTimeout(c,300)},!1),a.addEventListener("pageshow",function(a){a.persisted&&(clearTimeout(d),d=setTimeout(c,300))},!1),"complete"===e.readyState?e.body.style.fontSize=12*i+"px":e.addEventListener("DOMContentLoaded",function(){e.body.style.fontSize=12*i+"px"},!1),c(),k.dpr=a.dpr=i,k.refreshRem=c,k.rem2px=function(a){var b=parseFloat(a)*this.rem;return"string"==typeof a&&a.match(/rem$/)&&(b+="px"),b},k.px2rem=function(a){var b=parseFloat(a)/this.rem;return"string"==typeof a&&a.match(/px$/)&&(b+="rem"),b}}(window,window.lib||(window.lib={}));
+    </script>
+    <title>可开票订单</title>
+    <link rel="stylesheet" type="text/css" href="../css/reset.css">
+    <link rel="stylesheet" type="text/css" href="../css/invoice.css?version2.0">
+    <script type="text/javascript" src="../js/zepto.js"></script>
+    <script type="text/javascript" src="../js/template.js"></script>
+    <script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body>
+    <div id="main"></div>
+    <div id="footer">
+        <div class="select-option noselect"></div>
+        <div class="content">
+            <p class="allselet">全选</p>
+            <p class="detail"><span class="num">0</span>个订单 <span class="total">共<span class="price">￥0.00</span><span class="baoyou"></span></span></p>
+        </div>
+        <div class="make-invoice disabled">开发票</div>
+    </div>
+    <div id="explain" class="hide">
+        <div class="content"></div>
+        <img src="../images/close.png">
+    </div>
+
+    <!-- 可开票订单 begin -->
+    <script id="invoice_order_list" type="text/html">
+        <div class="menu">
+            <span class="invoice-record">开票记录</span><span class="invoice-declare">开票说明</span>
+        </div>
+        {{if data.length}} 
+            {{each data as item}}
+                <div class="order-wrap clearfix">
+                    <div class="select-option noselect" data-id="{{item.id}}" data-type="{{item.type}}" data-price="{{item.invoice_fee_info.fee}}"></div>
+                    <div class="content">
+                        <p class="order-title"><span class="date">{{item.created_date}}</span><span class="title">{{item.title}}</span><span class="sn-code">{{item.sn_code}}</span></p>
+                        <p><span>{{item.fee_info.name}}</span><span class="fee">{{item.fee_info.fee_show}}</span></p>
+                        <p><span>{{item.invoice_fee_info.name}}</span><span class="fee">{{item.invoice_fee_info.fee_show}}</span><span class="invoice-total"><span class="inovice-title">可开票金额：</span><span class="invoice-fee">{{item.invoice_fee_info.fee_show}}</span></span></p>
+                    </div>
+                </div>
+            {{/each}}
+        {{else}}
+        <div class="nodata">没有可开发票订单</div>
+        {{/if}}
+    </script>
+    <!-- 可开票订单 end -->
+    <script type="text/javascript">
+        window.debug = false;
+        var api = {};
+        if (window.debug) {
+            // 可开发票订单列表
+            api.orderlist = "/orderlist";
+            // 开发票页面接口（用于获取开票说明内容）
+            api.make_invoice_render = "/make_invoice_render";
+        }
+        else {
+            api.orderlist = "/api.php?m=wap&act=invoice&do=get_invoice_details";
+            api.make_invoice_render = "/api.php?m=wap&act=invoice&do=get_invoice_page";
+        }
+        
+        $(function() {
+            $.ajax({
+                type: "GET",
+                url: api.orderlist,
+                dataType: "json",
+                success: function(data) {
+                    if (data.ret) {
+                        // 价格数据格式转化
+                        formate(data);
+                        // 渲染数据
+                        renderTemplate(data);
+                        // 绑定事件
+                        bindEvent(data);
+                    }
+                    else {
+                        if (data.error.url){
+                            window.location.href = data.error.url;
+                            return;
+                        }
+                        alert("服务器错误，请稍后再试");
+                    }
+                },
+                error: function(xhr, type) {
+                    alert("网络错误，请稍后再试");
+                }
+            })
+        })
+
+        /**
+         * 增加一个带“￥”的字段，用于显示
+         * @param  {object} data
+         * @return {object}
+         */
+        function formate(data) {
+            var len = data.data.length;
+            for (var i = 0; i < len; i++) {
+                data["data"][i]["fee_info"]["fee_show"] = "￥" + formatCurrency(data["data"][i]["fee_info"]["fee"]);
+                data["data"][i]["invoice_fee_info"]["fee_show"] = "￥" + formatCurrency(data["data"][i]["invoice_fee_info"]["fee"]);
+            }
+        }
+
+        /**
+         * 货币样式格式化
+         * @param  {number, string} num 货币数字
+         * @return {string}    例：28,989.00
+         */
+        function formatCurrency(num) {
+            num = +num.toString().replace(/\$|\,/g,'');
+            if(isNaN(num))
+                num = "0";
+            sign = (num == (num = Math.abs(num)));
+            num = Math.floor(num*100+0.50000000001);
+            cents = num%100;
+            num = Math.floor(num/100).toString();
+            if(cents<10)
+            cents = "0" + cents;
+            for (var i = 0; i < Math.floor((num.length-(1+i))/3); i++)
+            num = num.substring(0,num.length-(4*i+3))+','+
+            num.substring(num.length-(4*i+3));
+            return (((sign)?'':'-') + num + '.' + cents);
+        }
+        /**
+         * 渲染初始页面
+         * @param  {object} data 后端返回的json
+         */
+        function renderTemplate(data) {
+            var orderListHtml = template("invoice_order_list", data);
+            $('#main').html(orderListHtml);
+
+            // 填充开票说明文案和包邮信息
+            $.ajax({
+                type: "GET",
+                url: api.make_invoice_render,
+                dataType: "json",
+                success: function(data) {
+                    if (data.ret) {
+                        // 将文案在分号处换行
+                        var tempStr = data.data.invoice_description.replace(/(\n|\r|(\r\n)|(\u0085)|(\u2028)|(\u2029)|↵)/g, "");
+                        var arr = tempStr.split("；");
+                        var invoice_description = arr.join("；<br/>");
+                        $("#explain .content").html(invoice_description);
+
+                        // 包邮免费提示
+                        $(".baoyou").text( " (" + data.data.delivery_fee_tip + ")");
+                    }
+                    else {
+                        alert("服务器错误，请稍后再试");
+                    }
+                },
+                error: function(xhr, type) {
+                    alert("网络错误，请稍后再试");
+                }
+            })
+
+        }
+
+        /**
+         * 对DOM节点绑定事件
+         * @return {[type]} [description]
+         */
+        function bindEvent(data) {
+            // 订单单选事件
+            $("#main").on("click", ".order-wrap", function(event) {
+                if ($(this).find(".select-option").hasClass("noselect")) {
+                    $(this).find(".select-option").removeClass("noselect").addClass("selected");
+
+
+                    // 判断是全选了
+                    if ($("#main .order-wrap").length === $("#main .selected").length) {
+                        $("#footer .select-option").removeClass("noselect").addClass("selected");
+                    }
+
+                    //显示订单总数和总价格，并存储在sessionStorage
+                    count();
+
+                    $("#footer .make-invoice").removeClass("disabled");
+                }
+                else {
+                    $(this).find(".select-option").removeClass("selected").addClass("noselect");
+
+                    // 取消全选
+                    if ($("#footer .select-option").hasClass("selected")) {
+                        $("#footer .select-option").removeClass("selected").addClass("noselect");
+                    }
+
+                    //显示订单总数和总价格
+                    count();
+
+                    if ($("#main .selected").length === 0) {
+                        $("#footer .make-invoice").addClass("disabled");
+                    }
+                }
+            })
+
+            // 全选事件
+            $("#footer .select-option").on("click", function(event) {
+                // 没有订单时
+                if (!data.data.length) {
+                    return;
+                }
+                if ($(this).hasClass("noselect")) {
+                    $(this).removeClass("noselect").addClass("selected");
+
+                    // 将订单左侧全部选中
+                    $("#main .noselect").map(function(){
+                        $(this).removeClass("noselect").addClass("selected");
+                    })
+
+                    //显示订单总数和总价格
+                    count();
+
+                    $("#footer .make-invoice").removeClass("disabled");
+                }
+                else {
+                    $(this).removeClass("selected").addClass("noselect");
+
+                    // 将订单左侧全部取消选中
+                    $("#main .selected").map(function() {
+                        $(this).removeClass("selected").addClass("noselect");
+                    })
+                    
+                    //显示订单总数和总价格
+                    count();
+
+                    $("#footer .make-invoice").addClass("disabled");
+                }
+            })
+
+            $("#footer .make-invoice").click(function() {
+                if ($("#footer .make-invoice").hasClass("disabled")) {
+                    return;
+                }
+
+                var url = "./make_invoice.html";
+                window.location.href = url;
+            })
+
+            // 开票记录链接
+            $(".menu .invoice-record").click(function() {
+                window.location.href = "./invoice_record_list.html";
+            })
+
+            // 开票说明链接
+            $(".menu .invoice-declare").click(function() {
+                $("#explain").removeClass("hide").addClass("show");
+            })
+            // 关闭开票说明
+            $("#explain img").click(function() {
+                $("#explain").removeClass("show").addClass("hide");
+            })
+
+        }
+
+        /**
+         * 计算选中订单数和总价格
+         */
+        function count() {
+            var num = 0;
+            num = $("#main .selected").length;
+            $("#footer .num").text(num);
+
+            var total = 0;
+            // 存放订单信息： [{id: 1, type: "xxxxxx"}]
+            var details = [];
+            $("#main .selected").map(function() {
+                total += +$(this).data("price");
+                var temp = {};
+                temp.id = $(this).data("id");
+                temp.type = $(this).data("type");
+
+                details.push(temp); 
+            })
+            $("#footer .num").text(details.length);
+            $("#footer .price").text("￥" + formatCurrency(total));
+
+            var storage = window.sessionStorage;
+            storage.setItem("details", JSON.stringify(details));
+            storage.setItem("total", total);
+        }
+
+    </script>
+</body>
+</html>

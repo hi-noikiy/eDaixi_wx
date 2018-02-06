@@ -1,0 +1,364 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+    <meta content="black" name="apple-mobile-web-app-status-bar-style">
+    <meta content="telephone=no" name="format-detection">
+    <meta content="email=no" name="format-detection">
+    <script type="text/javascript">
+    !function(){var a="@charset \"utf-8\";html{color:#000;background:#fff;overflow-y:scroll;-webkit-text-size-adjust:100%;-ms-text-size-adjust:100%}html *{outline:0;-webkit-text-size-adjust:none;-webkit-tap-highlight-color:rgba(0,0,0,0)}html,body{font-family:sans-serif}body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,textarea,p,blockquote,th,td,hr,button,article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{margin:0;padding:0}input,select,textarea{font-size:100%}table{border-collapse:collapse;border-spacing:0}fieldset,img{border:0}abbr,acronym{border:0;font-variant:normal}del{text-decoration:line-through}address,caption,cite,code,dfn,em,th,var{font-style:normal;font-weight:500}ol,ul{list-style:none}caption,th{text-align:left}h1,h2,h3,h4,h5,h6{font-size:100%;font-weight:500}q:before,q:after{content:''}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}a:hover{text-decoration:underline}ins,a{text-decoration:none}",b=document.createElement("style");if(document.getElementsByTagName("head")[0].appendChild(b),b.styleSheet)b.styleSheet.disabled||(b.styleSheet.cssText=a);else try{b.innerHTML=a}catch(c){b.innerText=a}}();!function(a,b){function c(){var b=f.getBoundingClientRect().width;b/i>540&&(b=540*i);var c=b/10;f.style.fontSize=c+"px",k.rem=a.rem=c}var d,e=a.document,f=e.documentElement,g=e.querySelector('meta[name="viewport"]'),h=e.querySelector('meta[name="flexible"]'),i=0,j=0,k=b.flexible||(b.flexible={});if(g){console.warn("将根据已有的meta标签来设置缩放比例");var l=g.getAttribute("content").match(/initial\-scale=([\d\.]+)/);l&&(j=parseFloat(l[1]),i=parseInt(1/j))}else if(h){var m=h.getAttribute("content");if(m){var n=m.match(/initial\-dpr=([\d\.]+)/),o=m.match(/maximum\-dpr=([\d\.]+)/);n&&(i=parseFloat(n[1]),j=parseFloat((1/i).toFixed(2))),o&&(i=parseFloat(o[1]),j=parseFloat((1/i).toFixed(2)))}}if(!i&&!j){var p=(a.navigator.appVersion.match(/android/gi),a.navigator.appVersion.match(/iphone/gi)),q=a.devicePixelRatio;i=p?q>=3&&(!i||i>=3)?3:q>=2&&(!i||i>=2)?2:1:1,j=1/i}if(f.setAttribute("data-dpr",i),!g)if(g=e.createElement("meta"),g.setAttribute("name","viewport"),g.setAttribute("content","initial-scale="+j+", maximum-scale="+j+", minimum-scale="+j+", user-scalable=no"),f.firstElementChild)f.firstElementChild.appendChild(g);else{var r=e.createElement("div");r.appendChild(g),e.write(r.innerHTML)}a.addEventListener("resize",function(){clearTimeout(d),d=setTimeout(c,300)},!1),a.addEventListener("pageshow",function(a){a.persisted&&(clearTimeout(d),d=setTimeout(c,300))},!1),"complete"===e.readyState?e.body.style.fontSize=12*i+"px":e.addEventListener("DOMContentLoaded",function(){e.body.style.fontSize=12*i+"px"},!1),c(),k.dpr=a.dpr=i,k.refreshRem=c,k.rem2px=function(a){var b=parseFloat(a)*this.rem;return"string"==typeof a&&a.match(/rem$/)&&(b+="px"),b},k.px2rem=function(a){var b=parseFloat(a)/this.rem;return"string"==typeof a&&a.match(/px$/)&&(b+="rem"),b}}(window,window.lib||(window.lib={}));
+    </script>
+    <title>填写订单</title>
+    <link rel="stylesheet" type="text/css" href="../css/detergent.css">
+    <script type="text/javascript" src="../js/zepto.js"></script>
+    <script type="text/javascript" src="../js/template.js"></script>
+    <script src="https://jic.talkingdata.com/app/h5/v1?appid=55976D304F9841989C0498828E2877CA&vn=微信版洗衣液售卖1.0&vc=1.0.0"></script>
+</head>
+<body>
+    <header></header>
+    <p class="express">注：目前仅支持<span>优速快递</span></p>
+    <section id="address-part"></section>
+    <section id="guest-part">
+        <textarea placeholder="如果有问题请备注留言"></textarea>
+    </section>
+    <section id="detail-part">
+        <p>
+            <span>单价</span>
+            <span class="price">￥00.00</span>
+        </p>
+        <p>
+            <span>数量</span>
+            <span class="num">x0</span>
+        </p>
+        <p>
+            <span>运费</span>
+            <span>0.00</span>
+        </p>
+        <p>
+            <span>总价</span>
+            <span class="total">￥00.00</span>
+        </p>
+    </section>
+
+    <section id="submit">提交订单</section>
+    <!-- tips banner -->
+    <script id="tips" type="text/html">
+        {{if order_tips.details.length > 0}}
+        <div class="tips">
+            <img src="{{order_tips.background_image}}">
+            <div class="wrapline">
+                <div class="outter">
+                    <div class="tablecell">
+                        {{each order_tips.details as item}}
+                        <span>{{item}}</span>
+                        {{/each}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+    </script>
+
+    <!-- 地址栏 -->
+    <script id="address-wrap" type="text/html">
+        <div id="address">
+            <div class="addborder"></div>
+            <div class="address-content">
+                {{if address.address !== "undefined undefined"}}
+                <p><span class="name">{{address.username}}</span><span class="tel">{{address.tel}}</span></p>
+                <p>{{address.address}}</p>
+                {{else}}
+                <p class="add-address">添加/选择地址</p>
+                {{/if}}
+                <div class="arrow-left"></div>
+            </div>
+            <div class="addborder"></div>
+        </div>
+    </script>
+
+    <script type="text/javascript">
+        // 开发联调控制
+        window.debug = false;
+        var api = {};
+        var preLocation;
+        if (window.debug) {
+            api.pagejson = "/detergent_getOrderPlace";
+            api.submit_url = "/detergent_order_submit";
+            api.errlog = "/errlog";
+            preLocation = "";
+        }
+        else {
+            api.pagejson = "/api.php?m=wap&act=mall&do=detergent_order_place";
+            api.submit_url = "/api.php?m=wap&act=mall&do=detergent_do_order";
+            api.errlog = "/api.php?m=wap&act=homepage&do=view_api_log";
+            preLocation = "/new_weixin";
+        }
+
+        // 用于获取接口返回数据的时间
+        var date = new Date();
+        var startTime = date.getTime();
+
+        var params = getSearchParams();
+
+        var orderPlaceData = {};
+        $(function() {
+            $.ajax({
+                type: "GET",
+                url: api.pagejson,
+                dataType: "json",
+                success: function(data) {
+                    if (data.ret) {
+                        // 从洗衣液首页跳到下单页
+                        if (!params.select_address && !params.time_range) {
+                            try {
+                                var default_address = data.data.default_address;
+                                if (default_address) {
+                                    orderPlaceData.address_id = default_address.address_id;
+                                    orderPlaceData.city_id = default_address.city_id;
+                                    orderPlaceData.area_id = default_address.area_id;
+                                    orderPlaceData.area = default_address.area;
+                                    orderPlaceData.username = default_address.username;
+                                    orderPlaceData.tel = default_address.tel;
+                                }
+                            }
+                            catch (ex) {
+                                var kv = {
+                                    default_address: default_address,
+                                    url: location.href
+                                };
+                                TDAPP.onEvent("从洗衣液首页跳到下单页出错", "从洗衣液首页跳到下单页出错", kv);
+                            }
+                            
+                        }
+
+                        // 从地址列表页跳到下单页
+                        if (params.select_address && !params.time_range) {
+                            try {
+                                var select_address = myDecodeUrl(params.select_address);
+                                orderPlaceData.address_id = select_address.address_id;
+                                orderPlaceData.city_id = select_address.city_id;
+                                orderPlaceData.area_id = select_address.area_id;
+                                orderPlaceData.area = select_address.area;
+                                orderPlaceData.address_line_1 = select_address.address_line_1;
+                                orderPlaceData.address_line_2 = select_address.address_line_2;
+                                orderPlaceData.username = select_address.username;
+                                orderPlaceData.tel = select_address.tel;
+                                if (params.comment) {
+                                    orderPlaceData.comment = params.comment;
+                                }
+                            }
+                            catch (ex) {
+                                var kv = {
+                                    select_address: select_address,
+                                    url: location.href
+                                };
+                                TDAPP.onEvent("从地址列表页跳到下单页出错", "从地址列表页跳到下单页出错", kv);
+                            }
+                            
+                        }
+
+                        // 渲染数据
+                        renderTemplate(data.data);
+
+                        // 绑定事件
+                        bindEvent(data.data);
+                    }
+                    else if (data.error && !data.error.url) {
+                        // 获取错误数据
+                        try {
+                            var endTime = date.getTime();
+                            var duration = (endTime - startTime) / 1000;
+                            var kv = {
+                                json: data,
+                                url: location.href,
+                                duration: duration + "秒"
+                            };
+                            $.ajax({
+                                type: "POST",
+                                url: api.errlog,
+                                data: kv,
+                                dataType: "json",
+                                success: function(data) {
+                                }
+                            })
+                        }
+                        catch (ex) {}
+                        
+                        TDAPP.onEvent("接口数据错误", "未跳转登录页", kv);
+                        
+                        myalert("错误提示", data.error.message);
+                    }
+                    else {
+                        window.location.href = data.error.url;
+                    }
+                },
+                error: function(xhr, type) {
+                    // 获取错误数据
+                    try {
+                        var kv = {
+                            json: xhr,
+                            url: location.href
+                        };
+                        TDAPP.onEvent("接口数据错误", "接口数据错误", kv);
+                    }
+                    catch (ex) {
+                    }
+                    
+                    myalert("操作提示", "网络错误，请稍后再试");
+                }
+            })
+        })
+
+        function renderTemplate(data) {
+
+            // 渲染tips
+            var tipsHtml = template("tips", data);
+            $("header").html(tipsHtml);
+
+            // 渲染地址栏
+            if (!params.select_address) {
+                // 默认地址
+                var address = data.default_address.address_line_1 + " " + data.default_address.address_line_2;
+                if (address.length > 22) {
+                    address = address.substring(0, 21) + "...";
+                }
+                orderPlaceData.address = address;
+                orderPlaceData.username = data.default_address.username;
+                orderPlaceData.tel = data.default_address.tel;
+                var addressHtml = template("address-wrap", {"address": orderPlaceData});
+                $("#address-part").html(addressHtml);
+            }
+            else {
+                // 选择或填充的地址
+                var address = orderPlaceData.address_line_1 + " " + orderPlaceData.address_line_2;
+                if (address.length > 22) {
+                    address = address.substring(0, 21) + "...";
+                }
+                orderPlaceData.address = address;
+                var addressHtml = template("address-wrap", {"address": orderPlaceData});
+                $("#address-part").html(addressHtml);
+            }
+
+
+            // 填充留言
+            var storage = window.sessionStorage;
+            var comment = storage.getItem("comment");
+            if (comment) {
+                $("#guest-part textarea").val(comment);
+                orderPlaceData.comment = comment;
+            }
+            else {
+                $("textarea").val("");
+            }
+
+            // 渲染洗衣液信息
+            var storage = window.sessionStorage;
+            var price = +storage.getItem("price");
+            var count = +storage.getItem("count");
+            var total = price * count;
+            $("#detail-part .price").text("￥" + price);
+            $("#detail-part .num").text("x" + count);
+            $("#detail-part .total").text("￥" + total.toFixed(2));
+
+            // 提交订单按钮置灰
+            if (!orderPlaceData.address) {
+                $("#submit").addClass("disabled");
+            }
+        }
+
+        function bindEvent(data) {
+
+            // 跳转到地址列表页
+            $("#address-part").on("click", "#address", function() {
+                var searchParam = "";  
+                if (orderPlaceData.address_id) {
+                    searchParam += "&address_id=" + orderPlaceData.address_id;
+                }
+                var comment = $("#guest-part textarea").val();
+                if (comment) {
+                    var storage = window.sessionStorage;
+                    storage.setItem("comment", comment);
+                }
+                window.location.href = data.select_addr_url + searchParam;
+            })
+
+            // 提交订单
+            $("#submit").click(function() {
+                if ($("#submit").hasClass("disabled")) {
+                    return;
+                }
+                TDAPP.onEvent("点击提交订单");
+                var searchParam = {};
+                var storage = window.sessionStorage;
+                searchParam.address_id = orderPlaceData.address_id;
+                searchParam.count = +storage.getItem("count");
+                if ($("#guest-part textarea").val()) {
+                    searchParam.remark = $("#guest-part textarea").val();
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: api.submit_url,
+                    data: searchParam,
+                    dataType: "json",
+                    success: function(data) {
+                        if (data.ret && data.data.url) {
+                            window.location.href = data.data.url;
+                        }
+                        else {
+                            alert(data.error.message);
+                        }
+                    },
+                    error: function(xhr, type) {
+                        alert("出错了，请重新下单试试");
+                    }
+                })
+            })
+        }
+
+        // 获取url中参数
+        function getSearchParams() {
+            var params = {};
+            var chunks = location.search.substr(1).split(/&/g);
+            for (var i = 0; i < chunks.length; i++) {
+                try {
+                    var items = chunks[i].split('=', 2);
+                    var key = items[0];
+                    var value = decodeURIComponent(items[1]);
+                    params[key] = value;
+                }
+                catch (ex) {
+                }
+            }
+            return params;
+        }
+
+        /**
+         * 后端php做了两次编码，所以解码两次
+         * @param  {string} encodeUrl  php UrlEncode编码后字符串
+         * @return {object}  
+         */
+        function myDecodeUrl(encodeUrl) {
+            var temp = decodeURIComponent(decodeURIComponent(encodeUrl));
+            return JSON.parse(temp);
+        }
+
+        /**
+         * 提示框
+         * @param  {string} title   标题
+         * @param  {string} content 内容
+         */
+        function myalert(title, content) {
+            var alertHtml = template("alert-dialog-wrap", {"tips": {"title": title, "content": content}});
+            $("#dialog").html(alertHtml);
+            $("#alert-dialog").show();
+
+            $("#dialog").on("click", ".i-know-btn", function(e) {
+                $("#alert-dialog").hide();
+            })
+        }
+    </script>
+</body>
+</html>

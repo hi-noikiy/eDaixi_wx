@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>城市列表</title>
+<link href="{php echo assets_link('/framework/style/css/index.css')}" rel="stylesheet" type="text/css">
+<link href="{php echo assets_link('/framework/style/css/footer.css')}" rel="stylesheet" type="text/css">
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>')</script>
+  {if $user_type == 16}
+  <iframe id="geoPage" width=0 height=0 frameborder=0  style="display:none;" scrolling="no"
+    src="http://apis.map.qq.com/tools/geolocation?key=MCZBZ-ZDHWJ-KAZFR-FYYTQ-74NNV-HBB52&referer=myapp">
+  </iframe>
+  {/if}
+</head>
+<body style="padding-bottom:40px;">
+<div class="city_list_block">
+    <div class="city-title">当前定位城市</div>
+    <div class="white-bg city-name">
+       	<span id="locate_city">
+	       <em class='l_status'>定位中 <span class='ani_dot'>...</span></em>
+       	</span>
+       	<div class="clearBoth"></div>
+    </div>
+    <div class="clearBoth"></div>
+    <div class="city-title">热门城市</div>
+    <div class="white-bg city-name">
+      <a city_id='1' href="{php echo create_url('homepage/index',array('city_id'=>1))}" >
+      	北京  {if $city_id == 1}<img class='sel_flag' src="{php echo assets_link('/framework/style/images/gou_blue.png')}">{/if}
+      </a>
+      <a city_id='2' href="{php echo create_url('homepage/index',array('city_id'=>2))}" >
+      	上海  {if $city_id == 2}<img class='sel_flag' src="{php echo assets_link('/framework/style/images/gou_blue.png')}">{/if}
+      </a>
+      <a city_id='3' href="{php echo create_url('homepage/index',array('city_id'=>3))}" >
+      	深圳  {if $city_id == 3}<img class='sel_flag' src="{php echo assets_link('/framework/style/images/gou_blue.png')}">{/if}
+      </a>
+      <a city_id='8' href="{php echo create_url('homepage/index',array('city_id'=>8))}" >
+     	 杭州  {if $city_id == 8}<img class='sel_flag' src="{php echo assets_link('/framework/style/images/gou_blue.png')}">{/if}
+      </a>
+      <div class="clearBoth"></div>
+    </div>
+    <div class="clearBoth"></div>
+    
+    <div class="city-title">其他城市</div>
+    <ul class="city_list white-bg">
+	    {loop $city_list $items}
+	    	{if !in_array($items['city_id'], array(1, 2, 3, 8))}
+		      <li>
+		        <a city_id="{$items['city_id']}" href="{php echo create_url('homepage/index',array('city_id'=>$items['city_id']))}" >
+		          {$items['city_name']}
+		          {if $city_id == $items['city_id']}
+		          	<img class='sel_flag' src="{php echo assets_link('/framework/style/images/gou_blue.png')}">
+		          {/if}
+		        </a>
+		      </li>
+          	  <div class="borderD"></div>
+	      	{/if}
+	    {/loop}
+    </ul>
+    
+</div>
+<script type="text/javascript">
+    var 
+      user_type = "{$user_type}",
+	  homeCityId = "{$city_id}",
+	  jqueryXhr = null;
+	
+	$(function(){
+		locateCity();
+		// 测试代码--模拟获取经纬成功
+		//getPositionSuccess(1);
+	});
+	
+	// 自动定位城市
+    function locateCity(){
+    	$('#locate_city').html("<em class='l_status'>定位中<span class='ani_dot'> ...</span></em>");
+        if (navigator.geolocation) {
+        	if(user_type == 16){ // 手机QQ
+        		qqLocation();
+        	}else{
+        		html5Location();
+        	}
+        } else {  
+            $('#locate_city').html("<em class='l_status'>定位失败，你的浏览器不支持定位功能</em>");
+        }  
+    }
+    
+    // 原生html5获取地理坐标
+    function html5Location(){
+        navigator.geolocation.getCurrentPosition(
+            getPositionSuccess,
+            getPositionError, 
+            // 配置：不要求高精度--速度较快，10秒超时， 实时获取）
+            {enableHighAcuracy: false, timeout: 10000, maximumAge: 0}
+        );
+    }
+    
+    // 手机QQ获取地理坐标
+    function qqLocation(){
+        // 监听定位组件的message事件
+        window.addEventListener('message', function(event) {
+            // 接收位置信息
+            var loc = event.data;
+            if(loc) { //定位成功
+                var qqPosition = {
+                         "coords" : {
+                           "latitude" : loc.lat,
+                           "longitude": loc.lng,
+                           "city": loc.city
+                         }
+                       };
+                getPositionSuccess(qqPosition);
+            } else { //定位失败
+                getPositionError();
+                return;
+            }
+        }, false);
+        setTimeout(function() {
+            if(!loc) {
+                getPositionError();
+                return;
+            }
+        }, 6000);
+    }
+ 
+    // html5获取经纬度成功 --回调函数
+    function getPositionSuccess(position){  
+        var 
+          lat = position.coords.latitude,  
+          lng = position.coords.longitude,
+          city = position.coords.city || "";
+        
+    	// 测试代码--模拟获取经纬成功
+    	/*
+    	var lat = '39.904989';  
+   		var lng = '116.405285';    
+        //*/
+        
+   		//终止之前的未结束的 ajax请求
+   		if(jqueryXhr){
+   			jqueryXhr.abort(); 
+   		}
+   		jqueryXhr = $.ajax({
+   			url: "{php echo create_url('homepage/ajax_locate_city')}",
+   			type: "POST",
+   			async: true,		//是否异步请求
+   			timeout: 5000, 		//超时时间（毫秒）
+   			data: {latitude: lat, longitude: lng, city: city, unchange: 1},
+   			dataType: "json",
+   			complete: function (xhr, ts){
+   				jqueryXhr = null;
+   			},
+   			success: function (data, ts, xhr) {
+   			  	if(!data || !data.message){
+   					locateFailedCallback();
+   		    		return;
+   		    	}
+   		   	  	var state = data.message.state;
+   		   	  	var city_id = data.message.city_id;
+   		   	  	var city_name = data.message.city_name;
+   			  
+   		   		// 定位城市不在服务范围，提示选择下方城市
+   		        if (state == 'unServ' && city_name) 
+   		        {
+   		        	$('img.sel_flag').remove();
+   					$('#locate_city').html("<a>" + city_name + "</a> <em style='color:red;font-weight:bold;float:left;margin-top:6px'> 该城市尚未开通，请选择下方城市</em>");
+   		        }
+   		     	// 定位城市在服务范围，确定"选中标记"显示位置
+   		        else if ((state == 'inServ') && city_id && city_name) 
+   		        {
+   		        	var home_url = "{php echo create_url('homepage/index')}" + '&city_id=' + city_id;
+   		        	var checked_img = "{php echo assets_link('/framework/style/images/gou_blue.png')}";
+   		        	if(homeCityId == city_id){
+   		        		$('img.sel_flag').remove();
+   		            	$('#locate_city').html("<a href='" + home_url +"'>" + city_name + "<img class='sel_flag' src='" + checked_img + "'></a>");
+   		        	}else{
+   		        		$('#locate_city').html("<a href='" + home_url +"'>" + city_name + "</a>");
+   		        		$('img.sel_flag').remove();
+   		        		$('a[city_id=' + homeCityId + ']').append("<img class='sel_flag' src='" + checked_img + "'>");
+   		        	}
+   		        }
+   		     	// 根据经纬度获取城市失败
+   		        else
+   		        {
+   					locateFailedCallback();
+   		        }
+   			},
+   			error:function (xhr, ts, err){
+   				//请求出错
+				locateFailedCallback();
+   			}
+   		});
+  };
+   
+  // html5获取经纬度成功 --回调函数
+  function getPositionError(error){
+	    /*      
+		switch(error.code){  
+           case error.TIMEOUT :  
+                 alert( " 连接超时，请重试 " );  
+                 break;  
+           case error.PERMISSION_DENIED :  
+                 alert( " 您拒绝了使用位置共享服务，查询已取消 " );  
+                 break;  
+           case error.POSITION_UNAVAILABLE :  
+                 alert( " 亲爱的火星网友，非常抱歉，我们暂时无法为您所在的星球提供位置服务 " );  
+                 break;  
+       	}   
+	  	*/
+	  	locateFailedCallback();
+   }  
+  
+  	// 定位失败回调函数
+	function locateFailedCallback(){
+		$('#locate_city').html("<em id='l_btn' class='l_status'>请选择城市</em>");
+		$('#l_btn').one('click', function(){
+			locateCity();
+		});
+		return;
+  	}
+</script>
+<?php include template('foot') ?>
+</body>
+</html>

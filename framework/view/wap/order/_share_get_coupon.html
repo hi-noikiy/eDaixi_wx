@@ -1,0 +1,91 @@
+<script type="text/javascript">
+  wx.ready(function(){
+    var coupon_total = "{$share_coupon_total}";
+    var share_url = "{$share_url}";
+    if(share_url){
+            var desc =  "{$share_desc}";
+            var title = "{$share_title}"; 
+            var share_img = "{$share_img}"; 
+          }else{
+           var title = '我在用e袋洗洗衣服，你也来吧';
+           var desc = '我在用e袋洗洗衣服，你也来吧';
+           share_url = 'https://mp.weixin.qq.com/s?__biz=MzA3NjA4OTkwNQ==&mid=202716551&idx=1&sn=d55833645fd4dc9810bb900b69fdabb4#rd';
+         }
+         wx.onMenuShareTimeline({
+          title: title,
+          link:  share_url,
+          imgUrl: share_img,
+          trigger: function (res) {
+          },
+          success: function (res) {
+            $('#share_img').hide();
+            var share_order_id = "{$share_order_id}";
+            var submitData = {share_order_id: share_order_id};
+            $.post("{php echo create_url('order/share_order')}",submitData,function(){},"json");
+          },
+          cancel: function(res){
+          }
+        });
+         wx.onMenuShareAppMessage({
+          title: title,
+          desc: desc,
+          link:  share_url,
+          imgUrl: share_img,
+          trigger: function (res) {
+          },
+          success: function () { 
+           $('#share_img').hide();
+           var share_order_id = "{$share_order_id}";
+           var submitData = {share_order_id: share_order_id};
+           $.post("{php echo create_url('order/share_order')}",submitData,function(){},"json");
+         },
+         cancel: function () { 
+         }
+      });
+  });
+</script>
+
+<!-- 优惠券立即分享弹窗 start -->
+  <div id="share" style="display:none" class="cod">
+    <div class="wx_mask"></div>
+    <div class="wx_confirm">
+      <div class="wx_confirm_inner" style="padding:6% 0 0 0;width:100%">
+        <div class="wx_confirm_hd bigfont p30">
+          恭喜您替朋友获得 <em style="color:#f86005">{$share_coupon_total} </em>张优惠券，分享您也能得1张
+       </div>
+        <div class="wx_confirm_bd">
+          <div class="borderD"></div>
+          <div class="wx_confirm_btns" style="position:relative">                        
+              <button type="cancel"  id="share_cancel">下次再说</button>
+              <button type="submit"  id="share_now">立即分享</button>
+              <div class="borderL"></div>
+          </div>
+
+        </div>
+        </div>
+    </div>
+  </div>
+<!-- 优惠券立即分享弹窗 end -->
+  
+<!-- 分享到朋友圈蒙板 start -->
+  <div id="share_img" style="display:none;height:100%">
+    <img src="{php echo assets_link('/framework/style/images/share_img2.png')}"  style="position:absolute;top:0;z-index:111111;width:80%;left:10%;" >
+  </div>
+<!-- 分享到朋友圈蒙板 end -->
+  
+<script type="text/javascript">
+  var order_can_share = + "{$order_can_share}";
+  if (order_can_share) {
+    $("#share").show();
+  }
+  $("#share_cancel").click(function() {
+    $("#share").hide();
+  });
+  $("#share_img").click(function() {
+    $(this).hide();
+  })
+  $("#share_now").click(function() {
+    $("#share_img").toggle();
+    $("#share").hide();
+  });
+</script>

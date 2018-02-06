@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<meta charset="utf-8" />
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport" />
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta content="black" name="apple-mobile-web-app-status-bar-style" />
+<meta content="telephone=no" name="format-detection" />
+<meta content="email=no" name="format-detection" />
+<meta content="" name="pgv" />
+<title>匿名评价</title>
+<link href="{php echo assets_link('/framework/style/css/footer.css')}" rel="stylesheet" type="text/css" />
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css" />
+<link href="{php echo assets_link('/framework/style/css/appraise.css')}" rel="stylesheet" type="text/css" />
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="/framework/style/js/jquery-1.11.1.min.js">\x3C/script>');</script>
+<script type="text/javascript" src="{php echo assets_link('/framework/style/js/localresizeimg/lrz.bundle.js')}"></script>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+</head>
+<body>
+<!-- 整体评价 start -->
+<div class="appraise_box white_bg">   
+    <div class="appraise-top p10">
+      <div class="appraise-type"><span>{$total['item']}</span></div>
+      <div class="appraise_middle">
+        <div id="total-icon" class="star_appraise">
+          <?php for($score=1; $score<=5; $score++):?>
+            <img src="{$star[0]}" title="{$score_tip[$score]}" data-score="{$score}" />
+          <?php endfor;?>
+        </div>
+      </div>
+      <div class="attitude"><p id="total-tip">匿名保护</p></div>
+    </div>
+    <div class="borderD"></div>
+</div>
+<div class="space-split10"></div>
+<!-- 整体评价 end -->
+
+<!-- 单项评价 start -->
+<div class="pingjia_bg appraise_box" id="detail-comment" style="display:none">
+   <div class="borderD"></div>
+   <!-- 修改质量 start -->
+   <div class="appraise-top p10">
+      <div class="appraise-type"><span>{$quality['item']}</span></div>
+      <div class="appraise_middle">
+        <div id="quality-icon" data-item="quality" class="star_appraise comment-icon">
+          <?php for($score=1; $score<=5; $score++):?>
+            <img src="{$face['0']}" title="{$score_tip[$score]}" data-score="{$score}" data-face="{$face[$score]}" />
+          <?php endfor;?>
+        </div>
+      </div>
+      <div class="attitude"><p id="quality-tip"></p></div>
+   </div>
+   <!-- 修改质量 end -->
+   
+   <!-- 量体人员 start -->
+   <div class="appraise-top p10">
+       <div class="appraise-type"><span>{$tailor['item']}</span></div>
+       <div class="appraise_middle">
+        <div id="tailor-icon" data-item="tailor" class="star_appraise comment-icon">
+          <?php for($score=1; $score<=5; $score++):?>
+            <img src="{$face['0']}" title="{$score_tip[$score]}" data-score="{$score}" data-face="{$face[$score]}" />
+          <?php endfor;?>
+        </div>
+       </div>
+       <div class="attitude"><p id="tailor-tip"></p></div>
+   </div>
+   <div id="tailor-opt" class="appraise_box appraise_margin" style="display:none">
+       <div style="padding-right:0; diplay: none"> 
+          <div class="bad_info comment-opt" id="tailorbad" style="padding:0;">
+            {loop $tailor['opts'] $id $opt}
+              <span class="comment-span" data-opt-id="{$id}">
+              <div><em></em></div><span>{$opt}</span>
+            </span>
+            {/loop}
+          </div> 
+          <div class="clearBoth"></div> 
+       </div>  
+   </div>
+   <!-- 量体人员 end -->
+                    
+   <!-- 送件人员 start -->
+   <div class="appraise-top p10">
+     <div class="child appraise-type"><span>{$sender['item']}</span></div>
+     <div class="appraise_middle">
+         <div id="sender-icon" data-item="sender" class="child star_appraise comment-icon">
+           <?php for($score=1; $score<=5; $score++):?>
+             <img src="{$face['0']}" title="{$score_tip[$score]}" data-score="{$score}" data-face="{$face[$score]}" />
+           <?php endfor;?>
+         </div>
+     </div>
+     <div class="attitude"><p id="sender-tip"></p></div>
+   </div>
+   <div id="sender-opt" class="appraise_box appraise_margin" style="display:none">
+      <div style="padding-right:0;"> 
+          <div class="bad_info comment-opt"id="sender-bad" style="padding:0;">
+            {loop $sender['opts'] $id $opt}
+              <span class="comment-span" data-opt-id="{$id}">
+                <div><em></em></div><span>{$opt}</span>
+              </span>
+            {/loop}
+        </div> 
+        <div class="clearBoth"></div> 
+       </div>  
+   </div>
+   <!-- 送件人员 end --> 
+   <div class="borderD2"></div>
+</div>
+<!-- <div class="space-split10"></div> -->
+<!-- 单项评价 end --> 
+
+<form id="comment-form" method="POST" action="{php echo create_url('order/do_tailor_comment')}">
+  <div>
+    <div class="order-comment white_bg">
+     <textarea name="comment_text" placeholder="对e袋洗的服务有什么建议？我们将积极改进" class="textarea" 
+     id="comment-text"></textarea>
+     <div class="textarea_word"><span id="word-number" style="color:#1db7fe;">0</span>/200</div>
+   </div>
+    <!--上传图片区域 begin-->
+    <div class="p5"></div>
+    <div class="white_bg comment-img">
+      
+      <div id="imgFile">
+      </div>
+      <a href="javascript:void(0);" class="upload-file">
+        <input type="file" id="fileupload" name="FileContent" accept="image/*" capture="camera" />
+      </a>
+      
+      <div class="clearBoth"></div>
+      <!-- <div class="p5"></div> -->
+    <!--上传图片区域  end -->
+      <p class="comment-title">评价时，上传前后对比图片更配哦 ( 最多可上传10张 )</p>
+      </div>
+
+    </div>
+
+  <input type="hidden" name="order_id" value="{$order_id}" />
+  <input type="hidden" name="city_id" value="{$city_id}" />
+  <input type="hidden" id="total-score" name="total_score" value="0" />
+  <input type="hidden" id="quality-score" name="quality_score" value="0" />
+  <input type="hidden" id="tailor-score" name="tailor_score" value="0" />
+  <input type="hidden" id="sender-score" name="sender_score" value="0" />
+  <input type="hidden" id="tailor-comment" name="tailor_comment" value="" />
+    <input type="hidden" id="sender-comment" name="sender_comment" value="" /> 
+  <button id="submit-btn" type="button" class="sure-btn">发布</button>
+</form>
+<div id="confirm_tip" style="display:none" class="cod" rel=''>
+  <div class="wx_confirm2">
+    <div class="wx_confirm_inneri">
+      <div class="warm-tip">
+        <p>确定要删除照片吗？</p>
+      </div>
+      <div class="borderD"></div>
+      
+      <div class="logout-btn">
+          <div class="borderL"></div>
+          <button type="button" id="confirm-false" class="btn-cancel">取消</button>
+          <button type="button" id="confirm-true" class="btn-ok" rel=''>确定</button>
+      </div>
+        
+    </div>
+  </div>
+</div>
+
+
+<script type="text/javascript">
+var 
+  $commentForm = $('#comment-form'),
+  $totalScore = $("#total-score"),
+  $qualityScore = $("#quality-score"),
+  $tailorScore = $("#tailor-score"),
+  $senderScore = $("#sender-score"),
+  $tailorComment = $("#tailor-comment"),
+  $senderComment = $("#sender-comment"),
+  tailorComment = [],
+  senderComment = [],
+  $commentText = $('#comment-text'),
+  $submitBtn = $('#submit-btn');
+  
+//输入框提交按钮变化
+$(".sure-btn").prop('disabled', true).css({'opacity':'0.6'});
+
+// 总体评分
+$('#total-icon').on('click', 'img', function(){
+   var 
+     score = $(this).data('score'),
+     tip = this.title;
+   setTotalScore(score, tip);
+});
+// 单项评分
+$('.comment-icon').on('click', 'img', function(){
+  var $this = $(this);
+  var 
+    item = $this.parent('.comment-icon').data('item'),
+    score = $this.data('score'),
+    face = $this.data('face'),
+    tip = this.title;
+  setItemScore(item, score, face, tip);
+});
+// 选择评价项
+$('.comment-opt').on('click', '.comment-span', function(){
+  $(this).toggleClass('select');
+});
+// 提交评价
+$submitBtn.on('click', function(){
+  setCommentOpts();
+  setTimeout(function(){
+    $(this).prop('disabled', true).css({'opacity':'0.6'});
+    $commentForm.submit();
+  }, 1);
+});
+// 点亮整体评分（星）
+function lightScoreStart(item, score){
+    if(score > 0){
+        $('#' + item + '-icon').find('img').eq(score - 1).attr("src", "{$star[1]}")
+        .prevAll('img').attr("src", "{$star[1]}")
+        .end().nextAll('img').attr("src", "{$star[0]}");
+    }else{
+        $('#' + item + '-icon').find('img').attr("src", "{$star[0]}");
+    }
+}
+// 设置整体评分
+function setTotalScore(score, tip){
+   showScoreTip('total', tip);
+   setScoreVal('total', score);
+   lightScoreStart('total', score);
+   var 
+     iscore = (score == 5 ? 5 : 0),
+     iface = (iscore == 5 ? "{$face['5']}" : "{$face['0']}"),
+     itip = (iscore == 5 ? tip : '');
+   setItemScore('quality', iscore, iface, itip);
+   setItemScore('tailor', iscore, iface, itip);
+   setItemScore('sender', iscore, iface, itip);
+   $('#detail-comment').show();
+   setSubmitBtn();
+}
+// 设置单项评分
+function setItemScore(item, score, face, tip){
+   lightScoreFace(item, score, face);
+   showCommentOpt(item, score);
+   showScoreTip(item, tip);
+   setScoreVal(item, score);
+   setSubmitBtn();
+}
+
+// 点亮单项评分（表情）
+function lightScoreFace(item, score, face){
+   if(score > 0){
+     $('#' + item + '-icon').find('img').eq(score - 1).attr("src", face)
+       .prevAll('img').attr("src", face)
+       .end().nextAll('img').attr("src", "{$face[0]}");
+   }else{
+       $('#' + item + '-icon').find('img').attr("src", "{$face[0]}");
+   }
+}
+// 显示评价选项
+function showCommentOpt(item, score){
+  if(score > 0 && score < 4){
+    $('#' + item + '-opt').show();
+  }else{
+    $('#' + item + '-opt').hide();
+  }
+}
+//显示评分提示
+function showScoreTip(item, tip){
+    $('#' + item + '-tip').text(tip);
+}
+// 设置评价分数
+function setScoreVal(item, score){
+  $('#' + item + '-score').val(score);
+}
+// 设置评价选项
+function setCommentOpts(){
+    $.each($('#tailor-opt').find('.select'), function(){
+      tailorComment.push($(this).data('opt-id')); 
+    });
+    $.each($('#sender-opt').find('.select'), function(){
+      senderComment.push($(this).data('opt-id')); 
+    });
+  $tailorComment.val(tailorComment.toString());
+  $senderComment.val(senderComment.toString());
+}
+// 设置提交按钮状态
+function setSubmitBtn(){
+  var 
+    totalScore = + $totalScore.val(),
+    qualityScore = + $qualityScore.val(),
+    tailorScore = + $tailorScore.val(),
+    senderScore = + $senderScore.val();
+  if(senderScore * qualityScore * tailorScore * senderScore > 0){
+     $submitBtn.prop('disabled', false).css({'opacity':'1'});
+  }else{
+     $submitBtn.prop('disabled', true).css({'opacity':'0.6'});
+  }
+}
+// 字数统计
+$commentText.on('input', function(){
+   var wordNumber = $(this).val().length;
+   if(wordNumber > 200){
+       wordNumber = 200;
+       $(this).val($(this).val().substring(0,200));
+   }
+   $("#word-number").text(wordNumber)
+});
+
+
+
+//图片上传begin
+var ii = 1;
+var flag = 0;
+var uri = '<?php echo $upload_url; ?>';
+document.querySelector('#fileupload').addEventListener('change',function(){
+        
+
+        lrz(this.files[0],
+        {width:600}
+        ).then(function(rst){
+          rst.formData.append('FileContent',rst.base64);
+          $("#imgFile").append('<div class="uploading" id="imgDD_'+ii+'"><div class="space-img" >上传中..</div></div>');
+          var imgLen = $("#imgFile img.small-img").length;
+
+
+          $.ajax({
+            url:uri,
+            data:rst.formData,
+            processData:false,
+            contentType:false,
+            type:'post',
+            dataType:'json',
+            success:function(ret){
+                if(ret.code == 0){
+
+                  $("#imgDD_" +ii).html('<div class="imgDiv" id="imgID_' +ii+'" rel="'+ii+'"><div class="codBigImg" style="display:none;"><img src = "' + rst.base64 + '" class="bigClose"><span class="deleteImg"></span></div><div class="smallImg" rel="'+ii+'"><img src = "' + rst.base64 + '" class="small-img"><input type="hidden" name="images[]" id="imgInput_' +ii+'"/><input type="hidden" name="wh[]" id="wh_' +ii+'"/></div></div>');
+
+                  $("#imgInput_" + ii).val(ret.data.download_url);
+                  $("#wh_" + ii).val(ret.data.info[0][0].width + 'x' + ret.data.info[0][0].height);
+                  var imgLen = $("#imgFile img.small-img").length;                  
+                  ii++;
+
+
+                  // 大于等于9张隐藏上传照片入口
+                  if(imgLen >= 10) {
+                    $(".upload-file,.space-img").hide();
+                  }
+
+                  // 弹出大图
+                  $(".smallImg").on('click',function() {
+                    flag = $(this).attr('rel');
+                    $(this).parent().find('div').show();
+                  });
+
+                  // 小图标删除事件
+                  $(".deleteImg").on('click', function() {
+                    $(".cod").show();    
+                  });
+
+                  // 二次弹窗确认删除
+                  $(".btn-ok").on('click', function() {
+                      $("#confirm_tip").hide();
+                      $("#imgID_"+flag).remove();
+                      
+                      imgLen = $("#imgFile img.small-img").length;
+                      if(imgLen == 0){
+                        $(".sure-btn").prop('disabled', true).css({'opacity':'0.6'});
+                      }
+                      if(imgLen < 10 ){
+                        $(".upload-file").show();
+                      }
+                  });
+
+                  // 取消删除
+                  $("#confirm-false,.bigClose").on('click',function(){
+                      $("#confirm_tip,.codBigImg").hide();
+                  });
+
+                  if (imgLen >= 1 ) {
+                    $(".comment-img").css("padding-bottom","0")
+                    
+                  }
+                }else{
+                  alert('操作失败，请刷新页面重试~');
+                }
+            },
+            error:function(data){
+              alert('操作失败，请刷新页面重试~');
+            }
+          });
+        }).catch(function(error){
+          alert('upload-error:'+error);
+        });
+    });
+
+$(".codBigImg").height($(window).height);
+</script>
+
+<?php include template('foot') ?>
+</body>
+</html>

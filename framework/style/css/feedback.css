@@ -1,0 +1,125 @@
+body {
+  background: #f0f0f0;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 640px;
+  color: #999;
+  font-size: 16px;
+}
+*{
+ margin:0;padding:0; 
+ -webkit-outline: none;
+  outline: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+ }
+p {
+  margin: 0;
+  padding: 0;
+}
+ul {
+  padding: 16px 16px 0 16px;
+  background: #fff;
+  font-size: 0;
+}
+ul li{
+ list-style: none;
+ display: inline-block;
+ text-align: center;
+ border: 1px solid #999;
+ font-size: 0.96rem;
+ padding: 6px 0;
+ width: 28%;
+ box-sizing: border-box;
+ margin-left: 0;
+ margin-bottom: 14px;
+ position: relative;
+ color: #333;
+ border-radius: 4px;
+ overflow: hidden;
+}
+ul li:nth-child(3n-1) {
+    margin: 0 8% 14px;
+}
+textarea {
+ resize: none;
+ min-height: 100px;
+ border: 0;
+ box-sizing: border-box;
+ width: 94%;
+ padding: 10px 0;
+  -webkit-outline:none;
+  outline:none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  resize: none;
+  font-size: 0.96rem;
+}
+header,footer{
+text-align: center;
+font-size: 0.88rem;
+}
+@media screen and (max-width:320px){header,footer{font-size:0.84rem !important;}}
+header {
+  padding: 24px 0 0;
+}
+section {
+ margin-bottom: 20%;
+}
+footer p{
+  line-height: 20px;
+}
+footer p:last-child{
+  line-height: 26px;
+}
+.borderD{
+ border-bottom:1px solid #dcdcdc;
+ transform: scaleY(0.5);
+ -webkit-transform: scaleY(0.5);
+}
+.type {
+  padding: 16px 0 4px 10px;
+  font-size: 0.98rem;
+}
+.content {
+ text-align: center;
+ display: block;
+ background: #fff;
+}
+.submit_btn {
+ display: block;
+ width: 90%;
+ height: 44px;
+ line-height: 44px;
+ color: #fff;
+ font-size: 18px;
+ border: 0;
+ border-radius: 4px;
+ margin: 0 auto;
+ margin-top: 8%;
+ background: #00dbf5;
+}
+.select_li {
+ border: 1px solid #00dbf5 !important;
+}
+.feed_check {
+ position: absolute;
+ top: -1px;
+ right: -1px;
+ width: 20px;
+}
+.cansub {
+   background: #00dbf5; 
+}
+.nosub {
+   opacity: .6; 
+}
+.pop_content {
+  position: fixed;
+  background: rgba(0,0,0,0.7);
+  top: 46%;
+  border-radius: 4px;
+  width: 80%;
+  margin: 0 8%;
+  text-align: center;
+  padding: 10px;
+  color: #fff;
+}

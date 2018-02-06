@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="description" content="金秋洗礼，充值风暴" />
+<meta content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
+<meta content="yes" name="apple-mobile-web-app-capable">
+<meta content="black" name="apple-mobile-web-app-status-bar-style">
+<meta content="telephone=no" name="format-detection">
+<meta content="email=no" name="format-detection">
+<meta content="" name="pgv">
+<title>金秋洗礼，充值风暴</title>
+<link href="{php echo assets_link('/framework/style/css/base.css')}" rel="stylesheet" type="text/css" />
+<link href="{php echo assets_link('/framework/style/css/recharge-gift.css?v="1"')}" rel="stylesheet" type="text/css" />
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script src="https://jic.talkingdata.com/app/h5/v1?appid=642B7ECDFB9C4E3B7A3F3EF9B9014BF2&vn=1.0&vc=4.0.1"></script>
+<?php if($is_from_weixin):?>
+<script type='text/javascript'>
+wx.ready(function(){
+  // “分享到朋友圈”
+  wx.onMenuShareTimeline({
+      title: "{$title}",
+      link: "{$share_url}",
+      imgUrl: "{$img_url}",
+      success: function (res) {
+          // $.post("{$callback_url}", {}, function(){}, "json");
+    	  return;
+      },
+      cancel: function(res){
+          return;
+      },
+      fail: function (res) {
+          // alert('wx.onMenuShareTimeline:fail: ' + JSON.stringify(res));
+    	  return;
+      }
+  });
+  
+  // “分享给朋友”
+  wx.onMenuShareAppMessage({
+       title: "{$title}",
+       desc: "{$desc}",
+       link: "{$share_url}",
+       imgUrl: "{$img_url}",
+       success: function () { 
+          // $.post("{$callback_url}", {}, function(){}, "json");
+    	  return;
+       },
+       cancel: function () { 
+          return;
+       },
+       fail: function (res) {
+          // alert('wx.onMenuShareAppMessage:fail: ' + JSON.stringify(res));
+    	  return;
+       }
+  });
+  
+  wx.error(function(res){
+      // config信息验证失败会执行error函数
+      // alert('wx.error: ' + JSON.stringify(res));
+	  return;
+  });
+});
+</script>
+<?php endif; ?>
+</head>
+<body>
+<ol class="tips-info">
+<?php if(!empty($exchange_items)){ ?>
+<?php foreach($exchange_items as $item){ ?>
+	<li>可兑换商品：<a href="{$item['url']}">{$item['title']}</a><span class="closeTips"><em>x</em></span></li>
+<?php }} ?>
+
+
+</ol>
+<div id="gift-con">
+<?php foreach($nologin_url as $key => $item){ ?>
+    <div class="gift-img" style="display:none" rel="{$key}">
+      <a href="{$item["url"]}" ><img src="{$item["img"]}" ></a>
+    </div>
+  
+<?php } ?>
+</div>
+<div class="borderD"></div>
+<div style="height:5px;background:#f4fbff"></div>
+<div class="borderD"></div>
+<div id="recharge_money" class="content_info">
+  <img src="{php echo assets_link('/framework/style/images/edaixir.png')}" class="img-logo">
+  <a href="{$cardno_page_url}" class="duihuan">兑换活动充值码</a>
+<?php foreach($nologin_url as $key => $item){ ?>
+    <div class="recharge-money">
+      <span data-money="{$item["money"]}">{$item["money"]}元</span>
+      <?php if(!empty($item["size"])){?>
+        <p>送{$item["size"]}</p>
+      <?php } ?>
+      <p><?php if(empty($item["size"])){?>送<?php } ?>{$item["title"]}</p>
+    </div>  
+  
+<?php } ?>
+<div class="recharge-money money-link">
+  <span><a href="<?php echo create_url('icard/icard_charge'); ?>">其他金额</a></span>
+  <p></p>
+</div>
+</div>
+
+
+<div class="btn-form">
+  <form id="recharge-fm" method="post" action="{$payment_page_url}">
+  	<input type="hidden" name="fee" value="" id="fee" />
+  	<input type="submit" value="马上充值" class="recharge-btn"/>
+  </form>
+<?php if(!empty($exchange_history)){ ?>
+  <p><a href="{$exchange_history['url']}" class="light-blue">兑换记录</a></p>
+<?php } ?>
+  <p>点击查看<a href="javascript:void(0)" class="light-blue" id="rule_info">《充值送礼活动规则》</a></p>
+  <p>点击马上充值，即表示您已经同意e袋洗<a href="javascript:void(0)" class="light-blue" id="agreement_info">《充值送礼活动协议》</a></p>
+</div>
+
+<!-- 活动规则 -->
+<div class="result_text" id="rule" style="display:none">
+    <div class="content-info">
+      <h3 class="text-center blue-color">e袋洗充值送礼活动规则</h3>
+      <p>一、 活动内容：</p>
+      <div>活动期间，用户单笔充值1~99元，无任何活动奖励；用户单笔充值100元及以上，可参与充值送礼活动。</div>
+      <div>充值送礼活动活动规则如下：</div>
+      <div>在官方“金秋洗礼，充值风暴”活动页中；</div>
+      <div>用户单笔充值100元，可获得e袋洗余额10元；</div>
+      <div>用户单笔充值200元，可获得e袋洗洗衣液一瓶；</div>
+      <div>用户单笔充值500元，可获得小米小钢炮蓝牙音响2.0一部；</div>
+      <div>用户单笔充值1000元，可获得小米90分旅行箱20寸一个；</div>
+      <div>用户单笔充值2000元，可获得红米手机3S一部或小米空气净化器2一台；</div>
+      <div>用户单笔充值3500元，可获得40吋 暴风超体电视 40F1 一台；</div>
+      <div>用户单笔充值5000元，可获得45吋 暴风超体电视2 45XS星际迷航版一台；</div>
+      <div>用户单笔充值7500元，可获得55吋 暴风超体电视 VR电视 55X战警版一台。</div>
+      
+      <div>充值所得礼品将以快递形式发出，用户通常可在两周内收到。</div>
+      <div>小米品牌产品默认发货款式为白色。如您需要指定颜色，请在留快递联系方式时，于姓名处标注。</div>
+      <p>二、活动时间：</p>
+      <div>2016年9月17日至2016年10月28日</div>
+      <p>三、特别提示</p>
+      <div>1. 本次活动中，所充余额不支持退款、提现；</div>
+      <div>2. 选择参与充值送礼活动固定档位的用户，可获得其档位对应的礼品，请您根据自己的消费情况进行充值，e袋洗对充值次数不设任何限制；</div>
+      <div>3.礼品以积分兑换的形式获得，用户在充值后，若满足上述送礼条件即可获得相对应的礼品兑换积分，用户只需在礼品兑换页面输入个人快递联系方式，即可获得相应的礼品（相应的充值所得积分会被自动扣除）；</div>
+      <div>4.活动中礼品的相关说明请登录e袋洗积分商城中查看，因收货人信息填写错误等问题造成的损失，不予补发及赔偿。</div>
+      <div>5.本次活动仅限个人用户参与，企业用户不在此活动范围；</div>
+      <div>6.按照e袋洗现行的风控规则，一旦发现作弊行为，e袋洗有权取消相关账户活动返现金额、追回作弊所得（对应赠送礼品）、回收账号使用权，并保留取消作弊人后续参与e袋洗任何活动的权利，必要时会追究其法律责任；</div>
+      <div>7.获赠礼品不支持兑换现金，且e袋洗不提供所赠送礼品的相关服务，礼品使用规则以及相关售后问题请咨询品牌供应商；</div>
+      <div>8.e袋洗充值送礼活动的相关问题，您可咨询e袋洗全国客服电话：400-818-7171</div>
+    </div>
+    <div class="agree-block"><div class="go-back">同意并返回</div></div>
+</div>
+<!-- 活动规则 -->
+
+<!-- 活动协议 -->
+<div class="result_text" id="agreement" style="display:none">
+    <div class="content-info">
+      <h3 class="text-center blue-color">充值送礼活动协议</h3>
+      <div>尊敬的用户，为保障您的合法权益，请您在参加充值送礼活动前仔细阅读本协议。当您点击“马上充值”按钮后，即视为您已阅读、理解本协议，并同意按本协议规定执行。</div>
+      <p>一、 活动内容：</p>
+      <div>单笔充值1~99元，无任何活动奖励；</div>
+      <div>单笔充值100元及以上，可参与充值送礼活动。</div>
+      <div>充值送礼活动活动规则如下：</div>
+      <div>在官方“金秋洗礼，充值风暴”活动页中，</div>
+      <div>用户单笔充值100元，可获得e袋洗余额10元；</div>
+      <div>用户单笔充值200元，可获得e袋洗洗衣液一瓶；</div>
+      <div>用户单笔充值500元，可获得小米小钢炮蓝牙音响2.0一部；</div>
+      <div>用户单笔充值1000元，可获得小米90分旅行箱20寸一个；</div>
+      <div>用户单笔充值2000元，可获得红米手机3S一部或小米空气净化器2一台；</div>
+      <div>用户单笔充值3500元，可获得40吋 暴风超体电视 40F1 一台；</div>
+      <div>用户单笔充值5000元，可获得45吋 暴风超体电视2 45XS星际迷航版一台；</div>
+      <div>用户单笔充值7500元，可获得55吋 暴风超体电视 VR电视 55X战警版一台。</div>
+      <div>除此之外，e袋洗充值返余额活动规则如下：</div>
+      <div>用户单笔充值200元，可额外获得30元余额；</div>
+      <div>用户单笔充值500元，可额外获得100元余额；</div>
+      <div>用户单笔充值1000元，可额外获得260元余额；</div>
+      <div>用户单笔充值2000元，可额外获得600元余额。</div>
+      <p>二、活动时间：</p>
+      <div>2016年9月17日至2016年10月28日</div>
+      <p>三、充值余额使用规则</p>
+      <div>在e袋洗充值送礼中获得的余额可用于支付e袋洗全部服务产品的消费，本次活动中所充余额将不支持提现、退款。</div>
+      <p>四、发票金额</p>
+      <div>您若选择开具发票，发票金额根据我们已收到的充值金额开具，充值赠送金额或其他并非您实际支付的费用不能开具发票。</div>
+
+      <p>五、特别提示</p>
+      <div>1.充值送礼活动相关细则：</div>
+      <div class="text-in">a.选择参与充值送礼活动固定档位的用户，可获得其档位对应的礼品，请您根据自己的消费情况进行充值，e袋洗对充值次数不设任何限制；</div>
+      <div class="text-in">b.礼品以积分兑换的形式获得，用户在充值后，若满足上述送礼条件即可获得相对应的礼品兑换积分，用户只需在礼品兑换页面输入个人快递联系方式，即可获得相应的礼品（相应的充值所得积分会被自动扣除）；</div>
+      <div class="text-in">c.活动中礼品的相关说明请登录e袋洗积分商城中查看，因收货人信息填写错误等问题造成的损失，不予补发及赔偿。</div>
+      <div>2.本次活动仅限个人用户参与，企业用户不在此活动范围；</div>
+      <div>3.按照e袋洗现行的风控规则，一旦发现作弊行为，e袋洗有权取消相关账户活动返现金额、追回作弊所得（对应赠送礼品）、回收账号使用权，并保留取消作弊人后续参与e袋洗任何活动的权利，必要时会追究其法律责任；</div>
+      <div>4.获赠礼品不支持兑换现金，且e袋洗不提供所赠送礼品的相关售后服务，礼品使用说明以及相关售后问题请咨询品牌供应商（暴风TV官网、小米官网均有客服电话及在线客服入口）；</div>
+      <div>5.e袋洗充值送礼活动的相关问题，您可咨询e袋洗全国客服电话：400-818-7171</div>
+
+
+    </div>
+    <div class="agree-block"><div class="go-back">同意并返回</div></div>
+</div>
+<!-- 活动协议 -->
+
+<script type="text/javascript">
+
+  $("#gift-con > .gift-img").first().show().siblings().hide();
+
+  $("#recharge_money .recharge-money").click(function(){
+    
+    var index = $("#recharge_money .recharge-money").index(this);
+
+    $(this).addClass('current').siblings().removeClass('current');  
+
+    $("#gift-con > .gift-img").eq(index).show().siblings().hide();
+    
+　});
+  
+</script>
+
+<script type="text/javascript">
+  $("#recharge_money .recharge-money").eq(2).click();
+  $(".closeTips").click(function() {
+    $(this).parent().hide();
+  });
+
+  // 活动规则
+
+  $("#rule_info").click(function() {
+    $("#rule").show();
+  });
+  // 活动协议
+  $("#agreement_info").click(function() {
+    $("#agreement").show();
+  });
+
+  // 关闭活动规则以及协议
+
+  $(".agree-block").click(function() {
+    $("#rule,#agreement").hide();
+  });
+</script>
+
+ <script type="text/javascript">
+  $("#recharge-fm").submit(function(){
+  
+    fee2 = $(".recharge-money.current span").data('money');
+    var fee = $("#fee").val(fee2);
+
+    if(fee <= 0){
+      alert('充值金额有误');
+    }
+ });
+ </script>
+  
+  <script type="text/javascript">
+    var flag = true;
+    var timer = null;     // 计时器
+    var flag1 = true;
+    var timer1 = null;     // 计时器
+    var flag2 = true;
+    var timer2 = null;     // 计时器
+    var mark_source = "<?php echo $mark_source; ?>";
+
+    //统计不同渠道进入页面次数
+    window.onload = function(){
+      TDAPP.onEvent("917_充值页PV", mark_source);
+    }
+
+    // 活动充值 金额(埋点统计)
+    $('.recharge-money').on('click', 'span', function() {
+        if(flag){
+            flag = false;
+            clearTimeout(timer);   // 关闭定时器  
+            // talkingdata 埋点
+            var moneyText = $(this).data('money');
+            if(!moneyText){
+              moneyText = '其他';
+            }        
+            TDAPP.onEvent("917_充值按钮点击_"+mark_source, moneyText);
+            timer = setTimeout(function(){
+                flag = true;
+            }, 1000);
+            
+        }
+    });
+
+    // 活动充值 banner(埋点统计)
+    $('#gift-con').on('click','div', function() {
+        if(flag1){
+            flag1 = false;
+            clearTimeout(timer1);   // 关闭定时器
+            // datatalking 埋点
+            var bannerId = $(this).attr("rel");
+            if(!bannerId){
+              bannerId = '其他';
+            }        
+            TDAPP.onEvent("917_兑换图片点击_"+mark_source, bannerId);
+            timer1 = setTimeout(function(){
+                flag1 = true;
+            }, 1000);
+        }
+    });
+
+    // 马上充值按钮点击(埋点统计)
+    $('.recharge-btn').on('click', function() {
+        if(flag2){
+            flag2 = false;
+            clearTimeout(timer2);   // 关闭定时器
+            // datatalking 埋点       
+            TDAPP.onEvent("917_马上充值按钮点击", mark_source);
+            timer2 = setTimeout(function(){
+                flag2 = true;
+            }, 1000);
+        }
+    });
+
+</script>
+
+  <?php include template('foot') ?>
+  <div class="p60"></div>
+</body>
+</html>

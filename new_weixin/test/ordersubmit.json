@@ -1,0 +1,10 @@
+{
+    "message": {
+        "msg": "下单成功", 
+        "state": "1", 
+        "order_id": 9669079, 
+        "url": "/mobile.php?m=wap&act=order&do=order_list&order_id=9669079&order_success=success&city_id=1"
+    }, 
+    "redirect": "", 
+    "type": "ajax"
+}
