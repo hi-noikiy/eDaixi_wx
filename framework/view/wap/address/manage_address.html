@@ -309,49 +309,24 @@ function changeCity(){
   * JQuery Code
   */
  //切换城市
- /*$('#cmbCity').on('change', function(){
+ $('#cmbCity').on('change', function(){
      $('#cmbArea option.default').prop('selected', true);
      var city_sn = $(this).find('option:selected').attr('city_sn');
      var area_options = $('#area_options_list option.' + city_sn).clone(true);
      $('#cmbArea option:not(.default)').remove();
      $('#cmbArea').append(area_options);
-     resetLngLat();
-     setSaveBtn();
- });*/
 
-/* $('#cmbCity').on('change', function(){
- 	
- 	
- 	$('#cmbArea option.default').prop('selected', true);
-     var city_sn = $(this).find('option:selected').attr('city_sn');
-     var area_options = $('#area_options_list option.' + city_sn).clone(true);
-     $('#cmbArea option:not(.default)').remove();
-     $('#cmbArea').append(area_options);
-     resetLngLat();
-     setSaveBtn();
-
+     
      var oVal=$(this).find('option:selected').val();
-     if(oVal=='永康'){
- 		$('#cmbArea option[value=永康]').prop('selected', true); 
- 	 }
-
- 	 var city_sn = $(this).find('option:selected').attr('city_sn');
-	 var area_options = $('#area_options_list option.' + city_sn).clone(true);
-	 var oVal=$(this).find('option:selected').val();
      if(oVal=='永康'){     
-	     $('#cmbArea option:not(.default)').remove();
-	     $('#cmbArea').append(area_options);
 	     $('#cmbArea option[value=永康]').prop('selected', true); 
-     }else{
-     	 $('#cmbArea option.default').prop('selected', true);
-	     $('#cmbArea option:not(.default)').remove();
-	     $('#cmbArea').append(area_options);
      }
- 	 resetLngLat();
+     resetLngLat();
      setSaveBtn();
+ });
 
- });*/
 
+/*
  $('#cmbCity').on('change', function(){
  	
 
@@ -371,7 +346,7 @@ function changeCity(){
      setSaveBtn();
 
  });
-
+*/
  //用户体验差--待后期删除
  $('#user_city').on('change', function(){
      $('#user_area option.default').prop('selected', true);
