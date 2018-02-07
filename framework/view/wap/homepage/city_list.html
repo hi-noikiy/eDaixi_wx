@@ -137,7 +137,10 @@
           lat = position.coords.latitude,  
           lng = position.coords.longitude,
           city = position.coords.city || "";
-        
+          
+          if(city=='金华市'){
+                city='永康';
+            }
     	// 测试代码--模拟获取经纬成功
     	/*
     	var lat = '39.904989';  
@@ -145,6 +148,8 @@
         //*/
         
    		//终止之前的未结束的 ajax请求
+
+
    		if(jqueryXhr){
    			jqueryXhr.abort(); 
    		}
