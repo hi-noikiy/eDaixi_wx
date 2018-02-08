@@ -195,6 +195,7 @@ function showSearch() {
             var a = $("#home_city_sel option:selected").val()
         } else {
             var a = $("#cmbCity option:selected").val()
+            
         }
         autoComplete(a, b);
         $("#searchInp_clear").show()
@@ -205,6 +206,9 @@ function showSearch() {
     $("#userWin").hide();
     $("#searchWin").show();
     $("#searchInp").focus().val(b);
+    if($("#cmbCity option:selected").val()=='永康'){     
+        $('#cmbArea option[value=永康]').prop('selected', true); 
+    }
     xbtnStatus($("#searchInp")[0])
 }
 function showSearchList(a) {
