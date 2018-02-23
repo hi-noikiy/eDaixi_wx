@@ -808,7 +808,7 @@
             city = position.coords.city || "",
             locateCityUrl = data.data.locateCityUrl;
             if(city=='金华市'){
-                city='永康';
+                city='永康000';
             }
           $.post(locateCityUrl, {latitude: lat, longitude: lng, city: city}, function (data){
               var 
