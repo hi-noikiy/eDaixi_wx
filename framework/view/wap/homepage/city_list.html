@@ -138,9 +138,7 @@
           lng = position.coords.longitude,
           city = position.coords.city || "";
           
-          if(city=='金华市'){
-                city='永康';
-            }
+       
     	// 测试代码--模拟获取经纬成功
     	/*
     	var lat = '39.904989';  
@@ -171,13 +169,17 @@
    		   	  	var state = data.message.state;
    		   	  	var city_id = data.message.city_id;
    		   	  	var city_name = data.message.city_name;
-   			  
+   			     if(city_name=='金华市'){
+                city_name='永康';
+                state='inServ';
+                city_id=41;
+            }
    		   		// 定位城市不在服务范围，提示选择下方城市
    		        if (state == 'unServ' && city_name) 
    		        {
    		        	$('img.sel_flag').remove();
-   					$('#locate_city').html("<a>" + city_name + "</a> <em style='color:red;font-weight:bold;float:left;margin-top:6px'> 该城市尚未开通，请选择下方城市</em>");
-   		        }
+       					$('#locate_city').html("<a>" + city_name + "</a> <em style='color:red;font-weight:bold;float:left;margin-top:6px'> 该城市尚未开通，请选择下方城市</em>");
+       		    }
    		     	// 定位城市在服务范围，确定"选中标记"显示位置
    		        else if ((state == 'inServ') && city_id && city_name) 
    		        {

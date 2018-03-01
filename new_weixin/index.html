@@ -807,9 +807,7 @@
             lng = position.coords.longitude,  //经度
             city = position.coords.city || "",
             locateCityUrl = data.data.locateCityUrl;
-            if(city=='金华市'){
-                city='永康';
-            }
+          
           $.post(locateCityUrl, {latitude: lat, longitude: lng, city: city}, function (data){
               var 
                 state = data.message.state,
@@ -817,7 +815,11 @@
                 city_name = data.message.city_name;
               sessionStorage.setItem('positioned', true);
               
-
+              if(city_name=='金华市'){
+                    city_name='永康';
+                    state='inServ';
+                    city_id=41;
+               }
 
               if (state == 'unServ' && city_name) { // 定位城市不在服务范围，自动跳转城市列表页
                   window.location.href = (cityListUrl + '&state=unServ&city_id=' + city_id);
